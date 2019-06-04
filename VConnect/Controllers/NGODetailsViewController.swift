@@ -113,9 +113,11 @@ Sunday:     \(nGO.sundayHours)
         
         switch nGOsDetailView.viewsSegmentedControl.selectedSegmentIndex {
         case 0:
+        nGOsAddressView.removeFromSuperview()
         nGOsDetailView.toggledView.addSubview(nGOsPhotoView)
             
         case 1:
+        nGOsPhotoView.removeFromSuperview()
        nGOsDetailView.toggledView.addSubview(nGOsAddressView)
         case 2:
             break

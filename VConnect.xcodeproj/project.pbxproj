@@ -47,6 +47,11 @@
 		04B695C3229C4C5A003A0B85 /* ProfileHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B695C2229C4C5A003A0B85 /* ProfileHeaderView.xib */; };
 		04B695C5229C51F8003A0B85 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695C4229C51F8003A0B85 /* ProfileHeaderView.swift */; };
 		04D54DF322A4CF0C00F1625E /* ZipCode Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D54DF222A4CF0C00F1625E /* ZipCode Helper.swift */; };
+		04D54DF522A6111C00F1625E /* GoogleAddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D54DF422A6111C00F1625E /* GoogleAddressModel.swift */; };
+		04D54DF722A6160D00F1625E /* GoogleAddressApiSecretKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D54DF622A6160D00F1625E /* GoogleAddressApiSecretKeys.swift */; };
+		04D54DF922A6167400F1625E /* GoogleAddressAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D54DF822A6167400F1625E /* GoogleAddressAPIClient.swift */; };
+		04D54DFB22A6172000F1625E /* NetWorkHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D54DFA22A6172000F1625E /* NetWorkHelpers.swift */; };
+		04D54DFD22A6173A00F1625E /* AppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D54DFC22A6173A00F1625E /* AppErrors.swift */; };
 		2ABA7B76542352E257949A17 /* Pods_VConnect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AE14F6C90657F0743043944 /* Pods_VConnect.framework */; };
 /* End PBXBuildFile section */
 
@@ -93,6 +98,11 @@
 		04B695C2229C4C5A003A0B85 /* ProfileHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileHeaderView.xib; sourceTree = "<group>"; };
 		04B695C4229C51F8003A0B85 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		04D54DF222A4CF0C00F1625E /* ZipCode Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ZipCode Helper.swift"; sourceTree = "<group>"; };
+		04D54DF422A6111C00F1625E /* GoogleAddressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAddressModel.swift; sourceTree = "<group>"; };
+		04D54DF622A6160D00F1625E /* GoogleAddressApiSecretKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAddressApiSecretKeys.swift; sourceTree = "<group>"; };
+		04D54DF822A6167400F1625E /* GoogleAddressAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAddressAPIClient.swift; sourceTree = "<group>"; };
+		04D54DFA22A6172000F1625E /* NetWorkHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorkHelpers.swift; sourceTree = "<group>"; };
+		04D54DFC22A6173A00F1625E /* AppErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrors.swift; sourceTree = "<group>"; };
 		7DAE7D0B72764C0DA64BA8F0 /* Pods-VConnect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VConnect.debug.xcconfig"; path = "Target Support Files/Pods-VConnect/Pods-VConnect.debug.xcconfig"; sourceTree = "<group>"; };
 		8AE14F6C90657F0743043944 /* Pods_VConnect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VConnect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F431B17296491E483559D6D3 /* Pods-VConnect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VConnect.release.xcconfig"; path = "Target Support Files/Pods-VConnect/Pods-VConnect.release.xcconfig"; sourceTree = "<group>"; };
@@ -203,6 +213,7 @@
 				04B69574229340AC003A0B85 /* VConnectUserModel.swift */,
 				04B6957822934A3E003A0B85 /* NGOsModel.swift */,
 				04B6957E2294EDCA003A0B85 /* VConnectSpecialistModel.swift */,
+				04D54DF422A6111C00F1625E /* GoogleAddressModel.swift */,
 			);
 			path = DataModels;
 			sourceTree = "<group>";
@@ -223,6 +234,10 @@
 			children = (
 				04B6958F2298844B003A0B85 /* AuthService.swift */,
 				04B6959D2298A25E003A0B85 /* UserAlert+Extension.swift */,
+				04D54DF622A6160D00F1625E /* GoogleAddressApiSecretKeys.swift */,
+				04D54DF822A6167400F1625E /* GoogleAddressAPIClient.swift */,
+				04D54DFA22A6172000F1625E /* NetWorkHelpers.swift */,
+				04D54DFC22A6173A00F1625E /* AppErrors.swift */,
 				04B6959122988CE6003A0B85 /* Date+Extension.swift */,
 				04B6959322988F3D003A0B85 /* DataBaseService.swift */,
 				04D54DF222A4CF0C00F1625E /* ZipCode Helper.swift */,
@@ -426,10 +441,12 @@
 				04B695902298844B003A0B85 /* AuthService.swift in Sources */,
 				04B6959C2298A0A3003A0B85 /* ProfileViewController.swift in Sources */,
 				04B6959422988F3D003A0B85 /* DataBaseService.swift in Sources */,
+				04D54DF922A6167400F1625E /* GoogleAddressAPIClient.swift in Sources */,
 				044C6AD522A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift in Sources */,
 				04D54DF322A4CF0C00F1625E /* ZipCode Helper.swift in Sources */,
 				044C6ACF22A2177A006E6C51 /* NGODetailsViewController.swift in Sources */,
 				044C6ACB22A0673E006E6C51 /* IBDesignableViews.swift in Sources */,
+				04D54DF522A6111C00F1625E /* GoogleAddressModel.swift in Sources */,
 				04B6958922979A1B003A0B85 /* SignUpViewController.swift in Sources */,
 				04B6959622989FD6003A0B85 /* VConnectTabBarViewController.swift in Sources */,
 				04B69575229340AC003A0B85 /* VConnectUserModel.swift in Sources */,
@@ -439,12 +456,15 @@
 				044C6AD122A21804006E6C51 /* NGOsDetailView.swift in Sources */,
 				044C6AD322A22B38006E6C51 /* NGOPhotosView.swift in Sources */,
 				04B695A12298F006003A0B85 /* NGOsCategoriesView.swift in Sources */,
+				04D54DFD22A6173A00F1625E /* AppErrors.swift in Sources */,
 				04B695C5229C51F8003A0B85 /* ProfileHeaderView.swift in Sources */,
 				04B695A42298F2F3003A0B85 /* CategoriesCollectionViewCell.swift in Sources */,
 				04B6958B22979F19003A0B85 /* BackgroundColor+Extension.swift in Sources */,
+				04D54DFB22A6172000F1625E /* NetWorkHelpers.swift in Sources */,
 				04B6957922934A3E003A0B85 /* NGOsModel.swift in Sources */,
 				04B695982298A070003A0B85 /* NGOsCategoriesViewController.swift in Sources */,
 				044C6AD722A23965006E6C51 /* HoursAndAddressView.swift in Sources */,
+				04D54DF722A6160D00F1625E /* GoogleAddressApiSecretKeys.swift in Sources */,
 				04B6957B22934D9F003A0B85 /* NGOCollectionKeys.swift in Sources */,
 				04B6955D22933F20003A0B85 /* AppDelegate.swift in Sources */,
 				044C6ACD22A07B19006E6C51 /* ImageModel.swift in Sources */,

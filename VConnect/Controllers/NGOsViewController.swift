@@ -17,10 +17,9 @@ class NGOsViewController: UIViewController {
     let nGOsMapView = NGOsMapView()
     private var geoCoder = CLGeocoder()
     private var annotations = [MKAnnotation]()
-    //private var coordinates: CLLocationCoordinate2D!
+    private var coordinates = CLLocationCoordinate2D()
     var locations: CLLocation!
-    var coordinates = CLLocationCoordinate2D()
-    
+    var defaultCoordinates = CLLocationCoordinate2DMake(0.0, 0.0)
     private var allNGOsInCategory = [NGO](){
         didSet {
             DispatchQueue.main.async {
@@ -52,7 +51,7 @@ class NGOsViewController: UIViewController {
         setupSegmentedControl()
         nGOsView.resourcesView.addSubview(nGOsTableView)
         nGOsView.toggleView.tintColor = .white
-        makeAnnotations(with: coordinates)
+        makeAnnotations()
     }
     
     init(nGOsInCategory: [NGO]){
@@ -71,8 +70,10 @@ class NGOsViewController: UIViewController {
     @objc private func switchONViews(){
         switch nGOsView.toggleView.selectedSegmentIndex {
         case 0:
+            nGOsMapView.removeFromSuperview()
             nGOsView.resourcesView.addSubview(nGOsTableView)
         case 1:
+            nGOsTableView.removeFromSuperview()
             nGOsView.resourcesView.addSubview(nGOsMapView)
         default:
             return
@@ -80,61 +81,50 @@ class NGOsViewController: UIViewController {
         }
     }
     
-    private func generateCordinates(with NGOaddress: String) -> CLLocationCoordinate2D {
+    private func generateNGOLocationCoordinates(with NGOFullAddress: String, completionHandler:  @escaping(Error?, CLLocationCoordinate2D?) -> Void){
         
-        geoCoder.geocodeAddressString(NGOaddress) { (placemarks, error) in
+        GoogleAddressAPIClient.getAddressCoordinates(fullAddress: NGOFullAddress) { (error, fetchResults) in
             if let error = error {
-                self.showAlert(title: "Error", message: error.localizedDescription)
-            } else if let placemark = placemarks?.first {
-                guard let location = placemark.location else {return}
- 
-                self.coordinates = location.coordinate
-                print("Lat: \(self.coordinates.latitude)", "Long: \(self.coordinates.longitude)")
-               // self.testZipCode(with: self.locations)
+                completionHandler(error, nil)
+  
+            } else if let fetchedResults = fetchResults {
+                let coordinatesFromFetchedResult = fetchedResults.results.first?.geometry
+                guard let latitude = coordinatesFromFetchedResult?.location.lat, let longitude = coordinatesFromFetchedResult?.location.lng else {
+                    return
+                }
+           completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+                
             }
         }
-        
-        return coordinates
     }
     
     
-    private func makeAnnotations(with Coordinate:CLLocationCoordinate2D ) {
+    private func makeAnnotations() {
     nGOsMapView.mapView.removeAnnotations(annotations)
+        
         for ngo in allNGOsInCategory {
-            let ngOCordinates = generateCordinates(with: ngo.ngoCity)
+     generateNGOLocationCoordinates(with: ngo.fullAddress) { (error, coordinate) in
+                if let error = error {
+                   self.showAlert(title: "Error", message: error.localizedDescription)
+                } else if let addressCoordinates = coordinate {
             let annotation = MKPointAnnotation()
-            
-            annotation.coordinate = CLLocationCoordinate2DMake(ngOCordinates.latitude, ngOCordinates.longitude)
-            let region = MKCoordinateRegion(center: coordinates, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
-            nGOsMapView.mapView.setRegion(region, animated: true)
-            annotation.title = ngo.ngoName
-            annotation.subtitle = ngo.fullAddress
-          
-            //annotation.coordinate =
-            annotations.append(annotation)
+            annotation.coordinate = CLLocationCoordinate2DMake(addressCoordinates.latitude, addressCoordinates.longitude)
+            let region = MKCoordinateRegion(center: addressCoordinates, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+                    self.nGOsMapView.mapView.setRegion(region, animated: true)
+                    print(addressCoordinates)
+                    annotation.title = ngo.ngoName
+                    self.annotations.append(annotation)
+                    
+                }
+            }
+
         }
         nGOsMapView.mapView.addAnnotations(annotations)
         nGOsMapView.mapView.showAnnotations(annotations, animated: true)
-        
-        
-        
-    }
-
     
-    
-
-    private func testZipCode(with location:CLLocation) {
-        geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let placemark = placemarks?.first {
-                print(placemark.postalCode ?? "no locality")
-            }
-        }
-
+        
     }
 }
-
 
 extension NGOsViewController: UISearchBarDelegate {
     
@@ -167,15 +157,12 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
         
    nGOsCell.nGOName.text = nGOToSet.ngoName
    nGOsCell.nGOCity.text = nGOToSet.ngoCity
-    
-    nGOsCell.backgroundColor = .clear
-    nGOsCell.layer.borderWidth = 2
-    nGOsCell.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-    nGOsCell.layer.cornerRadius = 5
-    generateCordinates(with: nGOToSet.ngoCity)
+   nGOsCell.backgroundColor = .clear
+   nGOsCell.layer.borderWidth = 2
+   nGOsCell.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+   nGOsCell.layer.cornerRadius = 5
         
-    
-        return nGOsCell
+    return nGOsCell
     }
     
     

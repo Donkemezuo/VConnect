@@ -12,7 +12,10 @@ class NGOsView: UIView {
     
     public lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.placeholder = "City, State or zipCode"
+        searchBar.placeholder = "Enter City, State or Postal Code"
+        searchBar.autocorrectionType = UITextAutocorrectionType.yes
+        searchBar.scopeBarButtonTitleTextAttributes(for: .normal)
+        
         return searchBar
     }()
     
@@ -54,19 +57,19 @@ class NGOsView: UIView {
     private func searchBarConstrains(){
         addSubview(searchBar)
         searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
+        searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
         searchBar.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 2).isActive = true
-        searchBar.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        searchBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
          searchBar.widthAnchor.constraint(equalToConstant: 280).isActive = true
     }
     
     private func setSegmentedControlConstrains(){
         addSubview(toggleView)
         toggleView.translatesAutoresizingMaskIntoConstraints = false
-        toggleView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
+        toggleView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
         toggleView.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: 2).isActive = true
         toggleView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -2).isActive = true
-        toggleView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        toggleView.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     private func setupViewsConstrains(){
