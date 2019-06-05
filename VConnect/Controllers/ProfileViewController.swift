@@ -9,6 +9,8 @@
 import UIKit
 import FirebaseAuth
 import Toucan
+import CoreLocation
+
 
 class ProfileViewController: UIViewController {
     
@@ -22,12 +24,16 @@ class ProfileViewController: UIViewController {
     
     private var authService = AppDelegate.authService
     
+    
     private var tapGesture: UITapGestureRecognizer!
     
     private var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         return imagePicker
     }()
+    
+    private var locationManager = CLLocationManager()
+    private var geoCoder = CLGeocoder()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +44,7 @@ class ProfileViewController: UIViewController {
         configureProfile()
         updateVConnectUserProfile()
         editvConnectUserProfileImage()
+        setupVConnectUserLocation()
     }
     
     private func configureProfile(){
@@ -86,6 +93,22 @@ class ProfileViewController: UIViewController {
         profileHeaderView.vConnectUserProfileImageView.addGestureRecognizer(tapGesture)
     }
     
+    private func setupVConnectUserLocation(){
+        guard let vConnectUserLocation = locationManager.location?.coordinate else {
+            return
+        }
+        
+        geoCoder.reverseGeocodeLocation(CLLocation(latitude: vConnectUserLocation.latitude, longitude: vConnectUserLocation.longitude)) { (placemark, error) in
+            if error != nil {
+                print("Print user location unknown")
+            } else if let placemark = placemark {
+                self.profileHeaderView.vConnectUserLocationLabel.text = placemark.first?.locality ?? "Unknown City"
+                print(placemark.first?.locality ?? "Unknown City")
+            }
+        }
+        
+    }
+    
     private func showImagePicker(){
         present(imagePicker, animated: true, completion: nil)
     }
@@ -132,7 +155,6 @@ class ProfileViewController: UIViewController {
                     
                     guard let profilePhotoUrl = vConnectUser.profileImageURL,
                         !profilePhotoUrl.isEmpty else {return}
-                    //self?.profileHeaderView.vConnectUserProfileImageView
                     
             }
         }

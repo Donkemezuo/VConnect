@@ -15,6 +15,7 @@ class NGOsView: UIView {
         searchBar.placeholder = "Enter City, State or Postal Code"
         searchBar.autocorrectionType = UITextAutocorrectionType.yes
         searchBar.scopeBarButtonTitleTextAttributes(for: .normal)
+        searchBar.barTintColor = UIColor.init(hexString: "033860")
         
         return searchBar
     }()

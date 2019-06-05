@@ -35,9 +35,13 @@ struct NGO : Codable {
     var fullAddress: String {
         
         let fullAddress = """
+        
 \(ngoStreetAddress)
+        
 \(ngoCity)
+        
 \(ngoState)
+        
 \(ngoZipCode)
 """
         return fullAddress

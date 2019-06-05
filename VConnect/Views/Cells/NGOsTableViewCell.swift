@@ -21,7 +21,7 @@ class NGOsTableViewCell: UITableViewCell {
     public lazy var nGOCity: UILabel = {
         let nGOCity = UILabel()
         nGOCity.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
-        nGOCity.textColor = .white
+        nGOCity.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         return nGOCity
     }()
     
@@ -29,7 +29,7 @@ class NGOsTableViewCell: UITableViewCell {
         let nGOMiles = UILabel()
         nGOMiles.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
         nGOMiles.text = "1mile"
-        nGOMiles.textColor = .white
+        nGOMiles.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         nGOMiles.numberOfLines = 0
         return nGOMiles
     }()
@@ -70,7 +70,7 @@ class NGOsTableViewCell: UITableViewCell {
         nGOCity.translatesAutoresizingMaskIntoConstraints = false
         nGOCity.topAnchor.constraint(equalTo: nGOName.bottomAnchor, constant: 20).isActive = true
         nGOCity.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-        nGOCity.widthAnchor.constraint(equalToConstant: 310).isActive = true
+        nGOCity.widthAnchor.constraint(equalToConstant: 270).isActive = true
         nGOCity.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
     }
     

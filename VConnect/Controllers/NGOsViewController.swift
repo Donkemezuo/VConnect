@@ -17,7 +17,7 @@ class NGOsViewController: UIViewController {
     private var geoCoder = CLGeocoder()
     private var annotations = [MKAnnotation]()
     private var coordinates = CLLocationCoordinate2D()
-    private var locationManager = CLLocationManager()
+    public var locationManager = CLLocationManager()
     var defaultCoordinates = CLLocationCoordinate2DMake(0.0, 0.0)
     private var allNGOsInCategory = [NGO](){
         didSet {
@@ -81,13 +81,10 @@ class NGOsViewController: UIViewController {
     private func generateMilesDifference(with cell: NGOsTableViewCell){
         
         let userCurrentLocation = CLLocation(latitude: getUserLocationCoordinates().latitude, longitude: getUserLocationCoordinates().longitude)
-        print("Lat: \(getUserLocationCoordinates().latitude)")
-        print("Long: \(getUserLocationCoordinates().longitude)")
         let nGOLocation = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
         
         let distanceFromNGO = userCurrentLocation.distance(from: nGOLocation)
         let distanceInMiles = distanceFromNGO/1609.344
-
         cell.nGOMiles.text = String(format: "%.0f", distanceInMiles) + " " + "Miles"
         
     }
@@ -226,9 +223,9 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
    nGOsCell.nGOName.text = nGOToSet.ngoName
    nGOsCell.nGOCity.text = nGOToSet.ngoCity
    nGOsCell.backgroundColor = .clear
-   nGOsCell.layer.borderWidth = 2
-   nGOsCell.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-   nGOsCell.layer.cornerRadius = 5
+   nGOsCell.layer.borderWidth = 0.5
+   nGOsCell.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+   nGOsCell.layer.cornerRadius = 2
     generateMilesDifference(with: nGOsCell)
         
     return nGOsCell

@@ -11,26 +11,19 @@ import UIKit
 class NGODetailsViewController: UIViewController {
     
     private var nGOsDetailView = NGOsDetailView()
-    private var nGOsPhotoView = NGOPhotosView()
-    private var nGOsAddressView = HoursAndAddressView()
-    
     private var nGO: NGO!
-    
+    private var barButtonItem = UIBarButtonItem()
     private var namesOfImages = ["aaa", "aids", "foods", "halfs", "food-aid-3", "longgg"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(nGOsDetailView)
         view.backgroundColor = UIColor.init(hexString: "033860")
-        nGOsPhotoView.nGOPhotosCollectionView.delegate = self
-        nGOsPhotoView.nGOPhotosCollectionView.dataSource = self
+        nGOsDetailView.ngoPhotosView.nGOPhotosCollectionView.delegate = self
+         nGOsDetailView.ngoPhotosView.nGOPhotosCollectionView.dataSource = self
         nGOInformations()
-        //setSwitch()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        //nGOsDetailView.viewsSegmentedControl.selectedSegmentIndex = 0
-        setSwitch()
+        setupBarButtonItem()
+
     }
     
     init(nGO: NGO) {
@@ -44,34 +37,19 @@ class NGODetailsViewController: UIViewController {
     
     
     private func nGOInformations(){
-        nGOsDetailView.nGONameLabel.text = nGO.ngoName
         nGOsDetailView.nGODescription.text = """
 Mission:
-        
+
      \(nGO.ngoDescription)
 
 
 """
+nGOsDetailView.nGOWebsite.text = nGO.ngoWebsite
 
-nGOsDetailView.nGOWebsite.text = """
-
-        \(nGO.ngoWebsite ?? "No website")
-
-"""
         
-nGOsAddressView.addressTextView.text = """
-        
-\(nGO.ngoStreetAddress),
-        
-\(nGO.ngoCity),
-        
-\(nGO.ngoState),
-        
-\(nGO.ngoZipCode)
-        
-"""
+nGOsDetailView.ngoAddressView.addressTextView.text = nGO.fullAddress
   
-nGOsAddressView.contactInfoTextView.text = """
+nGOsDetailView.ngoAddressView.contactInfoTextView.text = """
 
 \(nGO.contactPersonName)
         
@@ -82,7 +60,7 @@ nGOsAddressView.contactInfoTextView.text = """
 
 """
 
-nGOsAddressView.operationalHoursTextView.text = """
+nGOsDetailView.ngoAddressView.operationalHoursTextView.text = """
     
 Monday:     \(nGO.mondayHours)
         
@@ -105,33 +83,18 @@ Sunday:     \(nGO.sundayHours)
         
     }
     
-    private func setSwitch(){
-        nGOsDetailView.viewsSegmentedControl.addTarget(self, action: #selector(setupToggledViews), for: .valueChanged)
+    private func setupBarButtonItem(){
+        barButtonItem = UIBarButtonItem(title: "BookMark NGO", style: .plain, target: self, action: #selector(barButtonItemSelected))
+    navigationItem.rightBarButtonItem = barButtonItem
     }
     
-    @objc private func setupToggledViews(){
-        
-        switch nGOsDetailView.viewsSegmentedControl.selectedSegmentIndex {
-        case 0:
-        nGOsAddressView.removeFromSuperview()
-        nGOsDetailView.toggledView.addSubview(nGOsPhotoView)
-            
-        case 1:
-        nGOsPhotoView.removeFromSuperview()
-       nGOsDetailView.toggledView.addSubview(nGOsAddressView)
-        case 2:
-            break
-        default:
-            break
-        }
-        
+    @objc private func barButtonItemSelected(){
         
     }
-    
 
 }
 
-extension NGODetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension NGODetailsViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return namesOfImages.count
     }
@@ -149,5 +112,9 @@ extension NGODetailsViewController: UICollectionViewDelegate, UICollectionViewDa
         return photoCell
     }
     
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.size.width * 0.35, height: collectionView.frame.size.height * 0.5)
+    }
     
 }
