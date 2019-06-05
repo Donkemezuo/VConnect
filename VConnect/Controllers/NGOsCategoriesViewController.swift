@@ -10,7 +10,7 @@ import UIKit
 
 class NGOsCategoriesViewController: UIViewController {
     
-    private var nGOCategories = ["Domestic Violence", "Children and Child Marriage", "Sexual Assault", "Human Rights", "Women", "Youth Development", "Education", "Homelessness", "Leadership"]
+    private var nGOCategories = ["Domestic Violence", "Child issues", "Sexual Assault", "Human Rights", "Women", "Youth Development", "Education", "Homelessness", "Leadership", "Economic Development"]
     
     private var nGOs = [NGO](){
         didSet {

@@ -14,11 +14,10 @@ class NGOsViewController: UIViewController {
     
     let nGOsView = NGOsView()
     let nGOsTableView = NGOsTableView()
-    let nGOsMapView = NGOsMapView()
     private var geoCoder = CLGeocoder()
     private var annotations = [MKAnnotation]()
     private var coordinates = CLLocationCoordinate2D()
-    var locations: CLLocation!
+    private var locationManager = CLLocationManager()
     var defaultCoordinates = CLLocationCoordinate2DMake(0.0, 0.0)
     private var allNGOsInCategory = [NGO](){
         didSet {
@@ -37,6 +36,12 @@ class NGOsViewController: UIViewController {
         }
     }
     
+    private var nGOsMapView = NGOsMapView(){
+        didSet {
+            nGOsMapView.mapView.reloadInputViews()
+        }
+    }
+    
     
     private var isSearching: Bool = false
     
@@ -52,6 +57,7 @@ class NGOsViewController: UIViewController {
         nGOsView.resourcesView.addSubview(nGOsTableView)
         nGOsView.toggleView.tintColor = .white
         makeAnnotations()
+        checkLocationAuthorizationStatus()
     }
     
     init(nGOsInCategory: [NGO]){
@@ -62,6 +68,68 @@ class NGOsViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
        super.init(coder: aDecoder)
     }
+    
+    private func getUserLocationCoordinates() -> CLLocationCoordinate2D{
+        guard let userLocationCoordinates = locationManager.location?.coordinate else {
+            return defaultCoordinates
+        }
+        
+        return userLocationCoordinates
+    }
+    
+    
+    private func generateMilesDifference(with cell: NGOsTableViewCell){
+        
+        let userCurrentLocation = CLLocation(latitude: getUserLocationCoordinates().latitude, longitude: getUserLocationCoordinates().longitude)
+        print("Lat: \(getUserLocationCoordinates().latitude)")
+        print("Long: \(getUserLocationCoordinates().longitude)")
+        let nGOLocation = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+        
+        let distanceFromNGO = userCurrentLocation.distance(from: nGOLocation)
+        let distanceInMiles = distanceFromNGO/1609.344
+
+        cell.nGOMiles.text = String(format: "%.0f", distanceInMiles) + " " + "Miles"
+        
+    }
+    
+    private func locationAuthorizationStatus(){
+        
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedWhenInUse:
+            getUserLocationCoordinates()
+            break
+        case .denied:
+//            showAlert(title: "Needed", message: "Please authorize location services to enable VConnect connect you to the right resources")
+    self.locationManager.requestWhenInUseAuthorization()
+        case .authorizedAlways:
+            break
+        case .restricted:
+    showAlert(title: "Error", message: "Please authorize location services to enable VConnect connect you to the right resources") { (elert) in
+            self.locationManager.requestWhenInUseAuthorization()
+            }
+        case .notDetermined:
+            showAlert(title: "Error", message: "Please authorize location services to enable VConnect connect you to the right resources") { (elert) in
+                self.locationManager.requestWhenInUseAuthorization()
+            }
+        }
+    }
+    
+    private func setupLocationManager(){
+        locationManager.delegate =  self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    
+    private func checkLocationAuthorizationStatus(){
+        if CLLocationManager.locationServicesEnabled() {
+            setupLocationManager()
+            locationAuthorizationStatus()
+        } else {
+            showAlert(title: "Need", message: "Please authorize location services for VConnect to serve you better")
+        }
+    }
+    
+    
     
     private func setupSegmentedControl(){
         nGOsView.toggleView.addTarget(self, action: #selector(switchONViews), for: .valueChanged)
@@ -107,22 +175,21 @@ class NGOsViewController: UIViewController {
                 if let error = error {
                    self.showAlert(title: "Error", message: error.localizedDescription)
                 } else if let addressCoordinates = coordinate {
+                    self.coordinates = addressCoordinates
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2DMake(addressCoordinates.latitude, addressCoordinates.longitude)
+              
             let region = MKCoordinateRegion(center: addressCoordinates, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
                     self.nGOsMapView.mapView.setRegion(region, animated: true)
-                    print(addressCoordinates)
                     annotation.title = ngo.ngoName
                     self.annotations.append(annotation)
-                    
+                    self.nGOsMapView.mapView.addAnnotations(self.annotations)
+                    self.nGOsMapView.mapView.showAnnotations(self.annotations, animated: true)
                 }
             }
 
         }
-        nGOsMapView.mapView.addAnnotations(annotations)
-        nGOsMapView.mapView.showAnnotations(annotations, animated: true)
-    
-        
+ 
     }
 }
 
@@ -148,12 +215,13 @@ extension NGOsViewController: UISearchBarDelegate {
 extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return isSearching ? vConnectUserSearchedNGOsInCategory.count : allNGOsInCategory.count
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let nGOsCell = tableView.dequeueReusableCell(withIdentifier: "NGOsTableViewCell", for: indexPath) as? NGOsTableViewCell else {return UITableViewCell()}
         
-        let nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOsInCategory[indexPath.row]
+    let nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOsInCategory[indexPath.row]
         
    nGOsCell.nGOName.text = nGOToSet.ngoName
    nGOsCell.nGOCity.text = nGOToSet.ngoCity
@@ -161,11 +229,11 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
    nGOsCell.layer.borderWidth = 2
    nGOsCell.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
    nGOsCell.layer.cornerRadius = 5
+    generateMilesDifference(with: nGOsCell)
         
     return nGOsCell
     }
-    
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOsInCategory[indexPath.row]
@@ -176,6 +244,17 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
+    }
+    
+}
+
+extension NGOsViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        //
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        //
     }
     
 }

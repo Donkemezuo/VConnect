@@ -11,11 +11,8 @@ import Foundation
   final class GoogleAddressAPIClient {
     
     static func getAddressCoordinates(fullAddress: String, completionHandler: @escaping(AppError?, GoogleAddressModel?) ->  Void) {
-        
-       // let formattedAddress = fullAddress.replacingOccurrences(of: " ", with: "%20")
-        
+    
     let endPoint = "https://maps.googleapis.com/maps/api/geocode/json?address=\(fullAddress.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&key=\(SecretKeys.googleAddressesAPIKey)"
-        //print(endPoint)
         NetworkHelper.shared.performDataTask(endpointURLString: endPoint) { (error, data) in
             if let appError = error {
                 print("Error \(appError) encountered")
@@ -24,8 +21,6 @@ import Foundation
                     let fullAddressFromGoogle = try JSONDecoder().decode(GoogleAddressModel.self, from: fullAddress)
                     completionHandler(nil, fullAddressFromGoogle)
                 } catch {
-                    print(error)
-                    //completionHandler(appError, nil)
                 }
             }
         }
