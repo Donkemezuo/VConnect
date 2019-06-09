@@ -50,6 +50,17 @@ final class DataBaseService {
         
     }
     
+    static public func createVConnectUserNGOBookMark(vConnectUserID: String, bookMarkedNGOs: NGO, completionHandler: @escaping(AppError?) -> Void) {
+        firestoreDataBase.collection(BookMarkedNGOCollectionKey.bookMarkedNgoCollectionKey).document(vConnectUserID).setData([BookMarkedNGOCollectionKey.contactPersonName: bookMarkedNGOs.contactPersonName, BookMarkedNGOCollectionKey.fridayHours: bookMarkedNGOs.fridayHours, BookMarkedNGOCollectionKey.mondayHours: bookMarkedNGOs.mondayHours, BookMarkedNGOCollectionKey.ngoAcrimony : bookMarkedNGOs.ngoAcrimony ?? " ", BookMarkedNGOCollectionKey.ngoCategory: bookMarkedNGOs.ngoCategory, BookMarkedNGOCollectionKey.ngoCity : bookMarkedNGOs.ngoCity, BookMarkedNGOCollectionKey.ngoDescription: bookMarkedNGOs.ngoDescription, BookMarkedNGOCollectionKey.ngoEmail: bookMarkedNGOs.ngoEmail, BookMarkedNGOCollectionKey.ngoImagesURL: bookMarkedNGOs.ngoImagesURL, BookMarkedNGOCollectionKey.ngoName: bookMarkedNGOs.ngoName, BookMarkedNGOCollectionKey.ngoPhoneNumber: bookMarkedNGOs.ngoPhoneNumber, BookMarkedNGOCollectionKey.ngoState: bookMarkedNGOs.ngoState, BookMarkedNGOCollectionKey.ngoStreetAddress: bookMarkedNGOs.ngoStreetAddress, BookMarkedNGOCollectionKey.ngoWebsite: bookMarkedNGOs.ngoWebsite ?? " ", BookMarkedNGOCollectionKey.ngoZipCode: bookMarkedNGOs.ngoZipCode, BookMarkedNGOCollectionKey.ratingsValue: bookMarkedNGOs.ratingsValue, BookMarkedNGOCollectionKey.reviews: bookMarkedNGOs.reviews, BookMarkedNGOCollectionKey.saturdayHours: bookMarkedNGOs.saturdayHours, BookMarkedNGOCollectionKey.sundayHours: bookMarkedNGOs.sundayHours, BookMarkedNGOCollectionKey.thursdayHours: bookMarkedNGOs.thursdayHours, BookMarkedNGOCollectionKey.tuesdayHours: bookMarkedNGOs.tuesdayHours, BookMarkedNGOCollectionKey.wedsDayHours: bookMarkedNGOs.wedsDayHours, BookMarkedNGOCollectionKey.vConnectUserID: vConnectUserID], completion: { (error) in
+            if let error = error {
+                completionHandler((error as! AppError))
+            } else {
+                completionHandler(nil)
+            }
+        })
+        
+    }
+    
     
     
     static public func fetchVConnectUser(vConnectUserID: String, completionHandler: @escaping(Error?, VConnectUser?) -> Void) {
@@ -61,6 +72,28 @@ final class DataBaseService {
                 completionHandler(nil, vConnectUser)
             }
         }
+    }
+    
+    static public func fetchBookMarkedNGOs(vConnectUserID: String, completionHandler: @escaping(Error?, [NGO]?) -> Void) {
+        
+        DataBaseService.firestoreDataBase.collection(BookMarkedNGOCollectionKey.bookMarkedNgoCollectionKey).whereField(BookMarkedNGOCollectionKey.vConnectUserID, isEqualTo: vConnectUserID).getDocuments { (snapShot, error) in
+            if let error =  error {
+                completionHandler(error, nil)
+            } else if let snapShot = snapShot {
+                var allBookMarkedNGOs = [NGO]()
+                
+                for nGOs in snapShot.documents {
+                        let bookMarkedNGOs = NGO.init(dict: nGOs.data())
+                    allBookMarkedNGOs.append(bookMarkedNGOs)
+                }
+                
+
+                completionHandler(nil, allBookMarkedNGOs)
+                
+            }
+        }
+        
+        
     }
     
     

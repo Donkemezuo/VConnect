@@ -35,16 +35,29 @@ class ProfileViewController: UIViewController {
     private var locationManager = CLLocationManager()
     private var geoCoder = CLGeocoder()
     
+    private var bookMarkedNGOs = [NGO]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.profileTabelview.reloadData()
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.init(hexString: "033860")
         navigationItem.title = "Profile"
-        view.addSubview(profileHeaderView)
+        //view.addSubview(profileHeaderView)
+        profileHeaderView.delegate = self
         imagePicker.delegate = self
         configureProfile()
         updateVConnectUserProfile()
         editvConnectUserProfileImage()
         setupVConnectUserLocation()
+        fetchUserBookMarkedNGOs()
+        configureSegmentedControl()
+        profileTabelview.delegate =  self
+        profileTabelview.dataSource =  self
     }
     
     private func configureProfile(){
@@ -60,6 +73,36 @@ class ProfileViewController: UIViewController {
 //
 //
     }
+    
+    private func configureSegmentedControl(){
+        profileHeaderView.profileSettingsSegmentedControl.addTarget(self, action: #selector(profileViewSegmentedControlPressed), for:.valueChanged)
+    }
+    
+    
+    @objc private func profileViewSegmentedControlPressed(){
+        profileHeaderView.profileSettingsSegmentedControl.selectedSegmentIndex = 0
+        switch profileHeaderView.profileSettingsSegmentedControl.selectedSegmentIndex {
+        case 0:
+            profileTabelview.tableHeaderView = profileHeaderView
+        case 1:
+            break
+        default:
+            break
+        }
+        
+    }
+    
+    private func fetchUserBookMarkedNGOs(){
+        guard let user = authService.getCurrentVConnectUser() else {return}
+        DataBaseService.fetchBookMarkedNGOs(vConnectUserID: user.uid) { (error, bookMarkedNGOs) in
+            if let error = error {
+                self.showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while fetching user booked NGOs")
+            } else if let bookMarkedNGOs = bookMarkedNGOs {
+                self.bookMarkedNGOs = bookMarkedNGOs
+            }
+        }
+    }
+    
     
     
     private func setUserProfileImage(selectedImage: UIImage) {
@@ -182,5 +225,29 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         updateVConnectUserProfile()
         dismiss(animated: true, completion: nil)
     }
+    
+}
+
+extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return bookMarkedNGOs.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let NGO = bookMarkedNGOs[indexPath.row]
+         let cell = tableView.dequeueReusableCell(withIdentifier: "BookMarkedCell", for: indexPath)
+        cell.textLabel?.text = NGO.ngoName
+        cell.textLabel?.numberOfLines = 0
+        return cell
+    }
+    
+    
+}
+
+extension ProfileViewController: ProfileHeaderViewDelegate {
+    func moreOptionsButton(_ profileHeaderView: ProfileHeaderView) {
+        //
+    }
+    
     
 }

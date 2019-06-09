@@ -14,6 +14,7 @@ class NGODetailsViewController: UIViewController {
     private var nGO: NGO!
     private var barButtonItem = UIBarButtonItem()
     private var namesOfImages = ["aaa", "aids", "foods", "halfs", "food-aid-3", "longgg"]
+    private var authService = AppDelegate.authService
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,6 +90,17 @@ Sunday:     \(nGO.sundayHours)
     }
     
     @objc private func barButtonItemSelected(){
+        guard let loggedInVConnectUser = authService.getCurrentVConnectUser() else {
+            showAlert(title: "Error", message: "Only logged in users can book mark NGOs")
+            return
+        }
+        DataBaseService.createVConnectUserNGOBookMark(vConnectUserID: loggedInVConnectUser.uid, bookMarkedNGOs: nGO) { (error) in
+            if let error = error {
+                self.showAlert(title: "Error", message: "Error: \(error.localizedDescription) while book marking NGO")
+            } else {
+                self.showAlert(title: "Success", message: "Successfully book marked NGO. This NGO will appear on your profile tab")
+            }
+        }
         
     }
 

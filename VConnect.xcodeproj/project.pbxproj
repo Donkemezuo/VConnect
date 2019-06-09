@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0435221622ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */; };
 		044C6ACB22A0673E006E6C51 /* IBDesignableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */; };
 		044C6ACD22A07B19006E6C51 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6ACC22A07B19006E6C51 /* ImageModel.swift */; };
 		044C6ACF22A2177A006E6C51 /* NGODetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6ACE22A21779006E6C51 /* NGODetailsViewController.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedMarkedNGOsCollectionKeys.swift; sourceTree = "<group>"; };
 		044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBDesignableViews.swift; sourceTree = "<group>"; };
 		044C6ACC22A07B19006E6C51 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		044C6ACE22A21779006E6C51 /* NGODetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGODetailsViewController.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				04B6957622934564003A0B85 /* VConnectUserCollectionKeys.swift */,
 				044C6ACC22A07B19006E6C51 /* ImageModel.swift */,
 				04B6957A22934D9F003A0B85 /* NGOCollectionKeys.swift */,
+				0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */,
 				04B695802294F355003A0B85 /* VConnectSpecialistCollectionKeys.swift */,
 			);
 			path = DataCollectionKeys;
@@ -451,6 +454,7 @@
 				04B6959622989FD6003A0B85 /* VConnectTabBarViewController.swift in Sources */,
 				04B69575229340AC003A0B85 /* VConnectUserModel.swift in Sources */,
 				04B695A622990730003A0B85 /* NGOsViewController.swift in Sources */,
+				0435221622ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift in Sources */,
 				04B6958722979A09003A0B85 /* SignInViewController.swift in Sources */,
 				04B6959A2298A095003A0B85 /* ChatViewController.swift in Sources */,
 				044C6AD122A21804006E6C51 /* NGOsDetailView.swift in Sources */,
