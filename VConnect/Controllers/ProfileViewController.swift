@@ -246,6 +246,12 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedNGO = bookMarkedNGOs[indexPath.row]
+        let nGOsDetailView = NGODetailsViewController(nGO: selectedNGO)
+        self.navigationController?.pushViewController(nGOsDetailView, animated: true)
+    }
+    
     
 }
 
