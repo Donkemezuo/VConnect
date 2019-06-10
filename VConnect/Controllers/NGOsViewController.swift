@@ -52,6 +52,7 @@ class NGOsViewController: UIViewController {
         navigationItem.title = "NGOs"
         nGOsTableView.nGOsTableView.delegate =  self
         nGOsTableView.nGOsTableView.dataSource = self
+        nGOsMapView.mapView.delegate = self
         nGOsView.searchBar.delegate = self
         setupSegmentedControl()
         nGOsView.resourcesView.addSubview(nGOsTableView)
@@ -253,5 +254,35 @@ extension NGOsViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         //
     }
+    
+}
+
+extension NGOsViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "Callouts") as? MKMarkerAnnotationView
+        
+        if annotationView == nil {
+            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "Callouts")
+            annotationView?.canShowCallout = true
+            annotationView?.rightCalloutAccessoryView = UIButton(type: .infoLight)
+        } else {
+            annotationView?.annotation =  annotation
+        }
+        return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        guard let callOutButtonClicked = view.annotation else {return}
+        
+        if let nGOname = callOutButtonClicked.title, let nGO = (allNGOsInCategory.filter{$0.ngoName == nGOname}).first {
+            
+            let detailVC = NGODetailsViewController(nGO: nGO)
+            self.navigationController?.pushViewController(detailVC, animated: true)
+            
+        }
+        
+    }
+    
     
 }

@@ -24,7 +24,6 @@ class NGODetailsViewController: UIViewController {
          nGOsDetailView.ngoPhotosView.nGOPhotosCollectionView.dataSource = self
         nGOInformations()
         setupBarButtonItem()
-
     }
     
     init(nGO: NGO) {
@@ -117,7 +116,7 @@ extension NGODetailsViewController: UICollectionViewDelegateFlowLayout, UICollec
         let imageName = namesOfImages[indexPath.row]
         photoCell.ngoPhotoView.image = UIImage.init(named: imageName)
         
-        photoCell.layer.cornerRadius = 1
+        photoCell.layer.cornerRadius = 5
         photoCell.layer.borderWidth = 1
         photoCell.layer.borderColor = #colorLiteral(red: 0.9961728454, green: 0.9902502894, blue: 1, alpha: 0)
         
@@ -126,7 +125,25 @@ extension NGODetailsViewController: UICollectionViewDelegateFlowLayout, UICollec
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width * 0.35, height: collectionView.frame.size.height * 0.5)
+        return CGSize(width: collectionView.frame.size.width * 0.4888, height: collectionView.frame.size.height * 0.8)
+//        let screenHeight = UIScreen.main.bounds.height
+//        let screenWidth = UIScreen.main.bounds.width
+//        let width = (screenWidth - (5*3))/2
+//        let height = (screenHeight/screenWidth)*width
+//
+//        return CGSize(width: width, height: height)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
 }

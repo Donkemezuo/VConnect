@@ -17,7 +17,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var profileTabelview: UITableView!
     
     private lazy var profileHeaderView: ProfileHeaderView = {
-        let headerView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 600 ))
+        let headerView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 360 ))
         headerView.backgroundColor = UIColor.init(hexString: "033860")
         return headerView
     }()
@@ -47,7 +47,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.init(hexString: "033860")
         navigationItem.title = "Profile"
-        //view.addSubview(profileHeaderView)
+        profileTabelview.tableHeaderView = profileHeaderView
         profileHeaderView.delegate = self
         imagePicker.delegate = self
         configureProfile()
@@ -60,22 +60,26 @@ class ProfileViewController: UIViewController {
         profileTabelview.dataSource =  self
     }
     
+    
+    
     private func configureProfile(){
         profileHeaderView.profileSettingsSegmentedControl.backgroundColor = .white
+        profileTabelview.backgroundColor = .clear
         profileHeaderView.profileSettingsSegmentedControl.tintColor =  UIColor.init(hexString: "033860")
         profileHeaderView.vConnectUserEmailLabel.font = UIFont(name: "HelveticaNeue-BoldItalic", size: 16)
         profileHeaderView.vConnectUserNameLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
         profileHeaderView.vConnectUserLocationLabel.font = UIFont(name: "HelveticaNeue-BoldItalic", size: 16)
         
-//        profileHeaderView.vConnectUserProfileImageView.layer.cornerRadius = profileHeaderView.vConnectUserProfileImageView.bounds.width/2
-//        profileHeaderView.vConnectUserProfileImageView.layer.masksToBounds = true
-//        profileHeaderView.vConnectUserProfileImageView.clipsToBounds = true
-//
-//
+        profileHeaderView.vConnectUserProfileImageView.layer.cornerRadius = profileHeaderView.vConnectUserProfileImageView.bounds.width/2
+        profileHeaderView.vConnectUserProfileImageView.layer.masksToBounds = true
+        profileHeaderView.vConnectUserProfileImageView.clipsToBounds = true
+
+
     }
     
     private func configureSegmentedControl(){
         profileHeaderView.profileSettingsSegmentedControl.addTarget(self, action: #selector(profileViewSegmentedControlPressed), for:.valueChanged)
+        //profileTabelview.tableHeaderView = profileHeaderView
     }
     
     
@@ -238,6 +242,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
          let cell = tableView.dequeueReusableCell(withIdentifier: "BookMarkedCell", for: indexPath)
         cell.textLabel?.text = NGO.ngoName
         cell.textLabel?.numberOfLines = 0
+        cell.backgroundColor = .clear
         return cell
     }
     

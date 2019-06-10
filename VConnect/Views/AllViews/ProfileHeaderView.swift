@@ -34,7 +34,7 @@ class ProfileHeaderView: UIView {
     weak var delegate: ProfileHeaderViewDelegate?
 
     override init(frame: CGRect) {
-        super.init(frame: UIScreen.main.bounds)
+        super.init(frame: frame)
         commonInit()
     }
     required init?(coder aDecoder: NSCoder) {
