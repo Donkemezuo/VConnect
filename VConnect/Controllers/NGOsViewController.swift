@@ -14,13 +14,11 @@ class NGOsViewController: UIViewController {
     
     let nGOsView = NGOsView()
     let nGOsTableView = NGOsTableView()
-    let nGOsMapView = NGOsMapView()
     private var geoCoder = CLGeocoder()
     private var annotations = [MKAnnotation]()
-    //private var coordinates: CLLocationCoordinate2D!
-    var locations: CLLocation!
-    var coordinates = CLLocationCoordinate2D()
-    
+    private var coordinates = CLLocationCoordinate2D()
+    public var locationManager = CLLocationManager()
+    var defaultCoordinates = CLLocationCoordinate2DMake(0.0, 0.0)
     private var allNGOsInCategory = [NGO](){
         didSet {
             DispatchQueue.main.async {
@@ -38,6 +36,12 @@ class NGOsViewController: UIViewController {
         }
     }
     
+    private var nGOsMapView = NGOsMapView(){
+        didSet {
+            nGOsMapView.mapView.reloadInputViews()
+        }
+    }
+    
     
     private var isSearching: Bool = false
     
@@ -48,11 +52,13 @@ class NGOsViewController: UIViewController {
         navigationItem.title = "NGOs"
         nGOsTableView.nGOsTableView.delegate =  self
         nGOsTableView.nGOsTableView.dataSource = self
+        nGOsMapView.mapView.delegate = self
         nGOsView.searchBar.delegate = self
         setupSegmentedControl()
         nGOsView.resourcesView.addSubview(nGOsTableView)
         nGOsView.toggleView.tintColor = .white
-        makeAnnotations(with: coordinates)
+        makeAnnotations()
+        checkLocationAuthorizationStatus()
     }
     
     init(nGOsInCategory: [NGO]){
@@ -64,6 +70,65 @@ class NGOsViewController: UIViewController {
        super.init(coder: aDecoder)
     }
     
+    private func getUserLocationCoordinates() -> CLLocationCoordinate2D{
+        guard let userLocationCoordinates = locationManager.location?.coordinate else {
+            return defaultCoordinates
+        }
+        
+        return userLocationCoordinates
+    }
+    
+    
+    private func generateMilesDifference(with cell: NGOsTableViewCell){
+        
+        let userCurrentLocation = CLLocation(latitude: getUserLocationCoordinates().latitude, longitude: getUserLocationCoordinates().longitude)
+        let nGOLocation = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+        
+        let distanceFromNGO = userCurrentLocation.distance(from: nGOLocation)
+        let distanceInMiles = distanceFromNGO/1609.344
+        cell.nGOMiles.text = String(format: "%.0f", distanceInMiles) + " " + "Miles"
+        
+    }
+    
+    private func locationAuthorizationStatus(){
+        
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedWhenInUse:
+            getUserLocationCoordinates()
+            break
+        case .denied:
+//            showAlert(title: "Needed", message: "Please authorize location services to enable VConnect connect you to the right resources")
+    self.locationManager.requestWhenInUseAuthorization()
+        case .authorizedAlways:
+            break
+        case .restricted:
+    showAlert(title: "Error", message: "Please authorize location services to enable VConnect connect you to the right resources") { (elert) in
+            self.locationManager.requestWhenInUseAuthorization()
+            }
+        case .notDetermined:
+            showAlert(title: "Error", message: "Please authorize location services to enable VConnect connect you to the right resources") { (elert) in
+                self.locationManager.requestWhenInUseAuthorization()
+            }
+        }
+    }
+    
+    private func setupLocationManager(){
+        locationManager.delegate =  self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    
+    private func checkLocationAuthorizationStatus(){
+        if CLLocationManager.locationServicesEnabled() {
+            setupLocationManager()
+            locationAuthorizationStatus()
+        } else {
+            showAlert(title: "Need", message: "Please authorize location services for VConnect to serve you better")
+        }
+    }
+    
+    
+    
     private func setupSegmentedControl(){
         nGOsView.toggleView.addTarget(self, action: #selector(switchONViews), for: .valueChanged)
     }
@@ -71,8 +136,10 @@ class NGOsViewController: UIViewController {
     @objc private func switchONViews(){
         switch nGOsView.toggleView.selectedSegmentIndex {
         case 0:
+            nGOsMapView.removeFromSuperview()
             nGOsView.resourcesView.addSubview(nGOsTableView)
         case 1:
+            nGOsTableView.removeFromSuperview()
             nGOsView.resourcesView.addSubview(nGOsMapView)
         default:
             return
@@ -80,61 +147,49 @@ class NGOsViewController: UIViewController {
         }
     }
     
-    private func generateCordinates(with NGOaddress: String) -> CLLocationCoordinate2D {
+    private func generateNGOLocationCoordinates(with NGOFullAddress: String, completionHandler:  @escaping(Error?, CLLocationCoordinate2D?) -> Void){
         
-        geoCoder.geocodeAddressString(NGOaddress) { (placemarks, error) in
+        GoogleAddressAPIClient.getAddressCoordinates(fullAddress: NGOFullAddress) { (error, fetchResults) in
             if let error = error {
-                self.showAlert(title: "Error", message: error.localizedDescription)
-            } else if let placemark = placemarks?.first {
-                guard let location = placemark.location else {return}
- 
-                self.coordinates = location.coordinate
-                print("Lat: \(self.coordinates.latitude)", "Long: \(self.coordinates.longitude)")
-               // self.testZipCode(with: self.locations)
+                completionHandler(error, nil)
+  
+            } else if let fetchedResults = fetchResults {
+                let coordinatesFromFetchedResult = fetchedResults.results.first?.geometry
+                guard let latitude = coordinatesFromFetchedResult?.location.lat, let longitude = coordinatesFromFetchedResult?.location.lng else {
+                    return
+                }
+           completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+                
             }
         }
-        
-        return coordinates
     }
     
     
-    private func makeAnnotations(with Coordinate:CLLocationCoordinate2D ) {
+    private func makeAnnotations() {
     nGOsMapView.mapView.removeAnnotations(annotations)
+        
         for ngo in allNGOsInCategory {
-            let ngOCordinates = generateCordinates(with: ngo.ngoCity)
+     generateNGOLocationCoordinates(with: ngo.fullAddress) { (error, coordinate) in
+                if let error = error {
+                   self.showAlert(title: "Error", message: error.localizedDescription)
+                } else if let addressCoordinates = coordinate {
+                    self.coordinates = addressCoordinates
             let annotation = MKPointAnnotation()
-            
-            annotation.coordinate = CLLocationCoordinate2DMake(ngOCordinates.latitude, ngOCordinates.longitude)
-            let region = MKCoordinateRegion(center: coordinates, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
-            nGOsMapView.mapView.setRegion(region, animated: true)
-            annotation.title = ngo.ngoName
-            annotation.subtitle = ngo.fullAddress
-          
-            //annotation.coordinate =
-            annotations.append(annotation)
-        }
-        nGOsMapView.mapView.addAnnotations(annotations)
-        nGOsMapView.mapView.showAnnotations(annotations, animated: true)
-        
-        
-        
-    }
-
-    
-    
-
-    private func testZipCode(with location:CLLocation) {
-        geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let placemark = placemarks?.first {
-                print(placemark.postalCode ?? "no locality")
+            annotation.coordinate = CLLocationCoordinate2DMake(addressCoordinates.latitude, addressCoordinates.longitude)
+              
+            let region = MKCoordinateRegion(center: addressCoordinates, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+                    self.nGOsMapView.mapView.setRegion(region, animated: true)
+                    annotation.title = ngo.ngoName
+                    self.annotations.append(annotation)
+                    self.nGOsMapView.mapView.addAnnotations(self.annotations)
+                    self.nGOsMapView.mapView.showAnnotations(self.annotations, animated: true)
+                }
             }
-        }
 
+        }
+ 
     }
 }
-
 
 extension NGOsViewController: UISearchBarDelegate {
     
@@ -158,27 +213,25 @@ extension NGOsViewController: UISearchBarDelegate {
 extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return isSearching ? vConnectUserSearchedNGOsInCategory.count : allNGOsInCategory.count
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let nGOsCell = tableView.dequeueReusableCell(withIdentifier: "NGOsTableViewCell", for: indexPath) as? NGOsTableViewCell else {return UITableViewCell()}
         
-        let nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOsInCategory[indexPath.row]
+    let nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOsInCategory[indexPath.row]
         
    nGOsCell.nGOName.text = nGOToSet.ngoName
    nGOsCell.nGOCity.text = nGOToSet.ngoCity
-    
-    nGOsCell.backgroundColor = .clear
-    nGOsCell.layer.borderWidth = 2
-    nGOsCell.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-    nGOsCell.layer.cornerRadius = 5
-    generateCordinates(with: nGOToSet.ngoCity)
+   nGOsCell.backgroundColor = .clear
+   nGOsCell.layer.borderWidth = 0.5
+   nGOsCell.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+   nGOsCell.layer.cornerRadius = 2
+    generateMilesDifference(with: nGOsCell)
         
-    
-        return nGOsCell
+    return nGOsCell
     }
-    
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOsInCategory[indexPath.row]
@@ -190,5 +243,46 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
+    
+}
+
+extension NGOsViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        //
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        //
+    }
+    
+}
+
+extension NGOsViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "Callouts") as? MKMarkerAnnotationView
+        
+        if annotationView == nil {
+            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "Callouts")
+            annotationView?.canShowCallout = true
+            annotationView?.rightCalloutAccessoryView = UIButton(type: .infoLight)
+        } else {
+            annotationView?.annotation =  annotation
+        }
+        return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        guard let callOutButtonClicked = view.annotation else {return}
+        
+        if let nGOname = callOutButtonClicked.title, let nGO = (allNGOsInCategory.filter{$0.ngoName == nGOname}).first {
+            
+            let detailVC = NGODetailsViewController(nGO: nGO)
+            self.navigationController?.pushViewController(detailVC, animated: true)
+            
+        }
+        
+    }
+    
     
 }

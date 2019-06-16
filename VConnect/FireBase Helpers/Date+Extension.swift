@@ -16,4 +16,12 @@ extension Date {
         let userJoinedDate = formatter.string(from: Date())
         return userJoinedDate
     }
+    
+    static func customizedDateFormat() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d"
+        let userJoinedDate = formatter.string(from: Date())
+        return userJoinedDate
+
+    }
 }

@@ -13,8 +13,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileHeaderView" customModule="VConnect" customModuleProvider="target">
             <connections>
                 <outlet property="ProfileHeaderViewContainer" destination="iN0-l3-epB" id="WFP-g0-qCs"/>
-                <outlet property="moreOptionsButton" destination="YWw-Qi-lpG" id="KHK-Cg-yCP"/>
-                <outlet property="profileSettingsSegmentedControl" destination="qHN-DQ-ORk" id="qna-th-VMC"/>
                 <outlet property="vConnectUserEmailLabel" destination="Dpf-Rr-O2t" id="kp3-Sl-dFK"/>
                 <outlet property="vConnectUserLocationLabel" destination="uIr-an-ucV" id="Oys-4i-IiR"/>
                 <outlet property="vConnectUserNameLabel" destination="kxV-14-7sR" id="Icd-aF-IVm"/>
@@ -32,16 +30,6 @@
                         <constraint firstAttribute="height" constant="120" id="ypr-He-wnC"/>
                     </constraints>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YWw-Qi-lpG">
-                    <rect key="frame" x="324" y="99" width="85" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="8y6-9M-Lat"/>
-                    </constraints>
-                    <state key="normal" image="icons8-info"/>
-                    <connections>
-                        <action selector="moreOptionsButtonPressed:" destination="-1" eventType="touchUpInside" id="HP7-f5-1Qu"/>
-                    </connections>
-                </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kxV-14-7sR">
                     <rect key="frame" x="20" y="254" width="374" height="30"/>
                     <constraints>
@@ -69,36 +57,19 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qHN-DQ-ORk">
-                    <rect key="frame" x="0.0" y="374" width="414" height="31"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="jA9-lY-7xZ"/>
-                    </constraints>
-                    <segments>
-                        <segment title="Most Visited NGOs"/>
-                        <segment title="Profile Settings"/>
-                    </segments>
-                    <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                </segmentedControl>
             </subviews>
             <constraints>
-                <constraint firstItem="YWw-Qi-lpG" firstAttribute="leading" secondItem="ZmL-sF-7oR" secondAttribute="trailing" constant="20" id="4K8-eP-ljK"/>
                 <constraint firstItem="kxV-14-7sR" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="5Ys-TN-WRW"/>
-                <constraint firstItem="qHN-DQ-ORk" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="9HY-0m-FR8"/>
                 <constraint firstItem="uIr-an-ucV" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="CAT-C6-v5e"/>
-                <constraint firstItem="YWw-Qi-lpG" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="55" id="GWS-Zk-8C0"/>
                 <constraint firstItem="kxV-14-7sR" firstAttribute="top" secondItem="ZmL-sF-7oR" secondAttribute="bottom" constant="10" id="IAi-4N-zQc"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="kxV-14-7sR" secondAttribute="trailing" constant="20" id="NrT-gI-klB"/>
                 <constraint firstItem="Dpf-Rr-O2t" firstAttribute="top" secondItem="kxV-14-7sR" secondAttribute="bottom" constant="10" id="NwM-D9-5fg"/>
                 <constraint firstItem="Dpf-Rr-O2t" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="Qfx-7G-aRE"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="ZmL-sF-7oR" secondAttribute="trailing" constant="110" id="R7Y-2c-v3g"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="uIr-an-ucV" secondAttribute="trailing" constant="20" id="afp-l0-f8U"/>
-                <constraint firstAttribute="trailing" secondItem="YWw-Qi-lpG" secondAttribute="trailing" constant="5" id="dFF-IL-HXM"/>
                 <constraint firstItem="ZmL-sF-7oR" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="120" id="dp1-Kp-8Ju"/>
                 <constraint firstItem="uIr-an-ucV" firstAttribute="top" secondItem="Dpf-Rr-O2t" secondAttribute="bottom" constant="10" id="grs-vs-DHZ"/>
-                <constraint firstItem="qHN-DQ-ORk" firstAttribute="top" secondItem="uIr-an-ucV" secondAttribute="bottom" constant="10" id="l2c-MO-ynf"/>
                 <constraint firstItem="ZmL-sF-7oR" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="80" id="mng-hg-tzL"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="qHN-DQ-ORk" secondAttribute="trailing" id="tUU-S8-2dH"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Dpf-Rr-O2t" secondAttribute="trailing" constant="20" id="tiU-Q2-Y9H"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
@@ -106,6 +77,5 @@
     </objects>
     <resources>
         <image name="VCConectLogo" width="1905" height="1905"/>
-        <image name="icons8-info" width="25" height="25"/>
     </resources>
 </document>

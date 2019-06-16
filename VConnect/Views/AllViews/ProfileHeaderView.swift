@@ -8,16 +8,10 @@
 
 import UIKit
 
-protocol ProfileHeaderViewDelegate: AnyObject {
-    
-    func moreOptionsButton(_ profileHeaderView: ProfileHeaderView)
-}
 
 class ProfileHeaderView: UIView {
     
     @IBOutlet weak var ProfileHeaderViewContainer: UIView!
-    
-    @IBOutlet weak var moreOptionsButton: UIButton!
     
     @IBOutlet weak var vConnectUserProfileImageView: CircularImageView!
     
@@ -27,14 +21,8 @@ class ProfileHeaderView: UIView {
     
     @IBOutlet weak var vConnectUserLocationLabel: UILabel!
     
-    @IBOutlet weak var profileSettingsSegmentedControl: UISegmentedControl!
-    
-    
-    
-    weak var delegate: ProfileHeaderViewDelegate?
-
     override init(frame: CGRect) {
-        super.init(frame: UIScreen.main.bounds)
+        super.init(frame: frame)
         commonInit()
     }
     required init?(coder aDecoder: NSCoder) {
@@ -48,10 +36,7 @@ class ProfileHeaderView: UIView {
         ProfileHeaderViewContainer.frame = bounds
     }
     
+ 
     
-    @IBAction func moreOptionsButtonPressed(_ sender: UIButton) {
-        delegate?.moreOptionsButton(self)
-        
-    }
     
 }
