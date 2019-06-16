@@ -9,7 +9,7 @@
 import Foundation
 
 struct NGOsCollectionKeys {
-    
+    static let ngOID = "ngOID"
     static let ngoCollectionKey = "AllNGOs"
     static let ngoName = "ngoName"
     static let ngoDescription = "ngoDescription"
@@ -33,4 +33,5 @@ struct NGOsCollectionKeys {
     static let fridayHours = "fridayHours"
     static let saturdayHours = "saturdayHours"
     static let sundayHours = "sundayHours"
+    static let visitedDate = "visitedDate"
 }

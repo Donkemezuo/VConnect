@@ -9,7 +9,7 @@
 import Foundation
 
 struct NGO : Codable {
-    
+    let ngOID: String
     let ngoName: String
     let ngoDescription: String
     let ngoWebsite: String?
@@ -32,6 +32,7 @@ struct NGO : Codable {
     let fridayHours: String
     let saturdayHours: String
     let sundayHours: String
+    let visitedDate: String
     var fullAddress: String {
         
         let fullAddress = """
@@ -48,7 +49,7 @@ struct NGO : Codable {
         
     }
     
-    init(ngoName: String, ngoDescription: String, ngoWebsite: String, ngoCategory: String, ngoAcrimony: String, ngoPhoneNumber: String, ngoEmail: String, ngoStreetAddress: String, ngoCity: String, ngoState: String, ngoZipCode: String, contactPersonName: String, ngoImagesURL: String, ratingsValue: Double, reviews: String, mondayHours: String, tuesdayHours: String, wedsDayHours: String, thursdayHours: String, fridayHours: String, saturdayHours: String, sundayHours: String){
+    init(ngoName: String, ngoDescription: String, ngoWebsite: String, ngoCategory: String, ngoAcrimony: String, ngoPhoneNumber: String, ngoEmail: String, ngoStreetAddress: String, ngoCity: String, ngoState: String, ngoZipCode: String, contactPersonName: String, ngoImagesURL: String, ratingsValue: Double, reviews: String, mondayHours: String, tuesdayHours: String, wedsDayHours: String, thursdayHours: String, fridayHours: String, saturdayHours: String, sundayHours: String, visitedDate: String,ngOID:String ){
         self.ngoName = ngoName
         self.ngoDescription = ngoDescription
         self.ngoWebsite = ngoWebsite
@@ -71,6 +72,8 @@ struct NGO : Codable {
         self.fridayHours = fridayHours
         self.saturdayHours = saturdayHours
         self.sundayHours = sundayHours
+        self.visitedDate = visitedDate
+        self.ngOID = ngOID
     }
     
     init(dict: [String: Any]) {
@@ -97,8 +100,8 @@ struct NGO : Codable {
         self.fridayHours = dict[NGOsCollectionKeys.fridayHours] as? String ?? "NGO does not have open hours on friday"
         self.saturdayHours = dict[NGOsCollectionKeys.saturdayHours] as? String ?? "NGO does not have open hours on saturday"
         self.sundayHours = dict[NGOsCollectionKeys.sundayHours] as? String ?? "NGO does not have open hours on sundays"
-    
-    
+        self.visitedDate = dict[NGOsCollectionKeys.visitedDate] as? String ?? ""
+        self.ngOID = dict[NGOsCollectionKeys.ngOID] as? String ?? ""
     }
     
 }

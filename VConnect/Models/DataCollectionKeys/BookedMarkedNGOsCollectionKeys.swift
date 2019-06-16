@@ -33,6 +33,7 @@ static let thursdayHours = "thursdayHours"
 static let fridayHours = "fridayHours"
 static let saturdayHours = "saturdayHours"
 static let sundayHours = "sundayHours"
-    static let vConnectUserID = "vConnectUserID"
+static let vConnectUserID = "vConnectUserID"
+ static let bookMarkedDate = "bookMarkedDate"
 
 }
