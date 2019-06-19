@@ -393,35 +393,669 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4dq-8o-rk9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3297.1014492753625" y="-166.07142857142856"/>
+            <point key="canvasLocation" x="3196" y="-144"/>
         </scene>
         <!--Registration Table View Controller-->
         <scene sceneID="wp0-mc-p09">
             <objects>
-                <tableViewController id="IMP-mX-gCn" customClass="NGORegistrationTableViewController" customModule="VConnect" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Z8i-yX-fBr">
+                <tableViewController storyboardIdentifier="ngoReg" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IMP-mX-gCn" customClass="NGORegistrationTableViewController" customModule="VConnect" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Z8i-yX-fBr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="po3-N3-u67">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="po3-N3-u67" id="iq1-Sb-wYk">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
+                        <sections>
+                            <tableViewSection headerTitle="NGO Information" id="a0i-Kx-dzL">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="79" id="aiM-BU-k86">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="79"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aiM-BU-k86" id="DJP-Ls-bo0">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="78.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bTh-7v-L78">
+                                                    <rect key="frame" x="40" y="11" width="334" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="Vef-ph-B8n"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="NGO Name">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <font key="NSOriginalFont" size="14" name="Helvetica-Bold"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter NGO name here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ret-Ve-Iq3">
+                                                    <rect key="frame" x="20" y="31" width="374" height="37"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="ret-Ve-Iq3" secondAttribute="trailing" id="J2L-UJ-dfX"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="bTh-7v-L78" secondAttribute="trailing" constant="20" id="MLS-Wg-bdb"/>
+                                                <constraint firstItem="ret-Ve-Iq3" firstAttribute="top" secondItem="bTh-7v-L78" secondAttribute="bottom" id="MMl-TC-5W7"/>
+                                                <constraint firstItem="bTh-7v-L78" firstAttribute="leading" secondItem="DJP-Ls-bo0" secondAttribute="leadingMargin" constant="20" id="aRO-Q7-d3B"/>
+                                                <constraint firstItem="bTh-7v-L78" firstAttribute="top" secondItem="DJP-Ls-bo0" secondAttribute="topMargin" id="b3f-bW-Yb3"/>
+                                                <constraint firstItem="ret-Ve-Iq3" firstAttribute="bottom" secondItem="DJP-Ls-bo0" secondAttribute="bottomMargin" id="nLg-Uh-GN1"/>
+                                                <constraint firstItem="ret-Ve-Iq3" firstAttribute="leading" secondItem="DJP-Ls-bo0" secondAttribute="leadingMargin" id="sot-Q4-tdF"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="79" id="RAl-gx-5q4">
+                                        <rect key="frame" x="0.0" y="107" width="414" height="79"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RAl-gx-5q4" id="Vq5-HY-OKs">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="78.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkW-aG-6ug">
+                                                    <rect key="frame" x="40" y="11" width="334" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="s5j-W0-sQk"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="NGO Email">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter NGO Email here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="K2t-Qd-SCJ">
+                                                    <rect key="frame" x="20" y="31" width="374" height="37"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="bkW-aG-6ug" firstAttribute="leading" secondItem="Vq5-HY-OKs" secondAttribute="leadingMargin" constant="20" id="1mJ-67-ep8"/>
+                                                <constraint firstItem="bkW-aG-6ug" firstAttribute="top" secondItem="Vq5-HY-OKs" secondAttribute="topMargin" id="3Kd-j6-JyW"/>
+                                                <constraint firstItem="K2t-Qd-SCJ" firstAttribute="leading" secondItem="Vq5-HY-OKs" secondAttribute="leadingMargin" id="FzD-Mu-ysj"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="bkW-aG-6ug" secondAttribute="trailing" constant="20" id="OfD-Ov-1e0"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="K2t-Qd-SCJ" secondAttribute="trailing" id="VC8-nX-7Vm"/>
+                                                <constraint firstItem="K2t-Qd-SCJ" firstAttribute="bottom" secondItem="Vq5-HY-OKs" secondAttribute="bottomMargin" id="nSB-8r-5JA"/>
+                                                <constraint firstItem="K2t-Qd-SCJ" firstAttribute="top" secondItem="bkW-aG-6ug" secondAttribute="bottom" id="t42-9U-evB"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="79" id="4gh-ps-Xu9">
+                                        <rect key="frame" x="0.0" y="186" width="414" height="79"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4gh-ps-Xu9" id="nJj-wM-C6f">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="78.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MLp-if-elk">
+                                                    <rect key="frame" x="40" y="11" width="334" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="ac3-AD-Rg9"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="NGO Acrimony">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter NGO Acrimony here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VJW-R9-OnY">
+                                                    <rect key="frame" x="20" y="31" width="374" height="37"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="MLp-if-elk" secondAttribute="trailing" constant="20" id="0er-xi-EEB"/>
+                                                <constraint firstItem="MLp-if-elk" firstAttribute="top" secondItem="nJj-wM-C6f" secondAttribute="topMargin" id="4IU-CK-TvP"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="VJW-R9-OnY" secondAttribute="trailing" id="HTc-Pb-nah"/>
+                                                <constraint firstItem="VJW-R9-OnY" firstAttribute="bottom" secondItem="nJj-wM-C6f" secondAttribute="bottomMargin" id="cbm-9V-aa2"/>
+                                                <constraint firstItem="VJW-R9-OnY" firstAttribute="top" secondItem="MLp-if-elk" secondAttribute="bottom" id="jyh-eJ-eOH"/>
+                                                <constraint firstItem="VJW-R9-OnY" firstAttribute="leading" secondItem="nJj-wM-C6f" secondAttribute="leadingMargin" id="qyL-lK-ADg"/>
+                                                <constraint firstItem="MLp-if-elk" firstAttribute="leading" secondItem="nJj-wM-C6f" secondAttribute="leadingMargin" constant="20" id="u4v-49-RWz"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="79" id="mmu-ZD-cqy">
+                                        <rect key="frame" x="0.0" y="265" width="414" height="79"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mmu-ZD-cqy" id="ECK-Ke-fa7">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="78.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsm-Mf-n2I">
+                                                    <rect key="frame" x="40" y="11" width="334" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="gcT-lr-0kH"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="NGO ">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <font key="NSOriginalFont" size="14" name="Helvetica-Bold"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                        <fragment content="Phone Number">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter NGO Phone Number here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7FK-9W-GD0">
+                                                    <rect key="frame" x="20" y="31" width="374" height="37"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="zsm-Mf-n2I" firstAttribute="top" secondItem="ECK-Ke-fa7" secondAttribute="topMargin" id="6jD-RC-EqE"/>
+                                                <constraint firstItem="7FK-9W-GD0" firstAttribute="top" secondItem="zsm-Mf-n2I" secondAttribute="bottom" id="ASV-dz-34N"/>
+                                                <constraint firstItem="7FK-9W-GD0" firstAttribute="leading" secondItem="ECK-Ke-fa7" secondAttribute="leadingMargin" id="EBT-Ji-vb5"/>
+                                                <constraint firstItem="zsm-Mf-n2I" firstAttribute="leading" secondItem="ECK-Ke-fa7" secondAttribute="leadingMargin" constant="20" id="Hgu-CQ-ozH"/>
+                                                <constraint firstItem="7FK-9W-GD0" firstAttribute="bottom" secondItem="ECK-Ke-fa7" secondAttribute="bottomMargin" id="JMg-Dr-0e7"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="7FK-9W-GD0" secondAttribute="trailing" id="cbF-Qa-WAw"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="zsm-Mf-n2I" secondAttribute="trailing" constant="20" id="xpN-5f-SqM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="79" id="Qc7-Co-qTr">
+                                        <rect key="frame" x="0.0" y="344" width="414" height="79"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Qc7-Co-qTr" id="v2u-wV-nzY">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="78.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbX-6m-kUi">
+                                                    <rect key="frame" x="40" y="11" width="334" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="vF5-H2-zyo"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="NGO Website">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter NGO Website here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yan-3x-l5J">
+                                                    <rect key="frame" x="20" y="31" width="374" height="37"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="yan-3x-l5J" firstAttribute="bottom" secondItem="v2u-wV-nzY" secondAttribute="bottomMargin" id="QPr-iN-PNU"/>
+                                                <constraint firstItem="yan-3x-l5J" firstAttribute="top" secondItem="lbX-6m-kUi" secondAttribute="bottom" id="XLp-he-e5l"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="lbX-6m-kUi" secondAttribute="trailing" constant="20" id="bOr-tk-5ti"/>
+                                                <constraint firstItem="lbX-6m-kUi" firstAttribute="top" secondItem="v2u-wV-nzY" secondAttribute="topMargin" id="dcV-yG-4lx"/>
+                                                <constraint firstItem="lbX-6m-kUi" firstAttribute="leading" secondItem="v2u-wV-nzY" secondAttribute="leadingMargin" constant="20" id="kxR-Sm-Dof"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="yan-3x-l5J" secondAttribute="trailing" id="oeq-Xu-a3r"/>
+                                                <constraint firstItem="yan-3x-l5J" firstAttribute="leading" secondItem="v2u-wV-nzY" secondAttribute="leadingMargin" id="sbN-0c-Z91"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="222" id="XUj-zr-e0m">
+                                        <rect key="frame" x="0.0" y="423" width="414" height="222"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XUj-zr-e0m" id="xc0-Mc-auP">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="221.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ej2-Yg-kw3">
+                                                    <rect key="frame" x="40" y="11" width="334" height="20"/>
+                                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="OmP-kd-ZhW"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="NGO Description">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </label>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XFM-Xk-WvV">
+                                                    <rect key="frame" x="20" y="31" width="374" height="180"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="XFM-Xk-WvV" secondAttribute="bottom" id="55G-XW-ENE"/>
+                                                <constraint firstItem="ej2-Yg-kw3" firstAttribute="top" secondItem="xc0-Mc-auP" secondAttribute="topMargin" id="FcM-tJ-yxX"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="ej2-Yg-kw3" secondAttribute="trailing" constant="20" id="JVY-9k-JaQ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="XFM-Xk-WvV" secondAttribute="trailing" id="R4S-W8-aSm"/>
+                                                <constraint firstItem="XFM-Xk-WvV" firstAttribute="top" secondItem="ej2-Yg-kw3" secondAttribute="bottom" id="f4D-r2-Kz2"/>
+                                                <constraint firstItem="XFM-Xk-WvV" firstAttribute="leading" secondItem="xc0-Mc-auP" secondAttribute="leadingMargin" id="krP-y4-WJR"/>
+                                                <constraint firstItem="ej2-Yg-kw3" firstAttribute="leading" secondItem="xc0-Mc-auP" secondAttribute="leadingMargin" constant="20" id="sqb-5U-3PK"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="121" id="8Mx-aA-VTG">
+                                        <rect key="frame" x="0.0" y="645" width="414" height="121"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8Mx-aA-VTG" id="NaR-r9-18J">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="120.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gry-P1-VyX">
+                                                    <rect key="frame" x="40" y="11" width="334" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="WeX-ev-MOc"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="NGO Category">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eho-RJ-5gd">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
+                                                </pickerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="gry-P1-VyX" secondAttribute="trailing" constant="20" id="5Tv-RD-seb"/>
+                                                <constraint firstItem="gry-P1-VyX" firstAttribute="top" secondItem="NaR-r9-18J" secondAttribute="topMargin" id="9ut-U1-oX1"/>
+                                                <constraint firstItem="Eho-RJ-5gd" firstAttribute="leading" secondItem="NaR-r9-18J" secondAttribute="leading" id="Jcg-7k-rVI"/>
+                                                <constraint firstItem="Eho-RJ-5gd" firstAttribute="top" secondItem="NaR-r9-18J" secondAttribute="top" id="YJg-A6-Bds"/>
+                                                <constraint firstItem="gry-P1-VyX" firstAttribute="leading" secondItem="NaR-r9-18J" secondAttribute="leadingMargin" constant="20" id="aw5-V7-VnQ"/>
+                                                <constraint firstAttribute="bottom" secondItem="Eho-RJ-5gd" secondAttribute="bottom" id="jVX-k9-6Gf"/>
+                                                <constraint firstAttribute="trailing" secondItem="Eho-RJ-5gd" secondAttribute="trailing" id="rMR-Lv-hjF"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="NGO Address" id="xxS-hY-En4">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="83" id="hSe-u3-N5x">
+                                        <rect key="frame" x="0.0" y="794" width="414" height="83"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hSe-u3-N5x" id="d6Z-Pc-MDV">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="82.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vMT-5e-t3K">
+                                                    <rect key="frame" x="40" y="11" width="334" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="W1H-85-gT2"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="Street Address">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter NGO Street Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CGY-VN-kKT">
+                                                    <rect key="frame" x="20" y="31" width="374" height="41"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="CGY-VN-kKT" firstAttribute="top" secondItem="vMT-5e-t3K" secondAttribute="bottom" id="DYX-fT-751"/>
+                                                <constraint firstItem="vMT-5e-t3K" firstAttribute="leading" secondItem="d6Z-Pc-MDV" secondAttribute="leadingMargin" constant="20" id="Kpg-jZ-QdH"/>
+                                                <constraint firstItem="vMT-5e-t3K" firstAttribute="top" secondItem="d6Z-Pc-MDV" secondAttribute="topMargin" id="aax-rk-Qme"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="CGY-VN-kKT" secondAttribute="bottom" id="hxV-n9-FvJ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="vMT-5e-t3K" secondAttribute="trailing" constant="20" id="m2V-Kz-XZ0"/>
+                                                <constraint firstItem="CGY-VN-kKT" firstAttribute="leading" secondItem="d6Z-Pc-MDV" secondAttribute="leadingMargin" id="tZ6-oe-nS9"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="CGY-VN-kKT" secondAttribute="trailing" id="vMM-jD-ReM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="83" id="Qv9-Z8-IZa">
+                                        <rect key="frame" x="0.0" y="877" width="414" height="83"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Qv9-Z8-IZa" id="m6y-Je-fJc">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="82.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FbV-cQ-zpZ">
+                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="qzy-dE-axS"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="City">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter NGO City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ITF-ik-TIB">
+                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ITF-ik-TIB" firstAttribute="leading" secondItem="m6y-Je-fJc" secondAttribute="leadingMargin" id="IYv-SX-wiq"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="ITF-ik-TIB" secondAttribute="trailing" id="LbO-Z5-d4l"/>
+                                                <constraint firstItem="FbV-cQ-zpZ" firstAttribute="leading" secondItem="m6y-Je-fJc" secondAttribute="leadingMargin" constant="20" id="Nl0-Oc-kPh"/>
+                                                <constraint firstItem="ITF-ik-TIB" firstAttribute="top" secondItem="FbV-cQ-zpZ" secondAttribute="bottom" id="bmu-Fm-QLz"/>
+                                                <constraint firstItem="FbV-cQ-zpZ" firstAttribute="top" secondItem="m6y-Je-fJc" secondAttribute="topMargin" id="ldc-Fn-Thd"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="FbV-cQ-zpZ" secondAttribute="trailing" constant="20" id="nOG-PL-6kl"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ITF-ik-TIB" secondAttribute="bottom" id="yMf-HR-QpV"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="83" id="hhi-t7-Rji">
+                                        <rect key="frame" x="0.0" y="960" width="414" height="83"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hhi-t7-Rji" id="tmK-tl-Lmg">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="82.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpi-z9-g8E">
+                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="4ce-tv-l3Y"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="State">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter NGO State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cfc-CO-mEe">
+                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="lpi-z9-g8E" firstAttribute="top" secondItem="tmK-tl-Lmg" secondAttribute="topMargin" id="CnU-oa-G7G"/>
+                                                <constraint firstItem="cfc-CO-mEe" firstAttribute="top" secondItem="lpi-z9-g8E" secondAttribute="bottom" id="ODk-iD-SJz"/>
+                                                <constraint firstItem="lpi-z9-g8E" firstAttribute="leading" secondItem="tmK-tl-Lmg" secondAttribute="leadingMargin" constant="20" id="Zlu-r8-72F"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="cfc-CO-mEe" secondAttribute="bottom" id="iUJ-qX-GQB"/>
+                                                <constraint firstItem="cfc-CO-mEe" firstAttribute="leading" secondItem="tmK-tl-Lmg" secondAttribute="leadingMargin" id="lIU-Cl-A5k"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="cfc-CO-mEe" secondAttribute="trailing" id="oMY-eY-8Kz"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="lpi-z9-g8E" secondAttribute="trailing" constant="20" id="plL-jZ-L2N"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="83" id="6V9-41-kfD">
+                                        <rect key="frame" x="0.0" y="1043" width="414" height="83"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6V9-41-kfD" id="Hfs-d1-Vu5">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="82.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBa-nU-jfk">
+                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="cSr-Xk-Zu6"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="ZipCode / Postal">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter NGO Zip (Postal) Code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ttn-al-mZ2">
+                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="gBa-nU-jfk" secondAttribute="trailing" constant="20" id="5eM-X6-Qe3"/>
+                                                <constraint firstItem="ttn-al-mZ2" firstAttribute="leading" secondItem="Hfs-d1-Vu5" secondAttribute="leadingMargin" id="Iuh-9f-muN"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="ttn-al-mZ2" secondAttribute="trailing" id="Izk-Tn-aix"/>
+                                                <constraint firstItem="gBa-nU-jfk" firstAttribute="leading" secondItem="Hfs-d1-Vu5" secondAttribute="leadingMargin" constant="20" id="hwc-Tt-aBD"/>
+                                                <constraint firstItem="gBa-nU-jfk" firstAttribute="top" secondItem="Hfs-d1-Vu5" secondAttribute="topMargin" id="my3-f9-SuG"/>
+                                                <constraint firstItem="ttn-al-mZ2" firstAttribute="top" secondItem="gBa-nU-jfk" secondAttribute="bottom" id="sMb-8F-PIk"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ttn-al-mZ2" secondAttribute="bottom" id="ycz-tz-2Pk"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Contact Person" id="Ch3-lh-pRX">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="83" id="NBH-cF-aSC">
+                                        <rect key="frame" x="0.0" y="1154" width="414" height="83"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NBH-cF-aSC" id="CEV-Xk-UBk">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="82.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wmU-77-Y9I">
+                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="G3H-ia-aOJ"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="Full Name">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Contact Person Full Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UTF-Cn-K5j">
+                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="wmU-77-Y9I" firstAttribute="top" secondItem="CEV-Xk-UBk" secondAttribute="topMargin" id="MOb-mX-R2c"/>
+                                                <constraint firstItem="UTF-Cn-K5j" firstAttribute="top" secondItem="wmU-77-Y9I" secondAttribute="bottom" id="NcJ-8R-jPg"/>
+                                                <constraint firstItem="UTF-Cn-K5j" firstAttribute="leading" secondItem="CEV-Xk-UBk" secondAttribute="leadingMargin" id="Rg5-ZY-BHT"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="wmU-77-Y9I" secondAttribute="trailing" constant="20" id="ZRj-ec-yFq"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="UTF-Cn-K5j" secondAttribute="bottom" id="iex-MK-ZSH"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="UTF-Cn-K5j" secondAttribute="trailing" id="rXN-D7-Oar"/>
+                                                <constraint firstItem="wmU-77-Y9I" firstAttribute="leading" secondItem="CEV-Xk-UBk" secondAttribute="leadingMargin" constant="20" id="v3D-Ex-RDU"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="83" id="YmB-tQ-sON">
+                                        <rect key="frame" x="0.0" y="1237" width="414" height="83"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YmB-tQ-sON" id="jT8-t6-DP3">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="82.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jAM-KB-ZB9">
+                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="i7b-Lr-9zb"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="Phone Number">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Contact Person Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E8d-qu-Unr">
+                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="jAM-KB-ZB9" secondAttribute="trailing" constant="20" id="1Fn-ey-gEo"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="E8d-qu-Unr" secondAttribute="trailing" id="1UP-gs-gem"/>
+                                                <constraint firstItem="jAM-KB-ZB9" firstAttribute="top" secondItem="jT8-t6-DP3" secondAttribute="topMargin" id="4Qs-st-Jek"/>
+                                                <constraint firstItem="jAM-KB-ZB9" firstAttribute="leading" secondItem="jT8-t6-DP3" secondAttribute="leadingMargin" constant="20" id="Adq-2i-pAw"/>
+                                                <constraint firstItem="E8d-qu-Unr" firstAttribute="leading" secondItem="jT8-t6-DP3" secondAttribute="leadingMargin" id="YAO-68-M4y"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="E8d-qu-Unr" secondAttribute="bottom" id="cQb-iW-nCz"/>
+                                                <constraint firstItem="E8d-qu-Unr" firstAttribute="top" secondItem="jAM-KB-ZB9" secondAttribute="bottom" id="xwx-cc-Kp8"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="83" id="Npb-mx-bTB">
+                                        <rect key="frame" x="0.0" y="1320" width="414" height="83"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Npb-mx-bTB" id="Ofh-Ti-pt3">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="82.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VFT-b1-R6A">
+                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="s6g-fG-KhO"/>
+                                                    </constraints>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="Email">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Contact Person Email Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3XC-O0-ZeP">
+                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="VFT-b1-R6A" secondAttribute="trailing" constant="20" id="8O3-t6-GF2"/>
+                                                <constraint firstItem="3XC-O0-ZeP" firstAttribute="leading" secondItem="Ofh-Ti-pt3" secondAttribute="leadingMargin" id="Fqf-3Z-7wW"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="3XC-O0-ZeP" secondAttribute="trailing" id="Ghj-Mc-68s"/>
+                                                <constraint firstItem="VFT-b1-R6A" firstAttribute="leading" secondItem="Ofh-Ti-pt3" secondAttribute="leadingMargin" constant="20" id="gKV-SO-ydt"/>
+                                                <constraint firstItem="3XC-O0-ZeP" firstAttribute="top" secondItem="VFT-b1-R6A" secondAttribute="bottom" id="hea-Ci-Mec"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="3XC-O0-ZeP" secondAttribute="bottom" id="u1e-aL-Sac"/>
+                                                <constraint firstItem="VFT-b1-R6A" firstAttribute="top" secondItem="Ofh-Ti-pt3" secondAttribute="topMargin" id="wFz-2q-HCm"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="83" id="f2b-ph-se9">
+                                        <rect key="frame" x="0.0" y="1403" width="414" height="83"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="f2b-ph-se9" id="IQz-gD-fJU">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="82.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wQ9-4t-Ego">
+                                                    <rect key="frame" x="8" y="8" width="398" height="66.5"/>
+                                                    <state key="normal">
+                                                        <attributedString key="attributedTitle">
+                                                            <fragment content="Register NGO">
+                                                                <attributes>
+                                                                    <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <font key="NSFont" size="18" name="Helvetica-Bold"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="RegisterButtonPressed:" destination="IMP-mX-gCn" eventType="touchUpInside" id="idg-z3-wux"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="wQ9-4t-Ego" firstAttribute="leading" secondItem="IQz-gD-fJU" secondAttribute="leadingMargin" id="Oqp-AV-CQr"/>
+                                                <constraint firstItem="wQ9-4t-Ego" firstAttribute="top" secondItem="IQz-gD-fJU" secondAttribute="topMargin" id="Wjt-10-1lc"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="wQ9-4t-Ego" secondAttribute="bottom" id="pGU-eg-7cO"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="wQ9-4t-Ego" secondAttribute="trailing" id="q2h-53-LuK"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
                         <connections>
                             <outlet property="dataSource" destination="IMP-mX-gCn" id="W7t-J1-Yur"/>
                             <outlet property="delegate" destination="IMP-mX-gCn" id="BT8-ON-snq"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="gey-WL-8Pa"/>
+                    <connections>
+                        <outlet property="NGOPhoneNumberTextField" destination="7FK-9W-GD0" id="uTc-KL-9Yx"/>
+                        <outlet property="contactPersonEmailTextField" destination="3XC-O0-ZeP" id="5gu-bF-8be"/>
+                        <outlet property="contactPersonPhoneTextField" destination="E8d-qu-Unr" id="PyJ-EJ-grr"/>
+                        <outlet property="nGOAcrimonyTextField" destination="VJW-R9-OnY" id="G9y-NI-ToR"/>
+                        <outlet property="nGOCategoriesPickerView" destination="Eho-RJ-5gd" id="XCW-WG-Lct"/>
+                        <outlet property="nGOCityTextField" destination="ITF-ik-TIB" id="bYQ-87-lb7"/>
+                        <outlet property="nGOContactPersonTextField" destination="UTF-Cn-K5j" id="UIw-Mj-BAa"/>
+                        <outlet property="nGODescriptionTextView" destination="XFM-Xk-WvV" id="kih-ty-nZZ"/>
+                        <outlet property="nGOEmailTextField" destination="K2t-Qd-SCJ" id="vNX-h9-Pdb"/>
+                        <outlet property="nGONameTextField" destination="ret-Ve-Iq3" id="len-5L-W4I"/>
+                        <outlet property="nGOStateTextField" destination="cfc-CO-mEe" id="7HI-uX-wAW"/>
+                        <outlet property="nGOStreetAddressTextField" destination="CGY-VN-kKT" id="GEh-Ox-yGT"/>
+                        <outlet property="nGOWebsiteTextField" destination="yan-3x-l5J" id="k2c-bR-4Cs"/>
+                        <outlet property="nGOZipCodeTextField" destination="ttn-al-mZ2" id="QXZ-Qu-mrF"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m8P-lj-wfN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4257" y="-166"/>
+            <point key="canvasLocation" x="4721.739130434783" y="-226.33928571428569"/>
         </scene>
         <!--Connect Tab Bar View Controller-->
         <scene sceneID="6jP-1r-fLj">

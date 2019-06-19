@@ -21,7 +21,6 @@ class ProfileSettingsViewController: UITableViewController {
     
     var didSelectCell: ((SelectedCellType) -> Void)?
 
-    
     var vConnectUser: VConnectUser?
     
     @IBOutlet weak var profileCell: UserInfoTableViewCell!
@@ -44,8 +43,28 @@ class ProfileSettingsViewController: UITableViewController {
         cell.backgroundColor = .clear
     }
     
+    private func segueToNGORegistration(){
+        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
+        guard let registrationViewController = storyBoard.instantiateViewController(withIdentifier: "ngoReg") as? NGORegistrationTableViewController else {return}
+    
+        present(registrationViewController, animated: true, completion: nil)
+    
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedCell = SelectedCellType(rawValue: indexPath.row) else {return}
+        guard let selectedCell = SelectedCellType(rawValue: indexPath.row - 1) else {return}
+        
+        switch selectedCell {
+        case .profileSetting:
+            break
+        case .becomeSpecialist:
+            break
+        case .logOut:
+            break
+        case .registerNGO:
+            segueToNGORegistration()
+        }
+        
         dismiss(animated: true) {[weak self] in
             self?.didSelectCell?(selectedCell)
         }
