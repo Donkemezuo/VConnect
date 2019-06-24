@@ -101,16 +101,28 @@ class ProfileViewController: UIViewController {
     
     
     private func configureCellsPressed(_ selectedCellType: SelectedCellType){
+        
+        /*
+ 
+         case profileSetting
+         case becomeSpecialist
+         case registerNGO
+         case logOut
+ 
+         */
+        
         switch selectedCellType {
-        case .registerNGO:
-            navigationController?.pushViewController(NGORegistrationTableViewController(), animated: true)
-        case .becomeSpecialist:
-            break
-        case .logOut:
-        break
         case .profileSetting:
-            break 
+            break
+        case .becomeSpecialist:
+        break
+        case .registerNGO:
+        navigationController?.pushViewController(NGORegistrationTableViewController(), animated: true)
+        case.logOut:
+            break
+        
         }
+ 
     }
 
     

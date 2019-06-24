@@ -198,7 +198,6 @@
 		04B6957122933FF6003A0B85 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				04B695A22298F2D2003A0B85 /* Cells */,
 				04B6959F2298EFCC003A0B85 /* AllViews */,
 				04B695732293405A003A0B85 /* StoryBoards */,
 			);
@@ -232,6 +231,7 @@
 				04E7C73722AF6E1D00310DCC /* BookMarkedNGO.swift */,
 				04B6957E2294EDCA003A0B85 /* VConnectSpecialistModel.swift */,
 				04D54DF422A6111C00F1625E /* GoogleAddressModel.swift */,
+				04B695A22298F2D2003A0B85 /* Cells */,
 			);
 			path = DataModels;
 			sourceTree = "<group>";
