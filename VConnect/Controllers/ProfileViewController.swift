@@ -19,6 +19,8 @@ class ProfileViewController: UIViewController {
     private var profileSettingsBarButton = UIBarButtonItem()
     private var settingController: UIViewController!
     
+    private var selectedImage: UIImage?
+    
     private lazy var profileHeaderView: ProfileHeaderView = {
         let headerView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 320 ))
         headerView.backgroundColor = UIColor.init(hexString: "033860")
@@ -69,6 +71,38 @@ class ProfileViewController: UIViewController {
         profileSettingsBarButton = UIBarButtonItem(image: UIImage.init(named: "icons8-settings"), style: .plain, target: self, action: #selector(profileSettingsBarButtonPressed))
         navigationItem.leftBarButtonItem = profileSettingsBarButton
     }
+    
+    private func saveUserImage(with Image: UIImage?) {
+        guard let imageData = selectedImage?.jpegData(compressionQuality: 1.0), let loggedInUser = authService.getCurrentVConnectUser() else {
+            showAlert(title: "Missing Fields", message: "A photo and login required")
+            return
+        }
+        
+        DataBaseService.saveProfileImage(with: imageData, with: Constants.ProfileImagePath + loggedInUser.uid) { (error, profileImageUrl) in
+            if let error = error {
+                self.showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while saving image")
+            } else {
+                if let imageURL = profileImageUrl {
+                    print(imageURL)
+                    let request = loggedInUser.createProfileChangeRequest()
+                    request.photoURL = imageURL
+                    request.commitChanges(completion: { (error) in
+                        if let error = error {
+                            self.showAlert(title: "Error saving info", message: error.localizedDescription)
+                        }
+                    })
+                    
+                    DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).document(loggedInUser.uid).updateData([VConnectUserCollectionKeys.profileImageURL : imageURL.absoluteString], completion: { (error) in
+                        if let error = error {
+                            self.showAlert(title: "Error", message: error.localizedDescription)
+                        }
+                    })
+                }
+            }
+        }
+        
+    }
+    
     
     @objc private func profileSettingsBarButtonPressed(){
         
@@ -278,12 +312,19 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             return
         }
         
-        let resizedProfileImage = Toucan.init(image: originalImage).resize(CGSize(width: 500, height: 500))
+        let size = CGSize(width: 500, height: 500)
+        let resizedImage = Toucan.Resize.resizeImage(originalImage, size: size)
+        selectedImage = resizedImage
+        profileHeaderView.vConnectUserProfileImageView.image = resizedImage
+        saveUserImage(with: resizedImage)
         
-        profileHeaderView.vConnectUserProfileImageView.image = resizedProfileImage.image
-        guard let processedImage = resizedProfileImage.image else {return}
-        setUserProfileImage(selectedImage: processedImage)
-        updateVConnectUserProfile()
+        
+        //let resizedProfileImage = Toucan.init(image: originalImage).resize(CGSize(width: 500, height: 500))
+        
+        //profileHeaderView.vConnectUserProfileImageView.image = resizedProfileImage.image
+//        guard let processedImage = resizedProfileImage.image else {return}
+//        setUserProfileImage(selectedImage: processedImage)
+//        updateVConnectUserProfile()
         dismiss(animated: true, completion: nil)
     }
     

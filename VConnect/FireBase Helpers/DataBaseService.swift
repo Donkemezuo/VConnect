@@ -117,9 +117,12 @@ final class DataBaseService {
         let uploadTask = imageRef
             .putData(imageData, metadata: metaData) { (metaData, error) in
             if let error = error {
-             
-            } else if let _ = metaData {
                 
+                print("We encountered this error: \(error.localizedDescription)")
+             
+            } else if let metaData = metaData {
+                
+                print(metaData)
             }
         }
         uploadTask.observe(.failure) { (snapShot) in

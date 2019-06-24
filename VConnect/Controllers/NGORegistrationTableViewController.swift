@@ -145,6 +145,7 @@ extension NGORegistrationTableViewController: UIPickerViewDelegate, UIPickerView
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         nGOCategory = nGOCategories[row]
+        
 
     }
     
@@ -167,6 +168,10 @@ extension NGORegistrationTableViewController: UIPickerViewDelegate, UIPickerView
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return 400
     }
+    
+    
+    
+    
 //
 //    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
 //        var label: UILabel

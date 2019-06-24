@@ -21,7 +21,9 @@ class ProfileSettingsViewController: UITableViewController {
     
     var didSelectCell: ((SelectedCellType) -> Void)?
 
-    var vConnectUser: VConnectUser?
+     var vConnectUser: VConnectUser?
+    
+    private var authService = AppDelegate.authService
     
     @IBOutlet weak var profileCell: UserInfoTableViewCell!
     
@@ -60,7 +62,7 @@ class ProfileSettingsViewController: UITableViewController {
         case .becomeSpecialist:
             break
         case .logOut:
-            break
+            authService.signOutVConnectUser()
         case .registerNGO:
             segueToNGORegistration()
         }

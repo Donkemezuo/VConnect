@@ -77,7 +77,7 @@ class NGOsViewController: UIViewController {
         
         return userLocationCoordinates
     }
-    
+
     
     private func generateMilesDifference(with cell: NGOsTableViewCell){
         
@@ -189,6 +189,16 @@ class NGOsViewController: UIViewController {
         }
  
     }
+    
+    private func setRatingValue(with ratingValue: Double, on nGOCell: NGOsTableViewCell) {
+        nGOCell.cosmosView.settings.starMargin = 3.5
+        nGOCell.cosmosView.settings.totalStars =  5
+        nGOCell.cosmosView.settings.updateOnTouch = false
+       nGOCell.cosmosView.rating = ratingValue
+      nGOCell.cosmosView.settings.fillMode = .half
+    }
+    
+    
 }
 
 extension NGOsViewController: UISearchBarDelegate {
@@ -220,7 +230,6 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
         guard let nGOsCell = tableView.dequeueReusableCell(withIdentifier: "NGOsTableViewCell", for: indexPath) as? NGOsTableViewCell else {return UITableViewCell()}
         
     let nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOsInCategory[indexPath.row]
-        
    nGOsCell.nGOName.text = nGOToSet.ngoName
    nGOsCell.nGOCity.text = nGOToSet.ngoCity
    nGOsCell.backgroundColor = .clear
@@ -228,7 +237,7 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
    nGOsCell.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
    nGOsCell.layer.cornerRadius = 2
     generateMilesDifference(with: nGOsCell)
-        
+    setRatingValue(with: nGOToSet.ratingsValue, on: nGOsCell)
     return nGOsCell
     }
 
@@ -241,7 +250,7 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 180
     }
     
 }
