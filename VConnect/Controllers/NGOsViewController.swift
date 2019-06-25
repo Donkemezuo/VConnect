@@ -84,6 +84,9 @@ class NGOsViewController: UIViewController {
         let userCurrentLocation = CLLocation(latitude: getUserLocationCoordinates().latitude, longitude: getUserLocationCoordinates().longitude)
         let nGOLocation = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
         
+        print(nGOLocation)
+        print(coordinates)
+        
         let distanceFromNGO = userCurrentLocation.distance(from: nGOLocation)
         let distanceInMiles = distanceFromNGO/1609.344
         cell.nGOMiles.text = String(format: "%.0f", distanceInMiles) + " " + "Miles"
@@ -174,6 +177,7 @@ class NGOsViewController: UIViewController {
                    self.showAlert(title: "Error", message: error.localizedDescription)
                 } else if let addressCoordinates = coordinate {
                     self.coordinates = addressCoordinates
+                    print(self.coordinates)
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2DMake(addressCoordinates.latitude, addressCoordinates.longitude)
               

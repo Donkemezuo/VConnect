@@ -183,30 +183,30 @@ class ProfileViewController: UIViewController {
     }
     
     
-    
-    private func setUserProfileImage(selectedImage: UIImage) {
-        guard let imageData = selectedImage.jpegData(compressionQuality: 1.0), let loggedInUser = authService.getCurrentVConnectUser(), let _ = profileHeaderView.vConnectUserProfileImageView.image else {return}
-        DataBaseService.saveProfileImage(with: imageData, with: Constants.ProfileImagePath + loggedInUser.uid) {[weak self] (error, imageUrl) in
-            if let _ = error {
-                
-            } else if let imageUrl = imageUrl {
-                let profileImageRequest = loggedInUser.createProfileChangeRequest()
-                profileImageRequest.photoURL = imageUrl
-                profileImageRequest.commitChanges(completion: { (error) in
-                    if let error = error {
-                        self?.showAlert(title: "Error saving image", message: error.localizedDescription)
-                    }
-                })
-                
-        DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).document(loggedInUser.uid).updateData([VConnectUserCollectionKeys.profileImageURL : imageUrl.absoluteString], completion: { (error) in
-                    if let error = error {
-                       self?.showAlert(title: "Error saving image", message: error.localizedDescription)
-                    }
-                })
-                self?.dismiss(animated: true, completion: nil)
-            }
-        }
-    }
+//
+//    private func setUserProfileImage(selectedImage: UIImage) {
+//        guard let imageData = selectedImage.jpegData(compressionQuality: 1.0), let loggedInUser = authService.getCurrentVConnectUser(), let _ = profileHeaderView.vConnectUserProfileImageView.image else {return}
+//        DataBaseService.saveProfileImage(with: imageData, with: Constants.ProfileImagePath + loggedInUser.uid) {[weak self] (error, imageUrl) in
+//            if let _ = error {
+//
+//            } else if let imageUrl = imageUrl {
+//                let profileImageRequest = loggedInUser.createProfileChangeRequest()
+//                profileImageRequest.photoURL = imageUrl
+//                profileImageRequest.commitChanges(completion: { (error) in
+//                    if let error = error {
+//                        self?.showAlert(title: "Error saving image", message: error.localizedDescription)
+//                    }
+//                })
+//
+//        DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).document(loggedInUser.uid).updateData([VConnectUserCollectionKeys.profileImageURL : imageUrl.absoluteString], completion: { (error) in
+//                    if let error = error {
+//                       self?.showAlert(title: "Error saving image", message: error.localizedDescription)
+//                    }
+//                })
+//                self?.dismiss(animated: true, completion: nil)
+//            }
+//        }
+//    }
     
     
     private func editvConnectUserProfileImage(){
@@ -280,6 +280,9 @@ class ProfileViewController: UIViewController {
                     
                     guard let profilePhotoUrl = vConnectUser.profileImageURL,
                         !profilePhotoUrl.isEmpty else {return}
+                    
+                
+                    
                     
             }
         }

@@ -112,7 +112,7 @@ final class DataBaseService {
     static public func saveProfileImage(with imageData: Data, with imageName: String, with completionHandler: @escaping (Error?, URL?) -> Void){
         
         let metaData = StorageMetadata()
-        let imageRef = storageService.child(VConnectUserCollectionKeys.profileImageURL + "/\(imageName)")
+        let imageRef = storageService.child(VConnectUserCollectionKeys.profileImageURL + "/\(imageName)" + ".jpg")
         metaData.contentType = "image/jpg"
         let uploadTask = imageRef
             .putData(imageData, metadata: metaData) { (metaData, error) in
@@ -126,19 +126,23 @@ final class DataBaseService {
             }
         }
         uploadTask.observe(.failure) { (snapShot) in
+            print("Failure")
             //
         }
         
         uploadTask.observe(.pause) { (snapShot) in
+             print("Pause")
             //
         }
         
         uploadTask.observe(.progress) { (snapShot) in
+             print("progress")
             //
         }
         
         uploadTask.observe(.resume) { (snapShot) in
             //
+             print("resume")
         }
         
         uploadTask.observe(.success) { (snapShot) in

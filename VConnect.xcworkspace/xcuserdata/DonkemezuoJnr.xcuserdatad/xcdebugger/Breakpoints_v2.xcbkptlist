@@ -9,76 +9,44 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VConnect/Controllers/ProfileViewController.swift"
-            timestampString = "583106216.1439101"
+            filePath = "VConnect/Controllers/NGOsViewController.swift"
+            timestampString = "583133938.643032"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "saveUserImage(with:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VConnect/Controllers/ProfileViewController.swift"
-            timestampString = "583106216.14398"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "saveUserImage(with:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VConnect/Controllers/ProfileViewController.swift"
-            timestampString = "583106216.144029"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "saveUserImage(with:)"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
+            landmarkName = "makeAnnotations()"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "VConnect.ProfileViewController.(saveUserImage in _FB5D25691D23150FE2DC37735C07E119)(with: Swift.Optional&lt;__C.UIImage&gt;) -&gt; ()"
+                  symbolName = "VConnect.NGOsViewController.(makeAnnotations in _91E9B51E752CA9132269CDD38E245D58)() -&gt; ()"
                   moduleName = "VConnect"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/DonkemezuoJnr/Desktop/PersonalProjectReworked/VConnect/VConnect/Controllers/ProfileViewController.swift"
-                  timestampString = "583106216.462936"
+                  urlString = "file:///Users/DonkemezuoJnr/Desktop/PersonalProjectReworked/VConnect/VConnect/Controllers/NGOsViewController.swift"
+                  timestampString = "583184443.845733"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "81"
-                  endingLineNumber = "81"
-                  offsetFromSymbolStart = "630">
+                  startingLineNumber = "175"
+                  endingLineNumber = "175"
+                  offsetFromSymbolStart = "2890">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;Foundation.URL&gt;) -&gt; () in VConnect.ProfileViewController.(saveUserImage in _FB5D25691D23150FE2DC37735C07E119)(with: Swift.Optional&lt;__C.UIImage&gt;) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;__C.CLLocationCoordinate2D&gt;) -&gt; () in VConnect.NGOsViewController.(makeAnnotations in _91E9B51E752CA9132269CDD38E245D58)() -&gt; ()"
                   moduleName = "VConnect"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/DonkemezuoJnr/Desktop/PersonalProjectReworked/VConnect/VConnect/Controllers/ProfileViewController.swift"
-                  timestampString = "583106216.465022"
+                  urlString = "file:///Users/DonkemezuoJnr/Desktop/PersonalProjectReworked/VConnect/VConnect/Controllers/NGOsViewController.swift"
+                  timestampString = "583184443.848159"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "82"
-                  endingLineNumber = "82"
-                  offsetFromSymbolStart = "279">
+                  startingLineNumber = "176"
+                  endingLineNumber = "176"
+                  offsetFromSymbolStart = "374">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -89,13 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VConnect/Controllers/ProfileViewController.swift"
-            timestampString = "583106216.144074"
+            filePath = "VConnect/Controllers/NGOsViewController.swift"
+            timestampString = "583133938.643575"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
-            landmarkName = "saveUserImage(with:)"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
+            landmarkName = "makeAnnotations()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -105,92 +73,44 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VConnect/Controllers/ProfileViewController.swift"
-            timestampString = "583106216.144117"
+            filePath = "VConnect/Controllers/NGOsViewController.swift"
+            timestampString = "583133938.6439559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "saveUserImage(with:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VConnect/Controllers/ProfileViewController.swift"
-            timestampString = "583106216.144156"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "saveUserImage(with:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VConnect/Controllers/ProfileViewController.swift"
-            timestampString = "583106216.144196"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "saveUserImage(with:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VConnect/Controllers/ProfileViewController.swift"
-            timestampString = "583106216.144235"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "saveUserImage(with:)"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "makeAnnotations()"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;Foundation.URL&gt;) -&gt; () in VConnect.ProfileViewController.(saveUserImage in _FB5D25691D23150FE2DC37735C07E119)(with: Swift.Optional&lt;__C.UIImage&gt;) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;__C.CLLocationCoordinate2D&gt;) -&gt; () in VConnect.NGOsViewController.(makeAnnotations in _91E9B51E752CA9132269CDD38E245D58)() -&gt; ()"
                   moduleName = "VConnect"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/DonkemezuoJnr/Desktop/PersonalProjectReworked/VConnect/VConnect/Controllers/ProfileViewController.swift"
-                  timestampString = "583106216.487555"
+                  urlString = "file:///Users/DonkemezuoJnr/Desktop/PersonalProjectReworked/VConnect/VConnect/Controllers/NGOsViewController.swift"
+                  timestampString = "583184443.85935"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "95"
-                  endingLineNumber = "95"
-                  offsetFromSymbolStart = "1783">
+                  startingLineNumber = "178"
+                  endingLineNumber = "178"
+                  offsetFromSymbolStart = "755">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;Foundation.URL&gt;) -&gt; () in VConnect.ProfileViewController.(saveUserImage in _FB5D25691D23150FE2DC37735C07E119)(with: Swift.Optional&lt;__C.UIImage&gt;) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;__C.CLLocationCoordinate2D&gt;) -&gt; () in VConnect.NGOsViewController.(makeAnnotations in _91E9B51E752CA9132269CDD38E245D58)() -&gt; ()"
                   moduleName = "VConnect"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/DonkemezuoJnr/Desktop/PersonalProjectReworked/VConnect/VConnect/Controllers/ProfileViewController.swift"
-                  timestampString = "583106216.489447"
+                  urlString = "file:///Users/DonkemezuoJnr/Desktop/PersonalProjectReworked/VConnect/VConnect/Controllers/NGOsViewController.swift"
+                  timestampString = "583184443.861914"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "96"
-                  endingLineNumber = "96"
-                  offsetFromSymbolStart = "105">
+                  startingLineNumber = "178"
+                  endingLineNumber = "178"
+                  offsetFromSymbolStart = "820">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -201,13 +121,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VConnect/Controllers/ProfileViewController.swift"
-            timestampString = "583106216.144275"
+            filePath = "VConnect/Controllers/NGOsViewController.swift"
+            timestampString = "583133938.644312"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "saveUserImage(with:)"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "makeAnnotations()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -217,13 +137,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VConnect/Controllers/ProfileViewController.swift"
-            timestampString = "583106216.144315"
+            filePath = "VConnect/Controllers/NGOsViewController.swift"
+            timestampString = "583133938.6446739"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "saveUserImage(with:)"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "makeAnnotations()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -233,13 +153,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VConnect/FireBase Helpers/DataBaseService.swift"
-            timestampString = "583106216.144359"
+            filePath = "VConnect/Controllers/NGOsViewController.swift"
+            timestampString = "583133938.6450109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "saveProfileImage(with:with:with:)"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
+            landmarkName = "makeAnnotations()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -249,13 +169,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VConnect/FireBase Helpers/DataBaseService.swift"
-            timestampString = "583106216.144709"
+            filePath = "VConnect/Controllers/NGOsViewController.swift"
+            timestampString = "583133938.645348"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
-            landmarkName = "saveProfileImage(with:with:with:)"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
+            landmarkName = "generateNGOLocationCoordinates(with:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -265,44 +185,60 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VConnect/FireBase Helpers/DataBaseService.swift"
-            timestampString = "583106216.144935"
+            filePath = "VConnect/Controllers/NGOsViewController.swift"
+            timestampString = "583133938.645748"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "saveProfileImage(with:with:with:)"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "generateNGOLocationCoordinates(with:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VConnect/Controllers/NGOsViewController.swift"
+            timestampString = "583133938.646192"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "generateNGOLocationCoordinates(with:completionHandler:)"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRStorageMetadata&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in static VConnect.DataBaseService.saveProfileImage(with: Foundation.Data, with: Swift.String, with: (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;Foundation.URL&gt;) -&gt; ()) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Optional&lt;VConnect.AppError&gt;, Swift.Optional&lt;VConnect.GoogleAddressModel&gt;) -&gt; () in VConnect.NGOsViewController.(generateNGOLocationCoordinates in _91E9B51E752CA9132269CDD38E245D58)(with: Swift.String, completionHandler: (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;__C.CLLocationCoordinate2D&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "VConnect"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/DonkemezuoJnr/Desktop/PersonalProjectReworked/VConnect/VConnect/FireBase%20Helpers/DataBaseService.swift"
-                  timestampString = "583106216.511336"
+                  urlString = "file:///Users/DonkemezuoJnr/Desktop/PersonalProjectReworked/VConnect/VConnect/Controllers/NGOsViewController.swift"
+                  timestampString = "583184443.891571"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "123"
-                  endingLineNumber = "123"
-                  offsetFromSymbolStart = "829">
+                  startingLineNumber = "159"
+                  endingLineNumber = "159"
+                  offsetFromSymbolStart = "669">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRStorageMetadata&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in static VConnect.DataBaseService.saveProfileImage(with: Foundation.Data, with: Swift.String, with: (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;Foundation.URL&gt;) -&gt; ()) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Optional&lt;VConnect.AppError&gt;, Swift.Optional&lt;VConnect.GoogleAddressModel&gt;) -&gt; () in VConnect.NGOsViewController.(generateNGOLocationCoordinates in _91E9B51E752CA9132269CDD38E245D58)(with: Swift.String, completionHandler: (Swift.Optional&lt;Swift.Error&gt;, Swift.Optional&lt;__C.CLLocationCoordinate2D&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "VConnect"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/DonkemezuoJnr/Desktop/PersonalProjectReworked/VConnect/VConnect/FireBase%20Helpers/DataBaseService.swift"
-                  timestampString = "583106216.5131921"
+                  urlString = "file:///Users/DonkemezuoJnr/Desktop/PersonalProjectReworked/VConnect/VConnect/Controllers/NGOsViewController.swift"
+                  timestampString = "583184443.89382"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "123"
-                  endingLineNumber = "123"
-                  offsetFromSymbolStart = "879">
+                  startingLineNumber = "159"
+                  endingLineNumber = "159"
+                  offsetFromSymbolStart = "728">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -313,13 +249,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VConnect/FireBase Helpers/DataBaseService.swift"
-            timestampString = "583106216.14517"
+            filePath = "VConnect/Controllers/NGOsViewController.swift"
+            timestampString = "583133938.646562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "saveProfileImage(with:with:with:)"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "generateNGOLocationCoordinates(with:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -329,29 +265,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VConnect/FireBase Helpers/DataBaseService.swift"
-            timestampString = "583106216.145357"
+            filePath = "VConnect/Controllers/NGOsViewController.swift"
+            timestampString = "583133958.678672"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
-            landmarkName = "saveProfileImage(with:with:with:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VConnect/FireBase Helpers/DataBaseService.swift"
-            timestampString = "583106216.145556"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "saveProfileImage(with:with:with:)"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
+            landmarkName = "generateNGOLocationCoordinates(with:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
