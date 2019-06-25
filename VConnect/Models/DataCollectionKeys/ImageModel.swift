@@ -12,4 +12,5 @@ import Foundation
 struct Constants {
     
     static let ProfileImagePath = "ProfileImages/"
+    static let nGOImagesPath = "nGOImagesPath"
 }

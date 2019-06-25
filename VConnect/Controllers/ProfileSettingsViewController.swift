@@ -32,13 +32,20 @@ class ProfileSettingsViewController: UITableViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.init(hexString: "033860")
         setUserInfo(with: profileCell)
+   
+        
     }
     
+    
+
+    
     private func setUserInfo(with userInfoCell: UserInfoTableViewCell){
-        guard let firstName = vConnectUser?.firstName, let lastName = vConnectUser?.lastName else {return }
+        guard let firstName = vConnectUser?.firstName, let lastName = vConnectUser?.lastName, let photoUrl = vConnectUser?.profileImageURL,
+    !photoUrl.isEmpty else {return }
         
         let fullName = firstName + " " + lastName
         userInfoCell.userNameLabel?.text = fullName
+        userInfoCell.userImageView?.kf.setImage(with: URL(string: photoUrl), placeholder:#imageLiteral(resourceName: "VCConectLogo.png") )
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

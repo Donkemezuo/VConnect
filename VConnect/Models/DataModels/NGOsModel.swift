@@ -22,7 +22,7 @@ struct NGO : Codable {
     let ngoState: String
     let ngoZipCode: String
     let contactPersonName: String
-    let ngoImagesURL: String
+    let ngoImagesURL = [NGOImages]()
     let ratingsValue: Double
     let reviews: String
     let mondayHours: String
@@ -62,7 +62,7 @@ struct NGO : Codable {
         self.ngoState = ngoState
         self.ngoZipCode = ngoZipCode
         self.contactPersonName = contactPersonName
-        self.ngoImagesURL = ngoImagesURL
+        //self.ngoImagesURL = ngoImagesURL
         self.ratingsValue = ratingsValue
         self.reviews = reviews
         self.mondayHours = mondayHours
@@ -90,7 +90,7 @@ struct NGO : Codable {
         self.ngoState = dict[NGOsCollectionKeys.ngoState] as? String ?? "NGO does not have a registered state"
         self.ngoZipCode = dict[NGOsCollectionKeys.ngoZipCode] as? String ?? "NGO does not have a registered zipCode"
         self.contactPersonName = dict[NGOsCollectionKeys.contactPersonName] as? String ?? "NGO does not have a registered contact person"
-        self.ngoImagesURL = dict[NGOsCollectionKeys.ngoImagesURL] as? String ?? "NGO does not have any images uploaded"
+        //self.ngoImagesURL = dict[NGOsCollectionKeys.ngoImagesURL] as? String ?? "NGO does not have any images uploaded"
         self.ratingsValue = dict[NGOsCollectionKeys.ratingsValue] as? Double ?? 0.0
         self.reviews = dict[NGOsCollectionKeys.reviews] as? String ?? "NGO does not have any reviews yet"
         self.mondayHours = dict[NGOsCollectionKeys.mondayHours] as? String ?? "NGO does not have open hours on monday"
@@ -104,4 +104,23 @@ struct NGO : Codable {
         self.ngOID = dict[NGOsCollectionKeys.ngOID] as? String ?? ""
     }
     
+   
+    
+}
+
+struct NGOImages: Codable {
+    var pictureUrl: String
+    var pictureID: String
+    
+    init(pictureUrl: String, pictureID: String){
+        self.pictureID = pictureID
+        self.pictureUrl = pictureUrl
+        
+    }
+    
+    init(dict: [String: Any]){
+        self.pictureUrl = dict[NGOImagesCollectionKeys.pictureUrl] as? String ?? "Image does not have a url"
+        self.pictureID = dict[NGOImagesCollectionKeys.pictureID] as? String ?? "Image does not have an ID"
+        
+    }
 }

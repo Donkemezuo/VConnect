@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import Toucan
 import CoreLocation
+import Kingfisher
 
 
 class ProfileViewController: UIViewController {
@@ -281,6 +282,7 @@ class ProfileViewController: UIViewController {
                     guard let profilePhotoUrl = vConnectUser.profileImageURL,
                         !profilePhotoUrl.isEmpty else {return}
                     
+                    self?.profileHeaderView.vConnectUserProfileImageView.kf.setImage(with:URL(string: profilePhotoUrl), placeholder:#imageLiteral(resourceName: "VCConectLogo.png") )
                 
                     
                     
