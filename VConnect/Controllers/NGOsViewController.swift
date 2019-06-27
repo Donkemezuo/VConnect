@@ -93,6 +93,29 @@ class NGOsViewController: UIViewController {
         
     }
     
+    
+    func getImages(ngo: NGO, completionHandler: @escaping ([NGOImages]) -> Void) {
+        
+        var nGOImages = [NGOImages]()
+        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngo.ngOID).collection(Constants.nGOImagesPath).getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription) encountered while fetching documents")
+            } else if let snapShot = snapshot {
+                
+                for document in snapShot.documents {
+                    let ngoImage = NGOImages.init(dict: document.data())
+                    nGOImages.append(ngoImage)
+                    
+                }
+                
+                completionHandler(nGOImages)
+                
+            }
+        }
+    }
+
+    
+    
     private func locationAuthorizationStatus(){
         
         switch CLLocationManager.authorizationStatus() {
@@ -247,9 +270,13 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOsInCategory[indexPath.row]
-        let nGODetailViewController = NGODetailsViewController(nGO: nGOToSet)
-        self.navigationController?.pushViewController(nGODetailViewController, animated: true)
+        var nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOsInCategory[indexPath.row]
+      
+        getImages(ngo: nGOToSet) { (ngoImages) in
+            nGOToSet.ngoImagesURL = ngoImages
+            let nGODetailViewController = NGODetailsViewController(nGO: nGOToSet)
+            self.navigationController?.pushViewController(nGODetailViewController, animated: true)
+        }
     }
     
     

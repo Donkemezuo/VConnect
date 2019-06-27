@@ -10,6 +10,6 @@ import Foundation
 
 struct NGOImagesCollectionKeys {
     static let pictureID = "pictureID"
-    static let pictureUrl = "pictureUrl"
+    static let pictureUrl = "pictureURL"
 }
 

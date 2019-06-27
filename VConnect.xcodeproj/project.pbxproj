@@ -18,6 +18,7 @@
 		044C6AD522A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6AD422A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift */; };
 		044C6AD722A23965006E6C51 /* HoursAndAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */; };
 		048E768A22C2C263006B7D10 /* NGOImagesCollectionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E768922C2C263006B7D10 /* NGOImagesCollectionKeys.swift */; };
+		048E769922C533E7006B7D10 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E769822C533E7006B7D10 /* ImageHelper.swift */; };
 		04B6955D22933F20003A0B85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6955C22933F20003A0B85 /* AppDelegate.swift */; };
 		04B6956222933F20003A0B85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B6956022933F20003A0B85 /* Main.storyboard */; };
 		04B6956422933F21003A0B85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B6956322933F21003A0B85 /* Assets.xcassets */; };
@@ -75,6 +76,7 @@
 		044C6AD422A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursAndAddressView.swift; sourceTree = "<group>"; };
 		048E768922C2C263006B7D10 /* NGOImagesCollectionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOImagesCollectionKeys.swift; sourceTree = "<group>"; };
+		048E769822C533E7006B7D10 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		04B6955922933F20003A0B85 /* VConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B6955C22933F20003A0B85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04B6956122933F20003A0B85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				04D54DFC22A6173A00F1625E /* AppErrors.swift */,
 				04B6959122988CE6003A0B85 /* Date+Extension.swift */,
 				04B6959322988F3D003A0B85 /* DataBaseService.swift */,
+				048E769822C533E7006B7D10 /* ImageHelper.swift */,
 				04D54DF222A4CF0C00F1625E /* ZipCode Helper.swift */,
 			);
 			path = "FireBase Helpers";
@@ -502,6 +505,7 @@
 				041B726822B6179A000BF08F /* NGORegistrationTableViewController.swift in Sources */,
 				04B6955D22933F20003A0B85 /* AppDelegate.swift in Sources */,
 				044C6ACD22A07B19006E6C51 /* ImageModel.swift in Sources */,
+				048E769922C533E7006B7D10 /* ImageHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

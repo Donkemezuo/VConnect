@@ -38,8 +38,7 @@ class NGOsCategoriesView: UIView {
         
     }
     
-    
-    
+        
     private func setCollectionViewConstrains(){
         addSubview(categoriesCollectionView)
         categoriesCollectionView.translatesAutoresizingMaskIntoConstraints = false

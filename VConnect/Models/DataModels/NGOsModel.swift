@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import UIKit
 
-struct NGO : Codable {
+struct NGO {
     let ngOID: String
     let ngoName: String
     let ngoDescription: String
@@ -22,7 +23,7 @@ struct NGO : Codable {
     let ngoState: String
     let ngoZipCode: String
     let contactPersonName: String
-    let ngoImagesURL = [NGOImages]()
+    var ngoImagesURL = [NGOImages]()
     let ratingsValue: Double
     let reviews: String
     let mondayHours: String

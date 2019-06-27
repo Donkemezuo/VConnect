@@ -15,6 +15,7 @@ class NGODetailsViewController: UIViewController {
     private var barButtonItem = UIBarButtonItem()
     private var namesOfImages = ["aaa", "aids", "foods", "halfs", "food-aid-3", "longgg"]
     private var authService = AppDelegate.authService
+   
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,10 +79,9 @@ Sunday:     \(nGO.sundayHours)
 
 """
         
-        
-        
-        
     }
+    
+    
     
     private func setupBarButtonItem(){
         barButtonItem = UIBarButtonItem(title: "BookMark NGO", style: .plain, target: self, action: #selector(barButtonItemSelected))
@@ -102,30 +102,42 @@ Sunday:     \(nGO.sundayHours)
         }
         
     }
+    
+    private func fetchNGOImages(photoURL: String, photoCell: NGOPhotosCollectionViewCell){
+        ImageHelper.fetchImage(urlString: photoURL) { (error, image) in
+            if error != nil {
+                self.showAlert(title: "Error", message: "Error: Can't load NGO images")
+            } else if let image = image {
+                photoCell.ngoPhotoView.image = image
+                
+            }
+        }
+        
+    }
 
 }
 
 extension NGODetailsViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return namesOfImages.count
+        return nGO.ngoImagesURL.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "NGOPhotosCollectionViewCell", for: indexPath) as? NGOPhotosCollectionViewCell else {return UICollectionViewCell()}
         
-        let imageName = namesOfImages[indexPath.row]
-        photoCell.ngoPhotoView.image = UIImage.init(named: imageName)
-        
-        photoCell.layer.cornerRadius = 5
-        photoCell.layer.borderWidth = 1
-        photoCell.layer.borderColor = #colorLiteral(red: 0.9961728454, green: 0.9902502894, blue: 1, alpha: 0)
+        let ngoImages = nGO.ngoImagesURL
+        let image = ngoImages[indexPath.row]
+        fetchNGOImages(photoURL: image.pictureUrl, photoCell: photoCell)
+//        photoCell.layer.cornerRadius = 10
+//        photoCell.layer.borderWidth = 5
+//        photoCell.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         
         return photoCell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width * 0.4888, height: collectionView.frame.size.height * 0.8)
+        return CGSize(width: collectionView.frame.size.width * 0.4889, height: collectionView.frame.size.height * 0.8)
 //        let screenHeight = UIScreen.main.bounds.height
 //        let screenWidth = UIScreen.main.bounds.width
 //        let width = (screenWidth - (5*3))/2

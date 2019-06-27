@@ -35,68 +35,45 @@ class NGOsCategoriesViewController: UIViewController {
         fetchNGOs()
     }
     
-    private func fetchNGOs(){
+    private func fetchNGOs() {
     DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).addSnapshotListener(includeMetadataChanges: true) {[weak self] (querySnapshot, error) in
             if let querySnapshot = querySnapshot {
                 var nGOs = [NGO]()
                 for document in querySnapshot.documents {
-                    document.reference.collection(Constants.nGOImagesPath).addSnapshotListener({ (snapshop, error) in
-                       var images = [UIImage]()
-                        
-                        for doc in snapshop!.documents {
-                            let picture = NGOImages.init(dict: doc.data())
-                            let storageRef = Storage.storage().reference(forURL: picture.pictureID)
-                            storageRef.downloadURL(completion: { (url, error) in
-                                if error != nil {
-                                    
-                                } else if let imageUrl = url {
-                                    
-                                    print(imageUrl)
-                                    
-                                    do {
-                                     let imageData = try? Data(contentsOf: imageUrl)
-                                     
-                                        if let imageData = imageData {
-                                            if let image = UIImage(data: imageData) {
-                                                images.append(image)
-                                            } else {
-                                                print("No image on this imageData")
-                                            }
-                                        } else {
-                                            print("No image Data from this url")
-                                        }
-                                        
-                                    } catch {
-                                        print("Error: \(error.localizedDescription)")
-                                    }
-                                }
-                            })
-                            
-                            
-                            //create picture object
-                            //query url for pictures
-                            //when image retrieve, append to array
-                        }
-                    
-                        //you have the data of the object and an arry of images
-                        //create ngo object (use the array of images)
-                        
-                      
-                        
-                        let nGO = NGO.init(dict: document.data())
-                        nGOs.append(nGO)
-                        if var foundNGOArray = self?.nGOsInCategory[nGO.ngoCategory] {
-                            foundNGOArray.append(nGO)
-                        } else {
-                            self?.nGOsInCategory[nGO.ngoCategory] = [nGO]
-                            
-                        }
-                    
-                    })
+                var nGO = NGO.init(dict: document.data())
                     
                     
                     
+//
+//
+//                        //you have the data of the object and an arry of images
+//                        //create ngo object (use the array of images)
+//
+//
+//
+//
+//                        //nGO.ngoImagesURL = images
+//
+//
+//                    })
+//
+                    //self?.getImages(ngo: nGO, completionHandler: { (nGOImages) in
+                    //nGO.ngoImagesURL = nGOImages
                 
+                        
+                    //})
+                    
+                    nGOs.append(nGO)
+                    
+                    //nGOs.append(nGO)
+               
+                    
+                    if var foundNGOArray = self?.nGOsInCategory[nGO.ngoCategory] {
+                        foundNGOArray.append(nGO)
+                    } else {
+                        self?.nGOsInCategory[nGO.ngoCategory] = [nGO]
+                        
+                    }
                 }
                 
                 self?.nGOs = nGOs
@@ -107,8 +84,10 @@ class NGOsCategoriesViewController: UIViewController {
         }
     }
     
-
+    
 }
+
+
 
 extension NGOsCategoriesViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
