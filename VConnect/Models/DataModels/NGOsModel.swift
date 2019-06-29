@@ -109,7 +109,7 @@ struct NGO {
     
 }
 
-struct NGOImages: Codable {
+struct NGOImages {
     var pictureUrl: String
     var pictureID: String
     
@@ -124,4 +124,18 @@ struct NGOImages: Codable {
         self.pictureID = dict[NGOImagesCollectionKeys.pictureID] as? String ?? "Image does not have an ID"
         
     }
+}
+
+struct NGOReviews {
+    var review: String
+    var date: String
+    var reviewerID: String
+    var ngoID: String
+    init(dict: [String: Any]) {
+        self.date = dict[NGOReviewsCollectionKey.date] as? String ?? "No review date"
+        self.review = dict[NGOReviewsCollectionKey.review] as? String ?? "No review"
+        self.reviewerID = dict[NGOReviewsCollectionKey.reviewerID] as? String ?? "No reviewer ID"
+        self.ngoID = dict[NGOsCollectionKeys.ngOID] as? String ?? "No NGO ID"
+    }
+    
 }

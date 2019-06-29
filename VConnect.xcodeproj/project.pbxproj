@@ -19,6 +19,7 @@
 		044C6AD722A23965006E6C51 /* HoursAndAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */; };
 		048E768A22C2C263006B7D10 /* NGOImagesCollectionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E768922C2C263006B7D10 /* NGOImagesCollectionKeys.swift */; };
 		048E769922C533E7006B7D10 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E769822C533E7006B7D10 /* ImageHelper.swift */; };
+		048E769B22C55966006B7D10 /* NGOReviewCollectionsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E769A22C55966006B7D10 /* NGOReviewCollectionsKey.swift */; };
 		04B6955D22933F20003A0B85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6955C22933F20003A0B85 /* AppDelegate.swift */; };
 		04B6956222933F20003A0B85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B6956022933F20003A0B85 /* Main.storyboard */; };
 		04B6956422933F21003A0B85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B6956322933F21003A0B85 /* Assets.xcassets */; };
@@ -77,6 +78,7 @@
 		044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursAndAddressView.swift; sourceTree = "<group>"; };
 		048E768922C2C263006B7D10 /* NGOImagesCollectionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOImagesCollectionKeys.swift; sourceTree = "<group>"; };
 		048E769822C533E7006B7D10 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
+		048E769A22C55966006B7D10 /* NGOReviewCollectionsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOReviewCollectionsKey.swift; sourceTree = "<group>"; };
 		04B6955922933F20003A0B85 /* VConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B6955C22933F20003A0B85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04B6956122933F20003A0B85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */,
 				04B695802294F355003A0B85 /* VConnectSpecialistCollectionKeys.swift */,
 				048E768922C2C263006B7D10 /* NGOImagesCollectionKeys.swift */,
+				048E769A22C55966006B7D10 /* NGOReviewCollectionsKey.swift */,
 			);
 			path = DataCollectionKeys;
 			sourceTree = "<group>";
@@ -502,6 +505,7 @@
 				044C6AD722A23965006E6C51 /* HoursAndAddressView.swift in Sources */,
 				04D54DF722A6160D00F1625E /* GoogleAddressApiSecretKeys.swift in Sources */,
 				04B6957B22934D9F003A0B85 /* NGOCollectionKeys.swift in Sources */,
+				048E769B22C55966006B7D10 /* NGOReviewCollectionsKey.swift in Sources */,
 				041B726822B6179A000BF08F /* NGORegistrationTableViewController.swift in Sources */,
 				04B6955D22933F20003A0B85 /* AppDelegate.swift in Sources */,
 				044C6ACD22A07B19006E6C51 /* ImageModel.swift in Sources */,

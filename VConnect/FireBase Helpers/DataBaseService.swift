@@ -76,7 +76,29 @@ final class DataBaseService {
         
     }
     
+    static public func createReview(on nGOID: String,reviewerID: String,with review: String, completionHandler:@escaping(Error?) -> Void) {
+        
+        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(nGOID).collection(NGOReviewsCollectionKey.nGOReviews).addDocument(data: [NGOReviewsCollectionKey.reviewerID: reviewerID, NGOReviewsCollectionKey.date: Date.getISOTimestamp(), NGOReviewsCollectionKey.review: review]) { (error) in
+            if let error = error {
+                completionHandler(error)
+            } else {
+                completionHandler(nil)
+            }
+        }
+        
+    }
     
+    static public func fetchNGOReviews(with ngoID: String, completionHandler: @escaping(Error?, NGOReviews?) -> Void) {
+        DataBaseService.firestoreDataBase.collection(NGOReviewsCollectionKey.nGOReviews).whereField(NGOsCollectionKeys.ngOID, isEqualTo: ngoID).getDocuments { (querySnapShot, error) in
+            if let error = error {
+                completionHandler(error, nil)
+            } else if let querySnapshot = querySnapShot?.documents.first {
+                let ngoReviews = NGOReviews.init(dict: querySnapshot.data())
+                completionHandler(nil, ngoReviews)
+            }
+        }
+        
+    }
     
     static public func fetchVConnectUser(vConnectUserID: String, completionHandler: @escaping(Error?, VConnectUser?) -> Void) {
         DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).whereField(VConnectUserCollectionKeys.userID, isEqualTo: vConnectUserID).getDocuments { (querySnapShot, error) in

@@ -13,4 +13,5 @@ struct Constants {
     
     static let ProfileImagePath = "ProfileImages/"
     static let nGOImagesPath = "nGOImagesPath"
+    static let nGOReviewsPath = "nGOReviewsPath"
 }

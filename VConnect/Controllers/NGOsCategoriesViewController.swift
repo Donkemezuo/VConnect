@@ -40,33 +40,9 @@ class NGOsCategoriesViewController: UIViewController {
             if let querySnapshot = querySnapshot {
                 var nGOs = [NGO]()
                 for document in querySnapshot.documents {
-                var nGO = NGO.init(dict: document.data())
-                    
-                    
-                    
-//
-//
-//                        //you have the data of the object and an arry of images
-//                        //create ngo object (use the array of images)
-//
-//
-//
-//
-//                        //nGO.ngoImagesURL = images
-//
-//
-//                    })
-//
-                    //self?.getImages(ngo: nGO, completionHandler: { (nGOImages) in
-                    //nGO.ngoImagesURL = nGOImages
-                
-                        
-                    //})
+                    let nGO = NGO.init(dict: document.data())
                     
                     nGOs.append(nGO)
-                    
-                    //nGOs.append(nGO)
-               
                     
                     if var foundNGOArray = self?.nGOsInCategory[nGO.ngoCategory] {
                         foundNGOArray.append(nGO)
