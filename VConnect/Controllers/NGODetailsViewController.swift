@@ -13,8 +13,14 @@ class NGODetailsViewController: UIViewController {
     private var nGOsDetailView = NGOsDetailView()
     private var nGO: NGO!
     private var barButtonItem = UIBarButtonItem()
-    private var namesOfImages = ["aaa", "aids", "foods", "halfs", "food-aid-3", "longgg"]
     private var authService = AppDelegate.authService
+    private var allNGOReviews = [NGOReviews]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.nGOsDetailView.reviewView.reviewsTableView.reloadData()
+            }
+        }
+    }
    
 
     override func viewDidLoad() {
@@ -22,9 +28,13 @@ class NGODetailsViewController: UIViewController {
         view.addSubview(nGOsDetailView)
         view.backgroundColor = UIColor.init(hexString: "033860")
         nGOsDetailView.ngoPhotosView.nGOPhotosCollectionView.delegate = self
-         nGOsDetailView.ngoPhotosView.nGOPhotosCollectionView.dataSource = self
+        nGOsDetailView.ngoPhotosView.nGOPhotosCollectionView.dataSource = self
+        nGOsDetailView.reviewView.reviewsTableView.delegate = self
+        nGOsDetailView.reviewView.reviewsTableView.dataSource = self
         nGOInformations()
         setupBarButtonItem()
+        fetchReviews(with: nGO.ngOID)
+        //setUpPostButton()
     }
     
     init(nGO: NGO) {
@@ -114,6 +124,64 @@ Sunday:     \(nGO.sundayHours)
         }
         
     }
+    
+    private func fetchReviewer(with reviewerID: String, reviewCell: ReviewsTableViewCell){
+        DataBaseService.fetchVConnectUser(vConnectUserID: reviewerID) { (error, reviewer) in
+            if let error = error {
+                self.showAlert(title: "Error", message: "Error:\(error.localizedDescription) encountered fetching reviewer information")
+            } else if let reviewer = reviewer {
+                reviewCell.reviewerName.text = reviewer.firstName + " " + reviewer.lastName
+                if let photoURL = reviewer.profileImageURL {
+                reviewCell.reviewerProfileImage.kf.setImage(with:URL(string: photoURL) , placeholder: #imageLiteral(resourceName: "icons8-contacts_filled.png"))
+                }
+               
+            }
+        }
+    }
+    
+    private func fetchReviews(with ngoID: String){
+        DataBaseService.fetchNGOReviews(with: ngoID) { (error, ngoReviews) in
+            if let error = error {
+                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching NGO reviews")
+            } else if let ngoReviews = ngoReviews {
+                self.allNGOReviews.append(ngoReviews)
+            }
+        }
+    }
+    
+    private func writeReviewOnNGO(){
+        
+        guard let reviewer = authService.getCurrentVConnectUser() else {
+            showAlert(title: "Error", message: "Only logged in users can leave a review")
+            return
+            
+        }
+        
+        guard let review = nGOsDetailView.reviewView.reviewTextField.text, !review.isEmpty else {
+            self.showAlert(title: "Error", message: "Cannot post empty review")
+            return
+        }
+        
+        
+        
+        DataBaseService.createReview(on: nGO.ngOID, reviewerID: reviewer.uid, with: review) { (error) in
+            if let error = error {
+                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while posting review on NGO")
+            } else {
+                self.showAlert(title: "Success", message: "Thank you for leaving a review on this NGO")
+            }
+        }
+    }
+    
+    private func setUpPostButton(){
+        nGOsDetailView.reviewView.sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
+        
+    }
+    
+    @objc private func sendButtonPressed(){
+        writeReviewOnNGO()
+        
+    }
 
 }
 
@@ -128,22 +196,12 @@ extension NGODetailsViewController: UICollectionViewDelegateFlowLayout, UICollec
         let ngoImages = nGO.ngoImagesURL
         let image = ngoImages[indexPath.row]
         fetchNGOImages(photoURL: image.pictureUrl, photoCell: photoCell)
-//        photoCell.layer.cornerRadius = 10
-//        photoCell.layer.borderWidth = 5
-//        photoCell.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        
         return photoCell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.size.width * 0.4889, height: collectionView.frame.size.height * 0.8)
-//        let screenHeight = UIScreen.main.bounds.height
-//        let screenWidth = UIScreen.main.bounds.width
-//        let width = (screenWidth - (5*3))/2
-//        let height = (screenHeight/screenWidth)*width
-//
-//        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -158,4 +216,26 @@ extension NGODetailsViewController: UICollectionViewDelegateFlowLayout, UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 5
     }
+}
+
+extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return allNGOReviews.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let reviewsCell = tableView.dequeueReusableCell(withIdentifier: "ReviewsTableViewCell", for: indexPath) as? ReviewsTableViewCell else {return UITableViewCell()}
+        let review = allNGOReviews[indexPath.row]
+        fetchReviewer(with: review.ngoID, reviewCell: reviewsCell)
+        reviewsCell.reviewTextView.text = review.review
+        reviewsCell.reviewDate.text = review.date
+        
+        return reviewsCell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200
+    }
+    
+    
 }

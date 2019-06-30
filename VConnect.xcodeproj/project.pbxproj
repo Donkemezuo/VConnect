@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0417EC9122C85EAC00710235 /* ReviewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9022C85EAC00710235 /* ReviewsView.swift */; };
+		0417EC9322C863D500710235 /* ReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9222C863D500710235 /* ReviewsTableViewCell.swift */; };
 		041B726622B60E81000BF08F /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */; };
 		041B726822B6179A000BF08F /* NGORegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */; };
 		0435221622ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */; };
@@ -66,6 +68,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0417EC9022C85EAC00710235 /* ReviewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsView.swift; sourceTree = "<group>"; };
+		0417EC9222C863D500710235 /* ReviewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewCell.swift; sourceTree = "<group>"; };
 		041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
 		041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGORegistrationTableViewController.swift; sourceTree = "<group>"; };
 		0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedMarkedNGOsCollectionKeys.swift; sourceTree = "<group>"; };
@@ -204,6 +208,7 @@
 		04B6957122933FF6003A0B85 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				04B695A22298F2D2003A0B85 /* Cells */,
 				04B6959F2298EFCC003A0B85 /* AllViews */,
 				04B695732293405A003A0B85 /* StoryBoards */,
 			);
@@ -237,7 +242,6 @@
 				04E7C73722AF6E1D00310DCC /* BookMarkedNGO.swift */,
 				04B6957E2294EDCA003A0B85 /* VConnectSpecialistModel.swift */,
 				04D54DF422A6111C00F1625E /* GoogleAddressModel.swift */,
-				04B695A22298F2D2003A0B85 /* Cells */,
 			);
 			path = DataModels;
 			sourceTree = "<group>";
@@ -278,6 +282,7 @@
 			children = (
 				04B695A02298F006003A0B85 /* NGOsCategoriesView.swift */,
 				044C6AD222A22B38006E6C51 /* NGOPhotosView.swift */,
+				0417EC9022C85EAC00710235 /* ReviewsView.swift */,
 				044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */,
 				044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */,
 				04B695A722990910003A0B85 /* NGOsView.swift */,
@@ -297,6 +302,7 @@
 				04B695AB2299162E003A0B85 /* NGOsTableViewCell.swift */,
 				04E7C73522AF59AD00310DCC /* ProfileTableViewCell.swift */,
 				041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */,
+				0417EC9222C863D500710235 /* ReviewsTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -475,6 +481,7 @@
 				04B6959C2298A0A3003A0B85 /* ProfileViewController.swift in Sources */,
 				04B6959422988F3D003A0B85 /* DataBaseService.swift in Sources */,
 				04D54DF922A6167400F1625E /* GoogleAddressAPIClient.swift in Sources */,
+				0417EC9322C863D500710235 /* ReviewsTableViewCell.swift in Sources */,
 				044C6AD522A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift in Sources */,
 				04D54DF322A4CF0C00F1625E /* ZipCode Helper.swift in Sources */,
 				044C6ACF22A2177A006E6C51 /* NGODetailsViewController.swift in Sources */,
@@ -495,6 +502,7 @@
 				041B726622B60E81000BF08F /* UserInfoTableViewCell.swift in Sources */,
 				04B695A12298F006003A0B85 /* NGOsCategoriesView.swift in Sources */,
 				04D54DFD22A6173A00F1625E /* AppErrors.swift in Sources */,
+				0417EC9122C85EAC00710235 /* ReviewsView.swift in Sources */,
 				04BDAF2E22B5E7C200B17764 /* TransitionManager.swift in Sources */,
 				04B695C5229C51F8003A0B85 /* ProfileHeaderView.swift in Sources */,
 				04B695A42298F2F3003A0B85 /* CategoriesCollectionViewCell.swift in Sources */,
