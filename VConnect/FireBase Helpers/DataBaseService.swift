@@ -88,16 +88,17 @@ final class DataBaseService {
         
     }
     
-    static public func fetchNGOReviews(with ngoID: String, completionHandler: @escaping(Error?, NGOReviews?) -> Void) {
-        DataBaseService.firestoreDataBase.collection(NGOReviewsCollectionKey.nGOReviews).whereField(NGOsCollectionKeys.ngOID, isEqualTo: ngoID).getDocuments { (querySnapShot, error) in
+    
+    static public func fetchAllNGOReviews(with ngoID: String, completionHandler: @escaping(Error?, NGOReviews?) -> Void) {
+        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngoID).collection(NGOReviewsCollectionKey.nGOReviews).getDocuments { (snapShot, error) in
             if let error = error {
                 completionHandler(error, nil)
-            } else if let querySnapshot = querySnapShot?.documents.first {
-                let ngoReviews = NGOReviews.init(dict: querySnapshot.data())
+            } else if let snapShot = snapShot?.documents.first {
+                let ngoReviews = NGOReviews.init(dict: snapShot.data())
+                print(ngoReviews)
                 completionHandler(nil, ngoReviews)
             }
         }
-        
     }
     
     static public func fetchVConnectUser(vConnectUserID: String, completionHandler: @escaping(Error?, VConnectUser?) -> Void) {

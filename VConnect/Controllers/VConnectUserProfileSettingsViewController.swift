@@ -12,6 +12,11 @@ class VConnectUserProfileSettingsViewController: UIViewController {
     
    public var vConnectUserProfileSettingsView = VConnectUserProfileSettingsView()
 
+    private var authServices = AppDelegate.authService
+    
+    var vConnectUser:VConnectUser!
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(vConnectUserProfileSettingsView)
@@ -27,8 +32,9 @@ class VConnectUserProfileSettingsViewController: UIViewController {
     }
     
     @objc private func saveButtonPressed(){
-        performSegue(withIdentifier: "EditBio", sender: self)
+//        performSegue(withIdentifier: "EditBio", sender: self)
         
+        print("Save button cliked")
     }
     
    

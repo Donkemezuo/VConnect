@@ -34,13 +34,15 @@ class NGODetailsViewController: UIViewController {
         nGOInformations()
         setupBarButtonItem()
         fetchReviews(with: nGO.ngOID)
+        nGOsDetailView.reviewView.backgroundColor = .clear
+        
         setUpPostButton()
     }
     
     init(nGO: NGO) {
         super.init(nibName: nil, bundle: nil)
         self.nGO = nGO
-        setUpPostButton()
+        //setUpPostButton()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -141,9 +143,10 @@ Sunday:     \(nGO.sundayHours)
     }
     
     private func fetchReviews(with ngoID: String){
-        DataBaseService.fetchNGOReviews(with: ngoID) { (error, ngoReviews) in
+        
+        DataBaseService.fetchAllNGOReviews(with: ngoID) { (error, ngoReviews) in
             if let error = error {
-                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching NGO reviews")
+                self.showAlert(title: "Error", message: "Error: \(error.localizedDescription)")
             } else if let ngoReviews = ngoReviews {
                 self.allNGOReviews.append(ngoReviews)
             }
@@ -181,9 +184,6 @@ Sunday:     \(nGO.sundayHours)
     
     @objc private func sendButtonPressed(){
         writeReviewOnNGO()
-        
-        print("Send button pressed")
-        
     }
 
 }
@@ -229,15 +229,16 @@ extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let reviewsCell = tableView.dequeueReusableCell(withIdentifier: "ReviewsTableViewCell", for: indexPath) as? ReviewsTableViewCell else {return UITableViewCell()}
         let review = allNGOReviews[indexPath.row]
-        fetchReviewer(with: review.ngoID, reviewCell: reviewsCell)
+        fetchReviewer(with: review.reviewerID, reviewCell: reviewsCell)
         reviewsCell.reviewTextView.text = review.review
         reviewsCell.reviewDate.text = review.date
+        reviewsCell.backgroundColor = .clear
         
         return reviewsCell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return 100
     }
     
     

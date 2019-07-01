@@ -12,6 +12,7 @@ class ReviewsView: UIView {
     
     public lazy var reviewsTableView: UITableView = {
         let reviewsTableView = UITableView()
+        reviewsTableView.backgroundColor = .clear 
         
         return reviewsTableView
     }()
@@ -19,7 +20,9 @@ class ReviewsView: UIView {
     public lazy var reviewTextField: UITextField = {
         let reviewTextField = UITextField()
         reviewTextField.placeholder = "Write a review here"
-        reviewTextField.backgroundColor = .red
+        reviewTextField.backgroundColor = UIColor.white
+        reviewTextField.layer.cornerRadius = 10
+        reviewTextField.textAlignment = .center
         return reviewTextField
     }()
     
@@ -27,8 +30,7 @@ class ReviewsView: UIView {
         let sendButton = UIButton()
         sendButton.setTitle("Send", for: .normal)
         sendButton.backgroundColor = UIColor.init(hexString: "033860")
-       // sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
-        sendButton.layer.cornerRadius = 10
+        sendButton.layer.cornerRadius = 20
         sendButton.isUserInteractionEnabled = true 
         return sendButton
     }()
@@ -63,7 +65,7 @@ class ReviewsView: UIView {
         reviewsTableView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         reviewsTableView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         reviewsTableView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        reviewsTableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -100).isActive = true
+        reviewsTableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40).isActive = true
         
     }
     
@@ -71,17 +73,17 @@ class ReviewsView: UIView {
         addSubview(reviewTextField)
         reviewTextField.translatesAutoresizingMaskIntoConstraints = false
         reviewTextField.topAnchor.constraint(equalTo: reviewsTableView.bottomAnchor).isActive = true
-        reviewTextField.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        reviewTextField.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        reviewTextField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30).isActive = true
+        reviewTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 2).isActive = true
+        reviewTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -100).isActive = true
+        reviewTextField.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
     
     private func setSendButtonConstrains(){
-        reviewTextField.addSubview(sendButton)
+        addSubview(sendButton)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
-        sendButton.topAnchor.constraint(equalTo: reviewTextField.bottomAnchor, constant: 0).isActive = true
-        sendButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 300).isActive = true
-        sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
+        sendButton.topAnchor.constraint(equalTo: reviewsTableView.bottomAnchor).isActive = true
+        sendButton.leadingAnchor.constraint(equalTo: reviewTextField.trailingAnchor).isActive = true
+        sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -2).isActive = true
         sendButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
     

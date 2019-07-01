@@ -61,7 +61,10 @@ class ProfileSettingsViewController: UITableViewController {
     }
     
     private func segueToProfileSettingVC(){
-        present(VConnectUserProfileSettingsViewController(), animated: true)
+        
+        guard let destination = storyboard?.instantiateViewController(withIdentifier: "VConnectUserProfileSettingsViewController") as? VConnectUserProfileSettingsViewController else {return}
+        destination.vConnectUser = vConnectUser
+        present(destination, animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

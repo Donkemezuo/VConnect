@@ -112,7 +112,7 @@
         <!--Connect User Profile Settings View Controller-->
         <scene sceneID="aMI-Oh-kP1">
             <objects>
-                <viewController id="FpZ-uE-q81" customClass="VConnectUserProfileSettingsViewController" customModule="VConnect" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VConnectUserProfileSettingsViewController" id="FpZ-uE-q81" customClass="VConnectUserProfileSettingsViewController" customModule="VConnect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="W2Y-Jh-MBr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -120,7 +120,7 @@
                         <viewLayoutGuide key="safeArea" id="uRJ-GO-eVs"/>
                     </view>
                     <connections>
-                        <segue destination="i1v-Vf-NAY" kind="unwind" identifier="EditBio" unwindAction="editProfileWithSegue:" id="Cbn-eK-d5D"/>
+                        <segue destination="i1v-Vf-NAY" kind="unwind" identifier="EditBio" unwindAction="editProfileWithSegue:" id="GMC-hE-dCt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0ja-ou-3Cg" userLabel="First Responder" sceneMemberID="firstResponder"/>
