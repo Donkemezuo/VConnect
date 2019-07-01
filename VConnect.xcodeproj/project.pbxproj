@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0417EC9122C85EAC00710235 /* ReviewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9022C85EAC00710235 /* ReviewsView.swift */; };
 		0417EC9322C863D500710235 /* ReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9222C863D500710235 /* ReviewsTableViewCell.swift */; };
+		0417EC9522C9765500710235 /* VConnectUserProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */; };
+		0417EC9722C9844100710235 /* VConnectUserProfileSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */; };
 		041B726622B60E81000BF08F /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */; };
 		041B726822B6179A000BF08F /* NGORegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */; };
 		0435221622ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */; };
@@ -70,6 +72,8 @@
 /* Begin PBXFileReference section */
 		0417EC9022C85EAC00710235 /* ReviewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsView.swift; sourceTree = "<group>"; };
 		0417EC9222C863D500710235 /* ReviewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewCell.swift; sourceTree = "<group>"; };
+		0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VConnectUserProfileSettingsView.swift; sourceTree = "<group>"; };
+		0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VConnectUserProfileSettingsViewController.swift; sourceTree = "<group>"; };
 		041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
 		041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGORegistrationTableViewController.swift; sourceTree = "<group>"; };
 		0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedMarkedNGOsCollectionKeys.swift; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 			children = (
 				04B695972298A070003A0B85 /* NGOsCategoriesViewController.swift */,
 				04B695A522990730003A0B85 /* NGOsViewController.swift */,
+				0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */,
 				04E7C73922B0500500310DCC /* ProfileSettingsViewController.swift */,
 				044C6ACE22A21779006E6C51 /* NGODetailsViewController.swift */,
 				04B695992298A095003A0B85 /* ChatViewController.swift */,
@@ -283,6 +288,7 @@
 				04B695A02298F006003A0B85 /* NGOsCategoriesView.swift */,
 				044C6AD222A22B38006E6C51 /* NGOPhotosView.swift */,
 				0417EC9022C85EAC00710235 /* ReviewsView.swift */,
+				0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */,
 				044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */,
 				044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */,
 				04B695A722990910003A0B85 /* NGOsView.swift */,
@@ -481,6 +487,7 @@
 				04B6959C2298A0A3003A0B85 /* ProfileViewController.swift in Sources */,
 				04B6959422988F3D003A0B85 /* DataBaseService.swift in Sources */,
 				04D54DF922A6167400F1625E /* GoogleAddressAPIClient.swift in Sources */,
+				0417EC9722C9844100710235 /* VConnectUserProfileSettingsViewController.swift in Sources */,
 				0417EC9322C863D500710235 /* ReviewsTableViewCell.swift in Sources */,
 				044C6AD522A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift in Sources */,
 				04D54DF322A4CF0C00F1625E /* ZipCode Helper.swift in Sources */,
@@ -511,6 +518,7 @@
 				04B6957922934A3E003A0B85 /* NGOsModel.swift in Sources */,
 				04B695982298A070003A0B85 /* NGOsCategoriesViewController.swift in Sources */,
 				044C6AD722A23965006E6C51 /* HoursAndAddressView.swift in Sources */,
+				0417EC9522C9765500710235 /* VConnectUserProfileSettingsView.swift in Sources */,
 				04D54DF722A6160D00F1625E /* GoogleAddressApiSecretKeys.swift in Sources */,
 				04B6957B22934D9F003A0B85 /* NGOCollectionKeys.swift in Sources */,
 				048E769B22C55966006B7D10 /* NGOReviewCollectionsKey.swift in Sources */,

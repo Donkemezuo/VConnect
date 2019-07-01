@@ -136,16 +136,6 @@ class ProfileViewController: UIViewController {
     
     
     private func configureCellsPressed(_ selectedCellType: SelectedCellType){
-        
-        /*
- 
-         case profileSetting
-         case becomeSpecialist
-         case registerNGO
-         case logOut
- 
-         */
-        
         switch selectedCellType {
         case .profileSetting:
             break
@@ -183,31 +173,18 @@ class ProfileViewController: UIViewController {
         }
     }
     
+
+    @IBAction func editProfile(segue: UIStoryboardSegue){
+        
+        let editVC = segue.source as! VConnectUserProfileSettingsViewController
+        profileHeaderView.vConnectUserProfileImageView.image = editVC.vConnectUserProfileSettingsView.profileImageView.image
+        
+        profileHeaderView.vConnectUserEmailLabel.text = editVC.vConnectUserProfileSettingsView.emailInputTextField.text
+        profileHeaderView.vConnectUserNameLabel.text = editVC.vConnectUserProfileSettingsView.firstNameLabel.text! + " " + editVC.vConnectUserProfileSettingsView.lastNameLabel.text!
+        
+        
+    }
     
-//
-//    private func setUserProfileImage(selectedImage: UIImage) {
-//        guard let imageData = selectedImage.jpegData(compressionQuality: 1.0), let loggedInUser = authService.getCurrentVConnectUser(), let _ = profileHeaderView.vConnectUserProfileImageView.image else {return}
-//        DataBaseService.saveProfileImage(with: imageData, with: Constants.ProfileImagePath + loggedInUser.uid) {[weak self] (error, imageUrl) in
-//            if let _ = error {
-//
-//            } else if let imageUrl = imageUrl {
-//                let profileImageRequest = loggedInUser.createProfileChangeRequest()
-//                profileImageRequest.photoURL = imageUrl
-//                profileImageRequest.commitChanges(completion: { (error) in
-//                    if let error = error {
-//                        self?.showAlert(title: "Error saving image", message: error.localizedDescription)
-//                    }
-//                })
-//
-//        DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).document(loggedInUser.uid).updateData([VConnectUserCollectionKeys.profileImageURL : imageUrl.absoluteString], completion: { (error) in
-//                    if let error = error {
-//                       self?.showAlert(title: "Error saving image", message: error.localizedDescription)
-//                    }
-//                })
-//                self?.dismiss(animated: true, completion: nil)
-//            }
-//        }
-//    }
     
     
     private func editvConnectUserProfileImage(){
@@ -322,14 +299,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         selectedImage = resizedImage
         profileHeaderView.vConnectUserProfileImageView.image = resizedImage
         saveUserImage(with: resizedImage)
-        
-        
-        //let resizedProfileImage = Toucan.init(image: originalImage).resize(CGSize(width: 500, height: 500))
-        
-        //profileHeaderView.vConnectUserProfileImageView.image = resizedProfileImage.image
-//        guard let processedImage = resizedProfileImage.image else {return}
-//        setUserProfileImage(selectedImage: processedImage)
-//        updateVConnectUserProfile()
         dismiss(animated: true, completion: nil)
     }
     

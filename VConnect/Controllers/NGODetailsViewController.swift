@@ -34,12 +34,13 @@ class NGODetailsViewController: UIViewController {
         nGOInformations()
         setupBarButtonItem()
         fetchReviews(with: nGO.ngOID)
-        //setUpPostButton()
+        setUpPostButton()
     }
     
     init(nGO: NGO) {
         super.init(nibName: nil, bundle: nil)
         self.nGO = nGO
+        setUpPostButton()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -180,6 +181,8 @@ Sunday:     \(nGO.sundayHours)
     
     @objc private func sendButtonPressed(){
         writeReviewOnNGO()
+        
+        print("Send button pressed")
         
     }
 

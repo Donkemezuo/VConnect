@@ -60,12 +60,16 @@ class ProfileSettingsViewController: UITableViewController {
     
     }
     
+    private func segueToProfileSettingVC(){
+        present(VConnectUserProfileSettingsViewController(), animated: true)
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedCell = SelectedCellType(rawValue: indexPath.row - 1) else {return}
         
         switch selectedCell {
         case .profileSetting:
-            break
+         segueToProfileSettingVC()
         case .becomeSpecialist:
             break
         case .logOut:

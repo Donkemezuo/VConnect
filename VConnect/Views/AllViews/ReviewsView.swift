@@ -19,6 +19,7 @@ class ReviewsView: UIView {
     public lazy var reviewTextField: UITextField = {
         let reviewTextField = UITextField()
         reviewTextField.placeholder = "Write a review here"
+        reviewTextField.backgroundColor = .red
         return reviewTextField
     }()
     
@@ -26,8 +27,9 @@ class ReviewsView: UIView {
         let sendButton = UIButton()
         sendButton.setTitle("Send", for: .normal)
         sendButton.backgroundColor = UIColor.init(hexString: "033860")
-        sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
+       // sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
         sendButton.layer.cornerRadius = 10
+        sendButton.isUserInteractionEnabled = true 
         return sendButton
     }()
 
@@ -77,7 +79,7 @@ class ReviewsView: UIView {
     private func setSendButtonConstrains(){
         reviewTextField.addSubview(sendButton)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
-        sendButton.topAnchor.constraint(equalTo: reviewTextField.bottomAnchor, constant: 5).isActive = true
+        sendButton.topAnchor.constraint(equalTo: reviewTextField.bottomAnchor, constant: 0).isActive = true
         sendButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 300).isActive = true
         sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
         sendButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
