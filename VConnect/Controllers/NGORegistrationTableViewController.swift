@@ -125,6 +125,9 @@ class NGORegistrationTableViewController: UITableViewController {
         checkNGODetails()
     }
     
+    @IBAction func cancelRegistration(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

@@ -19,6 +19,7 @@ class NGOsViewController: UIViewController {
     private var coordinates = CLLocationCoordinate2D()
     public var locationManager = CLLocationManager()
     var defaultCoordinates = CLLocationCoordinate2DMake(0.0, 0.0)
+    var authServices = AppDelegate.authService
     private var allNGOsInCategory = [NGO](){
         didSet {
             DispatchQueue.main.async {
@@ -59,6 +60,7 @@ class NGOsViewController: UIViewController {
         nGOsView.toggleView.tintColor = .white
         makeAnnotations()
         checkLocationAuthorizationStatus()
+    
     }
     
     init(nGOsInCategory: [NGO]){
@@ -113,6 +115,22 @@ class NGOsViewController: UIViewController {
             }
         }
     }
+    
+    private func saveUserLocation(with coordinates: CLLocation){
+        
+        guard let user = authServices.getCurrentVConnectUser() else {return}
+        
+        geoCoder.reverseGeocodeLocation(coordinates) { (placeMark, error) in
+            if error != nil {
+                
+            } else if let placemark = placeMark?.first{
+                DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.location).document(user.uid).updateData([VConnectUserCollectionKeys.location: placemark.locality ?? ""])
+            }
+        }
+        
+        
+        
+    }
 
     
     
@@ -120,6 +138,8 @@ class NGOsViewController: UIViewController {
         
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:
+            let location = CLLocation(latitude: getUserLocationCoordinates().latitude, longitude: getUserLocationCoordinates().longitude)
+            saveUserLocation(with: location)
             getUserLocationCoordinates()
             break
         case .denied:

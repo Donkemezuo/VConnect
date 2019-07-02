@@ -129,7 +129,7 @@ Sunday:     \(nGO.sundayHours)
     }
     
     private func fetchReviewer(with reviewerID: String, reviewCell: ReviewsTableViewCell){
-        DataBaseService.fetchVConnectUser(vConnectUserID: reviewerID) { (error, reviewer) in
+        DataBaseService.fetchVConnectUserr(with: reviewerID) { (error, reviewer) in
             if let error = error {
                 self.showAlert(title: "Error", message: "Error:\(error.localizedDescription) encountered fetching reviewer information")
             } else if let reviewer = reviewer {
@@ -153,6 +153,15 @@ Sunday:     \(nGO.sundayHours)
         }
     }
     
+    private func circleImageView(cell: ReviewsTableViewCell){
+        cell.reviewerProfileImage.layer.cornerRadius = cell.reviewerProfileImage.bounds.width / 2.0
+        cell.reviewerProfileImage.contentMode = .scaleAspectFill
+        cell.reviewerProfileImage.layer.masksToBounds = false
+        cell.reviewerProfileImage.clipsToBounds = true
+        
+    }
+    
+    
     private func writeReviewOnNGO(){
         
         guard let reviewer = authService.getCurrentVConnectUser() else {
@@ -172,7 +181,9 @@ Sunday:     \(nGO.sundayHours)
             if let error = error {
                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while posting review on NGO")
             } else {
-                self.showAlert(title: "Success", message: "Thank you for leaving a review on this NGO")
+                self.showAlert(title: "Successfully posted review", message: "Thank you for leaving a review on this NGO", handler: { (alert) in
+                    self.dismiss(animated: true, completion: nil)
+                })
             }
         }
     }
@@ -233,6 +244,7 @@ extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
         reviewsCell.reviewTextView.text = review.review
         reviewsCell.reviewDate.text = review.date
         reviewsCell.backgroundColor = .clear
+        circleImageView(cell: reviewsCell)
         
         return reviewsCell
     }

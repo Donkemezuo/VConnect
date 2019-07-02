@@ -29,16 +29,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="YcH-eU-hHP"/>
                                 </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="Vconnect">
-                                        <attributes>
-                                            <color key="NSBackgroundColor" red="0.99519230769230771" green="0.99038461538461542" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <color key="NSColor" red="0.99519230769230771" green="0.99038461538461542" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="36" name="Helvetica-Bold"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                                <attributedString key="attributedText"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -119,12 +110,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="uRJ-GO-eVs"/>
                     </view>
-                    <connections>
-                        <segue destination="i1v-Vf-NAY" kind="unwind" identifier="EditBio" unwindAction="editProfileWithSegue:" id="GMC-hE-dCt"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0ja-ou-3Cg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="i1v-Vf-NAY" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4103" y="-929"/>
         </scene>
@@ -1312,28 +1299,52 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="82.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BAc-x7-H0k">
-                                                    <rect key="frame" x="8" y="8" width="398" height="66.5"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eeT-6E-mTe">
+                                                    <rect key="frame" x="8" y="8" width="150" height="31"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="150" id="fRg-Uv-fGi"/>
+                                                    </constraints>
                                                     <state key="normal">
                                                         <attributedString key="attributedTitle">
-                                                            <fragment content="Register NGO">
+                                                            <fragment content="Cancel">
                                                                 <attributes>
-                                                                    <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <font key="NSFont" size="18" name="Helvetica-Bold"/>
+                                                                    <color key="NSColor" red="1" green="0.12800935590000001" blue="0.095124512610000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                    <font key="NSFont" size="16" name="HelveticaNeue-Bold"/>
                                                                 </attributes>
                                                             </fragment>
                                                         </attributedString>
                                                     </state>
                                                     <connections>
-                                                        <action selector="RegisterButtonPressed:" destination="IMP-mX-gCn" eventType="touchUpInside" id="3VA-1V-DVv"/>
+                                                        <action selector="cancelRegistration:" destination="IMP-mX-gCn" eventType="touchUpInside" id="4LO-Ct-3BI"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jTZ-HS-bby">
+                                                    <rect key="frame" x="158" y="8" width="248" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="tNd-A6-HkJ"/>
+                                                    </constraints>
+                                                    <state key="normal">
+                                                        <attributedString key="attributedTitle">
+                                                            <fragment content="Register Organization">
+                                                                <attributes>
+                                                                    <font key="NSFont" size="16" name="HelveticaNeue-Bold"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="RegisterButtonPressed:" destination="IMP-mX-gCn" eventType="touchUpInside" id="XHW-zU-YhC"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="BAc-x7-H0k" firstAttribute="top" secondItem="7zc-dF-ffm" secondAttribute="topMargin" id="CiG-UI-PFR"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="BAc-x7-H0k" secondAttribute="bottom" id="VOY-GG-vDM"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="BAc-x7-H0k" secondAttribute="trailing" id="aB0-7V-fnG"/>
-                                                <constraint firstItem="BAc-x7-H0k" firstAttribute="leading" secondItem="7zc-dF-ffm" secondAttribute="leadingMargin" id="z7G-2i-1Z1"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="jTZ-HS-bby" secondAttribute="trailing" id="8PG-Cf-Epq"/>
+                                                <constraint firstItem="jTZ-HS-bby" firstAttribute="top" secondItem="7zc-dF-ffm" secondAttribute="topMargin" id="AIa-W3-PQO"/>
+                                                <constraint firstItem="jTZ-HS-bby" firstAttribute="leading" secondItem="eeT-6E-mTe" secondAttribute="trailing" id="JvN-P1-j9Q"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="eeT-6E-mTe" secondAttribute="bottom" id="bMo-sc-H7H"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="jTZ-HS-bby" secondAttribute="bottom" id="nNk-Ha-GZy"/>
+                                                <constraint firstItem="eeT-6E-mTe" firstAttribute="leading" secondItem="7zc-dF-ffm" secondAttribute="leadingMargin" id="wWU-lb-7jD"/>
+                                                <constraint firstItem="eeT-6E-mTe" firstAttribute="top" secondItem="7zc-dF-ffm" secondAttribute="topMargin" id="weM-zc-Etw"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1353,7 +1364,7 @@
                         <outlet property="fridayTextField" destination="hiw-3J-KTj" id="bvH-f9-udp"/>
                         <outlet property="mondayHoursTextField" destination="UTF-Cn-K5j" id="LTq-w5-RG6"/>
                         <outlet property="nGOAcrimonyTextField" destination="VJW-R9-OnY" id="G9y-NI-ToR"/>
-                        <outlet property="nGOCategoriesPickerView" destination="Eho-RJ-5gd" id="XCW-WG-Lct"/>
+                        <outlet property="nGOCategoriesPickerView" destination="Eho-RJ-5gd" id="uv6-Ka-Fhq"/>
                         <outlet property="nGOCityTextField" destination="ITF-ik-TIB" id="bYQ-87-lb7"/>
                         <outlet property="nGOContactPersonTextField" destination="UTF-Cn-K5j" id="UIw-Mj-BAa"/>
                         <outlet property="nGODescriptionTextView" destination="XFM-Xk-WvV" id="kih-ty-nZZ"/>

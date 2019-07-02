@@ -28,6 +28,9 @@ class ReviewsTableViewCell: UITableViewCell {
         reviewTextView.font = UIFont(name: "HelveticaNeue", size: 14)
         reviewTextView.backgroundColor = .clear 
         reviewTextView.textColor = .white
+        reviewTextView.isEditable = false
+        reviewTextView.isSelectable = false
+        reviewTextView.isUserInteractionEnabled = false
         return reviewTextView
     }()
     

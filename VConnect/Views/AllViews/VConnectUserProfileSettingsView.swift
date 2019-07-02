@@ -29,7 +29,7 @@ class VConnectUserProfileSettingsView: UIView {
     public lazy var firstNameInputTextField: UITextField = {
         let firstNameInputTextField = UITextField()
         firstNameInputTextField.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
-        firstNameInputTextField.textColor = .white
+        firstNameInputTextField.textColor = .black
         firstNameInputTextField.backgroundColor = UIColor.lightGray
         
         return firstNameInputTextField
@@ -47,7 +47,7 @@ class VConnectUserProfileSettingsView: UIView {
     public lazy var lastNameInputTextField: UITextField = {
         let lastNameInputTextField = UITextField()
         lastNameInputTextField.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
-        lastNameInputTextField.textColor = .white
+        lastNameInputTextField.textColor = .black
          lastNameInputTextField.backgroundColor = UIColor.lightGray
         
         return lastNameInputTextField
@@ -66,7 +66,7 @@ class VConnectUserProfileSettingsView: UIView {
     public lazy var emailInputTextField: UITextField = {
         let emailInputTextField = UITextField()
         emailInputTextField.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
-        emailInputTextField.textColor = .white
+        emailInputTextField.textColor = .black
         emailInputTextField.backgroundColor = UIColor.lightGray
         return emailInputTextField
     }()
