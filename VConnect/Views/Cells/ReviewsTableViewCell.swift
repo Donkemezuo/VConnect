@@ -79,7 +79,7 @@ class ReviewsTableViewCell: UITableViewCell {
         reviewerName.translatesAutoresizingMaskIntoConstraints = false
         reviewerName.centerYAnchor.constraint(equalTo: reviewerProfileImage.centerYAnchor).isActive = true
         reviewerName.leadingAnchor.constraint(equalTo: reviewerProfileImage.trailingAnchor, constant: 10).isActive = true
-        reviewerName.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        reviewerName.widthAnchor.constraint(equalToConstant: 200).isActive = true
         reviewerName.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
     

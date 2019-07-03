@@ -67,6 +67,12 @@ class ProfileSettingsViewController: UITableViewController {
         present(destination, animated: true, completion: nil)
     }
     
+    private func segueToRegisterSpecialistVC(){
+        guard let destination = storyboard?.instantiateViewController(withIdentifier: "SpecialistRegistrationTableViewController") as? SpecialistRegistrationTableViewController else {return }
+        destination.vConnecter = vConnectUser
+        present(destination, animated: true, completion: nil)
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedCell = SelectedCellType(rawValue: indexPath.row - 1) else {return}
         
@@ -74,7 +80,7 @@ class ProfileSettingsViewController: UITableViewController {
         case .profileSetting:
          segueToProfileSettingVC()
         case .becomeSpecialist:
-            break
+       segueToRegisterSpecialistVC()
         case .logOut:
             authService.signOutVConnectUser()
         case .registerNGO:

@@ -21,6 +21,10 @@ class NGODetailsViewController: UIViewController {
             }
         }
     }
+    //let rateView = RateView()
+   
+    
+    
    
 
     override func viewDidLoad() {
@@ -35,8 +39,10 @@ class NGODetailsViewController: UIViewController {
         setupBarButtonItem()
         fetchReviews(with: nGO.ngOID)
         nGOsDetailView.reviewView.backgroundColor = .clear
-        
         setUpPostButton()
+        //nGOsDetailView.addSubview(rateView)
+        
+        
     }
     
     init(nGO: NGO) {
@@ -93,6 +99,8 @@ Sunday:     \(nGO.sundayHours)
 """
         
     }
+    
+   
     
     
     
@@ -182,7 +190,10 @@ Sunday:     \(nGO.sundayHours)
                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while posting review on NGO")
             } else {
                 self.showAlert(title: "Successfully posted review", message: "Thank you for leaving a review on this NGO", handler: { (alert) in
-                    self.dismiss(animated: true, completion: nil)
+                    
+                    self.present(RateViewController(), animated: true, completion: nil)
+                    
+                    //self.dismiss(animated: true, completion: nil)
                 })
             }
         }

@@ -50,6 +50,33 @@ final class DataBaseService {
         
     }
     
+    static func createSpecialist(with connectSpecialist: VConnectSpecialist, completionHandler: @escaping(Error?) -> Void) {
+        firestoreDataBase.collection(VConnectSpecialistCollectionKeys.vConnectSpecialistCollectionKeys).document(connectSpecialist.specialistID).setData([VConnectSpecialistCollectionKeys.specialistID: connectSpecialist.specialistID,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.areaOfSpecialty: connectSpecialist.areaOfSpecialty,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.biography: connectSpecialist.biography,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.firstName: connectSpecialist.firstName,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.joinedDate: connectSpecialist.joinedDate,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.lastName: connectSpecialist.lastName,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.location: connectSpecialist.location,
+                                                                
+                                                                                                                                                          VConnectSpecialistCollectionKeys.ratingsValue: connectSpecialist.ratingsValue,
+                                                                                    
+                                                                                                                                                          VConnectSpecialistCollectionKeys.specialistID: connectSpecialist.specialistID,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.specialistProfileImageURL: connectSpecialist.specialistProfileImageURL ?? "",
+                                                                                                                                                          VConnectSpecialistCollectionKeys.yearsOfExperience: connectSpecialist.yearsOfExperience, VConnectSpecialistCollectionKeys.profession: connectSpecialist.profession
+        ]) { (error) in
+            if let error = error {
+                completionHandler(error)
+            } else {
+                completionHandler(nil)
+            }
+        }
+        
+        
+        
+    }
+    
+    
     
     static public func createVConnectUserNGOBookMark(vConnectUserID: String, bookMarkedNGOs: NGO, completionHandler: @escaping(AppError?) -> Void) {
         firestoreDataBase.collection(BookMarkedNGOCollectionKey.bookMarkedNgoCollectionKey).document(vConnectUserID).setData([BookMarkedNGOCollectionKey.contactPersonName: bookMarkedNGOs.contactPersonName, BookMarkedNGOCollectionKey.fridayHours: bookMarkedNGOs.fridayHours, BookMarkedNGOCollectionKey.mondayHours: bookMarkedNGOs.mondayHours, BookMarkedNGOCollectionKey.ngoAcrimony : bookMarkedNGOs.ngoAcrimony ?? " ", BookMarkedNGOCollectionKey.ngoCategory: bookMarkedNGOs.ngoCategory, BookMarkedNGOCollectionKey.ngoCity : bookMarkedNGOs.ngoCity, BookMarkedNGOCollectionKey.ngoDescription: bookMarkedNGOs.ngoDescription, BookMarkedNGOCollectionKey.ngoEmail: bookMarkedNGOs.ngoEmail, BookMarkedNGOCollectionKey.ngoImagesURL: bookMarkedNGOs.ngoImagesURL, BookMarkedNGOCollectionKey.ngoName: bookMarkedNGOs.ngoName, BookMarkedNGOCollectionKey.ngoPhoneNumber: bookMarkedNGOs.ngoPhoneNumber, BookMarkedNGOCollectionKey.ngoState: bookMarkedNGOs.ngoState, BookMarkedNGOCollectionKey.ngoStreetAddress: bookMarkedNGOs.ngoStreetAddress, BookMarkedNGOCollectionKey.ngoWebsite: bookMarkedNGOs.ngoWebsite ?? " ", BookMarkedNGOCollectionKey.ngoZipCode: bookMarkedNGOs.ngoZipCode, BookMarkedNGOCollectionKey.ratingsValue: bookMarkedNGOs.ratingsValue, BookMarkedNGOCollectionKey.reviews: bookMarkedNGOs.reviews, BookMarkedNGOCollectionKey.saturdayHours: bookMarkedNGOs.saturdayHours, BookMarkedNGOCollectionKey.sundayHours: bookMarkedNGOs.sundayHours, BookMarkedNGOCollectionKey.thursdayHours: bookMarkedNGOs.thursdayHours, BookMarkedNGOCollectionKey.tuesdayHours: bookMarkedNGOs.tuesdayHours, BookMarkedNGOCollectionKey.wedsDayHours: bookMarkedNGOs.wedsDayHours, BookMarkedNGOCollectionKey.vConnectUserID: vConnectUserID, BookMarkedNGOCollectionKey.bookMarkedDate: Date.customizedDateFormat()], completion: { (error) in
