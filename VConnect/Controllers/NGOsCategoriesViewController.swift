@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class NGOsCategoriesViewController: UIViewController {
     
@@ -34,13 +35,15 @@ class NGOsCategoriesViewController: UIViewController {
         fetchNGOs()
     }
     
-    private func fetchNGOs(){
- DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).addSnapshotListener(includeMetadataChanges: true) {[weak self] (querySnapshot, error) in
+    private func fetchNGOs() {
+    DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).addSnapshotListener(includeMetadataChanges: true) {[weak self] (querySnapshot, error) in
             if let querySnapshot = querySnapshot {
                 var nGOs = [NGO]()
                 for document in querySnapshot.documents {
                     let nGO = NGO.init(dict: document.data())
+                    
                     nGOs.append(nGO)
+                    
                     if var foundNGOArray = self?.nGOsInCategory[nGO.ngoCategory] {
                         foundNGOArray.append(nGO)
                     } else {
@@ -57,8 +60,10 @@ class NGOsCategoriesViewController: UIViewController {
         }
     }
     
-
+    
 }
+
+
 
 extension NGOsCategoriesViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

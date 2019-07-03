@@ -21,7 +21,9 @@ class ProfileSettingsViewController: UITableViewController {
     
     var didSelectCell: ((SelectedCellType) -> Void)?
 
-    var vConnectUser: VConnectUser?
+     var vConnectUser: VConnectUser?
+    
+    private var authService = AppDelegate.authService
     
     @IBOutlet weak var profileCell: UserInfoTableViewCell!
     
@@ -30,13 +32,20 @@ class ProfileSettingsViewController: UITableViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.init(hexString: "033860")
         setUserInfo(with: profileCell)
+   
+        
     }
     
+    
+
+    
     private func setUserInfo(with userInfoCell: UserInfoTableViewCell){
-        guard let firstName = vConnectUser?.firstName, let lastName = vConnectUser?.lastName else {return }
+        guard let firstName = vConnectUser?.firstName, let lastName = vConnectUser?.lastName, let photoUrl = vConnectUser?.profileImageURL,
+    !photoUrl.isEmpty else {return }
         
         let fullName = firstName + " " + lastName
         userInfoCell.userNameLabel?.text = fullName
+        userInfoCell.userImageView?.kf.setImage(with: URL(string: photoUrl), placeholder:#imageLiteral(resourceName: "VCConectLogo.png") )
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -51,16 +60,29 @@ class ProfileSettingsViewController: UITableViewController {
     
     }
     
+    private func segueToProfileSettingVC(){
+        
+        guard let destination = storyboard?.instantiateViewController(withIdentifier: "VConnectUserProfileSettingsViewController") as? VConnectUserProfileSettingsViewController else {return}
+        destination.vConnectUser = vConnectUser
+        present(destination, animated: true, completion: nil)
+    }
+    
+    private func segueToRegisterSpecialistVC(){
+        guard let destination = storyboard?.instantiateViewController(withIdentifier: "SpecialistRegistrationTableViewController") as? SpecialistRegistrationTableViewController else {return }
+        destination.vConnecter = vConnectUser
+        present(destination, animated: true, completion: nil)
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedCell = SelectedCellType(rawValue: indexPath.row - 1) else {return}
         
         switch selectedCell {
         case .profileSetting:
-            break
+         segueToProfileSettingVC()
         case .becomeSpecialist:
-            break
+       segueToRegisterSpecialistVC()
         case .logOut:
-            break
+            authService.signOutVConnectUser()
         case .registerNGO:
             segueToNGORegistration()
         }

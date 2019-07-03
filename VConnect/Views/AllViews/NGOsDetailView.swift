@@ -20,6 +20,12 @@ class NGOsDetailView: UIView {
         return ngoAddressView
     }()
     
+    public lazy var reviewView: ReviewsView = {
+        let reviewView = ReviewsView()
+        reviewView.backgroundColor = .white
+        return reviewView
+    }()
+    
     public lazy var detailsViewScrollView: UIScrollView = {
 
         let scrollView = UIScrollView()
@@ -134,9 +140,10 @@ class NGOsDetailView: UIView {
     
     private func setupPhotosViewConstrains(){
         ngoAddressView.removeFromSuperview()
+        reviewView.removeFromSuperview()
         detailsViewScrollView.addSubview(ngoPhotosView)
         ngoPhotosView.translatesAutoresizingMaskIntoConstraints = false
-        ngoPhotosView.topAnchor.constraint(equalTo: viewsSegmentedControl.bottomAnchor, constant: 5).isActive = true
+        ngoPhotosView.topAnchor.constraint(equalTo: viewsSegmentedControl.bottomAnchor, constant: 2).isActive = true
         ngoPhotosView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
         ngoPhotosView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
         ngoPhotosView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
@@ -144,12 +151,25 @@ class NGOsDetailView: UIView {
     
     private func setupAddressViewConstrains(){
         ngoPhotosView.removeFromSuperview()
+        reviewView.removeFromSuperview()
         detailsViewScrollView.addSubview(ngoAddressView)
         ngoAddressView.translatesAutoresizingMaskIntoConstraints = false
-        ngoAddressView.topAnchor.constraint(equalTo: viewsSegmentedControl.bottomAnchor, constant: 5).isActive = true
+        ngoAddressView.topAnchor.constraint(equalTo: viewsSegmentedControl.bottomAnchor, constant: 2).isActive = true
         ngoAddressView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
         ngoAddressView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
         ngoAddressView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
+    }
+    
+    private func setReviewConstrains(){
+        ngoPhotosView.removeFromSuperview()
+        ngoAddressView.removeFromSuperview()
+        detailsViewScrollView.addSubview(reviewView)
+        reviewView.translatesAutoresizingMaskIntoConstraints = false
+        reviewView.topAnchor.constraint(equalTo: viewsSegmentedControl.bottomAnchor, constant: 2).isActive = true
+        reviewView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
+        reviewView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
+        reviewView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
     }
     
      @objc public func setToggledViewConstrains(){
@@ -159,7 +179,7 @@ class NGOsDetailView: UIView {
         case 1:
             setupAddressViewConstrains()
         case 2:
-            break
+            setReviewConstrains()
         default:
             return
         }

@@ -24,4 +24,11 @@ extension Date {
         return userJoinedDate
 
     }
+    
+    static func reviewDateFormatter() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy"
+        let userJoinedDate = formatter.string(from: Date())
+        return userJoinedDate
+    }
 }

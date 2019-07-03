@@ -50,6 +50,34 @@ final class DataBaseService {
         
     }
     
+    static func createSpecialist(with connectSpecialist: VConnectSpecialist, completionHandler: @escaping(Error?) -> Void) {
+        firestoreDataBase.collection(VConnectSpecialistCollectionKeys.vConnectSpecialistCollectionKeys).document(connectSpecialist.specialistID).setData([VConnectSpecialistCollectionKeys.specialistID: connectSpecialist.specialistID,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.areaOfSpecialty: connectSpecialist.areaOfSpecialty,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.biography: connectSpecialist.biography,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.firstName: connectSpecialist.firstName,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.joinedDate: connectSpecialist.joinedDate,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.lastName: connectSpecialist.lastName,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.location: connectSpecialist.location,
+                                                                
+                                                                                                                                                          VConnectSpecialistCollectionKeys.ratingsValue: connectSpecialist.ratingsValue,
+                                                                                    
+                                                                                                                                                          VConnectSpecialistCollectionKeys.specialistID: connectSpecialist.specialistID,
+                                                                                                                                                          VConnectSpecialistCollectionKeys.specialistProfileImageURL: connectSpecialist.specialistProfileImageURL ?? "",
+                                                                                                                                                          VConnectSpecialistCollectionKeys.yearsOfExperience: connectSpecialist.yearsOfExperience, VConnectSpecialistCollectionKeys.profession: connectSpecialist.profession
+        ]) { (error) in
+            if let error = error {
+                completionHandler(error)
+            } else {
+                completionHandler(nil)
+            }
+        }
+        
+        
+        
+    }
+    
+    
+    
     static public func createVConnectUserNGOBookMark(vConnectUserID: String, bookMarkedNGOs: NGO, completionHandler: @escaping(AppError?) -> Void) {
         firestoreDataBase.collection(BookMarkedNGOCollectionKey.bookMarkedNgoCollectionKey).document(vConnectUserID).setData([BookMarkedNGOCollectionKey.contactPersonName: bookMarkedNGOs.contactPersonName, BookMarkedNGOCollectionKey.fridayHours: bookMarkedNGOs.fridayHours, BookMarkedNGOCollectionKey.mondayHours: bookMarkedNGOs.mondayHours, BookMarkedNGOCollectionKey.ngoAcrimony : bookMarkedNGOs.ngoAcrimony ?? " ", BookMarkedNGOCollectionKey.ngoCategory: bookMarkedNGOs.ngoCategory, BookMarkedNGOCollectionKey.ngoCity : bookMarkedNGOs.ngoCity, BookMarkedNGOCollectionKey.ngoDescription: bookMarkedNGOs.ngoDescription, BookMarkedNGOCollectionKey.ngoEmail: bookMarkedNGOs.ngoEmail, BookMarkedNGOCollectionKey.ngoImagesURL: bookMarkedNGOs.ngoImagesURL, BookMarkedNGOCollectionKey.ngoName: bookMarkedNGOs.ngoName, BookMarkedNGOCollectionKey.ngoPhoneNumber: bookMarkedNGOs.ngoPhoneNumber, BookMarkedNGOCollectionKey.ngoState: bookMarkedNGOs.ngoState, BookMarkedNGOCollectionKey.ngoStreetAddress: bookMarkedNGOs.ngoStreetAddress, BookMarkedNGOCollectionKey.ngoWebsite: bookMarkedNGOs.ngoWebsite ?? " ", BookMarkedNGOCollectionKey.ngoZipCode: bookMarkedNGOs.ngoZipCode, BookMarkedNGOCollectionKey.ratingsValue: bookMarkedNGOs.ratingsValue, BookMarkedNGOCollectionKey.reviews: bookMarkedNGOs.reviews, BookMarkedNGOCollectionKey.saturdayHours: bookMarkedNGOs.saturdayHours, BookMarkedNGOCollectionKey.sundayHours: bookMarkedNGOs.sundayHours, BookMarkedNGOCollectionKey.thursdayHours: bookMarkedNGOs.thursdayHours, BookMarkedNGOCollectionKey.tuesdayHours: bookMarkedNGOs.tuesdayHours, BookMarkedNGOCollectionKey.wedsDayHours: bookMarkedNGOs.wedsDayHours, BookMarkedNGOCollectionKey.vConnectUserID: vConnectUserID, BookMarkedNGOCollectionKey.bookMarkedDate: Date.customizedDateFormat()], completion: { (error) in
             if let error = error {
@@ -71,16 +99,42 @@ final class DataBaseService {
         }
         
         
+        
+        
+        
+    }
+    
+    static public func createReview(on nGOID: String,reviewerID: String,with review: String, completionHandler:@escaping(Error?) -> Void) {
+        
+        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(nGOID).collection(NGOReviewsCollectionKey.nGOReviews).addDocument(data: [NGOReviewsCollectionKey.reviewerID: reviewerID, NGOReviewsCollectionKey.date: Date.reviewDateFormatter(), NGOReviewsCollectionKey.review: review]) { (error) in
+            if let error = error {
+                completionHandler(error)
+            } else {
+                completionHandler(nil)
+            }
+        }
+        
     }
     
     
-    
-    static public func fetchVConnectUser(vConnectUserID: String, completionHandler: @escaping(Error?, VConnectUser?) -> Void) {
-        DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).whereField(VConnectUserCollectionKeys.userID, isEqualTo: vConnectUserID).getDocuments { (querySnapShot, error) in
+    static public func fetchAllNGOReviews(with ngoID: String, completionHandler: @escaping(Error?, NGOReviews?) -> Void) {
+        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngoID).collection(NGOReviewsCollectionKey.nGOReviews).getDocuments { (snapShot, error) in
             if let error = error {
                 completionHandler(error, nil)
-            } else if let querySnapShot = querySnapShot?.documents.first {
-                let vConnectUser = VConnectUser(dict: querySnapShot.data())
+            } else if let snapShot = snapShot?.documents.first {
+                let ngoReviews = NGOReviews.init(dict: snapShot.data())
+                print(ngoReviews)
+                completionHandler(nil, ngoReviews)
+            }
+        }
+    }
+    
+    static public func fetchVConnectUserr(with vConnectID: String, completionHandler: @escaping(Error?, VConnectUser?) -> Void) {
+        DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).whereField(VConnectUserCollectionKeys.userID, isEqualTo: vConnectID).addSnapshotListener(includeMetadataChanges: true) { (snapShot, error) in
+            if let error = error {
+                completionHandler(error, nil)
+            } else if let snapshotDoc = snapShot?.documents.first {
+                let vConnectUser = VConnectUser.init(dict: snapshotDoc.data())
                 completionHandler(nil, vConnectUser)
             }
         }
@@ -112,30 +166,37 @@ final class DataBaseService {
     static public func saveProfileImage(with imageData: Data, with imageName: String, with completionHandler: @escaping (Error?, URL?) -> Void){
         
         let metaData = StorageMetadata()
-        let imageRef = storageService.child(VConnectUserCollectionKeys.profileImageURL + "/\(imageName)")
+        let imageRef = storageService.child(VConnectUserCollectionKeys.profileImageURL + "/\(imageName)" + ".jpg")
         metaData.contentType = "image/jpg"
         let uploadTask = imageRef
             .putData(imageData, metadata: metaData) { (metaData, error) in
             if let error = error {
-             
-            } else if let _ = metaData {
                 
+                print("We encountered this error: \(error.localizedDescription)")
+             
+            } else if let metaData = metaData {
+                
+                print(metaData)
             }
         }
         uploadTask.observe(.failure) { (snapShot) in
+            print("Failure")
             //
         }
         
         uploadTask.observe(.pause) { (snapShot) in
+             print("Pause")
             //
         }
         
         uploadTask.observe(.progress) { (snapShot) in
+             print("progress")
             //
         }
         
         uploadTask.observe(.resume) { (snapShot) in
             //
+             print("resume")
         }
         
         uploadTask.observe(.success) { (snapShot) in

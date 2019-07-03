@@ -19,6 +19,7 @@ class NGOsViewController: UIViewController {
     private var coordinates = CLLocationCoordinate2D()
     public var locationManager = CLLocationManager()
     var defaultCoordinates = CLLocationCoordinate2DMake(0.0, 0.0)
+    var authServices = AppDelegate.authService
     private var allNGOsInCategory = [NGO](){
         didSet {
             DispatchQueue.main.async {
@@ -59,6 +60,7 @@ class NGOsViewController: UIViewController {
         nGOsView.toggleView.tintColor = .white
         makeAnnotations()
         checkLocationAuthorizationStatus()
+    
     }
     
     init(nGOsInCategory: [NGO]){
@@ -77,12 +79,15 @@ class NGOsViewController: UIViewController {
         
         return userLocationCoordinates
     }
-    
+
     
     private func generateMilesDifference(with cell: NGOsTableViewCell){
         
         let userCurrentLocation = CLLocation(latitude: getUserLocationCoordinates().latitude, longitude: getUserLocationCoordinates().longitude)
         let nGOLocation = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+        
+        print(nGOLocation)
+        print(coordinates)
         
         let distanceFromNGO = userCurrentLocation.distance(from: nGOLocation)
         let distanceInMiles = distanceFromNGO/1609.344
@@ -90,10 +95,51 @@ class NGOsViewController: UIViewController {
         
     }
     
+    
+    func getImages(ngo: NGO, completionHandler: @escaping ([NGOImages]) -> Void) {
+        
+        var nGOImages = [NGOImages]()
+        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngo.ngOID).collection(Constants.nGOImagesPath).getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription) encountered while fetching documents")
+            } else if let snapShot = snapshot {
+                
+                for document in snapShot.documents {
+                    let ngoImage = NGOImages.init(dict: document.data())
+                    nGOImages.append(ngoImage)
+                    
+                }
+                
+                completionHandler(nGOImages)
+                
+            }
+        }
+    }
+    
+    private func saveUserLocation(with coordinates: CLLocation){
+        
+        guard let user = authServices.getCurrentVConnectUser() else {return}
+        
+        geoCoder.reverseGeocodeLocation(coordinates) { (placeMark, error) in
+            if error != nil {
+                
+            } else if let placemark = placeMark?.first{
+                DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.location).document(user.uid).updateData([VConnectUserCollectionKeys.location: placemark.locality ?? ""])
+            }
+        }
+        
+        
+        
+    }
+
+    
+    
     private func locationAuthorizationStatus(){
         
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:
+            let location = CLLocation(latitude: getUserLocationCoordinates().latitude, longitude: getUserLocationCoordinates().longitude)
+            saveUserLocation(with: location)
             getUserLocationCoordinates()
             break
         case .denied:
@@ -174,6 +220,7 @@ class NGOsViewController: UIViewController {
                    self.showAlert(title: "Error", message: error.localizedDescription)
                 } else if let addressCoordinates = coordinate {
                     self.coordinates = addressCoordinates
+                    print(self.coordinates)
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2DMake(addressCoordinates.latitude, addressCoordinates.longitude)
               
@@ -189,6 +236,16 @@ class NGOsViewController: UIViewController {
         }
  
     }
+    
+    private func setRatingValue(with ratingValue: Double, on nGOCell: NGOsTableViewCell) {
+        nGOCell.cosmosView.settings.starMargin = 3.5
+        nGOCell.cosmosView.settings.totalStars =  5
+        nGOCell.cosmosView.settings.updateOnTouch = false
+       nGOCell.cosmosView.rating = ratingValue
+      nGOCell.cosmosView.settings.fillMode = .half
+    }
+    
+    
 }
 
 extension NGOsViewController: UISearchBarDelegate {
@@ -220,7 +277,6 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
         guard let nGOsCell = tableView.dequeueReusableCell(withIdentifier: "NGOsTableViewCell", for: indexPath) as? NGOsTableViewCell else {return UITableViewCell()}
         
     let nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOsInCategory[indexPath.row]
-        
    nGOsCell.nGOName.text = nGOToSet.ngoName
    nGOsCell.nGOCity.text = nGOToSet.ngoCity
    nGOsCell.backgroundColor = .clear
@@ -228,20 +284,24 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
    nGOsCell.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
    nGOsCell.layer.cornerRadius = 2
     generateMilesDifference(with: nGOsCell)
-        
+    setRatingValue(with: nGOToSet.ratingsValue, on: nGOsCell)
     return nGOsCell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOsInCategory[indexPath.row]
-        let nGODetailViewController = NGODetailsViewController(nGO: nGOToSet)
-        self.navigationController?.pushViewController(nGODetailViewController, animated: true)
+        var nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOsInCategory[indexPath.row]
+      
+        getImages(ngo: nGOToSet) { (ngoImages) in
+            nGOToSet.ngoImagesURL = ngoImages
+            let nGODetailViewController = NGODetailsViewController(nGO: nGOToSet)
+            self.navigationController?.pushViewController(nGODetailViewController, animated: true)
+        }
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 180
     }
     
 }

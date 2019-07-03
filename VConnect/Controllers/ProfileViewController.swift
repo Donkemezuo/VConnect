@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import Toucan
 import CoreLocation
+import Kingfisher
 
 
 class ProfileViewController: UIViewController {
@@ -29,14 +30,6 @@ class ProfileViewController: UIViewController {
     private var isExpanded = false
     private var transition = TransitionManager()
     var vConnectUserr: VConnectUser!
-    
-    private var tapGesture: UITapGestureRecognizer!
-    
-    private var imagePicker: UIImagePickerController = {
-        let imagePicker = UIImagePickerController()
-        return imagePicker
-    }()
-    
     private var locationManager = CLLocationManager()
     private var geoCoder = CLGeocoder()
     
@@ -53,10 +46,8 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = UIColor.init(hexString: "033860")
         navigationItem.title = "Profile"
         profileTabelview.tableHeaderView = profileHeaderView
-        imagePicker.delegate = self
         configureProfile()
         updateVConnectUserProfile()
-        editvConnectUserProfileImage()
         setupVConnectUserLocation()
         fetchUserBookMarkedNGOs()
         profileTabelview.delegate =  self
@@ -69,6 +60,7 @@ class ProfileViewController: UIViewController {
         profileSettingsBarButton = UIBarButtonItem(image: UIImage.init(named: "icons8-settings"), style: .plain, target: self, action: #selector(profileSettingsBarButtonPressed))
         navigationItem.leftBarButtonItem = profileSettingsBarButton
     }
+    
     
     @objc private func profileSettingsBarButtonPressed(){
         
@@ -101,16 +93,6 @@ class ProfileViewController: UIViewController {
     
     
     private func configureCellsPressed(_ selectedCellType: SelectedCellType){
-        
-        /*
- 
-         case profileSetting
-         case becomeSpecialist
-         case registerNGO
-         case logOut
- 
-         */
-        
         switch selectedCellType {
         case .profileSetting:
             break
@@ -147,40 +129,7 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-    
-    
-    
-    private func setUserProfileImage(selectedImage: UIImage) {
-        guard let imageData = selectedImage.jpegData(compressionQuality: 1.0), let loggedInUser = authService.getCurrentVConnectUser(), let _ = profileHeaderView.vConnectUserProfileImageView.image else {return}
-        DataBaseService.saveProfileImage(with: imageData, with: Constants.ProfileImagePath + loggedInUser.uid) {[weak self] (error, imageUrl) in
-            if let _ = error {
-                
-            } else if let imageUrl = imageUrl {
-                let profileImageRequest = loggedInUser.createProfileChangeRequest()
-                profileImageRequest.photoURL = imageUrl
-                profileImageRequest.commitChanges(completion: { (error) in
-                    if let error = error {
-                        self?.showAlert(title: "Error saving image", message: error.localizedDescription)
-                    }
-                })
-                
-        DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).document(loggedInUser.uid).updateData([VConnectUserCollectionKeys.profileImageURL : imageUrl.absoluteString], completion: { (error) in
-                    if let error = error {
-                       self?.showAlert(title: "Error saving image", message: error.localizedDescription)
-                    }
-                })
-                self?.dismiss(animated: true, completion: nil)
-            }
-        }
-    }
-    
-    
-    private func editvConnectUserProfileImage(){
-        profileHeaderView.vConnectUserProfileImageView.isUserInteractionEnabled = true
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(editProfileImageClicked))
-        profileHeaderView.vConnectUserProfileImageView.addGestureRecognizer(tapGesture)
-    }
-    
+
     private func setupVConnectUserLocation(){
         guard let vConnectUserLocation = locationManager.location?.coordinate else {
             return
@@ -197,65 +146,33 @@ class ProfileViewController: UIViewController {
         
     }
     
-    private func showImagePicker(){
-        present(imagePicker, animated: true, completion: nil)
-    }
-    
-    @objc private func editProfileImageClicked(){
-        
-        let alertController = UIAlertController(title: "Edit Profile Image?", message: "You can change your profile image", preferredStyle: .actionSheet)
-        
-        let camera = UIAlertAction(title: "Camera", style: .default) { (alert) in
-            self.imagePicker.sourceType = .camera
-            self.showImagePicker()
-        }
-        
-        let photoLibrary = UIAlertAction(title: "PhotoLibrary", style: .default) { (alert) in
-            self.imagePicker.sourceType = .photoLibrary
-            self.showImagePicker()
-        }
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
-          self.dismiss(animated: true, completion: nil)
-        }
-        
-        alertController.addAction(camera)
-        alertController.addAction(photoLibrary)
-        alertController.addAction(cancel)
-        present(alertController, animated: true, completion: nil)
-        
-    }
-    
-    
     private func updateVConnectUserProfile(){
         guard let vConnectUser = authService.getCurrentVConnectUser() else {
             showAlert(title: "Error", message: "No current signed in VConnect User")
             return
         }
         
-        print(vConnectUser.displayName ?? "")
-        
-        DataBaseService.fetchVConnectUser(vConnectUserID: vConnectUser.uid) {[weak self] (error, vConnectUser) in
+        DataBaseService.fetchVConnectUserr(with: vConnectUser.uid) { [weak self] (error, vConnectUser) in
             if let error = error {
                 self?.showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while fetching VConnect User")
-            } else {
-                if let vConnectUser = vConnectUser {
-                    self?.profileHeaderView.vConnectUserEmailLabel.text = vConnectUser.emailAddress
+            } else if let vConnectUser = vConnectUser {
+                self?.profileHeaderView.vConnectUserEmailLabel.text = vConnectUser.emailAddress
 
-                    self?.profileHeaderView.vConnectUserNameLabel.text = vConnectUser.firstName + " " + vConnectUser.lastName
-                    
-                    guard let profilePhotoUrl = vConnectUser.profileImageURL,
-                        !profilePhotoUrl.isEmpty else {return}
-                    
+                self?.profileHeaderView.vConnectUserNameLabel.text = vConnectUser.firstName + " " + vConnectUser.lastName
+
+                guard let profilePhotoUrl = vConnectUser.profileImageURL,
+                    !profilePhotoUrl.isEmpty else {return}
+
+                self?.profileHeaderView.vConnectUserProfileImageView.kf.setImage(with:URL(string: profilePhotoUrl), placeholder:#imageLiteral(resourceName: "VCConectLogo.png") )
             }
+
         }
-    }
-    
+
 }
     
     private func getLoggedInUser(with userID: String, completionHandler: @escaping(Error?, VConnectUser?) -> Void){
       
-        DataBaseService.fetchVConnectUser(vConnectUserID: userID) { (error, vConnectUser) in
+        DataBaseService.fetchVConnectUserr(with: userID) { (error, vConnectUser) in
             if let error = error {
                 completionHandler(error,nil)
                 
@@ -267,27 +184,6 @@ class ProfileViewController: UIViewController {
     }
 }
 
-extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
-            return
-        }
-        
-        let resizedProfileImage = Toucan.init(image: originalImage).resize(CGSize(width: 500, height: 500))
-        
-        profileHeaderView.vConnectUserProfileImageView.image = resizedProfileImage.image
-        guard let processedImage = resizedProfileImage.image else {return}
-        setUserProfileImage(selectedImage: processedImage)
-        updateVConnectUserProfile()
-        dismiss(animated: true, completion: nil)
-    }
-    
-}
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

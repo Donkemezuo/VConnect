@@ -10,6 +10,7 @@ import Foundation
 
 struct VConnectSpecialistCollectionKeys {
     
+    static let vConnectSpecialistCollectionKeys = "allRegisteredVConnectSpecialist"
     static let firstName = "firstName"
     static let lastName = "lastName"
     static let biography = "biography"
@@ -23,4 +24,6 @@ struct VConnectSpecialistCollectionKeys {
     static let specialistProfileImageURL = "specialistProfileImageURL"
     static let portfolioImagesURL = "portfolioImagesURL"
     static let joinedDate = "joinedDate"
+    static let coverImageURL = "coverImageURL"
+    static let profession = "profession"
 }
