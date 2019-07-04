@@ -22,11 +22,10 @@ class NGODetailsViewController: UIViewController {
             }
         }
     }
-    let rateView = RateView()
     private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     
-    
-   
+    private var numberOfRaters = 1.0
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +41,6 @@ class NGODetailsViewController: UIViewController {
         nGOsDetailView.reviewView.backgroundColor = .clear
         setUpPostButton()
 
-        
-        
     }
     
     init(nGO: NGO) {
@@ -212,13 +209,17 @@ Sunday:     \(nGO.sundayHours)
         customView.widthAnchor.constraint(equalTo: alertController.view.widthAnchor).isActive = true
         customView.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -80).isActive = true
         let thankYou = UIAlertAction(title: "Rate", style: .default) { (alert) in
+            self.numberOfRaters += 1
+            let ngoRatingsValue = (self.nGO.ratingsValue + customView.rating) / self.numberOfRaters
+            
+            DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(self.nGO.ngOID).updateData([NGOsCollectionKeys.ratingsValue: ngoRatingsValue])
+
         self.writeReviewOnNGO(withA: customView.rating)
+            
         }
         
         alertController.addAction(thankYou)
         present(alertController, animated: true)
-        
-        
         
     }
     
@@ -282,15 +283,15 @@ extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
         let review = allNGOReviews[indexPath.row]
         fetchReviewer(with: review.reviewerID, reviewCell: reviewsCell)
         reviewsCell.reviewTextView.text = review.review
+        reviewsCell.cosmosView.rating = review.ratingValue
         reviewsCell.reviewDate.text = review.date
         reviewsCell.backgroundColor = .clear
-        //circleImageView(cell: reviewsCell)
         
         return reviewsCell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 150
     }
     
     
