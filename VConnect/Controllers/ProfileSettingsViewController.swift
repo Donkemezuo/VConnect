@@ -10,8 +10,6 @@ import UIKit
 
 enum SelectedCellType: Int {
     case profileSetting
-    case becomeSpecialist
-    case registerNGO
     case logOut
 }
 
@@ -52,14 +50,6 @@ class ProfileSettingsViewController: UITableViewController {
         cell.backgroundColor = .clear
     }
     
-    private func segueToNGORegistration(){
-        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
-        guard let registrationViewController = storyBoard.instantiateViewController(withIdentifier: "ngoReg") as? NGORegistrationTableViewController else {return}
-    
-        present(registrationViewController, animated: true, completion: nil)
-    
-    }
-    
     private func segueToProfileSettingVC(){
         
         guard let destination = storyboard?.instantiateViewController(withIdentifier: "VConnectUserProfileSettingsViewController") as? VConnectUserProfileSettingsViewController else {return}
@@ -67,11 +57,7 @@ class ProfileSettingsViewController: UITableViewController {
         present(destination, animated: true, completion: nil)
     }
     
-    private func segueToRegisterSpecialistVC(){
-        guard let destination = storyboard?.instantiateViewController(withIdentifier: "SpecialistRegistrationTableViewController") as? SpecialistRegistrationTableViewController else {return }
-        destination.vConnecter = vConnectUser
-        present(destination, animated: true, completion: nil)
-    }
+
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedCell = SelectedCellType(rawValue: indexPath.row - 1) else {return}
@@ -79,20 +65,20 @@ class ProfileSettingsViewController: UITableViewController {
         switch selectedCell {
         case .profileSetting:
          segueToProfileSettingVC()
-        case .becomeSpecialist:
-       segueToRegisterSpecialistVC()
+            //tableView.separatorStyle = .none
         case .logOut:
             authService.signOutVConnectUser()
-        case .registerNGO:
-            segueToNGORegistration()
+             //tableView.separatorStyle = .none
+
         }
         
         dismiss(animated: true) {[weak self] in
             self?.didSelectCell?(selectedCell)
         }
         
-        
     }
+    
+    
     
     
     

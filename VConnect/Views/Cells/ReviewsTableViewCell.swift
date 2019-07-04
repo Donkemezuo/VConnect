@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cosmos
 
 class ReviewsTableViewCell: UITableViewCell {
     
@@ -41,6 +42,23 @@ class ReviewsTableViewCell: UITableViewCell {
         return reviewDate
     }()
     
+    
+    public lazy var cosmosView: CosmosView = {
+        var ratingsView = CosmosView()
+        return ratingsView
+    }()
+
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        reviewerProfileImage.contentMode = .scaleAspectFill
+        reviewerProfileImage.layer.cornerRadius = reviewerProfileImage.frame.size.width/2
+        reviewerProfileImage.layer.masksToBounds = false
+        reviewerProfileImage.layer.borderColor = UIColor.lightGray.cgColor
+        reviewerProfileImage.layer.borderWidth = 1
+        reviewerProfileImage.clipsToBounds = true 
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         commonInit()
@@ -61,6 +79,7 @@ class ReviewsTableViewCell: UITableViewCell {
         setImageViewConstrains()
         setReviewerNameConstrains()
         setDateLabelConstrains()
+        setRatingsViewConstrains()
         setReviewTextViewConstrains()
         
     }
@@ -68,7 +87,7 @@ class ReviewsTableViewCell: UITableViewCell {
     private func setImageViewConstrains(){
         addSubview(reviewerProfileImage)
         reviewerProfileImage.translatesAutoresizingMaskIntoConstraints = false
-        reviewerProfileImage.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        reviewerProfileImage.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
         reviewerProfileImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
         reviewerProfileImage.widthAnchor.constraint(equalToConstant: 50).isActive = true
         reviewerProfileImage.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -93,10 +112,20 @@ class ReviewsTableViewCell: UITableViewCell {
         reviewDate.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
     
+    private func setRatingsViewConstrains(){
+        addSubview(cosmosView)
+        cosmosView.translatesAutoresizingMaskIntoConstraints = false
+        cosmosView.topAnchor.constraint(equalTo: reviewerProfileImage.bottomAnchor, constant: 10).isActive = true
+        cosmosView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+        cosmosView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        cosmosView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+    }
+    
     public func setReviewTextViewConstrains(){
         addSubview(reviewTextView)
         reviewTextView.translatesAutoresizingMaskIntoConstraints = false
-        reviewTextView.topAnchor.constraint(equalTo: reviewerProfileImage.bottomAnchor, constant: 5).isActive = true
+        reviewTextView.topAnchor.constraint(equalTo: cosmosView.bottomAnchor, constant: 5).isActive = true
         reviewTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
         reviewTextView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         reviewTextView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true

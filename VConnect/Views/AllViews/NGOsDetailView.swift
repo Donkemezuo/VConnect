@@ -57,6 +57,7 @@ class NGOsDetailView: UIView {
         website.isSelectable = false
         website.dataDetectorTypes = UIDataDetectorTypes.link
         website.isScrollEnabled =  false
+        website.isUserInteractionEnabled = true 
         return website
     }()
 

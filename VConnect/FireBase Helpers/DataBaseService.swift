@@ -104,9 +104,9 @@ final class DataBaseService {
         
     }
     
-    static public func createReview(on nGOID: String,reviewerID: String,with review: String, completionHandler:@escaping(Error?) -> Void) {
+    static public func createReview(on nGOID: String,reviewerID: String,with review: String, withA ratingValue: Double, completionHandler:@escaping(Error?) -> Void) {
         
-        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(nGOID).collection(NGOReviewsCollectionKey.nGOReviews).addDocument(data: [NGOReviewsCollectionKey.reviewerID: reviewerID, NGOReviewsCollectionKey.date: Date.reviewDateFormatter(), NGOReviewsCollectionKey.review: review]) { (error) in
+        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(nGOID).collection(NGOReviewsCollectionKey.nGOReviews).addDocument(data: [NGOReviewsCollectionKey.reviewerID: reviewerID, NGOReviewsCollectionKey.date: Date.reviewDateFormatter(), NGOReviewsCollectionKey.review: review, NGOReviewsCollectionKey.ratingValue: ratingValue]) { (error) in
             if let error = error {
                 completionHandler(error)
             } else {

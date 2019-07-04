@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cosmos
 
 class NGODetailsViewController: UIViewController {
     
@@ -21,8 +22,8 @@ class NGODetailsViewController: UIViewController {
             }
         }
     }
-    //let rateView = RateView()
-   
+    let rateView = RateView()
+    private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     
     
    
@@ -40,7 +41,7 @@ class NGODetailsViewController: UIViewController {
         fetchReviews(with: nGO.ngOID)
         nGOsDetailView.reviewView.backgroundColor = .clear
         setUpPostButton()
-        //nGOsDetailView.addSubview(rateView)
+
         
         
     }
@@ -48,7 +49,7 @@ class NGODetailsViewController: UIViewController {
     init(nGO: NGO) {
         super.init(nibName: nil, bundle: nil)
         self.nGO = nGO
-        //setUpPostButton()
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -164,13 +165,13 @@ Sunday:     \(nGO.sundayHours)
     private func circleImageView(cell: ReviewsTableViewCell){
         cell.reviewerProfileImage.layer.cornerRadius = cell.reviewerProfileImage.bounds.width / 2.0
         cell.reviewerProfileImage.contentMode = .scaleAspectFill
-        cell.reviewerProfileImage.layer.masksToBounds = false
+        cell.reviewerProfileImage.layer.masksToBounds = true
         cell.reviewerProfileImage.clipsToBounds = true
         
     }
     
     
-    private func writeReviewOnNGO(){
+    private func writeReviewOnNGO(withA ratingsValue: Double){
         
         guard let reviewer = authService.getCurrentVConnectUser() else {
             showAlert(title: "Error", message: "Only logged in users can leave a review")
@@ -182,22 +183,45 @@ Sunday:     \(nGO.sundayHours)
             self.showAlert(title: "Error", message: "Cannot post empty review")
             return
         }
-        
-        
-        
-        DataBaseService.createReview(on: nGO.ngOID, reviewerID: reviewer.uid, with: review) { (error) in
+
+        DataBaseService.createReview(on: nGO.ngOID, reviewerID: reviewer.uid, with: review, withA: ratingsValue) { (error) in
             if let error = error {
                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while posting review on NGO")
             } else {
-                self.showAlert(title: "Successfully posted review", message: "Thank you for leaving a review on this NGO", handler: { (alert) in
-                    
-                    self.present(RateViewController(), animated: true, completion: nil)
-                    
-                    //self.dismiss(animated: true, completion: nil)
+                self.showAlert(title: "Successfully posted review", message: "Thank you for leaving a review on this organization", handler: { (alert) in
+                self.dismiss(animated: true, completion: nil)
                 })
             }
         }
     }
+    
+    
+    private func presentRatingView(){
+        
+        let alertController = UIAlertController(title: "Rate Experience", message: "Please rate your experience", preferredStyle: .alert)
+        let customView = CosmosView()
+        customView.settings.starMargin = 3.5
+        customView.settings.totalStars = 5
+        customView.settings.starSize = 30
+        customView.settings.fillMode = .half
+        alertController.view.addSubview(customView)
+        customView.translatesAutoresizingMaskIntoConstraints = false
+        customView.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 80).isActive = true
+        customView.leadingAnchor.constraint(equalTo: alertController.view.leadingAnchor, constant: 55).isActive = true
+        customView.trailingAnchor.constraint(equalTo: alertController.view.trailingAnchor, constant: -50).isActive = true
+        customView.widthAnchor.constraint(equalTo: alertController.view.widthAnchor).isActive = true
+        customView.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -80).isActive = true
+        let thankYou = UIAlertAction(title: "Rate", style: .default) { (alert) in
+        self.writeReviewOnNGO(withA: customView.rating)
+        }
+        
+        alertController.addAction(thankYou)
+        present(alertController, animated: true)
+        
+        
+        
+    }
+    
     
     private func setUpPostButton(){
         nGOsDetailView.reviewView.sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
@@ -205,7 +229,7 @@ Sunday:     \(nGO.sundayHours)
     }
     
     @objc private func sendButtonPressed(){
-        writeReviewOnNGO()
+        self.presentRatingView()
     }
 
 }
@@ -226,20 +250,25 @@ extension NGODetailsViewController: UICollectionViewDelegateFlowLayout, UICollec
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width * 0.4889, height: collectionView.frame.size.height * 0.8)
+          let numberOfCells: CGFloat = 2
+          let numberOfSpaces: CGFloat = numberOfCells + 1
+          let screenWidth = UIScreen.main.bounds.width
+          let screenHeight = UIScreen.main.bounds.height
+        
+       return CGSize(width: (screenWidth - (cellSpacing * numberOfSpaces)) / numberOfCells, height: screenHeight * 0.3)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        return UIEdgeInsets(top: cellSpacing, left: cellSpacing, bottom: 0, right: cellSpacing)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return cellSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return cellSpacing
     }
 }
 
@@ -255,13 +284,13 @@ extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
         reviewsCell.reviewTextView.text = review.review
         reviewsCell.reviewDate.text = review.date
         reviewsCell.backgroundColor = .clear
-        circleImageView(cell: reviewsCell)
+        //circleImageView(cell: reviewsCell)
         
         return reviewsCell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 120
     }
     
     

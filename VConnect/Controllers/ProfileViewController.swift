@@ -96,10 +96,6 @@ class ProfileViewController: UIViewController {
         switch selectedCellType {
         case .profileSetting:
             break
-        case .becomeSpecialist:
-        break
-        case .registerNGO:
-        navigationController?.pushViewController(NGORegistrationTableViewController(), animated: true)
         case.logOut:
             break
         

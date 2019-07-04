@@ -89,7 +89,7 @@ struct NGO {
         self.ngoStreetAddress = dict[NGOsCollectionKeys.ngoStreetAddress] as? String ?? "NGO does not have a registered street address"
         self.ngoCity = dict[NGOsCollectionKeys.ngoCity] as? String ?? "NGO does not have a registered city"
         self.ngoState = dict[NGOsCollectionKeys.ngoState] as? String ?? "NGO does not have a registered state"
-        self.ngoZipCode = dict[NGOsCollectionKeys.ngoZipCode] as? String ?? "NGO does not have a registered zipCode"
+        self.ngoZipCode = dict[NGOsCollectionKeys.ngoZipCode] as? String ?? "No registered zipCode"
         self.contactPersonName = dict[NGOsCollectionKeys.contactPersonName] as? String ?? "NGO does not have a registered contact person"
         //self.ngoImagesURL = dict[NGOsCollectionKeys.ngoImagesURL] as? String ?? "NGO does not have any images uploaded"
         self.ratingsValue = dict[NGOsCollectionKeys.ratingsValue] as? Double ?? 0.0
@@ -131,11 +131,13 @@ struct NGOReviews {
     var date: String
     var reviewerID: String
     var ngoID: String
+    var ratingValue: Double
     init(dict: [String: Any]) {
         self.date = dict[NGOReviewsCollectionKey.date] as? String ?? "No review date"
         self.review = dict[NGOReviewsCollectionKey.review] as? String ?? "No review"
         self.reviewerID = dict[NGOReviewsCollectionKey.reviewerID] as? String ?? "No reviewer ID"
         self.ngoID = dict[NGOsCollectionKeys.ngOID] as? String ?? "No NGO ID"
+        self.ratingValue = dict[NGOReviewsCollectionKey.ratingValue] as? Double ?? 0.0
     }
     
 }

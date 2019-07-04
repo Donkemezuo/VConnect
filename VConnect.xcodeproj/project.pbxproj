@@ -7,13 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0417EC9122C85EAC00710235 /* ReviewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9022C85EAC00710235 /* ReviewsView.swift */; };
 		0417EC9322C863D500710235 /* ReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9222C863D500710235 /* ReviewsTableViewCell.swift */; };
 		0417EC9522C9765500710235 /* VConnectUserProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */; };
 		0417EC9722C9844100710235 /* VConnectUserProfileSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */; };
 		041B726622B60E81000BF08F /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */; };
 		041B726822B6179A000BF08F /* NGORegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */; };
-		041FD4E422CB32B2007EFD22 /* RateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FD4E322CB32B2007EFD22 /* RateViewController.swift */; };
 		041FD4E622CB32CE007EFD22 /* RateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FD4E522CB32CE007EFD22 /* RateView.swift */; };
 		0435221622ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */; };
 		044C6ACB22A0673E006E6C51 /* IBDesignableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */; };
@@ -75,13 +73,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0417EC9022C85EAC00710235 /* ReviewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsView.swift; sourceTree = "<group>"; };
 		0417EC9222C863D500710235 /* ReviewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewCell.swift; sourceTree = "<group>"; };
 		0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VConnectUserProfileSettingsView.swift; sourceTree = "<group>"; };
 		0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VConnectUserProfileSettingsViewController.swift; sourceTree = "<group>"; };
 		041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
 		041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGORegistrationTableViewController.swift; sourceTree = "<group>"; };
-		041FD4E322CB32B2007EFD22 /* RateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateViewController.swift; sourceTree = "<group>"; };
 		041FD4E522CB32CE007EFD22 /* RateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateView.swift; sourceTree = "<group>"; };
 		0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedMarkedNGOsCollectionKeys.swift; sourceTree = "<group>"; };
 		044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBDesignableViews.swift; sourceTree = "<group>"; };
@@ -202,7 +198,6 @@
 				0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */,
 				04E7C73922B0500500310DCC /* ProfileSettingsViewController.swift */,
 				044C6ACE22A21779006E6C51 /* NGODetailsViewController.swift */,
-				041FD4E322CB32B2007EFD22 /* RateViewController.swift */,
 				04B695992298A095003A0B85 /* ChatViewController.swift */,
 				04B6959B2298A0A3003A0B85 /* ProfileViewController.swift */,
 				041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */,
@@ -300,7 +295,6 @@
 			children = (
 				04B695A02298F006003A0B85 /* NGOsCategoriesView.swift */,
 				044C6AD222A22B38006E6C51 /* NGOPhotosView.swift */,
-				0417EC9022C85EAC00710235 /* ReviewsView.swift */,
 				041FD4E522CB32CE007EFD22 /* RateView.swift */,
 				0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */,
 				044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */,
@@ -528,8 +522,6 @@
 				04B695A12298F006003A0B85 /* NGOsCategoriesView.swift in Sources */,
 				04D54DFD22A6173A00F1625E /* AppErrors.swift in Sources */,
 				041FD4E622CB32CE007EFD22 /* RateView.swift in Sources */,
-				041FD4E422CB32B2007EFD22 /* RateViewController.swift in Sources */,
-				0417EC9122C85EAC00710235 /* ReviewsView.swift in Sources */,
 				04BDAF2E22B5E7C200B17764 /* TransitionManager.swift in Sources */,
 				04B695C5229C51F8003A0B85 /* ProfileHeaderView.swift in Sources */,
 				04B695A42298F2F3003A0B85 /* CategoriesCollectionViewCell.swift in Sources */,

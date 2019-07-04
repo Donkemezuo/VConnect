@@ -15,6 +15,7 @@ class HoursAndAddressView: UIView {
         addressLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
         addressLabel.text = "Address"
         addressLabel.textColor = .white
+        addressLabel.textAlignment = .left
         return addressLabel
     }()
 
@@ -32,13 +33,14 @@ class HoursAndAddressView: UIView {
         hoursLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
         hoursLabel.text = "Hours"
         hoursLabel.textColor = .white
+        hoursLabel.textAlignment = .center
         return hoursLabel
     }()
 
     public lazy var addressTextView: UITextView = {
         let addressTextView = UITextView()
         addressTextView.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
-        addressTextView.textColor = .white
+        addressTextView.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         addressTextView.textAlignment = .left
         addressTextView.isEditable = false
         addressTextView.isSelectable = false
@@ -52,7 +54,7 @@ class HoursAndAddressView: UIView {
     public lazy var contactInfoTextView: UITextView = {
         let contactInfoTextView = UITextView()
         contactInfoTextView.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
-        contactInfoTextView.textColor = .white
+        contactInfoTextView.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         contactInfoTextView.isEditable = false
         contactInfoTextView.isSelectable = false
         contactInfoTextView.textAlignment = .left
@@ -66,7 +68,7 @@ class HoursAndAddressView: UIView {
     public lazy var operationalHoursTextView: UITextView = {
         let operationalHoursTextView = UITextView()
         operationalHoursTextView.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
-        operationalHoursTextView.textColor = .white
+        operationalHoursTextView.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         //operationalHoursTextView.textAlignment = .left
         operationalHoursTextView.backgroundColor = .clear
         operationalHoursTextView.isScrollEnabled =  false
@@ -93,12 +95,12 @@ class HoursAndAddressView: UIView {
     
     
     private func setupConstrains(){
-        setAddressLabelContrains()
-        setContactsLabelContrains()
-        setHoursLabelConstrains()
-        setAddressTextViewConstrains()
-        setContactTextViewConstrains()
-        setHoursTextViewConstrains()
+      setAddressLabelContrains()
+      setHoursLabelConstrains()
+      setAddressTextViewConstrains()
+      setContactsLabelContrains()
+      setContactTextViewConstrains()
+      setHoursTextViewConstrains()
         
     }
     
@@ -106,23 +108,15 @@ class HoursAndAddressView: UIView {
         addSubview(addressLabel)
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
         addressLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        addressLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5).isActive = true
-        addressLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -260).isActive = true
-    }
-    
-    private func setContactsLabelContrains(){
-        addSubview(contactLabel)
-        contactLabel.translatesAutoresizingMaskIntoConstraints = false
-        contactLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        contactLabel.leadingAnchor.constraint(equalTo: addressLabel.trailingAnchor, constant: 30).isActive = true
-        contactLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -80).isActive = true
+        addressLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30).isActive = true
+        addressLabel.widthAnchor.constraint(equalToConstant: 220).isActive = true
     }
     
     private func setHoursLabelConstrains(){
         addSubview(hoursLabel)
         hoursLabel.translatesAutoresizingMaskIntoConstraints = false
         hoursLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        hoursLabel.leadingAnchor.constraint(equalTo: contactLabel.trailingAnchor, constant: 10).isActive = true
+        hoursLabel.leadingAnchor.constraint(equalTo: addressLabel.trailingAnchor, constant: 10).isActive = true
         hoursLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
     }
     
@@ -130,17 +124,25 @@ class HoursAndAddressView: UIView {
         addSubview(addressTextView)
         addressTextView.translatesAutoresizingMaskIntoConstraints = false
         addressTextView.topAnchor.constraint(equalTo: addressLabel.bottomAnchor).isActive = true
-        addressTextView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor).isActive = true
-        addressTextView.widthAnchor.constraint(equalToConstant: 140).isActive = true
-        addressTextView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        addressTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
+        addressTextView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        addressTextView.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
-    
+
+    private func setContactsLabelContrains(){
+        addSubview(contactLabel)
+        contactLabel.translatesAutoresizingMaskIntoConstraints = false
+        contactLabel.topAnchor.constraint(equalTo: addressTextView.bottomAnchor, constant: 5).isActive = true
+        contactLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30).isActive = true
+        contactLabel.widthAnchor.constraint(equalToConstant: 220).isActive = true
+   
+    }
     private func setContactTextViewConstrains(){
         addSubview(contactInfoTextView)
         contactInfoTextView.translatesAutoresizingMaskIntoConstraints = false
         contactInfoTextView.topAnchor.constraint(equalTo: contactLabel.bottomAnchor).isActive = true
-        contactInfoTextView.leadingAnchor.constraint(equalTo: addressTextView.trailingAnchor, constant: 5).isActive = true
-        contactInfoTextView.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        contactInfoTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
+        contactInfoTextView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         contactInfoTextView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
     
@@ -148,8 +150,8 @@ class HoursAndAddressView: UIView {
         addSubview(operationalHoursTextView)
         operationalHoursTextView.translatesAutoresizingMaskIntoConstraints = false
         operationalHoursTextView.topAnchor.constraint(equalTo: hoursLabel.bottomAnchor).isActive = true
-        operationalHoursTextView.leadingAnchor.constraint(equalTo: contactInfoTextView.trailingAnchor, constant: 5).isActive = true
-        operationalHoursTextView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor).isActive = true
+        operationalHoursTextView.leadingAnchor.constraint(equalTo: addressTextView.trailingAnchor, constant: 30).isActive = true
+        operationalHoursTextView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         operationalHoursTextView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
     }
