@@ -8,6 +8,7 @@
 
 import UIKit
 import Cosmos
+import SafariServices
 
 class NGODetailsViewController: UIViewController {
     
@@ -22,6 +23,8 @@ class NGODetailsViewController: UIViewController {
             }
         }
     }
+    
+    private var tapGesture: UITapGestureRecognizer!
     private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     
     private var numberOfRaters = 1.0
@@ -40,6 +43,8 @@ class NGODetailsViewController: UIViewController {
         fetchReviews(with: nGO.ngOID)
         nGOsDetailView.reviewView.backgroundColor = .clear
         setUpPostButton()
+        setupSafariServices()
+        
 
     }
     
@@ -52,6 +57,7 @@ class NGODetailsViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
     
     
     private func nGOInformations(){
@@ -95,6 +101,27 @@ Saturday:   \(nGO.saturdayHours)
 Sunday:     \(nGO.sundayHours)
 
 """
+        
+    }
+    
+    private func setupSafariServices(){
+        
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(showSafariView))
+        nGOsDetailView.nGOWebsite.addGestureRecognizer(tapGesture)
+        
+    }
+    
+    @objc private func showSafariView(){
+        guard let website = nGO.ngoWebsite else {return }
+        
+        guard let websiteURL = URL(string: website) else {
+            showAlert(title: "Error", message: "website URL not valid")
+            return
+        }
+        
+        let safariVC = SFSafariViewController(url: websiteURL)
+        present(safariVC, animated: true)
+        
         
     }
     
@@ -154,7 +181,8 @@ Sunday:     \(nGO.sundayHours)
             if let error = error {
                 self.showAlert(title: "Error", message: "Error: \(error.localizedDescription)")
             } else if let ngoReviews = ngoReviews {
-                self.allNGOReviews.append(ngoReviews)
+                self.allNGOReviews = ngoReviews
+                
             }
         }
     }

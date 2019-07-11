@@ -18,7 +18,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var profileTabelview: UITableView!
     
     private var profileSettingsBarButton = UIBarButtonItem()
-    private var settingController: UIViewController!
+   // private var settingController: UIViewController!
     
     private lazy var profileHeaderView: ProfileHeaderView = {
         let headerView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 320 ))

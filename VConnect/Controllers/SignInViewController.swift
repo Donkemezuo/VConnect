@@ -72,12 +72,13 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
     }
     
     func didSignInToExistingVConnectUserAccount(_ authService: AuthService, user: User) {
-        showAlert(title: "Success", message: "Welcome back \(String(describing: user.displayName))") { (alert) in
+        guard let displayName = user.displayName else {return}
+        showAlert(title: "Success", message: "Welcome back \(displayName)") { (alert) in
              let storyboard = UIStoryboard(name: "Main", bundle: nil)
-               let mainTabBarController = storyboard.instantiateViewController(withIdentifier: "VConnectTabBarViewController") as! UITabBarController
-            mainTabBarController.modalTransitionStyle = .crossDissolve
-            mainTabBarController.modalPresentationStyle = .overFullScreen
-            self.present(mainTabBarController, animated: true)
+               let homeViewController = storyboard.instantiateViewController(withIdentifier: "NGOsViewController") as! NGOsViewController
+            homeViewController.modalTransitionStyle = .crossDissolve
+            homeViewController.modalPresentationStyle = .overFullScreen
+            self.present(homeViewController, animated: true)
         }
     }
     

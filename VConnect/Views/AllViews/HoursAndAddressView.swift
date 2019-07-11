@@ -43,10 +43,10 @@ class HoursAndAddressView: UIView {
         addressTextView.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         addressTextView.textAlignment = .left
         addressTextView.isEditable = false
-        addressTextView.isSelectable = false
-        addressTextView.dataDetectorTypes = UIDataDetectorTypes.address
+        //.addressTextView.isSelectable = false
+        addressTextView.dataDetectorTypes = [.address]
         addressTextView.backgroundColor = .clear
-        addressTextView.isScrollEnabled =  false
+        //addressTextView.isScrollEnabled =  false
         return addressTextView
     }()
 
@@ -56,10 +56,11 @@ class HoursAndAddressView: UIView {
         contactInfoTextView.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
         contactInfoTextView.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         contactInfoTextView.isEditable = false
-        contactInfoTextView.isSelectable = false
+       // contactInfoTextView.isSelectable = false
         contactInfoTextView.textAlignment = .left
         contactInfoTextView.backgroundColor = .clear
-        contactInfoTextView.isScrollEnabled =  false
+        //contactInfoTextView.isScrollEnabled =  false
+        contactInfoTextView.dataDetectorTypes = [.phoneNumber]
         return contactInfoTextView
     }()
 

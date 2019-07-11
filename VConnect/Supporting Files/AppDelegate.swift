@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,12 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
+        GMSServices.provideAPIKey("AIzaSyAL2-w2E0rgYVs_lZm3GRxCmsmeZsu7ehA")
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         
         if let _ = AppDelegate.authService.getCurrentVConnectUser() {
                 let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            let vConnectUserTabBarController = storyBoard.instantiateViewController(withIdentifier: "VConnectTabBarViewController") as! UITabBarController
-            window?.rootViewController = vConnectUserTabBarController
+            let homeVC = storyBoard.instantiateViewController(withIdentifier: "NGOsViewController") as! NGOsViewController
+            window?.rootViewController = UINavigationController(rootViewController: homeVC)
         } else {
         let storyBoard = UIStoryboard(name: "AuthenticationView", bundle: nil)
         let signInViewController = storyBoard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController

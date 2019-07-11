@@ -30,6 +30,7 @@ class ProfileSettingsViewController: UITableViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.init(hexString: "033860")
         setUserInfo(with: profileCell)
+        view.layer.cornerRadius = 10
    
         
     }

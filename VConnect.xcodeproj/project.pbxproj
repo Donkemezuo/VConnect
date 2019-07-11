@@ -45,11 +45,9 @@
 		04B6959222988CE6003A0B85 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6959122988CE6003A0B85 /* Date+Extension.swift */; };
 		04B6959422988F3D003A0B85 /* DataBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6959322988F3D003A0B85 /* DataBaseService.swift */; };
 		04B6959622989FD6003A0B85 /* VConnectTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6959522989FD6003A0B85 /* VConnectTabBarViewController.swift */; };
-		04B695982298A070003A0B85 /* NGOsCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695972298A070003A0B85 /* NGOsCategoriesViewController.swift */; };
 		04B6959A2298A095003A0B85 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695992298A095003A0B85 /* ChatViewController.swift */; };
 		04B6959C2298A0A3003A0B85 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6959B2298A0A3003A0B85 /* ProfileViewController.swift */; };
 		04B6959E2298A25E003A0B85 /* UserAlert+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6959D2298A25E003A0B85 /* UserAlert+Extension.swift */; };
-		04B695A12298F006003A0B85 /* NGOsCategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A02298F006003A0B85 /* NGOsCategoriesView.swift */; };
 		04B695A42298F2F3003A0B85 /* CategoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A32298F2F3003A0B85 /* CategoriesCollectionViewCell.swift */; };
 		04B695A622990730003A0B85 /* NGOsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A522990730003A0B85 /* NGOsViewController.swift */; };
 		04B695A822990910003A0B85 /* NGOsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A722990910003A0B85 /* NGOsView.swift */; };
@@ -113,11 +111,9 @@
 		04B6959122988CE6003A0B85 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		04B6959322988F3D003A0B85 /* DataBaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseService.swift; sourceTree = "<group>"; };
 		04B6959522989FD6003A0B85 /* VConnectTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VConnectTabBarViewController.swift; sourceTree = "<group>"; };
-		04B695972298A070003A0B85 /* NGOsCategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsCategoriesViewController.swift; sourceTree = "<group>"; };
 		04B695992298A095003A0B85 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		04B6959B2298A0A3003A0B85 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		04B6959D2298A25E003A0B85 /* UserAlert+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserAlert+Extension.swift"; sourceTree = "<group>"; };
-		04B695A02298F006003A0B85 /* NGOsCategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsCategoriesView.swift; sourceTree = "<group>"; };
 		04B695A32298F2F3003A0B85 /* CategoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		04B695A522990730003A0B85 /* NGOsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsViewController.swift; sourceTree = "<group>"; };
 		04B695A722990910003A0B85 /* NGOsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsView.swift; sourceTree = "<group>"; };
@@ -192,7 +188,6 @@
 		04B6956E22933F69003A0B85 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				04B695972298A070003A0B85 /* NGOsCategoriesViewController.swift */,
 				04861EF622CC63E100717938 /* SpecialistRegistrationTableViewController.swift */,
 				04B695A522990730003A0B85 /* NGOsViewController.swift */,
 				0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */,
@@ -293,7 +288,6 @@
 		04B6959F2298EFCC003A0B85 /* AllViews */ = {
 			isa = PBXGroup;
 			children = (
-				04B695A02298F006003A0B85 /* NGOsCategoriesView.swift */,
 				044C6AD222A22B38006E6C51 /* NGOPhotosView.swift */,
 				0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */,
 				044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */,
@@ -351,6 +345,7 @@
 				04B6955622933F20003A0B85 /* Frameworks */,
 				04B6955722933F20003A0B85 /* Resources */,
 				B63D9DAE694FBD25D1621FBA /* [CP] Embed Pods Frameworks */,
+				B9F288B7685A2DF8843E6859 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -476,6 +471,30 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VConnect/Pods-VConnect-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B9F288B7685A2DF8843E6859 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VConnect/Pods-VConnect-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VConnect/Pods-VConnect-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -519,7 +538,6 @@
 				04E7C73822AF6E1D00310DCC /* BookMarkedNGO.swift in Sources */,
 				044C6AD322A22B38006E6C51 /* NGOPhotosView.swift in Sources */,
 				041B726622B60E81000BF08F /* UserInfoTableViewCell.swift in Sources */,
-				04B695A12298F006003A0B85 /* NGOsCategoriesView.swift in Sources */,
 				04D54DFD22A6173A00F1625E /* AppErrors.swift in Sources */,
 				04BDAF2E22B5E7C200B17764 /* TransitionManager.swift in Sources */,
 				04B695C5229C51F8003A0B85 /* ProfileHeaderView.swift in Sources */,
@@ -527,7 +545,6 @@
 				04B6958B22979F19003A0B85 /* BackgroundColor+Extension.swift in Sources */,
 				04D54DFB22A6172000F1625E /* NetWorkHelpers.swift in Sources */,
 				04B6957922934A3E003A0B85 /* NGOsModel.swift in Sources */,
-				04B695982298A070003A0B85 /* NGOsCategoriesViewController.swift in Sources */,
 				044C6AD722A23965006E6C51 /* HoursAndAddressView.swift in Sources */,
 				0417EC9522C9765500710235 /* VConnectUserProfileSettingsView.swift in Sources */,
 				04D54DF722A6160D00F1625E /* GoogleAddressApiSecretKeys.swift in Sources */,
