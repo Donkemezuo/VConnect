@@ -13,6 +13,9 @@ import SafariServices
 class NGODetailsViewController: UIViewController {
     
     private var nGOsDetailView = NGOsDetailView()
+    private var leftSwipeGesture: UISwipeGestureRecognizer!
+    private var rightSwipeGesture: UISwipeGestureRecognizer!
+    private var detailView = DetailView()
     private var nGO: NGO!
     private var barButtonItem = UIBarButtonItem()
     private var authService = AppDelegate.authService
@@ -32,20 +35,86 @@ class NGODetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(nGOsDetailView)
+        //view.addSubview(nGOsDetailView)
         view.backgroundColor = UIColor.init(hexString: "033860")
-        nGOsDetailView.ngoPhotosView.nGOPhotosCollectionView.delegate = self
-        nGOsDetailView.ngoPhotosView.nGOPhotosCollectionView.dataSource = self
-        nGOsDetailView.reviewView.reviewsTableView.delegate = self
-        nGOsDetailView.reviewView.reviewsTableView.dataSource = self
+        view.addSubview(detailView)
+        detailView.ngoPhotosView.nGOPhotosCollectionView.delegate = self
+        detailView.ngoPhotosView.nGOPhotosCollectionView.dataSource = self
+        detailView.reviewView.reviewsTableView.delegate = self
+        detailView.reviewView.reviewsTableView.dataSource = self
+
         nGOInformations()
-        setupBarButtonItem()
+       // setupBarButtonItem()
         fetchReviews(with: nGO.ngOID)
-        nGOsDetailView.reviewView.backgroundColor = .clear
-        setUpPostButton()
-        setupSafariServices()
+        detailView.reviewView.backgroundColor = .clear
+        setUpPostReviewsButton()
+        //setupSafariServices()
+        swipeView()
+        dismissView()
         
 
+    }
+    
+    
+    private func swipeView(){
+        leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipped(_:)))
+        leftSwipeGesture.direction = .left
+        rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipped(_:)))
+        rightSwipeGesture.direction = .right
+        
+        self.detailView.containerView.addGestureRecognizer(leftSwipeGesture)
+        self.detailView.containerView.addGestureRecognizer(rightSwipeGesture)
+        
+        
+    }
+    
+    @objc private func swipped(_ sender: UISwipeGestureRecognizer){
+        
+        //detailView.segmentedControl.selectedSegmentIndex
+        
+        if sender.direction == .left {
+            
+            detailView.setSegmentedControlToggled()
+          
+            if detailView.segmentedControl.selectedSegmentIndex == 3 {
+                detailView.segmentedControl.selectedSegmentIndex = 0
+                
+                //detailView.setSegmentedControlToggled()
+            } else {
+                detailView.segmentedControl.selectedSegmentIndex += 1
+            }
+            print("swiped left")
+
+        } else if sender.direction == .right {
+            detailView.setSegmentedControlToggled()
+           // detailView.segmentedControl.selectedSegmentIndex = 0
+            if detailView.segmentedControl.selectedSegmentIndex == 0 {
+                detailView.segmentedControl.selectedSegmentIndex = 3
+            } else {
+                detailView.segmentedControl.selectedSegmentIndex -= 1
+            }
+            
+            
+            print("swiped right")
+            print(detailView.segmentedControl.selectedSegmentIndex)
+            
+        }
+        
+     
+        
+      
+        
+        // get the index
+        // Check the swipe direction
+        // if left, check the selected index, if 3, reset selected index back to 0 else selected is +1
+        // if right,check the selected index, if 0, reset selected index back to 3 else selected index - 1
+        
+       // detailView.segmentedControl.selectedSegmentIndex
+        //if leftSwipeGesture.direction = .left {
+            
+        //}
+        
+        
     }
     
     init(nGO: NGO) {
@@ -59,49 +128,25 @@ class NGODetailsViewController: UIViewController {
     }
     
     
+    private func dismissView(){
+        detailView.canCelView.addTarget(self, action: #selector(dismisButtonPressed), for: .touchUpInside)
+    }
+    
+    @objc private func dismisButtonPressed(){
+        navigationController?.popViewController(animated: true)
+    }
+    
     
     private func nGOInformations(){
-        nGOsDetailView.nGODescription.text = """
-Mission:
-
-     \(nGO.ngoDescription)
-
-
-"""
-nGOsDetailView.nGOWebsite.text = nGO.ngoWebsite
-
-        
-nGOsDetailView.ngoAddressView.addressTextView.text = nGO.fullAddress
-  
-nGOsDetailView.ngoAddressView.contactInfoTextView.text = """
-
-\(nGO.contactPersonName)
-        
-\(nGO.ngoEmail)
-        
-\(nGO.ngoPhoneNumber)
-
-
-"""
-
-nGOsDetailView.ngoAddressView.operationalHoursTextView.text = """
-    
-Monday:     \(nGO.mondayHours)
-        
-Tuesday:    \(nGO.tuesdayHours)
-        
-Wednesday:  \(nGO.wedsDayHours)
-        
-Thursday:   \(nGO.thursdayHours)
-        
-Friday:     \(nGO.fridayHours)
-        
-Saturday:   \(nGO.saturdayHours)
-        
-Sunday:     \(nGO.sundayHours)
-
-"""
-        
+        detailView.missionView.ngoDescriptionTxtView.text = nGO.ngoDescription
+        detailView.missionView.ngoMissionTxtView.text = nGO.missionStatement
+        detailView.missionView.ngoVissionTxtView.text = nGO.visionStatement
+        detailView.missionView.contactPersonNameLabel.text = nGO.contactPersonName
+        detailView.ngoAddressView.addressTxtView.text = """
+                            \(nGO.ngoStreetAddress)
+                            \(nGO.ngoCity)
+                            \(nGO.ngoState)
+        """
     }
     
     private func setupSafariServices(){
@@ -124,10 +169,6 @@ Sunday:     \(nGO.sundayHours)
         
         
     }
-    
-   
-    
-    
     
     private func setupBarButtonItem(){
         barButtonItem = UIBarButtonItem(title: "BookMark NGO", style: .plain, target: self, action: #selector(barButtonItemSelected))
@@ -204,7 +245,7 @@ Sunday:     \(nGO.sundayHours)
             
         }
         
-        guard let review = nGOsDetailView.reviewView.reviewTextField.text, !review.isEmpty else {
+        guard let review = detailView.reviewView.reviewTextField.text, !review.isEmpty else {
             self.showAlert(title: "Error", message: "Cannot post empty review")
             return
         }
@@ -214,7 +255,9 @@ Sunday:     \(nGO.sundayHours)
                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while posting review on NGO")
             } else {
                 self.showAlert(title: "Successfully posted review", message: "Thank you for leaving a review on this organization", handler: { (alert) in
+                    
                 self.dismiss(animated: true, completion: nil)
+                self.detailView.reviewView.reviewTextField.text = ""
                 })
             }
         }
@@ -246,14 +289,16 @@ Sunday:     \(nGO.sundayHours)
             
         }
         
+      
+        
         alertController.addAction(thankYou)
         present(alertController, animated: true)
         
     }
     
     
-    private func setUpPostButton(){
-        nGOsDetailView.reviewView.sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
+    private func setUpPostReviewsButton(){
+        detailView.reviewView.sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
         
     }
     

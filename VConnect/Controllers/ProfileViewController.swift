@@ -96,6 +96,8 @@ class ProfileViewController: UIViewController {
         switch selectedCellType {
         case .profileSetting:
             break
+        case .settings:
+            break 
         case.logOut:
             break
         

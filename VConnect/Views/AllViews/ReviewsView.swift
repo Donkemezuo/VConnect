@@ -65,7 +65,7 @@ class ReviewsView: UIView {
         reviewsTableView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         reviewsTableView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         reviewsTableView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        reviewsTableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40).isActive = true
+        reviewsTableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60).isActive = true
         
     }
     
@@ -73,9 +73,9 @@ class ReviewsView: UIView {
         addSubview(reviewTextField)
         reviewTextField.translatesAutoresizingMaskIntoConstraints = false
         reviewTextField.topAnchor.constraint(equalTo: reviewsTableView.bottomAnchor).isActive = true
-        reviewTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 2).isActive = true
+        reviewTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5).isActive = true
         reviewTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -100).isActive = true
-        reviewTextField.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        reviewTextField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -25).isActive = true
     }
     
     private func setSendButtonConstrains(){
@@ -83,15 +83,15 @@ class ReviewsView: UIView {
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         sendButton.topAnchor.constraint(equalTo: reviewsTableView.bottomAnchor).isActive = true
         sendButton.leadingAnchor.constraint(equalTo: reviewTextField.trailingAnchor).isActive = true
-        sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -2).isActive = true
-        sendButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+        sendButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -25).isActive = true
     }
     
 
-    @objc public func sendButtonPressed(){
-        print("Send button pressed")
-        
-    }
+//    @objc public func sendButtonPressed(){
+//        print("Send button pressed")
+//
+//    }
     
     
     

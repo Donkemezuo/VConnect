@@ -20,6 +20,10 @@
 		044C6AD322A22B38006E6C51 /* NGOPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6AD222A22B38006E6C51 /* NGOPhotosView.swift */; };
 		044C6AD522A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6AD422A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift */; };
 		044C6AD722A23965006E6C51 /* HoursAndAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */; };
+		045FACDC22D7A260003AD4D6 /* GoogleMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045FACDB22D7A260003AD4D6 /* GoogleMapView.swift */; };
+		045FACDE22D7A936003AD4D6 /* GoogleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045FACDD22D7A936003AD4D6 /* GoogleMapViewController.swift */; };
+		045FACE022D7E210003AD4D6 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045FACDF22D7E210003AD4D6 /* DetailView.swift */; };
+		045FACE222D7F07D003AD4D6 /* NGOMissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045FACE122D7F07D003AD4D6 /* NGOMissionView.swift */; };
 		04861EF322CC563700717938 /* SpecialistHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04861EF222CC563700717938 /* SpecialistHeaderView.xib */; };
 		04861EF522CC5BFF00717938 /* SpecialistProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04861EF422CC5BFF00717938 /* SpecialistProfileHeaderView.swift */; };
 		04861EF722CC63E100717938 /* SpecialistRegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04861EF622CC63E100717938 /* SpecialistRegistrationTableViewController.swift */; };
@@ -50,7 +54,6 @@
 		04B6959E2298A25E003A0B85 /* UserAlert+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6959D2298A25E003A0B85 /* UserAlert+Extension.swift */; };
 		04B695A42298F2F3003A0B85 /* CategoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A32298F2F3003A0B85 /* CategoriesCollectionViewCell.swift */; };
 		04B695A622990730003A0B85 /* NGOsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A522990730003A0B85 /* NGOsViewController.swift */; };
-		04B695A822990910003A0B85 /* NGOsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A722990910003A0B85 /* NGOsView.swift */; };
 		04B695AA2299154F003A0B85 /* NGOsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A92299154F003A0B85 /* NGOsTableView.swift */; };
 		04B695AC2299162E003A0B85 /* NGOsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695AB2299162E003A0B85 /* NGOsTableViewCell.swift */; };
 		04B695AE229917A9003A0B85 /* NGOsMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695AD229917A9003A0B85 /* NGOsMapView.swift */; };
@@ -84,6 +87,10 @@
 		044C6AD222A22B38006E6C51 /* NGOPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOPhotosView.swift; sourceTree = "<group>"; };
 		044C6AD422A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursAndAddressView.swift; sourceTree = "<group>"; };
+		045FACDB22D7A260003AD4D6 /* GoogleMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapView.swift; sourceTree = "<group>"; };
+		045FACDD22D7A936003AD4D6 /* GoogleMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapViewController.swift; sourceTree = "<group>"; };
+		045FACDF22D7E210003AD4D6 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		045FACE122D7F07D003AD4D6 /* NGOMissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOMissionView.swift; sourceTree = "<group>"; };
 		04861EF222CC563700717938 /* SpecialistHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SpecialistHeaderView.xib; sourceTree = "<group>"; };
 		04861EF422CC5BFF00717938 /* SpecialistProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialistProfileHeaderView.swift; sourceTree = "<group>"; };
 		04861EF622CC63E100717938 /* SpecialistRegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialistRegistrationTableViewController.swift; sourceTree = "<group>"; };
@@ -116,7 +123,6 @@
 		04B6959D2298A25E003A0B85 /* UserAlert+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserAlert+Extension.swift"; sourceTree = "<group>"; };
 		04B695A32298F2F3003A0B85 /* CategoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		04B695A522990730003A0B85 /* NGOsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsViewController.swift; sourceTree = "<group>"; };
-		04B695A722990910003A0B85 /* NGOsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsView.swift; sourceTree = "<group>"; };
 		04B695A92299154F003A0B85 /* NGOsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsTableView.swift; sourceTree = "<group>"; };
 		04B695AB2299162E003A0B85 /* NGOsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsTableViewCell.swift; sourceTree = "<group>"; };
 		04B695AD229917A9003A0B85 /* NGOsMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsMapView.swift; sourceTree = "<group>"; };
@@ -191,6 +197,7 @@
 				04861EF622CC63E100717938 /* SpecialistRegistrationTableViewController.swift */,
 				04B695A522990730003A0B85 /* NGOsViewController.swift */,
 				0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */,
+				045FACDD22D7A936003AD4D6 /* GoogleMapViewController.swift */,
 				04E7C73922B0500500310DCC /* ProfileSettingsViewController.swift */,
 				044C6ACE22A21779006E6C51 /* NGODetailsViewController.swift */,
 				04B695992298A095003A0B85 /* ChatViewController.swift */,
@@ -289,10 +296,12 @@
 			isa = PBXGroup;
 			children = (
 				044C6AD222A22B38006E6C51 /* NGOPhotosView.swift */,
+				045FACDB22D7A260003AD4D6 /* GoogleMapView.swift */,
+				045FACDF22D7E210003AD4D6 /* DetailView.swift */,
+				045FACE122D7F07D003AD4D6 /* NGOMissionView.swift */,
 				0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */,
 				044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */,
 				044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */,
-				04B695A722990910003A0B85 /* NGOsView.swift */,
 				04D6C59722CE0C4B0043101B /* ReviewsView.swift */,
 				04B695A92299154F003A0B85 /* NGOsTableView.swift */,
 				044C6AD022A21804006E6C51 /* NGOsDetailView.swift */,
@@ -503,7 +512,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				04B6957722934564003A0B85 /* VConnectUserCollectionKeys.swift in Sources */,
-				04B695A822990910003A0B85 /* NGOsView.swift in Sources */,
 				04B695AE229917A9003A0B85 /* NGOsMapView.swift in Sources */,
 				04B6957F2294EDCA003A0B85 /* VConnectSpecialistModel.swift in Sources */,
 				048E768A22C2C263006B7D10 /* NGOImagesCollectionKeys.swift in Sources */,
@@ -535,11 +543,15 @@
 				04B6959A2298A095003A0B85 /* ChatViewController.swift in Sources */,
 				04861EF522CC5BFF00717938 /* SpecialistProfileHeaderView.swift in Sources */,
 				044C6AD122A21804006E6C51 /* NGOsDetailView.swift in Sources */,
+				045FACDE22D7A936003AD4D6 /* GoogleMapViewController.swift in Sources */,
 				04E7C73822AF6E1D00310DCC /* BookMarkedNGO.swift in Sources */,
 				044C6AD322A22B38006E6C51 /* NGOPhotosView.swift in Sources */,
 				041B726622B60E81000BF08F /* UserInfoTableViewCell.swift in Sources */,
 				04D54DFD22A6173A00F1625E /* AppErrors.swift in Sources */,
+				045FACDC22D7A260003AD4D6 /* GoogleMapView.swift in Sources */,
+				045FACE022D7E210003AD4D6 /* DetailView.swift in Sources */,
 				04BDAF2E22B5E7C200B17764 /* TransitionManager.swift in Sources */,
+				045FACE222D7F07D003AD4D6 /* NGOMissionView.swift in Sources */,
 				04B695C5229C51F8003A0B85 /* ProfileHeaderView.swift in Sources */,
 				04B695A42298F2F3003A0B85 /* CategoriesCollectionViewCell.swift in Sources */,
 				04B6958B22979F19003A0B85 /* BackgroundColor+Extension.swift in Sources */,

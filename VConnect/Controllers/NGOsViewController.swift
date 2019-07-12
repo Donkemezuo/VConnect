@@ -12,7 +12,7 @@ import MapKit
 
 class NGOsViewController: UIViewController {
     
-    let nGOsView = NGOsView()
+    //let nGOsView = NGOsView()
     let nGOsTableView = NGOsTableView()
     private var geoCoder = CLGeocoder()
     private var annotations = [MKAnnotation]()
@@ -114,6 +114,7 @@ class NGOsViewController: UIViewController {
         guard let settingsVC = storyBoard.instantiateViewController(withIdentifier: "ProfileSettingsViewController") as? ProfileSettingsViewController else {return }
         settingsVC.vConnectUser = vConnectUser
         settingsVC.modalPresentationStyle = .overCurrentContext
+        settingsVC.modalTransitionStyle = .crossDissolve
         present(settingsVC, animated: true)
         
     }
@@ -311,7 +312,7 @@ extension NGOsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         vConnectUserSearchedNGOsInCategory = allNGOs.filter {$0.ngoCategory == nGOsInCategory}
         
         if vConnectUserSearchedNGOsInCategory.count == 0 {
-            showAlert(title: "Sorry", message: "There are no registered NGOs in this category")
+            showAlert(title: "Sorry", message: "There are currently no registered NGOs in the \(nGOsInCategory) Category. Please check back later as we continue to grow our support community. Thank you")
             isSearching = false
         }
 

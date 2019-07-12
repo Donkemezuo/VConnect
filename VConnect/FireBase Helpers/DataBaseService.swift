@@ -120,17 +120,29 @@ final class DataBaseService {
     static public func fetchAllNGOReviews(with ngoID: String, completionHandler: @escaping(Error?, [NGOReviews]?) -> Void) {
         
         var allReviews = [NGOReviews]()
-        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngoID).collection(NGOReviewsCollectionKey.nGOReviews).getDocuments { (snapShot, error) in
-           
+//        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngoID).collection(NGOReviewsCollectionKey.nGOReviews).getDocuments { (snapShot, error) in
+//
+//            if let error = error {
+//                completionHandler(error, nil)
+//            } else if let snapShot = snapShot {
+//                for document in snapShot.documents {
+//            let ngoReviews = NGOReviews.init(dict: document.data())
+//                allReviews.append(ngoReviews)
+//                    completionHandler(nil, allReviews)
+//                }
+//
+//            }
+//        }
+        
+        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngoID).collection(NGOReviewsCollectionKey.nGOReviews).addSnapshotListener(includeMetadataChanges: true) { (querySnapshot, error) in
             if let error = error {
                 completionHandler(error, nil)
-            } else if let snapShot = snapShot {
-                for document in snapShot.documents {
-            let ngoReviews = NGOReviews.init(dict: document.data())
-                allReviews.append(ngoReviews)
+            }else if let querySnapShot = querySnapshot {
+                for document in querySnapShot.documents {
+                    let ngoReview = NGOReviews.init(dict: document.data())
+                    allReviews.append(ngoReview)
                     completionHandler(nil, allReviews)
                 }
-
             }
         }
     }

@@ -10,6 +10,7 @@ import UIKit
 
 enum SelectedCellType: Int {
     case profileSetting
+    case settings
     case logOut
 }
 
@@ -58,6 +59,16 @@ class ProfileSettingsViewController: UITableViewController {
         present(destination, animated: true, completion: nil)
     }
     
+    private func segueToMapView(){
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        guard let googleMapVC = storyBoard.instantiateViewController(withIdentifier: "GoogleMapViewController") as? GoogleMapViewController else {return }
+        googleMapVC.modalTransitionStyle = .crossDissolve
+        googleMapVC.modalPresentationStyle = .overCurrentContext
+        present(googleMapVC, animated: true)
+    }
+    
+    
 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -67,6 +78,10 @@ class ProfileSettingsViewController: UITableViewController {
         case .profileSetting:
          segueToProfileSettingVC()
             //tableView.separatorStyle = .none
+        case .settings:
+            segueToMapView()
+            //navigationController?.pushViewController(GoogleMapViewController(), animated: true)
+            //present(GoogleMapViewController(), animated: true)
         case .logOut:
             authService.signOutVConnectUser()
              //tableView.separatorStyle = .none

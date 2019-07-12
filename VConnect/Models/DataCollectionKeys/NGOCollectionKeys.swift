@@ -34,4 +34,7 @@ struct NGOsCollectionKeys {
     static let saturdayHours = "saturdayHours"
     static let sundayHours = "sundayHours"
     static let visitedDate = "visitedDate"
+    static let missionStatement = "missionStatement"
+    static let visionStatement = "visionStatement"
+    static let objectives = "objectives"
 }

@@ -109,9 +109,9 @@ class ReviewsTableViewCell: UITableViewCell {
         addSubview(reviewDate)
         reviewDate.translatesAutoresizingMaskIntoConstraints = false
         reviewDate.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        reviewDate.leadingAnchor.constraint(equalTo:leadingAnchor, constant: 340).isActive = true
-        reviewDate.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
-        reviewDate.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        reviewDate.leadingAnchor.constraint(equalTo:leadingAnchor, constant: 295).isActive = true
+        reviewDate.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
+        //reviewDate.widthAnchor.constraint(equalToConstant: 100).isActive = true
         reviewDate.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
     

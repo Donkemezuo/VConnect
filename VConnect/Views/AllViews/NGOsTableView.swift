@@ -12,7 +12,9 @@ class NGOsTableView: UIView {
     
     public lazy var containView: UIView = {
         let containView = UIView()
-        containView.backgroundColor = UIColor.init(hexString: "033860")
+     containView.backgroundColor = UIColor.init(hexString: "2E294E")
+        // containView.backgroundColor = UIColor.init(hexString: "3D2F54")
+        //containView.backgroundColor = UIColor.init(hexString: "033860")
         return containView
         
     }()
