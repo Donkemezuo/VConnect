@@ -23,9 +23,9 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-           view.backgroundColor = UIColor.init(hexString: "0799ba")
+           view.backgroundColor = UIColor.init(hexString: "0072B1")
      authServices.authServiceCreateNewVConnectUserAccountDelegate =  self
-        createAccountButton.setTitleColor(UIColor(hexString: "0799ba"), for: .normal)
+        createAccountButton.setTitleColor(UIColor(hexString: "0072B1"), for: .normal)
         setupViewDetails()
         setupLabelTitles()
     }

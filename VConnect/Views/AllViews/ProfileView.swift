@@ -18,6 +18,7 @@ class ProfileView: UIView {
     
     public lazy var bookMarkedNGOsTableView: UITableView = {
         let bookMarkedNGOsTableView = UITableView()
+        bookMarkedNGOsTableView.backgroundColor =  UIColor.init(hexString: "0072B1")
         return bookMarkedNGOsTableView
     }()
 

@@ -17,6 +17,7 @@ class NGODetailsViewController: UIViewController {
     private var leftSwipeGesture: UISwipeGestureRecognizer!
     private var rightSwipeGesture: UISwipeGestureRecognizer!
     var userLocationCoordinates: CLLocationCoordinate2D!
+    var ngoLocationCoordinates: CLLocationCoordinate2D!
     private var detailView = DetailView()
     private var nGO: NGO!
     private var barButtonItem = UIBarButtonItem()
@@ -51,13 +52,37 @@ class NGODetailsViewController: UIViewController {
         setUpPostReviewsButton()
         swipeView()
         dismissView()
-        detailView.setSegmentedControlToggled()
+       // detailView.setSegmentedControlToggled()
+        //configureSegmentedControl()
         detailView.ngoAddressView.googleMapView.delegate = self
-        setupGoodMapView(withLatitude: 0.0, withLogitude: 0.0)
+       // setupGoodMapView(withLatitude: 0.0, withLogitude: 0.0)
         bookMarkButton()
         setupSafariServices()
-        
+        print("Coordinates are \(ngoLocationCoordinates)")
+        segmentedControlTapped()
     }
+    
+    private func segmentedControlTapped(){
+        detailView.segmentedControl.addTarget(self, action: #selector(configureSegmentedControl), for: .valueChanged)
+        configureSegmentedControl()
+    }
+    
+    @objc private func configureSegmentedControl(){
+        switch detailView.segmentedControl.selectedSegmentIndex {
+        case 0:
+            detailView.setMissionViewConstrains()
+        case 1:
+            detailView.setAddressViewConstrains()
+            self.setupGoodMapView(withLatitude: ngoLocationCoordinates.latitude, withLogitude: ngoLocationCoordinates.longitude)
+        case 2:
+            detailView.setReviewsViewConstrains()
+        case 3:
+            detailView.setPhotoViewConstrains()
+        default:
+            return
+        }
+    }
+    
     
     
     private func swipeView(){
@@ -75,12 +100,17 @@ class NGODetailsViewController: UIViewController {
         
         if detailView.segmentedControl.selectedSegmentIndex == 3 {
             detailView.segmentedControl.selectedSegmentIndex = 0
-            detailView.setSegmentedControlToggled()
+            //detailView.setSegmentedControlToggled()
+            segmentedControlTapped()
 
         
         } else {
             detailView.segmentedControl.selectedSegmentIndex += 1
-            detailView.setSegmentedControlToggled()
+            //detailView.setSegmentedControlToggled()
+            segmentedControlTapped()
+            if detailView.segmentedControl.selectedSegmentIndex == 1 {
+                self.setupGoodMapView(withLatitude: ngoLocationCoordinates.latitude, withLogitude: ngoLocationCoordinates.longitude)
+            }
         }
     }
     
@@ -88,10 +118,12 @@ class NGODetailsViewController: UIViewController {
         
         if detailView.segmentedControl.selectedSegmentIndex == 0 {
             detailView.segmentedControl.selectedSegmentIndex = 3
-            detailView.setSegmentedControlToggled()
+            //detailView.setSegmentedControlToggled()
+            segmentedControlTapped()
         } else {
             detailView.segmentedControl.selectedSegmentIndex -= 1
-               detailView.setSegmentedControlToggled()
+            segmentedControlTapped()
+               //detailView.setSegmentedControlToggled()
         }
         
     }
@@ -260,28 +292,28 @@ Sunday                        \(nGO.sundayHours)
         }
     }
 
-    private func createNGOCoordinates(withNGOFullAddress fullAddress: String, completionHandler: @escaping(Error?, CLLocationCoordinate2D?) -> Void) {
-        
-        GoogleAddressAPIClient.getAddressCoordinates(fullAddress: fullAddress) { (error, fetchResults) in
-            if let error = error {
-                completionHandler(error, nil)
-            } else if let fetchedResults = fetchResults {
-                
-                let coordinatesFromFetchedResults = fetchedResults.results.first?.geometry
-                
-                guard let latitude = coordinatesFromFetchedResults?.location.lat, let longitude = coordinatesFromFetchedResults?.location.lng else {
-                    return
-                }
-                
-                completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-                
-                self.setupGoodMapView(withLatitude: latitude, withLogitude: longitude)
-                
-                
-            }
-        }
-        
-    }
+//    private func createNGOCoordinates(withNGOFullAddress fullAddress: String, completionHandler: @escaping(Error?, CLLocationCoordinate2D?) -> Void) {
+//
+//        GoogleAddressAPIClient.getAddressCoordinates(fullAddress: fullAddress) { (error, fetchResults) in
+//            if let error = error {
+//                completionHandler(error, nil)
+//            } else if let fetchedResults = fetchResults {
+//
+//                let coordinatesFromFetchedResults = fetchedResults.results.first?.geometry
+//
+//                guard let latitude = coordinatesFromFetchedResults?.location.lat, let longitude = coordinatesFromFetchedResults?.location.lng else {
+//                    return
+//                }
+//
+//                completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+//
+//                self.setupGoodMapView(withLatitude: latitude, withLogitude: longitude)
+//
+//
+//            }
+//        }
+//
+//    }
     
     
     private func showPin(pinPosition: CLLocationCoordinate2D){
@@ -392,8 +424,20 @@ Sunday                        \(nGO.sundayHours)
     @objc private func sendButtonPressed(){
         self.presentRatingView()
     }
+    
+    private func segueToMap(){
+        if (UIApplication.shared.canOpenURL(NSURL(string:"comgooglemaps://")! as URL)) {
+            UIApplication.shared.openURL(NSURL(string:
+                "comgooglemaps://?saddr=&daddr=\(ngoLocationCoordinates.latitude),\(ngoLocationCoordinates.longitude)&directionsmode=driving")! as URL)
+            
+        } else {
+            NSLog("Can't use comgooglemaps://");
+        }
+    }
+    
+    }
 
-}
+
 
 extension NGODetailsViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -458,9 +502,6 @@ extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension NGODetailsViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        let mapView = GoogleMapViewController()
-        mapView.vConnectUserLocationCoordinates = userLocationCoordinates
-        mapView.nGO = nGO
-        navigationController?.pushViewController(mapView, animated: true)
+        segueToMap()
     }
 }

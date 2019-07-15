@@ -22,7 +22,7 @@ class GoogleMapView: UIView {
     
     public lazy var mapViewLabel: UILabel = {
         let mapViewLabel = UILabel()
-        mapViewLabel.text = "MapView"
+        mapViewLabel.text = "Route"
         mapViewLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 50)
         mapViewLabel.textColor = .white 
         return mapViewLabel

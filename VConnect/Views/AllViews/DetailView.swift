@@ -84,7 +84,7 @@ class DetailView: UIView {
         segmentedControl.insertSegment(withTitle: "Reviews", at: 2, animated: true)
         segmentedControl.insertSegment(withTitle: "Photo Gallery", at: 3, animated: true)
         segmentedControl.tintColor = .white
-        segmentedControl.addTarget(self, action: #selector(setSegmentedControlToggled), for: .valueChanged)
+        //segmentedControl.addTarget(self, action: #selector(setSegmentedControlToggled), for: .valueChanged)
         segmentedControl.selectedSegmentIndex = 0
 
         return segmentedControl
@@ -174,7 +174,7 @@ class DetailView: UIView {
         containerView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
     
-    private func setMissionViewConstrains(){
+    public func setMissionViewConstrains(){
         ngoPhotosView.removeFromSuperview()
         ngoAddressView.removeFromSuperview()
         reviewView.removeFromSuperview()
@@ -187,7 +187,7 @@ class DetailView: UIView {
         
     }
     
-    private func setAddressViewConstrains(){
+    public func setAddressViewConstrains(){
         ngoPhotosView.removeFromSuperview()
         missionView.removeFromSuperview()
         reviewView.removeFromSuperview()
@@ -199,7 +199,7 @@ class DetailView: UIView {
         ngoAddressView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
     }
     
-    private func setReviewsViewConstrains(){
+    public func setReviewsViewConstrains(){
         ngoPhotosView.removeFromSuperview()
         missionView.removeFromSuperview()
         ngoAddressView.removeFromSuperview()
@@ -212,7 +212,7 @@ class DetailView: UIView {
         reviewView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
     }
     
-    private func setPhotoViewConstrains(){
+    public func setPhotoViewConstrains(){
         missionView.removeFromSuperview()
         ngoAddressView.removeFromSuperview()
         reviewView.removeFromSuperview()
@@ -224,23 +224,24 @@ class DetailView: UIView {
         ngoPhotosView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
     }
     
-    @objc public func setSegmentedControlToggled(){
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
-       setMissionViewConstrains()
-        case 1:
-       setAddressViewConstrains()
-        case 2:
-       setReviewsViewConstrains()
-        case 3:
-        setPhotoViewConstrains()
-        default:
-            return
-            
-        }
-    }
+//    @objc public func setSegmentedControlToggled(){
+//        switch segmentedControl.selectedSegmentIndex {
+//        case 0:
+//       setMissionViewConstrains()
+//        case 1:
+//       setAddressViewConstrains()
+//
+//        case 2:
+//       setReviewsViewConstrains()
+//        case 3:
+//        setPhotoViewConstrains()
+//        default:
+//            return
+//
+//        }
+//    }
 
     
-    
+     
     
 }

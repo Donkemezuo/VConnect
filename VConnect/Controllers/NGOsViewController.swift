@@ -84,6 +84,30 @@ class HomeViewController: UIViewController {
         }
     }
     
+    private func createNGOCoordinates(withNGOFullAddress fullAddress: String, completionHandler: @escaping(Error?, CLLocationCoordinate2D?) -> Void) {
+        
+        GoogleAddressAPIClient.getAddressCoordinates(fullAddress: fullAddress) { (error, fetchResults) in
+            if let error = error {
+                completionHandler(error, nil)
+            } else if let fetchedResults = fetchResults {
+                
+                let coordinatesFromFetchedResults = fetchedResults.results.first?.geometry
+                
+                guard let latitude = coordinatesFromFetchedResults?.location.lat, let longitude = coordinatesFromFetchedResults?.location.lng else {
+                    return
+                }
+                
+                completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+                
+                //self.setupGoodMapView(withLatitude: latitude, withLogitude: longitude)
+                
+                
+            }
+        }
+        
+    }
+    
+    
     private func fetchUser(withVConnectUserID ID: String) {
         DataBaseService.fetchVConnectUserr(with: ID) { (error, vconnectUser) in
             if let error = error {
@@ -274,9 +298,20 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             nGOToSet.ngoImagesURL = ngoImages
             let nGODetailViewController = NGODetailsViewController(nGO: nGOToSet)
             nGODetailViewController.userLocationCoordinates = self.getUserLocationCoordinates()
+            self.createNGOCoordinates(withNGOFullAddress: nGOToSet.fullAddress, completionHandler: { (error, coordinates) in
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                } else if let coordinate = coordinates {
+                    DispatchQueue.main.async {
+                    nGODetailViewController.ngoLocationCoordinates = coordinate
+                    print(coordinates)
+                    self.navigationController?.pushViewController(nGODetailViewController, animated: true)
+                    }
+                }
+            })
             
-            self.navigationController?.pushViewController(nGODetailViewController, animated: true)
         }
+        
     }
     
     

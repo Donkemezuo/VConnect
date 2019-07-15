@@ -28,12 +28,12 @@ class SignInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    view.backgroundColor = UIColor.init(hexString: "0799ba")
+    view.backgroundColor = UIColor.init(hexString: "0072B1")
         authService.authServiceExistingVConnectUserAccountDelegate = self
         setupViewDetails()
         setupLabelTitles()
         navigationController?.isNavigationBarHidden = true
-        LoginButton.setTitleColor(UIColor(hexString: "0799ba"), for: .normal)
+        LoginButton.setTitleColor(UIColor(hexString: "0072B1"), for: .normal)
     
     }
     

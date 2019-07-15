@@ -52,6 +52,8 @@ class ProfileViewController: UIViewController {
         profileView.bookMarkedNGOsTableView.tableHeaderView = profileHeaderView
         fetchBookMarks()
         setupImagePicker()
+        profileView.bookMarkedNGOsTableView.dataSource = self
+        profileView.bookMarkedNGOsTableView.delegate = self
     }
     
     @objc private func dismissButtonClicked(){
@@ -59,18 +61,20 @@ class ProfileViewController: UIViewController {
     }
     
     private func showLoginView(){
-        if let _ = storyboard?.instantiateViewController(withIdentifier: "NGOsViewController") as? HomeViewController {
+        //if let _ = storyboard?.instantiateViewController(withIdentifier: "NGOsViewController") as? HomeViewController {
             
             let loginScreenStoryboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
             
             if let loginController = loginScreenStoryboard.instantiateViewController(withIdentifier: "SignInView") as? SignInViewController {
                 let navController = UINavigationController.init(rootViewController: loginController)
-                (UIApplication.shared.delegate as? AppDelegate)?.window?.rootViewController = navController
-            }
-        } else {
-           dismiss(animated: true, completion: nil)
+                present(navController, animated: true) {
+            (UIApplication.shared.delegate as? AppDelegate)?.window?.rootViewController = navController
+                }
+              
+                
         }
     }
+    //}
     @objc private func signOutButtonPressed(){
         
         self.confirmDeletionActionSheet { (alert) in
@@ -202,12 +206,41 @@ class ProfileViewController: UIViewController {
             } else if let bookMarks = bookMarks {
                 self.bookMarks = bookMarks
                 
-                dump(bookMarks)
+                //dump(bookMarks)
                 
             }
         }
     }
 
+}
+
+
+
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return bookMarks.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let bookMarkCell = tableView.dequeueReusableCell(withIdentifier: "BookMarkedTableViewCell", for: indexPath) as? BookMarkedTableViewCell  else {
+            return UITableViewCell()
+        }
+        
+        let bookMark = bookMarks[indexPath.row]
+        bookMarkCell.ngoName.text = bookMark.ngoName
+        bookMarkCell.addressLabel.text = bookMark.ngoStreetAddress + " " + bookMark.ngoCity
+        bookMarkCell.savedDate.text = bookMark.visitedDate
+        bookMarkCell.backgroundColor = .clear
+        bookMarkCell.textLabel?.textColor = .white
+        return bookMarkCell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
+    
+    
+    
 }
 
 
