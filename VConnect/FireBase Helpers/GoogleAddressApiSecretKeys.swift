@@ -10,5 +10,6 @@ import Foundation
 
 final class SecretKeys {
     static let googleAddressesAPIKey = "AIzaSyAL2-w2E0rgYVs_lZm3GRxCmsmeZsu7ehA"
+    static let directionsAPI = "AIzaSyAL2-w2E0rgYVs_lZm3GRxCmsmeZsu7ehA"
 }
 

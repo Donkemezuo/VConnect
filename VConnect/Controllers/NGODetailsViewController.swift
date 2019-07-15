@@ -9,12 +9,14 @@
 import UIKit
 import Cosmos
 import SafariServices
+import GoogleMaps
 
 class NGODetailsViewController: UIViewController {
     
-    private var nGOsDetailView = NGOsDetailView()
+    //private var nGOsDetailView = NGOsDetailView()
     private var leftSwipeGesture: UISwipeGestureRecognizer!
     private var rightSwipeGesture: UISwipeGestureRecognizer!
+    var userLocationCoordinates: CLLocationCoordinate2D!
     private var detailView = DetailView()
     private var nGO: NGO!
     private var barButtonItem = UIBarButtonItem()
@@ -22,7 +24,7 @@ class NGODetailsViewController: UIViewController {
     private var allNGOReviews = [NGOReviews]() {
         didSet {
             DispatchQueue.main.async {
-                self.nGOsDetailView.reviewView.reviewsTableView.reloadData()
+                self.detailView.reviewView.reviewsTableView.reloadData()
             }
         }
     }
@@ -31,89 +33,66 @@ class NGODetailsViewController: UIViewController {
     private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     
     private var numberOfRaters = 1.0
+    
+    private var viewUI = UIView()
+    
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //view.addSubview(nGOsDetailView)
-        view.backgroundColor = UIColor.init(hexString: "033860")
+        view.backgroundColor = UIColor.init(hexString: "0072B1")
         view.addSubview(detailView)
         detailView.ngoPhotosView.nGOPhotosCollectionView.delegate = self
         detailView.ngoPhotosView.nGOPhotosCollectionView.dataSource = self
         detailView.reviewView.reviewsTableView.delegate = self
         detailView.reviewView.reviewsTableView.dataSource = self
-
         nGOInformations()
-       // setupBarButtonItem()
         fetchReviews(with: nGO.ngOID)
-        detailView.reviewView.backgroundColor = .clear
         setUpPostReviewsButton()
-        //setupSafariServices()
         swipeView()
         dismissView()
+        detailView.setSegmentedControlToggled()
+        detailView.ngoAddressView.googleMapView.delegate = self
+        setupGoodMapView(withLatitude: 0.0, withLogitude: 0.0)
+        bookMarkButton()
+        setupSafariServices()
         
-
     }
     
     
     private func swipeView(){
-        leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipped(_:)))
+        leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swippedLeft(_:)))
         leftSwipeGesture.direction = .left
-        rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipped(_:)))
+        rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipedRight(_:)))
         rightSwipeGesture.direction = .right
         
         self.detailView.containerView.addGestureRecognizer(leftSwipeGesture)
         self.detailView.containerView.addGestureRecognizer(rightSwipeGesture)
         
-        
     }
     
-    @objc private func swipped(_ sender: UISwipeGestureRecognizer){
+    @objc private func swippedLeft(_ sender: UISwipeGestureRecognizer){
         
-        //detailView.segmentedControl.selectedSegmentIndex
-        
-        if sender.direction == .left {
-            
+        if detailView.segmentedControl.selectedSegmentIndex == 3 {
+            detailView.segmentedControl.selectedSegmentIndex = 0
             detailView.setSegmentedControlToggled()
-          
-            if detailView.segmentedControl.selectedSegmentIndex == 3 {
-                detailView.segmentedControl.selectedSegmentIndex = 0
-                
-                //detailView.setSegmentedControlToggled()
-            } else {
-                detailView.segmentedControl.selectedSegmentIndex += 1
-            }
-            print("swiped left")
 
-        } else if sender.direction == .right {
+        
+        } else {
+            detailView.segmentedControl.selectedSegmentIndex += 1
             detailView.setSegmentedControlToggled()
-           // detailView.segmentedControl.selectedSegmentIndex = 0
-            if detailView.segmentedControl.selectedSegmentIndex == 0 {
-                detailView.segmentedControl.selectedSegmentIndex = 3
-            } else {
-                detailView.segmentedControl.selectedSegmentIndex -= 1
-            }
-            
-            
-            print("swiped right")
-            print(detailView.segmentedControl.selectedSegmentIndex)
-            
         }
+    }
+    
+    @objc private func swipedRight(_ sender: UISwipeGestureRecognizer) {
         
-     
-        
-      
-        
-        // get the index
-        // Check the swipe direction
-        // if left, check the selected index, if 3, reset selected index back to 0 else selected is +1
-        // if right,check the selected index, if 0, reset selected index back to 3 else selected index - 1
-        
-       // detailView.segmentedControl.selectedSegmentIndex
-        //if leftSwipeGesture.direction = .left {
-            
-        //}
-        
+        if detailView.segmentedControl.selectedSegmentIndex == 0 {
+            detailView.segmentedControl.selectedSegmentIndex = 3
+            detailView.setSegmentedControlToggled()
+        } else {
+            detailView.segmentedControl.selectedSegmentIndex -= 1
+               detailView.setSegmentedControlToggled()
+        }
         
     }
     
@@ -142,22 +121,42 @@ class NGODetailsViewController: UIViewController {
         detailView.missionView.ngoMissionTxtView.text = nGO.missionStatement
         detailView.missionView.ngoVissionTxtView.text = nGO.visionStatement
         detailView.missionView.contactPersonNameLabel.text = nGO.contactPersonName
+        
+        detailView.missionView.websiteTxtView.text = nGO.ngoWebsite ?? ""
+        
         detailView.ngoAddressView.addressTxtView.text = """
-                            \(nGO.ngoStreetAddress)
-                            \(nGO.ngoCity)
-                            \(nGO.ngoState)
+        \(nGO.ngoStreetAddress) \(nGO.ngoCity), \(nGO.ngoState)
         """
+        
+        detailView.ngoAddressView.operationalHoursTxtView.text = """
+        
+    Monday                                 \(nGO.mondayHours)
+        
+    Tuesday                                 \(nGO.tuesdayHours)
+        
+     Wednesday                             \(nGO.wedsDayHours)
+      
+    Thursday                                \(nGO.thursdayHours)
+   
+ Friday                                   \(nGO.fridayHours)
+  
+Saturday                     \(nGO.saturdayHours)
+      
+Sunday                        \(nGO.sundayHours)
+     
+"""
     }
     
     private func setupSafariServices(){
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(showSafariView))
-        nGOsDetailView.nGOWebsite.addGestureRecognizer(tapGesture)
+        detailView.missionView.websiteTxtView.addGestureRecognizer(tapGesture)
         
     }
     
     @objc private func showSafariView(){
         guard let website = nGO.ngoWebsite else {return }
+      
         
         guard let websiteURL = URL(string: website) else {
             showAlert(title: "Error", message: "website URL not valid")
@@ -170,12 +169,57 @@ class NGODetailsViewController: UIViewController {
         
     }
     
-    private func setupBarButtonItem(){
-        barButtonItem = UIBarButtonItem(title: "BookMark NGO", style: .plain, target: self, action: #selector(barButtonItemSelected))
-    navigationItem.rightBarButtonItem = barButtonItem
+//    private func setupBarButtonItem(){
+//        barButtonItem = UIBarButtonItem(title: "BookMark NGO", style: .plain, target: self, action: #selector(bookmarkNGO))
+//    navigationItem.rightBarButtonItem = barButtonItem
+//    }
+    
+    private func bookMarkButton() {
+        
+        detailView.moreOptionsButton.addTarget(self, action: #selector(showAlertController), for: .touchUpInside)
+        
     }
     
-    @objc private func barButtonItemSelected(){
+    
+    @objc private func showAlertController(){
+        
+        let alertController = UIAlertController(title: "Options", message: "You can book mark an NGO to view later", preferredStyle: .actionSheet)
+        
+        let bookMark = UIAlertAction(title: "Bookmark", style: .default) { (alert) in
+          
+            guard let userID = self.authService.getCurrentVConnectUser()?.uid else {
+                self.showAlert(title: "Error", message: "Only logged in user can book mark an NGO. Please log in or create an account")
+                return
+            }
+            
+            DataBaseService.createVConnectUserNGOBookMark(vConnectUserID: userID, bookMarkedNGOs: self.nGO, completionHandler: { (error) in
+                if let error = error {
+                    self.showAlert(title: "Error", message: "Error \(error.localizedDescription) while book marking NGO")
+                    
+                } else {
+            self.showAlert(title: "Success", message: "Successfully book marked NGO. This NGO will appear on your profile")
+                    self.dismiss(animated: true)
+                }
+            })
+            
+            
+            
+            
+            
+            self.dismiss(animated: true)
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
+            
+        }
+        
+        alertController.addAction(bookMark)
+        alertController.addAction(cancel)
+        present(alertController, animated: true)
+    }
+    
+    
+    @objc private func bookmarkNGO(){
         guard let loggedInVConnectUser = authService.getCurrentVConnectUser() else {
             showAlert(title: "Error", message: "Only logged in users can book mark NGOs")
             return
@@ -214,6 +258,49 @@ class NGODetailsViewController: UIViewController {
                
             }
         }
+    }
+
+    private func createNGOCoordinates(withNGOFullAddress fullAddress: String, completionHandler: @escaping(Error?, CLLocationCoordinate2D?) -> Void) {
+        
+        GoogleAddressAPIClient.getAddressCoordinates(fullAddress: fullAddress) { (error, fetchResults) in
+            if let error = error {
+                completionHandler(error, nil)
+            } else if let fetchedResults = fetchResults {
+                
+                let coordinatesFromFetchedResults = fetchedResults.results.first?.geometry
+                
+                guard let latitude = coordinatesFromFetchedResults?.location.lat, let longitude = coordinatesFromFetchedResults?.location.lng else {
+                    return
+                }
+                
+                completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+                
+                self.setupGoodMapView(withLatitude: latitude, withLogitude: longitude)
+                
+                
+            }
+        }
+        
+    }
+    
+    
+    private func showPin(pinPosition: CLLocationCoordinate2D){
+        let pin = GMSMarker()
+        pin.position = pinPosition
+        pin.title = nGO.ngoStreetAddress
+        pin.snippet = nGO.ngoCity
+        pin.map = detailView.ngoAddressView.googleMapView
+        
+        
+        
+    }
+
+    
+    private func setupGoodMapView( withLatitude lat: CLLocationDegrees, withLogitude long: CLLocationDegrees){
+  
+        let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: long, zoom: 16)
+        detailView.ngoAddressView.googleMapView.camera = camera
+        self.showPin(pinPosition: detailView.ngoAddressView.googleMapView.camera.target)
     }
     
     private func fetchReviews(with ngoID: String){
@@ -366,6 +453,14 @@ extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
     }
-    
-    
+
+}
+
+extension NGODetailsViewController: GMSMapViewDelegate {
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        let mapView = GoogleMapViewController()
+        mapView.vConnectUserLocationCoordinates = userLocationCoordinates
+        mapView.nGO = nGO
+        navigationController?.pushViewController(mapView, animated: true)
+    }
 }

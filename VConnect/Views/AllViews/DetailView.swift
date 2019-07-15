@@ -41,11 +41,19 @@ class DetailView: UIView {
     }()
     
     
-    public lazy var containView: UIView = {
+    private lazy var containView: UIView = {
         let containView = UIView()
-        containView.backgroundColor = UIColor.init(hexString: "2E294E")
+        containView.backgroundColor = UIColor.init(hexString: "0072B1")
         return containView
         
+    }()
+    
+    public lazy var moreOptionsButton: UIButton = {
+        let moreOptionsButton = UIButton()
+        moreOptionsButton.setTitle("...", for: .normal)
+        moreOptionsButton.setTitleColor(.white, for: .normal)
+        moreOptionsButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 30)
+        return moreOptionsButton
     }()
     
     public lazy var canCelView: UIButton = {
@@ -102,6 +110,7 @@ class DetailView: UIView {
         setContainerViewConstrains()
         setSettingsButtonConstrains()
         setTxtLabelConstrains()
+        setMoreOptionsButton()
         setSegmentedControlConstrains()
         setContentViewConstrains()
     }
@@ -125,16 +134,26 @@ class DetailView: UIView {
         canCelView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         canCelView.bottomAnchor.constraint(equalTo: containView.bottomAnchor, constant: -10).isActive = true
     }
+
     
     private func setTxtLabelConstrains(){
         containView.addSubview(textLabel)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         // textLabel.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
-        textLabel.leadingAnchor.constraint(equalTo: containView.leadingAnchor, constant: 0).isActive = true
-        textLabel.trailingAnchor.constraint(equalTo: containView.trailingAnchor).isActive = true
-        // textLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        textLabel.leadingAnchor.constraint(equalTo: canCelView.trailingAnchor, constant: 50).isActive = true
+        //textLabel.trailingAnchor.constraint(equalTo: containView.trailingAnchor).isActive = true
+        textLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
         textLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         textLabel.bottomAnchor.constraint(equalTo: containView.bottomAnchor, constant: -10).isActive = true
+    }
+    
+    private func setMoreOptionsButton(){
+        containView.addSubview(moreOptionsButton)
+        moreOptionsButton.translatesAutoresizingMaskIntoConstraints = false
+        moreOptionsButton.leadingAnchor.constraint(equalTo: textLabel.trailingAnchor, constant: 10).isActive = true
+        moreOptionsButton.trailingAnchor.constraint(equalTo: containView.trailingAnchor).isActive = true
+        moreOptionsButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        moreOptionsButton.bottomAnchor.constraint(equalTo: containView.bottomAnchor, constant: -17).isActive = true
     }
     
     private func setSegmentedControlConstrains(){
@@ -185,6 +204,7 @@ class DetailView: UIView {
         missionView.removeFromSuperview()
         ngoAddressView.removeFromSuperview()
         containerView.addSubview(reviewView)
+        reviewView.backgroundColor = .white
         reviewView.translatesAutoresizingMaskIntoConstraints = false
         reviewView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 2).isActive = true
         reviewView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true

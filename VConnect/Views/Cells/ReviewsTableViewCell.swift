@@ -20,7 +20,7 @@ class ReviewsTableViewCell: UITableViewCell {
     public lazy var reviewerName: UILabel = {
         let reviewerName = UILabel()
         reviewerName.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
-        reviewerName.textColor = .white
+        reviewerName.textColor = UIColor.init(hexString: "0072B1")
         return reviewerName
     }()
     
@@ -28,7 +28,7 @@ class ReviewsTableViewCell: UITableViewCell {
         let reviewTextView = UITextView()
         reviewTextView.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
         reviewTextView.backgroundColor = .clear 
-        reviewTextView.textColor = .white
+        reviewTextView.textColor = UIColor.init(hexString: "0072B1")
         reviewTextView.isEditable = false
         reviewTextView.isSelectable = false
         reviewTextView.isUserInteractionEnabled = false
@@ -38,7 +38,7 @@ class ReviewsTableViewCell: UITableViewCell {
     public lazy var reviewDate: UILabel = {
         let reviewDate = UILabel()
         reviewDate.font = UIFont(name: "HelveticaNeue-Bold", size: 12)
-        reviewDate.textColor = .white
+        reviewDate.textColor = UIColor.init(hexString: "0072B1")
         return reviewDate
     }()
     

@@ -14,218 +14,221 @@ import Kingfisher
 
 
 class ProfileViewController: UIViewController {
+
     
-    @IBOutlet weak var profileTabelview: UITableView!
-    
-    private var profileSettingsBarButton = UIBarButtonItem()
-   // private var settingController: UIViewController!
+  private var imageTapGesture: UITapGestureRecognizer!
     
     private lazy var profileHeaderView: ProfileHeaderView = {
-        let headerView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 320 ))
-        headerView.backgroundColor = UIColor.init(hexString: "033860")
-        return headerView
+       let profileHeaderView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 543))
+        
+        return profileHeaderView
     }()
     
+    private var imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        return imagePicker
+    }()
+    private var profileView = ProfileView()
     private var authService = AppDelegate.authService
-    private var isExpanded = false
-    private var transition = TransitionManager()
-    var vConnectUserr: VConnectUser!
-    private var locationManager = CLLocationManager()
-    private var geoCoder = CLGeocoder()
-    
-    private var bookMarkedNGOs = [NGO]() {
+    private var bookMarks = [NGO]() {
         didSet {
             DispatchQueue.main.async {
-                self.profileTabelview.reloadData()
+                self.profileView.bookMarkedNGOsTableView.reloadData()
             }
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.init(hexString: "033860")
-        navigationItem.title = "Profile"
-        profileTabelview.tableHeaderView = profileHeaderView
-        configureProfile()
-        updateVConnectUserProfile()
-        setupVConnectUserLocation()
-        fetchUserBookMarkedNGOs()
-        profileTabelview.delegate =  self
-        profileTabelview.dataSource =  self
-        profileTabelview.backgroundColor =  .clear
-        configureBarButtonItem()
-    }
-
-    private func configureBarButtonItem(){
-        profileSettingsBarButton = UIBarButtonItem(image: UIImage.init(named: "icons8-settings"), style: .plain, target: self, action: #selector(profileSettingsBarButtonPressed))
-        navigationItem.leftBarButtonItem = profileSettingsBarButton
+        view.backgroundColor = .white
+        view.isOpaque = false
+       // setProfileViewConstrains()
+        profileHeaderView.backgroundColor = UIColor.init(hexString: "0072B1")
+        fetchUser(withVConnectUserID: authService.getCurrentVConnectUser()!.uid)
+        profileHeaderView.cancelButton.addTarget(self, action: #selector(dismissButtonClicked), for: .touchUpInside)
+        profileHeaderView.logOutButton.addTarget(self, action: #selector(signOutButtonPressed), for: .touchUpInside)
+        imagePicker.delegate = self
+        view.addSubview(profileView)
+        profileView.bookMarkedNGOsTableView.tableHeaderView = profileHeaderView
+        fetchBookMarks()
+        setupImagePicker()
     }
     
+    @objc private func dismissButtonClicked(){
+        dismiss(animated: true)
+    }
     
-    @objc private func profileSettingsBarButtonPressed(){
-        
-        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
-        
-        guard let settingVC = storyBoard.instantiateViewController(withIdentifier: "ProfileSettingsViewController") as? ProfileSettingsViewController else {return}
-        
-        settingVC.didSelectCell = { SelectedCellType in
-            self.configureCellsPressed(SelectedCellType)
-
+    private func showLoginView(){
+        if let _ = storyboard?.instantiateViewController(withIdentifier: "NGOsViewController") as? HomeViewController {
             
-        }
-        settingVC.transitioningDelegate = self
-        settingVC.modalPresentationStyle = .overCurrentContext
-        guard let vConnectUser = authService.getCurrentVConnectUser() else {
-            showAlert(title: "Error", message: "No current signed in VConnect User")
-            return
-        }
-
-    getLoggedInUser(with: vConnectUser.uid, completionHandler: { (error, vConnectUser) in
-        if error != nil {
+            let loginScreenStoryboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
             
-        } else if let vConnectUser = vConnectUser {
-            settingVC.vConnectUser = vConnectUser
-             self.present(settingVC, animated: true, completion: nil)
+            if let loginController = loginScreenStoryboard.instantiateViewController(withIdentifier: "SignInView") as? SignInViewController {
+                let navController = UINavigationController.init(rootViewController: loginController)
+                (UIApplication.shared.delegate as? AppDelegate)?.window?.rootViewController = navController
+            }
+        } else {
+           dismiss(animated: true, completion: nil)
         }
-        })
-        
-        }
-    
-    
-    private func configureCellsPressed(_ selectedCellType: SelectedCellType){
-        switch selectedCellType {
-        case .profileSetting:
-            break
-        case .settings:
-            break 
-        case.logOut:
-            break
-        
-        }
- 
     }
-
-    
-    private func configureProfile(){
-        profileHeaderView.vConnectUserEmailLabel.font = UIFont(name: "HelveticaNeue-BoldItalic", size: 16)
-        profileHeaderView.vConnectUserNameLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
-        profileHeaderView.vConnectUserLocationLabel.font = UIFont(name: "HelveticaNeue-BoldItalic", size: 16)
+    @objc private func signOutButtonPressed(){
         
-        profileHeaderView.vConnectUserProfileImageView.layer.cornerRadius = profileHeaderView.vConnectUserProfileImageView.bounds.width/2
-        profileHeaderView.vConnectUserProfileImageView.layer.masksToBounds = true
-        profileHeaderView.vConnectUserProfileImageView.clipsToBounds = true
-
-    }
+        self.confirmDeletionActionSheet { (alert) in
+            self.authService.signOutVConnectUser()
+            self.showLoginView()
+        }
+        
    
-    private func fetchUserBookMarkedNGOs(){
-        guard let user = authService.getCurrentVConnectUser() else {return}
-        DataBaseService.fetchBookMarkedNGOs(vConnectUserID: user.uid) { (error, bookMarkedNGOs) in
+
+        }
+    
+    
+    private func fetchUser(withVConnectUserID ID: String) {
+        DataBaseService.fetchVConnectUserr(with: ID) { (error, vconnectUser) in
             if let error = error {
-                self.showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while fetching user booked NGOs")
-            } else if let bookMarkedNGOs = bookMarkedNGOs {
-                self.bookMarkedNGOs = bookMarkedNGOs
+                self.showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while fetching VConnect User")
+            } else if let vConnectUser = vconnectUser {
+                self.displayVConnectUserInfo(withVConnectUser: vConnectUser)
+                
             }
         }
     }
-
-    private func setupVConnectUserLocation(){
-        guard let vConnectUserLocation = locationManager.location?.coordinate else {
+    
+    private func displayVConnectUserInfo(withVConnectUser vConnectUser: VConnectUser){
+        //profileHeaderView.helloLabel.text = "Hello \(vConnectUser.firstName)"
+        profileHeaderView.emailTxtField.text = vConnectUser.emailAddress
+        profileHeaderView.firstNameTxtField.text = vConnectUser.firstName
+        profileHeaderView.lastNameTxtField.text = vConnectUser.lastName
+        if let photoURL = vConnectUser.profileImageURL {
+        profileHeaderView.profileImageView.kf.setImage(with: URL(string: photoURL), placeholder:#imageLiteral(resourceName: "icons8-contacts_filled.png"))
+        }
+       
+        
+    }
+    
+    private func setupImagePicker(){
+        imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
+        profileHeaderView.profileImageView.isUserInteractionEnabled = true 
+        profileHeaderView.profileImageView.addGestureRecognizer(imageTapGesture)
+        
+    }
+    
+    
+    private func showImagePicker(){
+        present(imagePicker, animated: true)
+        
+    }
+    
+    @objc private func profileImageTapped(){
+        
+        let alertController = UIAlertController(title: "Options", message: "You can change display picture from camera of photo library", preferredStyle: .actionSheet)
+        
+        let camera = UIAlertAction(title: "Camera", style: .default) { (alert) in
+            self.imagePicker.sourceType = .camera
+            self.showImagePicker()
+        }
+        
+        let photoLibrary = UIAlertAction(title: "Photo Library", style: .default) { (alert) in
+            self.imagePicker.sourceType = .photoLibrary
+            self.showImagePicker()
+        }
+        
+        let saveAlbums = UIAlertAction(title: "Saved Photos Album", style: .default) { (alert) in
+            self.imagePicker.sourceType = .savedPhotosAlbum
+            self.showImagePicker()
+        }
+        
+        let canCel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
+            self.dismiss(animated: true)
+        }
+        
+        alertController.addAction(camera)
+        alertController.addAction(photoLibrary)
+        alertController.addAction(saveAlbums)
+        alertController.addAction(canCel)
+        
+        
+        present(alertController, animated: true)
+        
+        
+       
+    }
+    
+    private func saveProfileImage(withImage image: UIImage) {
+        guard let imageData = image.jpegData(compressionQuality: 1.0), let vConnectUser = authService.getCurrentVConnectUser() else {
             return
         }
         
-        geoCoder.reverseGeocodeLocation(CLLocation(latitude: vConnectUserLocation.latitude, longitude: vConnectUserLocation.longitude)) { (placemark, error) in
-            if error != nil {
-                print("Print user location unknown")
-            } else if let placemark = placemark {
-                self.profileHeaderView.vConnectUserLocationLabel.text = placemark.first?.locality ?? "Unknown City"
-                print(placemark.first?.locality ?? "Unknown City")
+        DataBaseService.saveProfileImage(with: imageData, with: Constants.ProfileImagePath + vConnectUser.uid) { (error, url) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            } else if let imageUrl = url {
+                
+                let request = vConnectUser.createProfileChangeRequest()
+                
+                request.photoURL = imageUrl
+                request.commitChanges(completion: { (error) in
+                    if let error = error {
+                        self.showAlert(title: "Error", message: "Error \(error.localizedDescription) while changing display picture")
+                    } else {
+                        self.showAlert(title: "Success", message: "Successfully changed profile picture")
+                        //self.dismiss(animated: true)
+                    }
+                })
+                
+                DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).document(vConnectUser.uid).updateData([VConnectUserCollectionKeys.profileImageURL:imageUrl.absoluteString], completion: { (error) in
+                    if let error = error {
+                        print("Error: \(error)")
+                    }
+                })
             }
         }
         
     }
     
-    private func updateVConnectUserProfile(){
-        guard let vConnectUser = authService.getCurrentVConnectUser() else {
-            showAlert(title: "Error", message: "No current signed in VConnect User")
+    
+    @objc private func canCelButtonPressed(){
+        dismiss(animated: true, completion: nil)
+    }
+    
+    private func fetchBookMarks(){
+        guard let vconnectUserID = authService.getCurrentVConnectUser()?.uid else {
             return
         }
         
-        DataBaseService.fetchVConnectUserr(with: vConnectUser.uid) { [weak self] (error, vConnectUser) in
+        DataBaseService.fetchBookMarkedNGOs(vConnectUserID: vconnectUserID) { (error, bookMarks) in
             if let error = error {
-                self?.showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while fetching VConnect User")
-            } else if let vConnectUser = vConnectUser {
-                self?.profileHeaderView.vConnectUserEmailLabel.text = vConnectUser.emailAddress
-
-                self?.profileHeaderView.vConnectUserNameLabel.text = vConnectUser.firstName + " " + vConnectUser.lastName
-
-                guard let profilePhotoUrl = vConnectUser.profileImageURL,
-                    !profilePhotoUrl.isEmpty else {return}
-
-                self?.profileHeaderView.vConnectUserProfileImageView.kf.setImage(with:URL(string: profilePhotoUrl), placeholder:#imageLiteral(resourceName: "VCConectLogo.png") )
-            }
-
-        }
-
-}
-    
-    private func getLoggedInUser(with userID: String, completionHandler: @escaping(Error?, VConnectUser?) -> Void){
-      
-        DataBaseService.fetchVConnectUserr(with: userID) { (error, vConnectUser) in
-            if let error = error {
-                completionHandler(error,nil)
+                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
+            } else if let bookMarks = bookMarks {
+                self.bookMarks = bookMarks
                 
+                dump(bookMarks)
                 
-            } else if let vConnectUser = vConnectUser {
-                completionHandler(nil, vConnectUser)
             }
         }
     }
+
 }
 
 
-extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return bookMarkedNGOs.count
+
+
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let bookMarkedNgo = bookMarkedNGOs[indexPath.row]
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "BookMarkedCell", for: indexPath) as? ProfileTableViewCell else {
-            return UITableViewCell()
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            return
         }
-        cell.nGOName.text = bookMarkedNgo.ngoName
-        cell.nGOCity.text = bookMarkedNgo.ngoCity
-        cell.savedDate.text = bookMarkedNgo.visitedDate
-        cell.textLabel?.numberOfLines = 0
-        cell.backgroundColor = .clear
-        return cell
+        
+        let size = CGSize(width: 500, height: 500)
+        let resizedImage = Toucan.Resize.resizeImage(originalImage, size: size)
+        saveProfileImage(withImage: resizedImage!)
+        dismiss(animated: true, completion: nil)
+        
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedNGO = bookMarkedNGOs[indexPath.row]
-        let nGOsDetailView = NGODetailsViewController(nGO: selectedNGO)
-    self.navigationController?.pushViewController(nGOsDetailView, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
-    
     
 }
-
-extension ProfileViewController: UIViewControllerTransitioningDelegate{
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.isPresenting = true
-        return transition
-    }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.isPresenting = false
-        return transition
-
-    }
-}
-
-

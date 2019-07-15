@@ -10,15 +10,13 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class NGOsViewController: UIViewController {
-    
-    //let nGOsView = NGOsView()
+class HomeViewController: UIViewController {
     let nGOsTableView = NGOsTableView()
     private var geoCoder = CLGeocoder()
-    private var annotations = [MKAnnotation]()
     private var coordinates = CLLocationCoordinate2D()
     public var locationManager = CLLocationManager()
     var defaultCoordinates = CLLocationCoordinate2DMake(0.0, 0.0)
+    private var tapGesture: UITapGestureRecognizer!
     var authServices = AppDelegate.authService
     var vConnectUser: VConnectUser?
     
@@ -30,9 +28,6 @@ class NGOsViewController: UIViewController {
         }
     }
     
-    
-    private var nGOCategories = ["Domestic Violence", "Child issues", "Sexual Assault", "Human Rights", "Women", "Youth Development", "Education", "Housing", "Leadership"]
-    
     private var vConnectUserSearchedNGOsInCategory = [NGO](){
         
         didSet {
@@ -42,13 +37,9 @@ class NGOsViewController: UIViewController {
         }
     }
     
-    private var nGOsMapView = NGOsMapView(){
-        didSet {
-            nGOsMapView.mapView.reloadInputViews()
-        }
-    }
     
-    
+    private var nGOCategories = ["Domestic Violence", "Child issues", "Sexual Assault", "Human Rights", "Women", "Youth Development", "Education", "Housing", "Leadership"]
+
     private var isSearching: Bool = false
     
     override func viewDidLoad() {
@@ -61,13 +52,13 @@ class NGOsViewController: UIViewController {
         nGOsTableView.categoriesCollectionView.dataSource = self
         nGOsTableView.categoriesCollectionView.delegate = self
         checkLocationAuthorizationStatus()
-        configureSettingsButton()
-        getLoggedInUser(with: authServices.getCurrentVConnectUser()!.uid)
+        //configureSettingsButton()
         fetchAllNGOData()
-
+        presentVConnectUserProfile()
+        fetchUser(withVConnectUserID: authServices.getCurrentVConnectUser()!.uid)
     }
     
-    private func getUserLocationCoordinates() -> CLLocationCoordinate2D{
+    public func getUserLocationCoordinates() -> CLLocationCoordinate2D{
         guard let userLocationCoordinates = locationManager.location?.coordinate else {
             return defaultCoordinates
         }
@@ -93,26 +84,44 @@ class NGOsViewController: UIViewController {
         }
     }
     
-    private func getLoggedInUser(with userID: String){
-        
-        DataBaseService.fetchVConnectUserr(with: userID) { (error, vconnectUser) in
+    private func fetchUser(withVConnectUserID ID: String) {
+        DataBaseService.fetchVConnectUserr(with: ID) { (error, vconnectUser) in
             if let error = error {
-                self.showAlert(title: "Error", message: "Error: \(error.localizedDescription) while fetching Logged in User")
-            } else if let vconnectUser = vconnectUser {
-                self.vConnectUser = vconnectUser
+                self.showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while fetching VConnect User")
+            } else if let vConnectUser = vconnectUser {
+                self.displayVConnectUserInfo(withVConnectUser: vConnectUser)
+                self.vConnectUser = vConnectUser
+                
             }
         }
     }
     
-    private func configureSettingsButton(){
-        nGOsTableView.settingButton.addTarget(self, action: #selector(settingButtonClicked), for: .touchUpInside)
+    private func displayVConnectUserInfo(withVConnectUser vConnectUser: VConnectUser){
+        if let profilePhotoURL = vConnectUser.profileImageURL {
+            nGOsTableView.profileImageView.kf.setImage(with: URL(string: profilePhotoURL), placeholder:#imageLiteral(resourceName: "placeholder.png"))
+        }
     }
+    
+    private func presentVConnectUserProfile(){
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentProfileVC))
+        nGOsTableView.profileImageView.addGestureRecognizer(tapGesture)
+        nGOsTableView.profileImageView.isUserInteractionEnabled = true
+        print("Got here")
+    }
+    
+    @objc private func presentProfileVC(){
+        let profileVC = ProfileViewController()
+        print("Button pressed")
+     present(profileVC, animated: true)
+    }
+    
+//    private func configureSettingsButton(){
+//        nGOsTableView.settingButton.addTarget(self, action: #selector(settingButtonClicked), for: .touchUpInside)
+//    }
 
     
     @objc private func settingButtonClicked(){
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        guard let settingsVC = storyBoard.instantiateViewController(withIdentifier: "ProfileSettingsViewController") as? ProfileSettingsViewController else {return }
-        settingsVC.vConnectUser = vConnectUser
+        let settingsVC = ProfileViewController()
         settingsVC.modalPresentationStyle = .overCurrentContext
         settingsVC.modalTransitionStyle = .crossDissolve
         present(settingsVC, animated: true)
@@ -162,9 +171,6 @@ class NGOsViewController: UIViewController {
                 DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.location).document(user.uid).updateData([VConnectUserCollectionKeys.location: placemark.locality ?? ""])
             }
         }
-        
-        
-        
     }
 
     
@@ -242,7 +248,7 @@ class NGOsViewController: UIViewController {
     
 }
 
-extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return isSearching ? vConnectUserSearchedNGOsInCategory.count : allNGOs.count
         
@@ -267,6 +273,8 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
         getImages(ngo: nGOToSet) { (ngoImages) in
             nGOToSet.ngoImagesURL = ngoImages
             let nGODetailViewController = NGODetailsViewController(nGO: nGOToSet)
+            nGODetailViewController.userLocationCoordinates = self.getUserLocationCoordinates()
+            
             self.navigationController?.pushViewController(nGODetailViewController, animated: true)
         }
     }
@@ -280,7 +288,7 @@ extension NGOsViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-extension NGOsViewController: CLLocationManagerDelegate {
+extension HomeViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         checkLocationAuthorizationStatus()
@@ -288,7 +296,7 @@ extension NGOsViewController: CLLocationManagerDelegate {
     
 }
 
-extension NGOsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return nGOCategories.count
     }

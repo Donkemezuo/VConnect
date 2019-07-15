@@ -19,7 +19,7 @@ class NGOsTableViewCell: UITableViewCell {
     
     private lazy var designView: UIView = {
         let designView = UIView()
-         designView.backgroundColor = UIColor.init(hexString: "033860")
+         designView.backgroundColor = UIColor.init(hexString: "0072B1")
         return designView
     }()
     

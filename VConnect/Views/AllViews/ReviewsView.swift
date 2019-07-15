@@ -12,7 +12,7 @@ class ReviewsView: UIView {
     
     public lazy var reviewsTableView: UITableView = {
         let reviewsTableView = UITableView()
-        reviewsTableView.backgroundColor = .clear 
+        reviewsTableView.backgroundColor = .white
         
         return reviewsTableView
     }()
@@ -28,8 +28,8 @@ class ReviewsView: UIView {
     
     public lazy var sendButton: UIButton = {
         let sendButton = UIButton()
-        sendButton.setTitle("Send", for: .normal)
-        sendButton.backgroundColor = UIColor.init(hexString: "033860")
+        sendButton.setTitle("Post", for: .normal)
+        sendButton.backgroundColor = UIColor.init(hexString: "0072B1")
         sendButton.layer.cornerRadius = 20
         sendButton.isUserInteractionEnabled = true 
         return sendButton

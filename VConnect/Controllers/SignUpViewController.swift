@@ -23,9 +23,9 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-           view.backgroundColor = UIColor.init(hexString: "033860")
+           view.backgroundColor = UIColor.init(hexString: "0799ba")
      authServices.authServiceCreateNewVConnectUserAccountDelegate =  self
-        
+        createAccountButton.setTitleColor(UIColor(hexString: "0799ba"), for: .normal)
         setupViewDetails()
         setupLabelTitles()
     }
@@ -85,7 +85,7 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
     func didCreateNewVConnectUserAccount(_ authService: AuthService, vconnectUser: VConnectUser) {
         showAlert(title: "Success", message: "Welcome to VConnect. Our amazing community of support") { (alert) in
               let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let mainTabBarController = storyboard.instantiateViewController(withIdentifier: "NGOsViewController") as! NGOsViewController
+            let mainTabBarController = storyboard.instantiateViewController(withIdentifier: "NGOsViewController") as! HomeViewController
             mainTabBarController.modalTransitionStyle = .crossDissolve
             mainTabBarController.modalPresentationStyle = .overFullScreen
             self.present(mainTabBarController, animated: true)

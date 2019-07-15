@@ -19,5 +19,6 @@ pod 'Toucan'
 pod 'Cosmos'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
+pod 'Alamofire'
 
 end

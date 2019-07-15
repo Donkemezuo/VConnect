@@ -28,10 +28,12 @@ class SignInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    view.backgroundColor = UIColor.init(hexString: "033860")
+    view.backgroundColor = UIColor.init(hexString: "0799ba")
         authService.authServiceExistingVConnectUserAccountDelegate = self
         setupViewDetails()
         setupLabelTitles()
+        navigationController?.isNavigationBarHidden = true
+        LoginButton.setTitleColor(UIColor(hexString: "0799ba"), for: .normal)
     
     }
     
@@ -75,7 +77,7 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
         guard let displayName = user.displayName else {return}
         showAlert(title: "Success", message: "Welcome back \(displayName)") { (alert) in
              let storyboard = UIStoryboard(name: "Main", bundle: nil)
-               let homeViewController = storyboard.instantiateViewController(withIdentifier: "NGOsViewController") as! NGOsViewController
+               let homeViewController = storyboard.instantiateViewController(withIdentifier: "NGOsViewController") as! HomeViewController
             homeViewController.modalTransitionStyle = .crossDissolve
             homeViewController.modalPresentationStyle = .overFullScreen
             self.present(homeViewController, animated: true)

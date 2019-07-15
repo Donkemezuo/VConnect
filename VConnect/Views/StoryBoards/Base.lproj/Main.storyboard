@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Os View Controller-->
+        <!--Home View Controller-->
         <scene sceneID="TiW-Rg-c7B">
             <objects>
-                <viewController storyboardIdentifier="NGOsViewController" id="YQ2-pT-Vkb" customClass="NGOsViewController" customModule="VConnect" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NGOsViewController" id="YQ2-pT-Vkb" customClass="HomeViewController" customModule="VConnect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wMz-Rc-jK7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -653,7 +653,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FbV-cQ-zpZ">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="qzy-dE-axS"/>
                                                     </constraints>
@@ -669,7 +669,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter NGO City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ITF-ik-TIB">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -694,7 +694,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpi-z9-g8E">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="4ce-tv-l3Y"/>
                                                     </constraints>
@@ -710,7 +710,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter NGO State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cfc-CO-mEe">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -735,7 +735,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBa-nU-jfk">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="cSr-Xk-Zu6"/>
                                                     </constraints>
@@ -751,7 +751,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter NGO Zip (Postal) Code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ttn-al-mZ2">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -780,7 +780,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wmU-77-Y9I">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="G3H-ia-aOJ"/>
                                                     </constraints>
@@ -796,7 +796,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g 9am - 5pm" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UTF-Cn-K5j">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -821,7 +821,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jAM-KB-ZB9">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="i7b-Lr-9zb"/>
                                                     </constraints>
@@ -837,7 +837,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g 9am - 5pm" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E8d-qu-Unr">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -862,7 +862,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VFT-b1-R6A">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="s6g-fG-KhO"/>
                                                     </constraints>
@@ -878,7 +878,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g 9am - 5pm" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3XC-O0-ZeP">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -903,7 +903,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="57x-yT-IcM">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="GjJ-Hh-LbM"/>
                                                     </constraints>
@@ -919,7 +919,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g 9am - 5pm" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QNX-cR-zu0">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -944,7 +944,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FTh-3r-cC1">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="n1c-ug-JU9"/>
                                                     </constraints>
@@ -960,7 +960,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g 9am - 5pm" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hiw-3J-KTj">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -985,7 +985,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2xn-tR-bxv">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="veB-e5-Mcv"/>
                                                     </constraints>
@@ -1001,7 +1001,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g 9am - 5pm" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vbp-ei-DSl">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1026,7 +1026,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bDA-NH-jp5">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="bFW-kQ-hFO"/>
                                                     </constraints>
@@ -1042,7 +1042,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g 9am - 5pm" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1M4-gt-Kax">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1071,7 +1071,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="svk-um-T5v">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="bIA-vF-gAb"/>
                                                     </constraints>
@@ -1087,7 +1087,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Contact Person Full Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YZc-49-fKd">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1112,7 +1112,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="68f-5p-AnK">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="TFy-QW-bEf"/>
                                                     </constraints>
@@ -1128,7 +1128,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Contact Person Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lPf-PH-afb">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1153,7 +1153,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snt-DU-IW6">
-                                                    <rect key="frame" x="28" y="8" width="358" height="20"/>
+                                                    <rect key="frame" x="28" y="8" width="544" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="nZ3-tx-sHE"/>
                                                     </constraints>
@@ -1169,7 +1169,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Contact Person Email Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hSS-lM-71O">
-                                                    <rect key="frame" x="8" y="28" width="398" height="46.5"/>
+                                                    <rect key="frame" x="8" y="28" width="584" height="46.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1213,7 +1213,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jTZ-HS-bby">
-                                                    <rect key="frame" x="158" y="8" width="248" height="30"/>
+                                                    <rect key="frame" x="158" y="8" width="434" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="tNd-A6-HkJ"/>
                                                     </constraints>
@@ -1593,7 +1593,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ibw-XS-hid">
-                                                    <rect key="frame" x="8" y="25" width="398" height="45.5"/>
+                                                    <rect key="frame" x="8" y="25" width="584" height="45.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1634,7 +1634,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Sm-nN-uJI">
-                                                    <rect key="frame" x="8" y="25" width="398" height="45.5"/>
+                                                    <rect key="frame" x="8" y="25" width="584" height="45.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1679,7 +1679,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <pickerView tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mI8-zM-RB4">
-                                                    <rect key="frame" x="0.0" y="20" width="414" height="114.5"/>
+                                                    <rect key="frame" x="0.0" y="20" width="600" height="114.5"/>
                                                 </pickerView>
                                             </subviews>
                                             <constraints>
@@ -1717,7 +1717,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tGW-cP-IMP">
-                                                    <rect key="frame" x="8" y="25" width="398" height="31.5"/>
+                                                    <rect key="frame" x="8" y="25" width="584" height="31.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1758,7 +1758,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="97F-v9-gGO">
-                                                    <rect key="frame" x="8" y="25" width="398" height="45.5"/>
+                                                    <rect key="frame" x="8" y="25" width="584" height="45.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1802,7 +1802,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aPd-er-w6I">
-                                                    <rect key="frame" x="158" y="8" width="248" height="50"/>
+                                                    <rect key="frame" x="158" y="8" width="434" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="Zrd-RS-nzL"/>
                                                     </constraints>

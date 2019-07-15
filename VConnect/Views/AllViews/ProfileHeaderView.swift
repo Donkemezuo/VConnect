@@ -13,25 +13,60 @@ class ProfileHeaderView: UIView {
     
     @IBOutlet weak var ProfileHeaderViewContainer: UIView!
     
-    @IBOutlet weak var vConnectUserProfileImageView: UIImageView!
+    @IBOutlet weak var logOutButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+   
+    @IBOutlet weak var profileImageView: UIImageView!
     
-    @IBOutlet weak var vConnectUserNameLabel: UILabel!
+    @IBOutlet weak var firstNameLabel: UILabel!
     
-    @IBOutlet weak var vConnectUserEmailLabel: UILabel!
+    @IBOutlet weak var firstNameTxtField: UITextField!
     
-    @IBOutlet weak var vConnectUserLocationLabel: UILabel!
+    @IBOutlet weak var lastNameLabel: UILabel!
+    @IBOutlet weak var lastNameTxtField: UITextField!
     
+    @IBOutlet weak var emailLabel: UILabel!
+    
+ 
+    @IBOutlet weak var emailTxtField: UITextField!
+    
+    @IBOutlet weak var bookMarksLabel: UILabel!
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        vConnectUserProfileImageView.contentMode = .scaleAspectFill
-        vConnectUserProfileImageView.layer.cornerRadius = vConnectUserProfileImageView.frame.size.width/2
-        vConnectUserProfileImageView.layer.masksToBounds = false
-        vConnectUserProfileImageView.layer.borderColor = UIColor.lightGray.cgColor
-        vConnectUserProfileImageView.layer.borderWidth = 1
-        vConnectUserProfileImageView.clipsToBounds = true
-        
-        
+        profileImageView.contentMode = .scaleAspectFill
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.width/2
+        profileImageView.layer.masksToBounds = false
+        profileImageView.layer.borderColor = UIColor.white.cgColor
+        profileImageView.layer.borderWidth = 3
+        profileImageView.clipsToBounds = true
+    }
+    
+    private func setItemsLayout(){
+        cancelButton.setImage(#imageLiteral(resourceName: "icons8-delete_sign_filled.png").withRenderingMode(.alwaysTemplate), for: .normal)
+        cancelButton.tintColor = .white
+        firstNameLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
+         firstNameLabel.textColor = .white
+        firstNameLabel.text = "First Name"
+        firstNameTxtField.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)
+         firstNameTxtField.textColor = .white
+        firstNameTxtField.backgroundColor = .clear
+        lastNameLabel.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)
+         lastNameLabel.textColor = .white
+        lastNameLabel.text = "Last Name"
+         lastNameTxtField.textColor = .white
+        lastNameTxtField.backgroundColor = .clear
+        lastNameTxtField.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)
+         lastNameTxtField.textColor = .white
+        emailLabel.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)
+         emailLabel.textColor = .white
+        emailLabel.text = "Email Address"
+        emailTxtField.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)
+        emailTxtField.textColor = .white
+        emailTxtField.backgroundColor = .clear
+        bookMarksLabel.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)
+        bookMarksLabel.text = "BookMarks"
+         bookMarksLabel.textColor = .white
     }
     
     
@@ -52,6 +87,7 @@ class ProfileHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
+        setItemsLayout()
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

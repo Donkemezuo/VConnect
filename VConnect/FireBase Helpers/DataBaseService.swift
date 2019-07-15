@@ -120,21 +120,7 @@ final class DataBaseService {
     static public func fetchAllNGOReviews(with ngoID: String, completionHandler: @escaping(Error?, [NGOReviews]?) -> Void) {
         
         var allReviews = [NGOReviews]()
-//        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngoID).collection(NGOReviewsCollectionKey.nGOReviews).getDocuments { (snapShot, error) in
-//
-//            if let error = error {
-//                completionHandler(error, nil)
-//            } else if let snapShot = snapShot {
-//                for document in snapShot.documents {
-//            let ngoReviews = NGOReviews.init(dict: document.data())
-//                allReviews.append(ngoReviews)
-//                    completionHandler(nil, allReviews)
-//                }
-//
-//            }
-//        }
-        
-        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngoID).collection(NGOReviewsCollectionKey.nGOReviews).addSnapshotListener(includeMetadataChanges: true) { (querySnapshot, error) in
+  DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngoID).collection(NGOReviewsCollectionKey.nGOReviews).addSnapshotListener(includeMetadataChanges: true) { (querySnapshot, error) in
             if let error = error {
                 completionHandler(error, nil)
             }else if let querySnapShot = querySnapshot {
