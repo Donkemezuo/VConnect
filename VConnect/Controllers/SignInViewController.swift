@@ -80,7 +80,14 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
                let homeViewController = storyboard.instantiateViewController(withIdentifier: "NGOsViewController") as! HomeViewController
             homeViewController.modalTransitionStyle = .crossDissolve
             homeViewController.modalPresentationStyle = .overFullScreen
-            self.present(homeViewController, animated: true)
+            
+            self.present(homeViewController, animated: true, completion: {
+                if let app = UIApplication.shared.delegate as? AppDelegate {
+                    app.window?.rootViewController = homeViewController
+                }
+            })
+            
+            //self.present(homeViewController, animated: true)
         }
     }
     

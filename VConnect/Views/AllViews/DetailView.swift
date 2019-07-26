@@ -30,7 +30,7 @@ class DetailView: UIView {
     
     public lazy var reviewView: ReviewsView = {
         let reviewView = ReviewsView()
-        reviewView.backgroundColor = .gray
+        //reviewView.backgroundColor = .gray
         reviewView.backgroundColor = .white
         return reviewView
     }()

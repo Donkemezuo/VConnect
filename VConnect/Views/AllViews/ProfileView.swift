@@ -21,12 +21,31 @@ class ProfileView: UIView {
         bookMarkedNGOsTableView.backgroundColor =  UIColor.init(hexString: "0072B1")
         return bookMarkedNGOsTableView
     }()
+    
+    public lazy var contentView: UIView = {
+        let contentView = UIView()
+            contentView.backgroundColor = .green
+        return contentView
+    }()
+    
+    public lazy var logOutButton: UIButton = {
+        let logOutButton = UIButton()
+        logOutButton.setTitle("Log Out", for: .normal)
+        logOutButton.setTitleColor(.white, for: .normal)
+        logOutButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
+        logOutButton.backgroundColor = .red
+        logOutButton.layer.cornerRadius = 25
+        return logOutButton
+    }()
 
 
     override init(frame:CGRect) {
         super.init(frame: UIScreen.main.bounds)
         commonInit()
-        bookMarkedNGOsTableView.register(BookMarkedTableViewCell.self, forCellReuseIdentifier: "BookMarkedTableViewCell")
+        bookMarkedNGOsTableView.register(EditProfileTableViewCell.self, forCellReuseIdentifier: "EditCell")
+        bookMarkedNGOsTableView.register(BookMarkedTableViewCell.self, forCellReuseIdentifier: "BookMarkCell")
+        bookMarkedNGOsTableView.register(EmailTableViewCell.self, forCellReuseIdentifier: "EmailCell")
+        bookMarkedNGOsTableView.register(LogOutTableViewCell.self, forCellReuseIdentifier: "LogOutCell")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,7 +59,10 @@ class ProfileView: UIView {
     
     private func setConstrains(){
         setTopViewConstrains()
+         //setContentViewContrains()
         setBookMarkedTableViewConstrains()
+       
+        //setLogOutContrains()
     }
     
     private func setTopViewConstrains(){
@@ -51,17 +73,31 @@ class ProfileView: UIView {
         topView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         topView.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
+
     
    
-    private func setBookMarkedTableViewConstrains(){
-        addSubview(bookMarkedNGOsTableView)
+    public func setBookMarkedTableViewConstrains(){
+      addSubview(bookMarkedNGOsTableView)
         bookMarkedNGOsTableView.translatesAutoresizingMaskIntoConstraints = false
         bookMarkedNGOsTableView.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
         bookMarkedNGOsTableView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         bookMarkedNGOsTableView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        bookMarkedNGOsTableView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+       bookMarkedNGOsTableView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
     }
+    
+//
+//
+//    private func setLogOutContrains(){
+//        addSubview(logOutButton)
+//        logOutButton.translatesAutoresizingMaskIntoConstraints = false
+//        logOutButton.topAnchor.constraint(equalTo: bookMarkedNGOsTableView.bottomAnchor, constant: 2).isActive = true
+//        logOutButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 150).isActive = true
+//        logOutButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -150).isActive = true
+//        logOutButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8).isActive = true
+//    }
+    
+    
 
 
 }

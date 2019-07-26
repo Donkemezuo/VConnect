@@ -34,6 +34,15 @@ extension UIViewController {
         self.present(alertController, animated: true)
     }
     
+    public func confirmFirstNameChange(handler: ((UIAlertAction) -> Void)?) {
+        let alertController = UIAlertController(title: "Change first name?", message: "You can change your first name", preferredStyle: .actionSheet)
+        let changeFirstName = UIAlertAction(title: "Change first name", style: .cancel)
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: handler)
+        alertController.addAction(cancel)
+        alertController.addAction(changeFirstName)
+        self.present(alertController, animated: true)
+    }
+    
     public func showActionSheet(title: String?, message: String?, actionTitles: [String], handlers: [((UIAlertAction) -> Void)]) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         for (index, actionTitle) in actionTitles.enumerated() {

@@ -12,23 +12,26 @@ import SafariServices
 import GoogleMaps
 
 class NGODetailsViewController: UIViewController {
-    
-    //private var nGOsDetailView = NGOsDetailView()
     private var leftSwipeGesture: UISwipeGestureRecognizer!
     private var rightSwipeGesture: UISwipeGestureRecognizer!
     var userLocationCoordinates: CLLocationCoordinate2D!
     var ngoLocationCoordinates: CLLocationCoordinate2D!
     private var detailView = DetailView()
+    private var backgroundView = TableViewBackgroundImageView()
     private var nGO: NGO!
     private var barButtonItem = UIBarButtonItem()
     private var authService = AppDelegate.authService
     private var allNGOReviews = [NGOReviews]() {
+        
         didSet {
             DispatchQueue.main.async {
                 self.detailView.reviewView.reviewsTableView.reloadData()
+                self.configureEmptyState()
             }
         }
     }
+    
+    private var allUserBookMarks = [BookMark]()
     
     private var tapGesture: UITapGestureRecognizer!
     private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
@@ -36,6 +39,7 @@ class NGODetailsViewController: UIViewController {
     private var numberOfRaters = 1.0
     
     private var viewUI = UIView()
+    
     
 
 
@@ -52,14 +56,24 @@ class NGODetailsViewController: UIViewController {
         setUpPostReviewsButton()
         swipeView()
         dismissView()
-       // detailView.setSegmentedControlToggled()
-        //configureSegmentedControl()
         detailView.ngoAddressView.googleMapView.delegate = self
-       // setupGoodMapView(withLatitude: 0.0, withLogitude: 0.0)
         bookMarkButton()
         setupSafariServices()
-        print("Coordinates are \(ngoLocationCoordinates)")
         segmentedControlTapped()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+    }
+    
+    private func configureEmptyState() {
+        if allNGOReviews.count == 0 {
+            detailView.reviewView.reviewsTableView.backgroundView = EmptyView.emptyMessage(message: "No Reviews",
+                                                                                           size: detailView.reviewView.reviewsTableView.bounds.size)
+            detailView.reviewView.reviewsTableView.separatorStyle = .none
+        } else {
+            detailView.reviewView.reviewsTableView.backgroundView = nil
+        }
     }
     
     private func segmentedControlTapped(){
@@ -83,7 +97,14 @@ class NGODetailsViewController: UIViewController {
         }
     }
     
-    
+    private func configurePhotosEmptyState(){
+        
+        if nGO.ngoImagesURL.count > 0 {
+            detailView.ngoPhotosView.nGOPhotosCollectionView.backgroundView  = nil
+        } else {
+            detailView.ngoPhotosView.nGOPhotosCollectionView.backgroundView = EmptyView.emptyMessage(message: "No Photos", size: detailView.ngoPhotosView.nGOPhotosCollectionView.bounds.size)
+        }
+    }
     
     private func swipeView(){
         leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swippedLeft(_:)))
@@ -100,13 +121,11 @@ class NGODetailsViewController: UIViewController {
         
         if detailView.segmentedControl.selectedSegmentIndex == 3 {
             detailView.segmentedControl.selectedSegmentIndex = 0
-            //detailView.setSegmentedControlToggled()
             segmentedControlTapped()
 
         
         } else {
             detailView.segmentedControl.selectedSegmentIndex += 1
-            //detailView.setSegmentedControlToggled()
             segmentedControlTapped()
             if detailView.segmentedControl.selectedSegmentIndex == 1 {
                 self.setupGoodMapView(withLatitude: ngoLocationCoordinates.latitude, withLogitude: ngoLocationCoordinates.longitude)
@@ -118,19 +137,19 @@ class NGODetailsViewController: UIViewController {
         
         if detailView.segmentedControl.selectedSegmentIndex == 0 {
             detailView.segmentedControl.selectedSegmentIndex = 3
-            //detailView.setSegmentedControlToggled()
             segmentedControlTapped()
         } else {
             detailView.segmentedControl.selectedSegmentIndex -= 1
             segmentedControlTapped()
-               //detailView.setSegmentedControlToggled()
         }
         
     }
     
-    init(nGO: NGO) {
+    init(nGO: NGO, allBookMarks: [BookMark]) {
         super.init(nibName: nil, bundle: nil)
         self.nGO = nGO
+        self.allUserBookMarks = allBookMarks
+        self.configurePhotosEmptyState()
 
     }
     
@@ -177,6 +196,9 @@ Saturday                     \(nGO.saturdayHours)
 Sunday                        \(nGO.sundayHours)
      
 """
+        
+        
+       
     }
     
     private func setupSafariServices(){
@@ -201,15 +223,29 @@ Sunday                        \(nGO.sundayHours)
         
     }
     
-//    private func setupBarButtonItem(){
-//        barButtonItem = UIBarButtonItem(title: "BookMark NGO", style: .plain, target: self, action: #selector(bookmarkNGO))
-//    navigationItem.rightBarButtonItem = barButtonItem
-//    }
-    
     private func bookMarkButton() {
         
         detailView.moreOptionsButton.addTarget(self, action: #selector(showAlertController), for: .touchUpInside)
         
+    }
+    
+    
+    private func bookMarkNGO(onVConnectUserID userID: String){
+        
+        let bookMark = BookMark(ngoID: self.nGO.ngOID, date: Date.customizedDateFormat())
+        
+        if !allUserBookMarks.contains(bookMark){
+            
+            DataBaseService.createBookMark(onVConnectUserID: userID, bookMarkNGO: bookMark) { (error) in
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                } else {
+                self.showAlert(title: "BookMarked", message: "Successfully BookMarked NGO. This NGO will appear on your profile")
+                }
+            }
+        } else {
+            self.showAlert(title: "Error", message: "You have already book marked this NGO before. It's on your profile")
+        }
     }
     
     
@@ -224,21 +260,7 @@ Sunday                        \(nGO.sundayHours)
                 return
             }
             
-            DataBaseService.createVConnectUserNGOBookMark(vConnectUserID: userID, bookMarkedNGOs: self.nGO, completionHandler: { (error) in
-                if let error = error {
-                    self.showAlert(title: "Error", message: "Error \(error.localizedDescription) while book marking NGO")
-                    
-                } else {
-            self.showAlert(title: "Success", message: "Successfully book marked NGO. This NGO will appear on your profile")
-                    self.dismiss(animated: true)
-                }
-            })
-            
-            
-            
-            
-            
-            self.dismiss(animated: true)
+            self.bookMarkNGO(onVConnectUserID: userID)
         }
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
@@ -248,22 +270,6 @@ Sunday                        \(nGO.sundayHours)
         alertController.addAction(bookMark)
         alertController.addAction(cancel)
         present(alertController, animated: true)
-    }
-    
-    
-    @objc private func bookmarkNGO(){
-        guard let loggedInVConnectUser = authService.getCurrentVConnectUser() else {
-            showAlert(title: "Error", message: "Only logged in users can book mark NGOs")
-            return
-        }
-        DataBaseService.createVConnectUserNGOBookMark(vConnectUserID: loggedInVConnectUser.uid, bookMarkedNGOs: nGO) { (error) in
-            if let error = error {
-                self.showAlert(title: "Error", message: "Error: \(error.localizedDescription) while book marking NGO")
-            } else {
-                self.showAlert(title: "Success", message: "Successfully book marked NGO. This NGO will appear on your profile tab")
-            }
-        }
-        
     }
     
     private func fetchNGOImages(photoURL: String, photoCell: NGOPhotosCollectionViewCell){
@@ -291,30 +297,6 @@ Sunday                        \(nGO.sundayHours)
             }
         }
     }
-
-//    private func createNGOCoordinates(withNGOFullAddress fullAddress: String, completionHandler: @escaping(Error?, CLLocationCoordinate2D?) -> Void) {
-//
-//        GoogleAddressAPIClient.getAddressCoordinates(fullAddress: fullAddress) { (error, fetchResults) in
-//            if let error = error {
-//                completionHandler(error, nil)
-//            } else if let fetchedResults = fetchResults {
-//
-//                let coordinatesFromFetchedResults = fetchedResults.results.first?.geometry
-//
-//                guard let latitude = coordinatesFromFetchedResults?.location.lat, let longitude = coordinatesFromFetchedResults?.location.lng else {
-//                    return
-//                }
-//
-//                completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-//
-//                self.setupGoodMapView(withLatitude: latitude, withLogitude: longitude)
-//
-//
-//            }
-//        }
-//
-//    }
-    
     
     private func showPin(pinPosition: CLLocationCoordinate2D){
         let pin = GMSMarker()
@@ -483,15 +465,26 @@ extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let reviewsCell = tableView.dequeueReusableCell(withIdentifier: "ReviewsTableViewCell", for: indexPath) as? ReviewsTableViewCell else {return UITableViewCell()}
-        let review = allNGOReviews[indexPath.row]
-        fetchReviewer(with: review.reviewerID, reviewCell: reviewsCell)
-        reviewsCell.reviewTextView.text = review.review
-        reviewsCell.cosmosView.rating = review.ratingValue
-        reviewsCell.reviewDate.text = review.date
-        reviewsCell.backgroundColor = .clear
         
-        return reviewsCell
+        if allNGOReviews.count > 0 {
+            
+            guard let reviewsCell = tableView.dequeueReusableCell(withIdentifier: "ReviewsTableViewCell", for: indexPath) as? ReviewsTableViewCell else {return UITableViewCell()}
+            let review = allNGOReviews[indexPath.row]
+            fetchReviewer(with: review.reviewerID, reviewCell: reviewsCell)
+            reviewsCell.reviewTextView.text = review.review
+            reviewsCell.cosmosView.rating = review.ratingValue
+            reviewsCell.reviewDate.text = review.date
+            reviewsCell.backgroundColor = .clear
+            
+            return reviewsCell
+            
+        } else {
+        
+        }
+        
+        return UITableViewCell()
+        
+    
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

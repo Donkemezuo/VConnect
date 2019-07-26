@@ -13,24 +13,20 @@ class ProfileHeaderView: UIView {
     
     @IBOutlet weak var ProfileHeaderViewContainer: UIView!
     
-    @IBOutlet weak var logOutButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
    
     @IBOutlet weak var profileImageView: UIImageView!
     
-    @IBOutlet weak var firstNameLabel: UILabel!
-    
-    @IBOutlet weak var firstNameTxtField: UITextField!
-    
-    @IBOutlet weak var lastNameLabel: UILabel!
-    @IBOutlet weak var lastNameTxtField: UITextField!
+    @IBOutlet weak var fullNameLabel: UILabel!
+
+    @IBOutlet weak var buttonBarView: UIView!
     
     @IBOutlet weak var emailLabel: UILabel!
     
- 
-    @IBOutlet weak var emailTxtField: UITextField!
+    @IBOutlet weak var switchSegmentedControl: UISegmentedControl!
     
-    @IBOutlet weak var bookMarksLabel: UILabel!
+    @IBOutlet weak var editButton: UIButton!
+
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -40,49 +36,42 @@ class ProfileHeaderView: UIView {
         profileImageView.layer.borderColor = UIColor.white.cgColor
         profileImageView.layer.borderWidth = 3
         profileImageView.clipsToBounds = true
+        //profileImageView.isUserInteractionEnabled = false
+    
     }
     
     private func setItemsLayout(){
         cancelButton.setImage(#imageLiteral(resourceName: "icons8-delete_sign_filled.png").withRenderingMode(.alwaysTemplate), for: .normal)
         cancelButton.tintColor = .white
-        firstNameLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
-         firstNameLabel.textColor = .white
-        firstNameLabel.text = "First Name"
-        firstNameTxtField.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)
-         firstNameTxtField.textColor = .white
-        firstNameTxtField.backgroundColor = .clear
-        lastNameLabel.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)
-         lastNameLabel.textColor = .white
-        lastNameLabel.text = "Last Name"
-         lastNameTxtField.textColor = .white
-        lastNameTxtField.backgroundColor = .clear
-        lastNameTxtField.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)
-         lastNameTxtField.textColor = .white
+        fullNameLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
+         fullNameLabel.textColor = .white
         emailLabel.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)
          emailLabel.textColor = .white
         emailLabel.text = "Email Address"
-        emailTxtField.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)
-        emailTxtField.textColor = .white
-        emailTxtField.backgroundColor = .clear
-        bookMarksLabel.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)
-        bookMarksLabel.text = "BookMarks"
-         bookMarksLabel.textColor = .white
+        editButton.setTitle("Edit", for: .normal)
+        editButton.setTitleColor(.orange, for: .normal)
+        editButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
+        switchSegmentedControl.tintColor = .clear
+        switchSegmentedControl.backgroundColor = .clear
+        switchSegmentedControl.setTitleTextAttributes([
+            NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 18) ?? 0,
+            NSAttributedString.Key.foregroundColor: UIColor.white
+            ], for: .normal)
+        
+        
+        switchSegmentedControl.setTitleTextAttributes([
+            NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 18) ?? 0,
+            NSAttributedString.Key.foregroundColor: UIColor.orange
+            ], for: .selected)
+        buttonBarView.translatesAutoresizingMaskIntoConstraints = false
+       buttonBarView.backgroundColor = UIColor.orange
+        buttonBarView.topAnchor.constraint(equalTo: switchSegmentedControl.bottomAnchor).isActive = true
+        buttonBarView.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        buttonBarView.leftAnchor.constraint(equalTo: switchSegmentedControl.leftAnchor).isActive = true
+        buttonBarView.widthAnchor.constraint(equalTo: switchSegmentedControl.widthAnchor, multiplier: 1 / CGFloat(switchSegmentedControl.numberOfSegments)).isActive = true
+        profileImageView.isUserInteractionEnabled = false 
+        
     }
-    
-    
-    
-    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        reviewerProfileImage.contentMode = .scaleAspectFill
-//        reviewerProfileImage.layer.cornerRadius = reviewerProfileImage.frame.size.width/2
-//        reviewerProfileImage.layer.masksToBounds = false
-//        reviewerProfileImage.layer.borderColor = UIColor.lightGray.cgColor
-//        reviewerProfileImage.layer.borderWidth = 1
-//        reviewerProfileImage.clipsToBounds = true
-//    }
-
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)

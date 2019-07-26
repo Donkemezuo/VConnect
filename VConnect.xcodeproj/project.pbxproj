@@ -7,11 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040D7D8522E6BC3F00271EB4 /* TableViewBackgroundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D7D8422E6BC3F00271EB4 /* TableViewBackgroundImageView.swift */; };
+		040D7D8722E769A400271EB4 /* DefaultBackgroundTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D7D8622E769A400271EB4 /* DefaultBackgroundTableViewCell.swift */; };
+		040D7D8922E80EFF00271EB4 /* EditProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D7D8822E80EFF00271EB4 /* EditProfileTableViewCell.swift */; };
+		040D7D8B22E80F2200271EB4 /* BookMarksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D7D8A22E80F2200271EB4 /* BookMarksTableViewCell.swift */; };
 		0417EC9322C863D500710235 /* ReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9222C863D500710235 /* ReviewsTableViewCell.swift */; };
 		0417EC9522C9765500710235 /* VConnectUserProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */; };
 		0417EC9722C9844100710235 /* VConnectUserProfileSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */; };
 		041B726622B60E81000BF08F /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */; };
 		041B726822B6179A000BF08F /* NGORegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */; };
+		042872AB22E9096C00F5A3A8 /* EmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872AA22E9096C00F5A3A8 /* EmailTableViewCell.swift */; };
+		042872AD22E90F9300F5A3A8 /* LogOutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872AC22E90F9300F5A3A8 /* LogOutTableViewCell.swift */; };
+		042872AF22EA42D900F5A3A8 /* TableViewHelperMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872AE22EA42D900F5A3A8 /* TableViewHelperMethod.swift */; };
+		042872B322EAB1FA00F5A3A8 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872B222EAB1FA00F5A3A8 /* EditProfileView.swift */; };
+		042872B522EAB20F00F5A3A8 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872B422EAB20F00F5A3A8 /* EditProfileViewController.swift */; };
 		0435221622ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */; };
 		044C6ACB22A0673E006E6C51 /* IBDesignableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */; };
 		044C6ACD22A07B19006E6C51 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6ACC22A07B19006E6C51 /* ImageModel.swift */; };
@@ -74,11 +83,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		040D7D8422E6BC3F00271EB4 /* TableViewBackgroundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewBackgroundImageView.swift; sourceTree = "<group>"; };
+		040D7D8622E769A400271EB4 /* DefaultBackgroundTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultBackgroundTableViewCell.swift; sourceTree = "<group>"; };
+		040D7D8822E80EFF00271EB4 /* EditProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewCell.swift; sourceTree = "<group>"; };
+		040D7D8A22E80F2200271EB4 /* BookMarksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarksTableViewCell.swift; sourceTree = "<group>"; };
 		0417EC9222C863D500710235 /* ReviewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewCell.swift; sourceTree = "<group>"; };
 		0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VConnectUserProfileSettingsView.swift; sourceTree = "<group>"; };
 		0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VConnectUserProfileSettingsViewController.swift; sourceTree = "<group>"; };
 		041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
 		041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGORegistrationTableViewController.swift; sourceTree = "<group>"; };
+		042872AA22E9096C00F5A3A8 /* EmailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailTableViewCell.swift; sourceTree = "<group>"; };
+		042872AC22E90F9300F5A3A8 /* LogOutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutTableViewCell.swift; sourceTree = "<group>"; };
+		042872AE22EA42D900F5A3A8 /* TableViewHelperMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHelperMethod.swift; sourceTree = "<group>"; };
+		042872B222EAB1FA00F5A3A8 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		042872B422EAB20F00F5A3A8 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = ../Views/AllViews/EditProfileViewController.swift; sourceTree = "<group>"; };
 		0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedMarkedNGOsCollectionKeys.swift; sourceTree = "<group>"; };
 		044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBDesignableViews.swift; sourceTree = "<group>"; };
 		044C6ACC22A07B19006E6C51 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
@@ -198,6 +216,7 @@
 				04B695A522990730003A0B85 /* NGOsViewController.swift */,
 				0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */,
 				044C6ACE22A21779006E6C51 /* NGODetailsViewController.swift */,
+				042872B422EAB20F00F5A3A8 /* EditProfileViewController.swift */,
 				04B695992298A095003A0B85 /* ChatViewController.swift */,
 				04B6959B2298A0A3003A0B85 /* ProfileViewController.swift */,
 				041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */,
@@ -231,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				04B6955C22933F20003A0B85 /* AppDelegate.swift */,
+				042872AE22EA42D900F5A3A8 /* TableViewHelperMethod.swift */,
 				04B6958A22979F19003A0B85 /* BackgroundColor+Extension.swift */,
 			);
 			path = "Supporting Files";
@@ -297,8 +317,10 @@
 				045FACDB22D7A260003AD4D6 /* GoogleMapView.swift */,
 				045FACDF22D7E210003AD4D6 /* DetailView.swift */,
 				045FACE122D7F07D003AD4D6 /* NGOMissionView.swift */,
+				040D7D8422E6BC3F00271EB4 /* TableViewBackgroundImageView.swift */,
 				0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */,
 				045FACE322D92278003AD4D6 /* ProfileView.swift */,
+				042872B222EAB1FA00F5A3A8 /* EditProfileView.swift */,
 				044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */,
 				044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */,
 				04D6C59722CE0C4B0043101B /* ReviewsView.swift */,
@@ -317,6 +339,11 @@
 				04B695A32298F2F3003A0B85 /* CategoriesCollectionViewCell.swift */,
 				044C6AD422A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift */,
 				04B695AB2299162E003A0B85 /* NGOsTableViewCell.swift */,
+				040D7D8822E80EFF00271EB4 /* EditProfileTableViewCell.swift */,
+				042872AC22E90F9300F5A3A8 /* LogOutTableViewCell.swift */,
+				040D7D8A22E80F2200271EB4 /* BookMarksTableViewCell.swift */,
+				042872AA22E9096C00F5A3A8 /* EmailTableViewCell.swift */,
+				040D7D8622E769A400271EB4 /* DefaultBackgroundTableViewCell.swift */,
 				04A04FD222DA8599005E8D1D /* BookMarkedTableViewCell.swift */,
 				04E7C73522AF59AD00310DCC /* ProfileTableViewCell.swift */,
 				041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */,
@@ -514,6 +541,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04B6957722934564003A0B85 /* VConnectUserCollectionKeys.swift in Sources */,
+				040D7D8722E769A400271EB4 /* DefaultBackgroundTableViewCell.swift in Sources */,
 				04B695AE229917A9003A0B85 /* NGOsMapView.swift in Sources */,
 				04B6957F2294EDCA003A0B85 /* VConnectSpecialistModel.swift in Sources */,
 				048E768A22C2C263006B7D10 /* NGOImagesCollectionKeys.swift in Sources */,
@@ -525,12 +553,16 @@
 				04B695902298844B003A0B85 /* AuthService.swift in Sources */,
 				04B6959C2298A0A3003A0B85 /* ProfileViewController.swift in Sources */,
 				04B6959422988F3D003A0B85 /* DataBaseService.swift in Sources */,
+				042872B522EAB20F00F5A3A8 /* EditProfileViewController.swift in Sources */,
 				04A04FD322DA8599005E8D1D /* BookMarkedTableViewCell.swift in Sources */,
 				04D54DF922A6167400F1625E /* GoogleAddressAPIClient.swift in Sources */,
+				042872AF22EA42D900F5A3A8 /* TableViewHelperMethod.swift in Sources */,
 				0417EC9722C9844100710235 /* VConnectUserProfileSettingsViewController.swift in Sources */,
 				0417EC9322C863D500710235 /* ReviewsTableViewCell.swift in Sources */,
+				042872AD22E90F9300F5A3A8 /* LogOutTableViewCell.swift in Sources */,
 				044C6AD522A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift in Sources */,
 				045FACE422D92278003AD4D6 /* ProfileView.swift in Sources */,
+				040D7D8B22E80F2200271EB4 /* BookMarksTableViewCell.swift in Sources */,
 				04D54DF322A4CF0C00F1625E /* ZipCode Helper.swift in Sources */,
 				044C6ACF22A2177A006E6C51 /* NGODetailsViewController.swift in Sources */,
 				04E7C73622AF59AD00310DCC /* ProfileTableViewCell.swift in Sources */,
@@ -539,9 +571,11 @@
 				04B6958922979A1B003A0B85 /* SignUpViewController.swift in Sources */,
 				04B6959622989FD6003A0B85 /* VConnectTabBarViewController.swift in Sources */,
 				04B69575229340AC003A0B85 /* VConnectUserModel.swift in Sources */,
+				040D7D8922E80EFF00271EB4 /* EditProfileTableViewCell.swift in Sources */,
 				04B695A622990730003A0B85 /* NGOsViewController.swift in Sources */,
 				0435221622ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift in Sources */,
 				04861EF722CC63E100717938 /* SpecialistRegistrationTableViewController.swift in Sources */,
+				042872B322EAB1FA00F5A3A8 /* EditProfileView.swift in Sources */,
 				04B6958722979A09003A0B85 /* SignInViewController.swift in Sources */,
 				04B6959A2298A095003A0B85 /* ChatViewController.swift in Sources */,
 				04861EF522CC5BFF00717938 /* SpecialistProfileHeaderView.swift in Sources */,
@@ -565,10 +599,12 @@
 				04B6957B22934D9F003A0B85 /* NGOCollectionKeys.swift in Sources */,
 				048E769B22C55966006B7D10 /* NGOReviewCollectionsKey.swift in Sources */,
 				041B726822B6179A000BF08F /* NGORegistrationTableViewController.swift in Sources */,
+				040D7D8522E6BC3F00271EB4 /* TableViewBackgroundImageView.swift in Sources */,
 				04D6C59822CE0C4B0043101B /* ReviewsView.swift in Sources */,
 				04B6955D22933F20003A0B85 /* AppDelegate.swift in Sources */,
 				044C6ACD22A07B19006E6C51 /* ImageModel.swift in Sources */,
 				048E769922C533E7006B7D10 /* ImageHelper.swift in Sources */,
+				042872AB22E9096C00F5A3A8 /* EmailTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

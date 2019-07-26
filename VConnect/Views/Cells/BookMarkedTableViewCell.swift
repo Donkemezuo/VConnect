@@ -29,7 +29,7 @@ class BookMarkedTableViewCell: UITableViewCell {
     
     public lazy var savedDate: UILabel = {
         let savedDate = UILabel()
-        savedDate.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
+        savedDate.font = UIFont(name: "HelveticaNeue-BoldItalic", size: 14)
         savedDate.textColor = .white
         return savedDate
     }()
@@ -52,38 +52,37 @@ class BookMarkedTableViewCell: UITableViewCell {
     
     private func setConstrains(){
         setNameLabelConstrains()
-        setDateLabelConstrains()
         setAddressLabelConstrains()
+        setDateLabelConstrains()
+      
         
     }
     
     private func setNameLabelConstrains(){
         addSubview(ngoName)
         ngoName.translatesAutoresizingMaskIntoConstraints = false
-        ngoName.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
-        
+        ngoName.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
            ngoName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-           ngoName.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        ngoName.heightAnchor.constraint(equalToConstant: 80).isActive = true
-    }
-    
-    private func setDateLabelConstrains(){
-        addSubview(savedDate)
-        savedDate.translatesAutoresizingMaskIntoConstraints = false
-        savedDate.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
-        savedDate.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
-        savedDate.leadingAnchor.constraint(equalTo: ngoName.trailingAnchor, constant: 20).isActive = true
-        savedDate.heightAnchor.constraint(equalToConstant: 20).isActive = true
+           ngoName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+        ngoName.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
     
     private func setAddressLabelConstrains(){
         addSubview(addressLabel)
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
-        addressLabel.topAnchor.constraint(equalTo: ngoName.bottomAnchor, constant: 5).isActive = true
+        addressLabel.topAnchor.constraint(equalTo: ngoName.bottomAnchor, constant: 15).isActive = true
         addressLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
         addressLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
-        addressLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40).isActive = true
-        
+        addressLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+    }
+    
+    private func setDateLabelConstrains(){
+        addSubview(savedDate)
+    savedDate.translatesAutoresizingMaskIntoConstraints = false
+    savedDate.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 15).isActive = true
+    savedDate.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+        savedDate.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
+    savedDate.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
     }
     
     

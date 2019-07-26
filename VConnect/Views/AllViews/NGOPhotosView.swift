@@ -18,7 +18,7 @@ class NGOPhotosView: UIView {
         
         let nGOPhotosCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: cellLayout)
         nGOPhotosCollectionView.backgroundColor = .clear
-        nGOPhotosCollectionView.isScrollEnabled = false 
+        nGOPhotosCollectionView.isScrollEnabled = true 
         return nGOPhotosCollectionView
     }()
     

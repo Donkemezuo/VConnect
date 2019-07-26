@@ -51,15 +51,13 @@ class NGOMissionView: UIView {
         websiteTxtView.dataDetectorTypes = [.link]
         //websiteTxtView.textColor = .white
         websiteTxtView.font = UIFont(name: "HelveticaNeue-Bold", size: 13)
-        websiteTxtView.textColor = UIColor.init(hexString: "0072B1")
+        //websiteTxtView.textColor = UIColor.init(hexString: "0072B1")
         websiteTxtView.textAlignment = .center
         websiteTxtView.isEditable = false
-        websiteTxtView.tintColor = UIColor.init(hexString: "0072B1")
+       // websiteTxtView.tintColor = UIColor.init(hexString: "0072B1")
         return websiteTxtView
         
         }()
-    
-    
     
     public lazy var ngoMissionTxtView: UITextView = {
         let ngoMissionTxtView = UITextView()

@@ -13,13 +13,36 @@ import CoreLocation
 import Kingfisher
 
 
+enum EditingState {
+    case editing, save
+}
+
+
 class ProfileViewController: UIViewController {
 
-    
   private var imageTapGesture: UITapGestureRecognizer!
+    private var tapGesture: UITapGestureRecognizer!
+    private var longPress: UILongPressGestureRecognizer!
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        
+        let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+       // activityIndicator.center = view.center
+        activityIndicator.backgroundColor = .white
+        return activityIndicator
+    }()
+    
+    
+    private lazy var loadingView: UIView = {
+        let loadingView = UIView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
+        loadingView.center = view.center
+        loadingView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        loadingView.layer.cornerRadius = 10
+        return loadingView
+    }()
     
     private lazy var profileHeaderView: ProfileHeaderView = {
-       let profileHeaderView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 543))
+       let profileHeaderView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 390))
         
         return profileHeaderView
     }()
@@ -30,6 +53,7 @@ class ProfileViewController: UIViewController {
     }()
     private var profileView = ProfileView()
     private var authService = AppDelegate.authService
+    private var allNGOs: [NGO]!
     private var bookMarks = [NGO]() {
         didSet {
             DispatchQueue.main.async {
@@ -38,22 +62,53 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    private var allBookMarkDates = [BookMark]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.profileView.bookMarkedNGOsTableView.reloadData()
+            }
+        }
+    }
+    
+    private var vConnectUser: VConnectUser!
+    //private var selectedImage: UIImage
+    var selectedIndex = -1
+    var isCollapsed = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor =  UIColor.init(hexString: "0072B1")
         view.isOpaque = false
-       // setProfileViewConstrains()
         profileHeaderView.backgroundColor = UIColor.init(hexString: "0072B1")
         fetchUser(withVConnectUserID: authService.getCurrentVConnectUser()!.uid)
         profileHeaderView.cancelButton.addTarget(self, action: #selector(dismissButtonClicked), for: .touchUpInside)
-        profileHeaderView.logOutButton.addTarget(self, action: #selector(signOutButtonPressed), for: .touchUpInside)
+        profileView.logOutButton.addTarget(self, action: #selector(signOutButtonPressed), for: .touchUpInside)
         imagePicker.delegate = self
         view.addSubview(profileView)
-        profileView.bookMarkedNGOsTableView.tableHeaderView = profileHeaderView
-        fetchBookMarks()
+        profileHeaderView.editButton.isHidden = true
         setupImagePicker()
         profileView.bookMarkedNGOsTableView.dataSource = self
         profileView.bookMarkedNGOsTableView.delegate = self
+        profileView.bookMarkedNGOsTableView.rowHeight = UITableView.automaticDimension
+        profileHeaderView.switchSegmentedControl.addTarget(self, action: #selector(switchedSelected), for:.valueChanged)
+         profileView.bookMarkedNGOsTableView.tableHeaderView = profileHeaderView
+        configureEdit()
+        profileHeaderView.profileImageView.isUserInteractionEnabled = false
+        //displayEditability()
+        //setupActivityIndicator()
+        //view.addSubview(activityIndicator)
+        
+    }
+    
+    init(allNGOs: [NGO], allBookMarkedNGOs: [NGO], allBookMarkedDates: [BookMark]){
+        super.init(nibName: nil, bundle: nil)
+        self.allNGOs = allNGOs
+        self.bookMarks = allBookMarkedNGOs
+        self.allBookMarkDates = allBookMarkedDates
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+       super.init(coder: aDecoder)
     }
     
     @objc private func dismissButtonClicked(){
@@ -61,8 +116,6 @@ class ProfileViewController: UIViewController {
     }
     
     private func showLoginView(){
-        //if let _ = storyboard?.instantiateViewController(withIdentifier: "NGOsViewController") as? HomeViewController {
-            
             let loginScreenStoryboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
             
             if let loginController = loginScreenStoryboard.instantiateViewController(withIdentifier: "SignInView") as? SignInViewController {
@@ -70,43 +123,150 @@ class ProfileViewController: UIViewController {
                 present(navController, animated: true) {
             (UIApplication.shared.delegate as? AppDelegate)?.window?.rootViewController = navController
                 }
-              
-                
         }
     }
-    //}
+    
+    private func displayEditability(){
+        
+        let nameCell = profileView.bookMarkedNGOsTableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as! EditProfileTableViewCell
+        
+        nameCell.firstNameLabel.isUserInteractionEnabled = false
+        nameCell.lastNameLabel.isUserInteractionEnabled = false
+        nameCell.firstNameLabel.isEnabled = false
+        nameCell.lastNameLabel.isEnabled = false
+        profileHeaderView.profileImageView.isUserInteractionEnabled = false
+         nameCell.firstNameLabel.backgroundColor = .clear
+        nameCell.lastNameLabel.backgroundColor = .clear
+    }
+    
+    private func setupActivityIndicator(){
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+        activityIndicator.center = CGPoint(x: loadingView.frame.size.width/2, y: loadingView.frame.size.height/2)
+        loadingView.addSubview(activityIndicator)
+        view.addSubview(loadingView)
+        activityIndicator.startAnimating()
+    }
+    
+    private func turnOnEditability(){
+        let nameCell = profileView.bookMarkedNGOsTableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as! EditProfileTableViewCell
+        
+        nameCell.firstNameLabel.isUserInteractionEnabled = true
+        nameCell.lastNameLabel.isUserInteractionEnabled = true
+        profileHeaderView.profileImageView.isUserInteractionEnabled = true
+        profileHeaderView.profileImageView.backgroundColor = .gray
+        nameCell.firstNameLabel.isEnabled = true
+        nameCell.firstNameLabel.backgroundColor = .gray
+        nameCell.lastNameLabel.isEnabled = true
+        nameCell.lastNameLabel.backgroundColor = .gray
+        
+    }
+    
+
     @objc private func signOutButtonPressed(){
         
         self.confirmDeletionActionSheet { (alert) in
             self.authService.signOutVConnectUser()
             self.showLoginView()
         }
-        
-   
-
         }
     
+    private func configureLogOut(onLogOutCell logOutCell: LogOutTableViewCell){
+        logOutCell.logOutButton.addTarget(self, action: #selector(signOutButtonPressed), for: .touchUpInside)
+        
+    }
     
+    private func configureEmptyBookMarksState(){
+        
+        if bookMarks.count > 0 {
+            
+            profileView.bookMarkedNGOsTableView.backgroundView = nil
+            
+        } else {
+          profileView.bookMarkedNGOsTableView.backgroundView = EmptyView.emptyMessage(message: "You have no BookMarks", size: profileView.bookMarkedNGOsTableView.bounds.size)
+            profileView.bookMarkedNGOsTableView.separatorStyle = .none
+            profileView.bookMarkedNGOsTableView.backgroundColor = .red
+        }
+    }
+    
+    private func configureEdit(withCell cell: EditProfileTableViewCell){
+        
+        longPress = UILongPressGestureRecognizer(target: self, action: #selector(changeFirstName))
+        cell.firstNameLabel.isUserInteractionEnabled = true
+        cell.firstNameLabel.addGestureRecognizer(longPress)
+    }
+    
+    @objc private func changeFirstName(){
+        let alertController = UIAlertController(title: "Options", message: "You can change your first name", preferredStyle: .alert)
+        alertController.addTextField { (txtField) in
+            txtField.text = self.vConnectUser.firstName
+            
+        }
+        
+        let saveAction =  UIAlertAction(title: "Save", style: .default) { (alert) in
+            
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
+            
+        }
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(cancel)
+        
+        present(alertController, animated: true)
+        
+    }
+ 
     private func fetchUser(withVConnectUserID ID: String) {
         DataBaseService.fetchVConnectUserr(with: ID) { (error, vconnectUser) in
             if let error = error {
                 self.showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while fetching VConnect User")
             } else if let vConnectUser = vconnectUser {
                 self.displayVConnectUserInfo(withVConnectUser: vConnectUser)
-                
+               self.vConnectUser = vConnectUser
             }
         }
     }
     
     private func displayVConnectUserInfo(withVConnectUser vConnectUser: VConnectUser){
-        //profileHeaderView.helloLabel.text = "Hello \(vConnectUser.firstName)"
-        profileHeaderView.emailTxtField.text = vConnectUser.emailAddress
-        profileHeaderView.firstNameTxtField.text = vConnectUser.firstName
-        profileHeaderView.lastNameTxtField.text = vConnectUser.lastName
+        profileHeaderView.fullNameLabel.text = vConnectUser.firstName + " " + vConnectUser.lastName
+        profileHeaderView.emailLabel.text = vConnectUser.emailAddress
+        
         if let photoURL = vConnectUser.profileImageURL {
-        profileHeaderView.profileImageView.kf.setImage(with: URL(string: photoURL), placeholder:#imageLiteral(resourceName: "icons8-contacts_filled.png"))
+        profileHeaderView.profileImageView.kf.setImage(with: URL(string: photoURL), placeholder:#imageLiteral(resourceName: "placeholder"))
+            
         }
-       
+
+    }
+    
+    private func configureEdit(){
+    
+ profileHeaderView.editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+    }
+    
+    
+    @objc private func editButtonPressed(){
+
+        profileHeaderView.editButton.removeTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+        profileHeaderView.editButton.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
+        profileHeaderView.editButton.setTitle("Save", for: .normal)
+        //print("Edit pressed")
+        turnOnEditability()
+        
+    }
+    
+    @objc private func saveChanges(){
+        profileHeaderView.editButton.removeTarget(self, action: #selector(saveChanges), for: .touchUpInside)
+        profileHeaderView.editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+    profileHeaderView.editButton.setTitle("Edit", for: .normal)
+        //print("Save pressed")
+        displayEditability()
+        
+       saveProfileImage(withImage: profileHeaderView.profileImageView.image!)
+        
+        
         
     }
     
@@ -114,6 +274,28 @@ class ProfileViewController: UIViewController {
         imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
         profileHeaderView.profileImageView.isUserInteractionEnabled = true 
         profileHeaderView.profileImageView.addGestureRecognizer(imageTapGesture)
+        
+    }
+    
+    @objc private func switchedSelected(){
+        
+        switch profileHeaderView.switchSegmentedControl.selectedSegmentIndex {
+        case 0:
+            profileHeaderView.editButton.isHidden = true
+        case 1:
+            profileHeaderView.editButton.isHidden = false
+        default:
+            break
+        }
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.profileHeaderView.buttonBarView.frame.origin.x = (self.profileHeaderView.switchSegmentedControl.frame.width / CGFloat(self.profileHeaderView.switchSegmentedControl.numberOfSegments)) * CGFloat(self.profileHeaderView.switchSegmentedControl.selectedSegmentIndex)
+            self.profileView.bookMarkedNGOsTableView.reloadData()
+        }) { (done) in
+             self.profileHeaderView.buttonBarView.frame.origin.x = (self.profileHeaderView.switchSegmentedControl.frame.width / CGFloat(self.profileHeaderView.switchSegmentedControl.numberOfSegments)) * CGFloat(self.profileHeaderView.switchSegmentedControl.selectedSegmentIndex)
+            self.profileView.bookMarkedNGOsTableView.reloadData()
+        }
+        
         
     }
     
@@ -143,25 +325,35 @@ class ProfileViewController: UIViewController {
         }
         
         let canCel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
-            self.dismiss(animated: true)
+            //self.dismiss(animated: true)
         }
         
         alertController.addAction(camera)
         alertController.addAction(photoLibrary)
         alertController.addAction(saveAlbums)
         alertController.addAction(canCel)
-        
-        
+
         present(alertController, animated: true)
-        
-        
-       
     }
+    
+    
     
     private func saveProfileImage(withImage image: UIImage) {
         guard let imageData = image.jpegData(compressionQuality: 1.0), let vConnectUser = authService.getCurrentVConnectUser() else {
             return
         }
+        
+        let nameCell = profileView.bookMarkedNGOsTableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as! EditProfileTableViewCell
+        guard let firstName = nameCell.firstNameLabel.text, let lastName = nameCell.lastNameLabel.text, !firstName.isEmpty, !lastName.isEmpty else {
+            //showAlert(title: "Missing Field Required", message: "All missing fields require filling")
+            showAlert(title: "Missing Field Required", message: "All missing fields require filling") { (alert) in
+                
+               // self.turnOnEditability()
+            }
+            return
+        }
+        
+        setupActivityIndicator()
         
         DataBaseService.saveProfileImage(with: imageData, with: Constants.ProfileImagePath + vConnectUser.uid) { (error, url) in
             if let error = error {
@@ -175,12 +367,15 @@ class ProfileViewController: UIViewController {
                     if let error = error {
                         self.showAlert(title: "Error", message: "Error \(error.localizedDescription) while changing display picture")
                     } else {
-                        self.showAlert(title: "Success", message: "Successfully changed profile picture")
-                        //self.dismiss(animated: true)
+                        
+                        self.activityIndicator.stopAnimating()
+                        self.loadingView.removeFromSuperview()
+                        
+                        self.showAlert(title: "Success", message: "Successfully changed profile information")
+                        
                     }
                 })
-                
-                DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).document(vConnectUser.uid).updateData([VConnectUserCollectionKeys.profileImageURL:imageUrl.absoluteString], completion: { (error) in
+                DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).document(vConnectUser.uid).updateData([VConnectUserCollectionKeys.profileImageURL:imageUrl.absoluteString, VConnectUserCollectionKeys.firstName: firstName, VConnectUserCollectionKeys.lastName:lastName], completion: { (error) in
                     if let error = error {
                         print("Error: \(error)")
                     }
@@ -191,56 +386,128 @@ class ProfileViewController: UIViewController {
     }
     
     
+    
+    
     @objc private func canCelButtonPressed(){
         dismiss(animated: true, completion: nil)
     }
     
-    private func fetchBookMarks(){
-        guard let vconnectUserID = authService.getCurrentVConnectUser()?.uid else {
-            return
-        }
-        
-        DataBaseService.fetchBookMarkedNGOs(vConnectUserID: vconnectUserID) { (error, bookMarks) in
-            if let error = error {
-                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
-            } else if let bookMarks = bookMarks {
-                self.bookMarks = bookMarks
-                
-                //dump(bookMarks)
-                
-            }
-        }
-    }
-
 }
 
 
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return bookMarks.count
+        
+        switch profileHeaderView.switchSegmentedControl.selectedSegmentIndex {
+        case 0:
+            if bookMarks.isEmpty {
+                return 1
+            } else {
+                   return bookMarks.count
+            }
+    
+
+        case 1:
+            return 3
+        default:
+            return 0
+        }
+        
+     
+
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let bookMarkCell = tableView.dequeueReusableCell(withIdentifier: "BookMarkedTableViewCell", for: indexPath) as? BookMarkedTableViewCell  else {
+        tableView.backgroundColor = .clear
+
+        switch profileHeaderView.switchSegmentedControl.selectedSegmentIndex {
+            
+        case 0:
+            
+            let genericCell = UITableViewCell()
+            
+            if bookMarks.isEmpty {
+                genericCell.backgroundView = EmptyView.emptyMessage(message: "No BookMarks", size: genericCell.bounds.size)
+                genericCell.selectionStyle = .none
+                profileView.bookMarkedNGOsTableView.isScrollEnabled = false 
+                return genericCell
+                
+            } else {
+                let bookMarkedNGO = bookMarks[indexPath.row]
+                let date = allBookMarkDates[indexPath.row]
+                guard let bookMarkCell = tableView.dequeueReusableCell(withIdentifier: "BookMarkCell", for: indexPath) as? BookMarkedTableViewCell  else {
+                    return UITableViewCell()
+                }
+                bookMarkCell.backgroundColor = .clear
+                bookMarkCell.ngoName.text = bookMarkedNGO.ngoName
+                bookMarkCell.addressLabel.text = bookMarkedNGO.ngoCity
+                bookMarkCell.selectionStyle = .none
+                bookMarkCell.savedDate.text = "BookMarked since \(date.date)"
+                return bookMarkCell
+            }
+        case 1:
+            
+            profileView.bookMarkedNGOsTableView.separatorStyle = .none
+            switch indexPath.row {
+                
+            case 0:
+                 guard let profileSettingsCell = tableView.dequeueReusableCell(withIdentifier: "EditCell", for: indexPath) as? EditProfileTableViewCell else {return UITableViewCell()}
+                 profileSettingsCell.firstNameLabel.text = vConnectUser.firstName
+                 profileSettingsCell.lastNameLabel.text = vConnectUser.lastName
+                 profileSettingsCell.backgroundColor = .clear
+                 profileSettingsCell.selectionStyle = .none
+                 configureEdit(withCell: profileSettingsCell)
+                return profileSettingsCell
+                
+            case 1:
+                guard let emailCell = tableView.dequeueReusableCell(withIdentifier: "EmailCell", for: indexPath) as? EmailTableViewCell else {return UITableViewCell()}
+                emailCell.emailLabel.text = vConnectUser.emailAddress
+                emailCell.backgroundColor = .clear
+                emailCell.selectionStyle = .none
+                return emailCell
+                
+            case 2:
+                guard let logOutCell = tableView.dequeueReusableCell(withIdentifier: "LogOutCell", for: indexPath) as? LogOutTableViewCell else {return UITableViewCell()}
+                logOutCell.backgroundColor = .clear
+                logOutCell.selectionStyle = .none
+                configureLogOut(onLogOutCell: logOutCell)
+                return logOutCell
+                
+            default:
+                return UITableViewCell()
+            }
+            
+        default:
             return UITableViewCell()
+            
         }
         
-        let bookMark = bookMarks[indexPath.row]
-        bookMarkCell.ngoName.text = bookMark.ngoName
-        bookMarkCell.addressLabel.text = bookMark.ngoStreetAddress + " " + bookMark.ngoCity
-        bookMarkCell.savedDate.text = bookMark.visitedDate
-        bookMarkCell.backgroundColor = .clear
-        bookMarkCell.textLabel?.textColor = .white
-        return bookMarkCell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        switch profileHeaderView.switchSegmentedControl.selectedSegmentIndex {
+        case 0:
+            
+            if bookMarks.isEmpty {
+                return 300
+            } else {
+                return 120
+            }
+            
+        case 1:
+            return 110
+        default:
+            return 0
+        }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
     
-    
+
+    // Text to speach feature
 }
 
 
@@ -259,7 +526,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         
         let size = CGSize(width: 500, height: 500)
         let resizedImage = Toucan.Resize.resizeImage(originalImage, size: size)
-        saveProfileImage(withImage: resizedImage!)
+        profileHeaderView.profileImageView.image = resizedImage
+        //saveProfileImage(withImage: resizedImage!)
         dismiss(animated: true, completion: nil)
         
     }

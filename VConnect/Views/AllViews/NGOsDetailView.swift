@@ -22,7 +22,7 @@ class NGOsDetailView: UIView {
     
     public lazy var reviewView: ReviewsView = {
         let reviewView = ReviewsView()
-        reviewView.backgroundColor = .white
+        reviewView.backgroundColor = .clear
         return reviewView
     }()
     

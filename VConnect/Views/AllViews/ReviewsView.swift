@@ -13,7 +13,6 @@ class ReviewsView: UIView {
     public lazy var reviewsTableView: UITableView = {
         let reviewsTableView = UITableView()
         reviewsTableView.backgroundColor = .white
-        
         return reviewsTableView
     }()
     
@@ -30,7 +29,7 @@ class ReviewsView: UIView {
         let sendButton = UIButton()
         sendButton.setTitle("Post", for: .normal)
         sendButton.backgroundColor = UIColor.init(hexString: "0072B1")
-        sendButton.layer.cornerRadius = 20
+        sendButton.layer.cornerRadius = 15
         sendButton.isUserInteractionEnabled = true 
         return sendButton
     }()
@@ -40,6 +39,8 @@ class ReviewsView: UIView {
         super.init(frame: UIScreen.main.bounds)
         commonInit()
         self.reviewsTableView.register(ReviewsTableViewCell.self, forCellReuseIdentifier: "ReviewsTableViewCell")
+        
+        self.reviewsTableView.register(DefaultBackgroundTableViewCell.self, forCellReuseIdentifier: "DefaultBackgroundTableViewCell")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -81,19 +82,11 @@ class ReviewsView: UIView {
     private func setSendButtonConstrains(){
         addSubview(sendButton)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
-        sendButton.topAnchor.constraint(equalTo: reviewsTableView.bottomAnchor).isActive = true
+        sendButton.topAnchor.constraint(equalTo: reviewsTableView.bottomAnchor, constant: 1).isActive = true
         sendButton.leadingAnchor.constraint(equalTo: reviewTextField.trailingAnchor).isActive = true
         sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
         sendButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -25).isActive = true
     }
-    
-
-//    @objc public func sendButtonPressed(){
-//        print("Send button pressed")
-//
-//    }
-    
-    
     
     
 

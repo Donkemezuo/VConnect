@@ -19,7 +19,8 @@ class HomeViewController: UIViewController {
     private var tapGesture: UITapGestureRecognizer!
     var authServices = AppDelegate.authService
     var vConnectUser: VConnectUser?
-    
+    private var bookMarks = [NGO]()
+    private var allUserBookMarkIDs = [BookMark]()
     private var allNGOs = [NGO]() {
         didSet {
             DispatchQueue.main.async {
@@ -52,8 +53,8 @@ class HomeViewController: UIViewController {
         nGOsTableView.categoriesCollectionView.dataSource = self
         nGOsTableView.categoriesCollectionView.delegate = self
         checkLocationAuthorizationStatus()
-        //configureSettingsButton()
         fetchAllNGOData()
+        getNGOIDs()
         presentVConnectUserProfile()
         fetchUser(withVConnectUserID: authServices.getCurrentVConnectUser()!.uid)
     }
@@ -99,11 +100,32 @@ class HomeViewController: UIViewController {
                 
                 completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
                 
-                //self.setupGoodMapView(withLatitude: latitude, withLogitude: longitude)
-                
-                
             }
         }
+        
+    }
+    
+    private func getNGOIDs(){
+        
+        guard let userID = authServices.getCurrentVConnectUser()?.uid else {return}
+        
+        DataBaseService.fetchVConnectBookMarkedNGOs(userID) { (error, bookMarks) in
+            if let error = error {
+                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
+            } else if let bookMarks = bookMarks {
+                self.allUserBookMarkIDs = bookMarks
+                self.bookMarks.removeAll()
+                for bookmark in bookMarks {
+                    print("this is my test")
+                    for ngo in self.allNGOs {
+                        if bookmark.ngoID == ngo.ngOID {
+                            self.bookMarks.append(ngo)
+                        }
+                    }
+                }
+            }
+        }
+        
         
     }
     
@@ -134,23 +156,11 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func presentProfileVC(){
-        let profileVC = ProfileViewController()
+        let profileVC = ProfileViewController(allNGOs: allNGOs, allBookMarkedNGOs: bookMarks, allBookMarkedDates: allUserBookMarkIDs)
         print("Button pressed")
      present(profileVC, animated: true)
     }
     
-//    private func configureSettingsButton(){
-//        nGOsTableView.settingButton.addTarget(self, action: #selector(settingButtonClicked), for: .touchUpInside)
-//    }
-
-    
-    @objc private func settingButtonClicked(){
-        let settingsVC = ProfileViewController()
-        settingsVC.modalPresentationStyle = .overCurrentContext
-        settingsVC.modalTransitionStyle = .crossDissolve
-        present(settingsVC, animated: true)
-        
-    }
     
     private func generateMilesDifference(with cell: NGOsTableViewCell){
         
@@ -296,7 +306,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         var nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOs[indexPath.row]
         getImages(ngo: nGOToSet) { (ngoImages) in
             nGOToSet.ngoImagesURL = ngoImages
-            let nGODetailViewController = NGODetailsViewController(nGO: nGOToSet)
+            let nGODetailViewController = NGODetailsViewController(nGO: nGOToSet, allBookMarks: self.allUserBookMarkIDs)
             nGODetailViewController.userLocationCoordinates = self.getUserLocationCoordinates()
             self.createNGOCoordinates(withNGOFullAddress: nGOToSet.fullAddress, completionHandler: { (error, coordinates) in
                 if let error = error {
@@ -304,7 +314,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 } else if let coordinate = coordinates {
                     DispatchQueue.main.async {
                     nGODetailViewController.ngoLocationCoordinates = coordinate
-                    print(coordinates)
                     self.navigationController?.pushViewController(nGODetailViewController, animated: true)
                     }
                 }
