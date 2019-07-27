@@ -154,12 +154,6 @@ extension VConnectUserProfileSettingsViewController: UIImagePickerControllerDele
         vConnectUserProfileSettingsView.profileImageView.image = resizedImage
         dismiss(animated: true, completion: nil)
         
-        
-        
-        
-        
-    
-        
     }
     
 }

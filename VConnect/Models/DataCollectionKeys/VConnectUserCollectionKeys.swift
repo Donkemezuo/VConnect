@@ -17,4 +17,5 @@ struct VConnectUserCollectionKeys {
     static let canReceiveNotification = "canReceiveNotification"
     static let profileImageURL = "profileImageURL"
     static let userID = "userID"
+    static let bookMarkedNGOs = "bookMarkedNGOs"
 }

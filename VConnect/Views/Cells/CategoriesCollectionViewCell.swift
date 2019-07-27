@@ -12,16 +12,16 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
     
     public lazy var categoryNameLabel: UILabel = {
         let categoryName = UILabel()
-        categoryName.font = UIFont(name: "HelveticaNeue-Bold", size: 22)
+        categoryName.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
         categoryName.numberOfLines = 0
-        categoryName.textColor = .white
+        categoryName.textColor = .white 
         return categoryName
     }()
     
     override init(frame: CGRect) {
         super.init(frame: UIScreen.main.bounds)
         commonInt()
-        
+    
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -34,8 +34,9 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
     private func setNameLabelConstrains(){
         addSubview(categoryNameLabel)
         categoryNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        categoryNameLabel.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor).isActive = true
-        categoryNameLabel.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor).isActive = true
+        categoryNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        categoryNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        //categoryNameLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
 
     

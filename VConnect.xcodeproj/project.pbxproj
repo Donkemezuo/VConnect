@@ -7,14 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0417EC9122C85EAC00710235 /* ReviewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9022C85EAC00710235 /* ReviewsView.swift */; };
+		040D7D8522E6BC3F00271EB4 /* TableViewBackgroundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D7D8422E6BC3F00271EB4 /* TableViewBackgroundImageView.swift */; };
+		040D7D8722E769A400271EB4 /* DefaultBackgroundTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D7D8622E769A400271EB4 /* DefaultBackgroundTableViewCell.swift */; };
+		040D7D8922E80EFF00271EB4 /* EditProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D7D8822E80EFF00271EB4 /* EditProfileTableViewCell.swift */; };
+		040D7D8B22E80F2200271EB4 /* BookMarksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D7D8A22E80F2200271EB4 /* BookMarksTableViewCell.swift */; };
 		0417EC9322C863D500710235 /* ReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9222C863D500710235 /* ReviewsTableViewCell.swift */; };
 		0417EC9522C9765500710235 /* VConnectUserProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */; };
 		0417EC9722C9844100710235 /* VConnectUserProfileSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */; };
 		041B726622B60E81000BF08F /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */; };
 		041B726822B6179A000BF08F /* NGORegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */; };
-		041FD4E422CB32B2007EFD22 /* RateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FD4E322CB32B2007EFD22 /* RateViewController.swift */; };
-		041FD4E622CB32CE007EFD22 /* RateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041FD4E522CB32CE007EFD22 /* RateView.swift */; };
+		042872AB22E9096C00F5A3A8 /* EmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872AA22E9096C00F5A3A8 /* EmailTableViewCell.swift */; };
+		042872AD22E90F9300F5A3A8 /* LogOutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872AC22E90F9300F5A3A8 /* LogOutTableViewCell.swift */; };
+		042872AF22EA42D900F5A3A8 /* TableViewHelperMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872AE22EA42D900F5A3A8 /* TableViewHelperMethod.swift */; };
+		042872B322EAB1FA00F5A3A8 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872B222EAB1FA00F5A3A8 /* EditProfileView.swift */; };
+		042872B522EAB20F00F5A3A8 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872B422EAB20F00F5A3A8 /* EditProfileViewController.swift */; };
 		0435221622ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */; };
 		044C6ACB22A0673E006E6C51 /* IBDesignableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */; };
 		044C6ACD22A07B19006E6C51 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6ACC22A07B19006E6C51 /* ImageModel.swift */; };
@@ -23,12 +29,17 @@
 		044C6AD322A22B38006E6C51 /* NGOPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6AD222A22B38006E6C51 /* NGOPhotosView.swift */; };
 		044C6AD522A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6AD422A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift */; };
 		044C6AD722A23965006E6C51 /* HoursAndAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */; };
+		045FACDC22D7A260003AD4D6 /* GoogleMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045FACDB22D7A260003AD4D6 /* GoogleMapView.swift */; };
+		045FACE022D7E210003AD4D6 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045FACDF22D7E210003AD4D6 /* DetailView.swift */; };
+		045FACE222D7F07D003AD4D6 /* NGOMissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045FACE122D7F07D003AD4D6 /* NGOMissionView.swift */; };
+		045FACE422D92278003AD4D6 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045FACE322D92278003AD4D6 /* ProfileView.swift */; };
 		04861EF322CC563700717938 /* SpecialistHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04861EF222CC563700717938 /* SpecialistHeaderView.xib */; };
 		04861EF522CC5BFF00717938 /* SpecialistProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04861EF422CC5BFF00717938 /* SpecialistProfileHeaderView.swift */; };
 		04861EF722CC63E100717938 /* SpecialistRegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04861EF622CC63E100717938 /* SpecialistRegistrationTableViewController.swift */; };
 		048E768A22C2C263006B7D10 /* NGOImagesCollectionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E768922C2C263006B7D10 /* NGOImagesCollectionKeys.swift */; };
 		048E769922C533E7006B7D10 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E769822C533E7006B7D10 /* ImageHelper.swift */; };
 		048E769B22C55966006B7D10 /* NGOReviewCollectionsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E769A22C55966006B7D10 /* NGOReviewCollectionsKey.swift */; };
+		04A04FD322DA8599005E8D1D /* BookMarkedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A04FD222DA8599005E8D1D /* BookMarkedTableViewCell.swift */; };
 		04B6955D22933F20003A0B85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6955C22933F20003A0B85 /* AppDelegate.swift */; };
 		04B6956222933F20003A0B85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B6956022933F20003A0B85 /* Main.storyboard */; };
 		04B6956422933F21003A0B85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B6956322933F21003A0B85 /* Assets.xcassets */; };
@@ -48,14 +59,11 @@
 		04B6959222988CE6003A0B85 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6959122988CE6003A0B85 /* Date+Extension.swift */; };
 		04B6959422988F3D003A0B85 /* DataBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6959322988F3D003A0B85 /* DataBaseService.swift */; };
 		04B6959622989FD6003A0B85 /* VConnectTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6959522989FD6003A0B85 /* VConnectTabBarViewController.swift */; };
-		04B695982298A070003A0B85 /* NGOsCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695972298A070003A0B85 /* NGOsCategoriesViewController.swift */; };
 		04B6959A2298A095003A0B85 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695992298A095003A0B85 /* ChatViewController.swift */; };
 		04B6959C2298A0A3003A0B85 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6959B2298A0A3003A0B85 /* ProfileViewController.swift */; };
 		04B6959E2298A25E003A0B85 /* UserAlert+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6959D2298A25E003A0B85 /* UserAlert+Extension.swift */; };
-		04B695A12298F006003A0B85 /* NGOsCategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A02298F006003A0B85 /* NGOsCategoriesView.swift */; };
 		04B695A42298F2F3003A0B85 /* CategoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A32298F2F3003A0B85 /* CategoriesCollectionViewCell.swift */; };
 		04B695A622990730003A0B85 /* NGOsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A522990730003A0B85 /* NGOsViewController.swift */; };
-		04B695A822990910003A0B85 /* NGOsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A722990910003A0B85 /* NGOsView.swift */; };
 		04B695AA2299154F003A0B85 /* NGOsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695A92299154F003A0B85 /* NGOsTableView.swift */; };
 		04B695AC2299162E003A0B85 /* NGOsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695AB2299162E003A0B85 /* NGOsTableViewCell.swift */; };
 		04B695AE229917A9003A0B85 /* NGOsMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B695AD229917A9003A0B85 /* NGOsMapView.swift */; };
@@ -68,21 +76,27 @@
 		04D54DF922A6167400F1625E /* GoogleAddressAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D54DF822A6167400F1625E /* GoogleAddressAPIClient.swift */; };
 		04D54DFB22A6172000F1625E /* NetWorkHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D54DFA22A6172000F1625E /* NetWorkHelpers.swift */; };
 		04D54DFD22A6173A00F1625E /* AppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D54DFC22A6173A00F1625E /* AppErrors.swift */; };
+		04D6C59822CE0C4B0043101B /* ReviewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D6C59722CE0C4B0043101B /* ReviewsView.swift */; };
 		04E7C73622AF59AD00310DCC /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E7C73522AF59AD00310DCC /* ProfileTableViewCell.swift */; };
 		04E7C73822AF6E1D00310DCC /* BookMarkedNGO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E7C73722AF6E1D00310DCC /* BookMarkedNGO.swift */; };
-		04E7C73A22B0500500310DCC /* ProfileSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E7C73922B0500500310DCC /* ProfileSettingsViewController.swift */; };
 		2ABA7B76542352E257949A17 /* Pods_VConnect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AE14F6C90657F0743043944 /* Pods_VConnect.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0417EC9022C85EAC00710235 /* ReviewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsView.swift; sourceTree = "<group>"; };
+		040D7D8422E6BC3F00271EB4 /* TableViewBackgroundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewBackgroundImageView.swift; sourceTree = "<group>"; };
+		040D7D8622E769A400271EB4 /* DefaultBackgroundTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultBackgroundTableViewCell.swift; sourceTree = "<group>"; };
+		040D7D8822E80EFF00271EB4 /* EditProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewCell.swift; sourceTree = "<group>"; };
+		040D7D8A22E80F2200271EB4 /* BookMarksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarksTableViewCell.swift; sourceTree = "<group>"; };
 		0417EC9222C863D500710235 /* ReviewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewCell.swift; sourceTree = "<group>"; };
 		0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VConnectUserProfileSettingsView.swift; sourceTree = "<group>"; };
 		0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VConnectUserProfileSettingsViewController.swift; sourceTree = "<group>"; };
 		041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
 		041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGORegistrationTableViewController.swift; sourceTree = "<group>"; };
-		041FD4E322CB32B2007EFD22 /* RateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateViewController.swift; sourceTree = "<group>"; };
-		041FD4E522CB32CE007EFD22 /* RateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateView.swift; sourceTree = "<group>"; };
+		042872AA22E9096C00F5A3A8 /* EmailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailTableViewCell.swift; sourceTree = "<group>"; };
+		042872AC22E90F9300F5A3A8 /* LogOutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutTableViewCell.swift; sourceTree = "<group>"; };
+		042872AE22EA42D900F5A3A8 /* TableViewHelperMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHelperMethod.swift; sourceTree = "<group>"; };
+		042872B222EAB1FA00F5A3A8 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		042872B422EAB20F00F5A3A8 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = ../Views/AllViews/EditProfileViewController.swift; sourceTree = "<group>"; };
 		0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedMarkedNGOsCollectionKeys.swift; sourceTree = "<group>"; };
 		044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBDesignableViews.swift; sourceTree = "<group>"; };
 		044C6ACC22A07B19006E6C51 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
@@ -91,12 +105,17 @@
 		044C6AD222A22B38006E6C51 /* NGOPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOPhotosView.swift; sourceTree = "<group>"; };
 		044C6AD422A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursAndAddressView.swift; sourceTree = "<group>"; };
+		045FACDB22D7A260003AD4D6 /* GoogleMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapView.swift; sourceTree = "<group>"; };
+		045FACDF22D7E210003AD4D6 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		045FACE122D7F07D003AD4D6 /* NGOMissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOMissionView.swift; sourceTree = "<group>"; };
+		045FACE322D92278003AD4D6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		04861EF222CC563700717938 /* SpecialistHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SpecialistHeaderView.xib; sourceTree = "<group>"; };
 		04861EF422CC5BFF00717938 /* SpecialistProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialistProfileHeaderView.swift; sourceTree = "<group>"; };
 		04861EF622CC63E100717938 /* SpecialistRegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialistRegistrationTableViewController.swift; sourceTree = "<group>"; };
 		048E768922C2C263006B7D10 /* NGOImagesCollectionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOImagesCollectionKeys.swift; sourceTree = "<group>"; };
 		048E769822C533E7006B7D10 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		048E769A22C55966006B7D10 /* NGOReviewCollectionsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOReviewCollectionsKey.swift; sourceTree = "<group>"; };
+		04A04FD222DA8599005E8D1D /* BookMarkedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkedTableViewCell.swift; sourceTree = "<group>"; };
 		04B6955922933F20003A0B85 /* VConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B6955C22933F20003A0B85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04B6956122933F20003A0B85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -118,14 +137,11 @@
 		04B6959122988CE6003A0B85 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		04B6959322988F3D003A0B85 /* DataBaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseService.swift; sourceTree = "<group>"; };
 		04B6959522989FD6003A0B85 /* VConnectTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VConnectTabBarViewController.swift; sourceTree = "<group>"; };
-		04B695972298A070003A0B85 /* NGOsCategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsCategoriesViewController.swift; sourceTree = "<group>"; };
 		04B695992298A095003A0B85 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		04B6959B2298A0A3003A0B85 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		04B6959D2298A25E003A0B85 /* UserAlert+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserAlert+Extension.swift"; sourceTree = "<group>"; };
-		04B695A02298F006003A0B85 /* NGOsCategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsCategoriesView.swift; sourceTree = "<group>"; };
 		04B695A32298F2F3003A0B85 /* CategoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		04B695A522990730003A0B85 /* NGOsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsViewController.swift; sourceTree = "<group>"; };
-		04B695A722990910003A0B85 /* NGOsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsView.swift; sourceTree = "<group>"; };
 		04B695A92299154F003A0B85 /* NGOsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsTableView.swift; sourceTree = "<group>"; };
 		04B695AB2299162E003A0B85 /* NGOsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsTableViewCell.swift; sourceTree = "<group>"; };
 		04B695AD229917A9003A0B85 /* NGOsMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOsMapView.swift; sourceTree = "<group>"; };
@@ -138,9 +154,9 @@
 		04D54DF822A6167400F1625E /* GoogleAddressAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAddressAPIClient.swift; sourceTree = "<group>"; };
 		04D54DFA22A6172000F1625E /* NetWorkHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorkHelpers.swift; sourceTree = "<group>"; };
 		04D54DFC22A6173A00F1625E /* AppErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrors.swift; sourceTree = "<group>"; };
+		04D6C59722CE0C4B0043101B /* ReviewsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewsView.swift; sourceTree = "<group>"; };
 		04E7C73522AF59AD00310DCC /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		04E7C73722AF6E1D00310DCC /* BookMarkedNGO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkedNGO.swift; sourceTree = "<group>"; };
-		04E7C73922B0500500310DCC /* ProfileSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewController.swift; sourceTree = "<group>"; };
 		7DAE7D0B72764C0DA64BA8F0 /* Pods-VConnect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VConnect.debug.xcconfig"; path = "Target Support Files/Pods-VConnect/Pods-VConnect.debug.xcconfig"; sourceTree = "<group>"; };
 		8AE14F6C90657F0743043944 /* Pods_VConnect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VConnect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F431B17296491E483559D6D3 /* Pods-VConnect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VConnect.release.xcconfig"; path = "Target Support Files/Pods-VConnect/Pods-VConnect.release.xcconfig"; sourceTree = "<group>"; };
@@ -196,13 +212,11 @@
 		04B6956E22933F69003A0B85 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				04B695972298A070003A0B85 /* NGOsCategoriesViewController.swift */,
 				04861EF622CC63E100717938 /* SpecialistRegistrationTableViewController.swift */,
 				04B695A522990730003A0B85 /* NGOsViewController.swift */,
 				0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */,
-				04E7C73922B0500500310DCC /* ProfileSettingsViewController.swift */,
 				044C6ACE22A21779006E6C51 /* NGODetailsViewController.swift */,
-				041FD4E322CB32B2007EFD22 /* RateViewController.swift */,
+				042872B422EAB20F00F5A3A8 /* EditProfileViewController.swift */,
 				04B695992298A095003A0B85 /* ChatViewController.swift */,
 				04B6959B2298A0A3003A0B85 /* ProfileViewController.swift */,
 				041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */,
@@ -236,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				04B6955C22933F20003A0B85 /* AppDelegate.swift */,
+				042872AE22EA42D900F5A3A8 /* TableViewHelperMethod.swift */,
 				04B6958A22979F19003A0B85 /* BackgroundColor+Extension.swift */,
 			);
 			path = "Supporting Files";
@@ -298,14 +313,17 @@
 		04B6959F2298EFCC003A0B85 /* AllViews */ = {
 			isa = PBXGroup;
 			children = (
-				04B695A02298F006003A0B85 /* NGOsCategoriesView.swift */,
 				044C6AD222A22B38006E6C51 /* NGOPhotosView.swift */,
-				0417EC9022C85EAC00710235 /* ReviewsView.swift */,
-				041FD4E522CB32CE007EFD22 /* RateView.swift */,
+				045FACDB22D7A260003AD4D6 /* GoogleMapView.swift */,
+				045FACDF22D7E210003AD4D6 /* DetailView.swift */,
+				045FACE122D7F07D003AD4D6 /* NGOMissionView.swift */,
+				040D7D8422E6BC3F00271EB4 /* TableViewBackgroundImageView.swift */,
 				0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */,
+				045FACE322D92278003AD4D6 /* ProfileView.swift */,
+				042872B222EAB1FA00F5A3A8 /* EditProfileView.swift */,
 				044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */,
 				044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */,
-				04B695A722990910003A0B85 /* NGOsView.swift */,
+				04D6C59722CE0C4B0043101B /* ReviewsView.swift */,
 				04B695A92299154F003A0B85 /* NGOsTableView.swift */,
 				044C6AD022A21804006E6C51 /* NGOsDetailView.swift */,
 				04B695AD229917A9003A0B85 /* NGOsMapView.swift */,
@@ -321,6 +339,12 @@
 				04B695A32298F2F3003A0B85 /* CategoriesCollectionViewCell.swift */,
 				044C6AD422A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift */,
 				04B695AB2299162E003A0B85 /* NGOsTableViewCell.swift */,
+				040D7D8822E80EFF00271EB4 /* EditProfileTableViewCell.swift */,
+				042872AC22E90F9300F5A3A8 /* LogOutTableViewCell.swift */,
+				040D7D8A22E80F2200271EB4 /* BookMarksTableViewCell.swift */,
+				042872AA22E9096C00F5A3A8 /* EmailTableViewCell.swift */,
+				040D7D8622E769A400271EB4 /* DefaultBackgroundTableViewCell.swift */,
+				04A04FD222DA8599005E8D1D /* BookMarkedTableViewCell.swift */,
 				04E7C73522AF59AD00310DCC /* ProfileTableViewCell.swift */,
 				041B726522B60E81000BF08F /* UserInfoTableViewCell.swift */,
 				0417EC9222C863D500710235 /* ReviewsTableViewCell.swift */,
@@ -357,6 +381,7 @@
 				04B6955622933F20003A0B85 /* Frameworks */,
 				04B6955722933F20003A0B85 /* Resources */,
 				B63D9DAE694FBD25D1621FBA /* [CP] Embed Pods Frameworks */,
+				B9F288B7685A2DF8843E6859 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -449,6 +474,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-VConnect/Pods-VConnect-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
@@ -465,6 +491,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
@@ -482,6 +509,30 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VConnect/Pods-VConnect-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B9F288B7685A2DF8843E6859 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VConnect/Pods-VConnect-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VConnect/Pods-VConnect-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -490,7 +541,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04B6957722934564003A0B85 /* VConnectUserCollectionKeys.swift in Sources */,
-				04B695A822990910003A0B85 /* NGOsView.swift in Sources */,
+				040D7D8722E769A400271EB4 /* DefaultBackgroundTableViewCell.swift in Sources */,
 				04B695AE229917A9003A0B85 /* NGOsMapView.swift in Sources */,
 				04B6957F2294EDCA003A0B85 /* VConnectSpecialistModel.swift in Sources */,
 				048E768A22C2C263006B7D10 /* NGOImagesCollectionKeys.swift in Sources */,
@@ -502,10 +553,16 @@
 				04B695902298844B003A0B85 /* AuthService.swift in Sources */,
 				04B6959C2298A0A3003A0B85 /* ProfileViewController.swift in Sources */,
 				04B6959422988F3D003A0B85 /* DataBaseService.swift in Sources */,
+				042872B522EAB20F00F5A3A8 /* EditProfileViewController.swift in Sources */,
+				04A04FD322DA8599005E8D1D /* BookMarkedTableViewCell.swift in Sources */,
 				04D54DF922A6167400F1625E /* GoogleAddressAPIClient.swift in Sources */,
+				042872AF22EA42D900F5A3A8 /* TableViewHelperMethod.swift in Sources */,
 				0417EC9722C9844100710235 /* VConnectUserProfileSettingsViewController.swift in Sources */,
 				0417EC9322C863D500710235 /* ReviewsTableViewCell.swift in Sources */,
+				042872AD22E90F9300F5A3A8 /* LogOutTableViewCell.swift in Sources */,
 				044C6AD522A22BFE006E6C51 /* NGOPhotosCollectionViewCell.swift in Sources */,
+				045FACE422D92278003AD4D6 /* ProfileView.swift in Sources */,
+				040D7D8B22E80F2200271EB4 /* BookMarksTableViewCell.swift in Sources */,
 				04D54DF322A4CF0C00F1625E /* ZipCode Helper.swift in Sources */,
 				044C6ACF22A2177A006E6C51 /* NGODetailsViewController.swift in Sources */,
 				04E7C73622AF59AD00310DCC /* ProfileTableViewCell.swift in Sources */,
@@ -514,10 +571,11 @@
 				04B6958922979A1B003A0B85 /* SignUpViewController.swift in Sources */,
 				04B6959622989FD6003A0B85 /* VConnectTabBarViewController.swift in Sources */,
 				04B69575229340AC003A0B85 /* VConnectUserModel.swift in Sources */,
+				040D7D8922E80EFF00271EB4 /* EditProfileTableViewCell.swift in Sources */,
 				04B695A622990730003A0B85 /* NGOsViewController.swift in Sources */,
-				04E7C73A22B0500500310DCC /* ProfileSettingsViewController.swift in Sources */,
 				0435221622ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift in Sources */,
 				04861EF722CC63E100717938 /* SpecialistRegistrationTableViewController.swift in Sources */,
+				042872B322EAB1FA00F5A3A8 /* EditProfileView.swift in Sources */,
 				04B6958722979A09003A0B85 /* SignInViewController.swift in Sources */,
 				04B6959A2298A095003A0B85 /* ChatViewController.swift in Sources */,
 				04861EF522CC5BFF00717938 /* SpecialistProfileHeaderView.swift in Sources */,
@@ -525,27 +583,28 @@
 				04E7C73822AF6E1D00310DCC /* BookMarkedNGO.swift in Sources */,
 				044C6AD322A22B38006E6C51 /* NGOPhotosView.swift in Sources */,
 				041B726622B60E81000BF08F /* UserInfoTableViewCell.swift in Sources */,
-				04B695A12298F006003A0B85 /* NGOsCategoriesView.swift in Sources */,
 				04D54DFD22A6173A00F1625E /* AppErrors.swift in Sources */,
-				041FD4E622CB32CE007EFD22 /* RateView.swift in Sources */,
-				041FD4E422CB32B2007EFD22 /* RateViewController.swift in Sources */,
-				0417EC9122C85EAC00710235 /* ReviewsView.swift in Sources */,
+				045FACDC22D7A260003AD4D6 /* GoogleMapView.swift in Sources */,
+				045FACE022D7E210003AD4D6 /* DetailView.swift in Sources */,
 				04BDAF2E22B5E7C200B17764 /* TransitionManager.swift in Sources */,
+				045FACE222D7F07D003AD4D6 /* NGOMissionView.swift in Sources */,
 				04B695C5229C51F8003A0B85 /* ProfileHeaderView.swift in Sources */,
 				04B695A42298F2F3003A0B85 /* CategoriesCollectionViewCell.swift in Sources */,
 				04B6958B22979F19003A0B85 /* BackgroundColor+Extension.swift in Sources */,
 				04D54DFB22A6172000F1625E /* NetWorkHelpers.swift in Sources */,
 				04B6957922934A3E003A0B85 /* NGOsModel.swift in Sources */,
-				04B695982298A070003A0B85 /* NGOsCategoriesViewController.swift in Sources */,
 				044C6AD722A23965006E6C51 /* HoursAndAddressView.swift in Sources */,
 				0417EC9522C9765500710235 /* VConnectUserProfileSettingsView.swift in Sources */,
 				04D54DF722A6160D00F1625E /* GoogleAddressApiSecretKeys.swift in Sources */,
 				04B6957B22934D9F003A0B85 /* NGOCollectionKeys.swift in Sources */,
 				048E769B22C55966006B7D10 /* NGOReviewCollectionsKey.swift in Sources */,
 				041B726822B6179A000BF08F /* NGORegistrationTableViewController.swift in Sources */,
+				040D7D8522E6BC3F00271EB4 /* TableViewBackgroundImageView.swift in Sources */,
+				04D6C59822CE0C4B0043101B /* ReviewsView.swift in Sources */,
 				04B6955D22933F20003A0B85 /* AppDelegate.swift in Sources */,
 				044C6ACD22A07B19006E6C51 /* ImageModel.swift in Sources */,
 				048E769922C533E7006B7D10 /* ImageHelper.swift in Sources */,
+				042872AB22E9096C00F5A3A8 /* EmailTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

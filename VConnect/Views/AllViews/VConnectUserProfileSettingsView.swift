@@ -90,6 +90,16 @@ class VConnectUserProfileSettingsView: UIView {
         return cancelButton
     }()
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        profileImageView.contentMode = .scaleAspectFill
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.width/2
+        profileImageView.layer.masksToBounds = false
+        profileImageView.layer.borderColor = UIColor.lightGray.cgColor
+        profileImageView.layer.borderWidth = 1
+        profileImageView.clipsToBounds = true
+    }
+    
     
     override init(frame: CGRect) {
         super.init(frame: UIScreen.main.bounds)
@@ -126,7 +136,7 @@ class VConnectUserProfileSettingsView: UIView {
         profileImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 40).isActive = true
         profileImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 120).isActive = true
     }
     
     private func setFirstNameLabelConstrains(){

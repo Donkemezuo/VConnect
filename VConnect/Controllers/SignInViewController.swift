@@ -28,10 +28,12 @@ class SignInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    view.backgroundColor = UIColor.init(hexString: "033860")
+    view.backgroundColor = UIColor.init(hexString: "0072B1")
         authService.authServiceExistingVConnectUserAccountDelegate = self
         setupViewDetails()
         setupLabelTitles()
+        navigationController?.isNavigationBarHidden = true
+        LoginButton.setTitleColor(UIColor(hexString: "0072B1"), for: .normal)
     
     }
     
@@ -72,12 +74,20 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
     }
     
     func didSignInToExistingVConnectUserAccount(_ authService: AuthService, user: User) {
-        showAlert(title: "Success", message: "Welcome back \(String(describing: user.displayName))") { (alert) in
+        guard let displayName = user.displayName else {return}
+        showAlert(title: "Success", message: "Welcome back \(displayName)") { (alert) in
              let storyboard = UIStoryboard(name: "Main", bundle: nil)
-               let mainTabBarController = storyboard.instantiateViewController(withIdentifier: "VConnectTabBarViewController") as! UITabBarController
-            mainTabBarController.modalTransitionStyle = .crossDissolve
-            mainTabBarController.modalPresentationStyle = .overFullScreen
-            self.present(mainTabBarController, animated: true)
+               let homeViewController = storyboard.instantiateViewController(withIdentifier: "NGOsViewController") as! HomeViewController
+            homeViewController.modalTransitionStyle = .crossDissolve
+            homeViewController.modalPresentationStyle = .overFullScreen
+            
+            self.present(homeViewController, animated: true, completion: {
+                if let app = UIApplication.shared.delegate as? AppDelegate {
+                    app.window?.rootViewController = homeViewController
+                }
+            })
+            
+            //self.present(homeViewController, animated: true)
         }
     }
     

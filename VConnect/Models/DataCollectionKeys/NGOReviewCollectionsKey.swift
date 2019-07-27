@@ -14,6 +14,7 @@ struct NGOReviewsCollectionKey {
     static let review = "review"
     static let reviewerID = "reviewerID"
     static let nGOReviews = "ngoReviews"
+    static let ratingValue = "ratingValue"
     
     
 }

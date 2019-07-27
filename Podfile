@@ -17,5 +17,8 @@ pod 'Firebase/Storage'
 pod 'Kingfisher'
 pod 'Toucan'
 pod 'Cosmos'
+pod 'GoogleMaps'
+pod 'GooglePlaces'
+pod 'Alamofire'
 
 end
