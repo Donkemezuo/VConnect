@@ -13,7 +13,7 @@ class EditProfileTableViewCell: UITableViewCell {
     public lazy var profileImage: UIImageView = {
         
         let profileImage = UIImageView()
-        profileImage.image =  #imageLiteral(resourceName: "icons8-user.png").withRenderingMode(.alwaysTemplate)
+        profileImage.image = #imageLiteral(resourceName: "icons8-user.png").withRenderingMode(.alwaysTemplate)
         profileImage.tintColor = .white
         //profileImage.backgroundColor = .green
         return profileImage

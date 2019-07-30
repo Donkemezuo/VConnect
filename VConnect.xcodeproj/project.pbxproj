@@ -19,8 +19,6 @@
 		042872AB22E9096C00F5A3A8 /* EmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872AA22E9096C00F5A3A8 /* EmailTableViewCell.swift */; };
 		042872AD22E90F9300F5A3A8 /* LogOutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872AC22E90F9300F5A3A8 /* LogOutTableViewCell.swift */; };
 		042872AF22EA42D900F5A3A8 /* TableViewHelperMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872AE22EA42D900F5A3A8 /* TableViewHelperMethod.swift */; };
-		042872B322EAB1FA00F5A3A8 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872B222EAB1FA00F5A3A8 /* EditProfileView.swift */; };
-		042872B522EAB20F00F5A3A8 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042872B422EAB20F00F5A3A8 /* EditProfileViewController.swift */; };
 		0435221622ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */; };
 		044C6ACB22A0673E006E6C51 /* IBDesignableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */; };
 		044C6ACD22A07B19006E6C51 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C6ACC22A07B19006E6C51 /* ImageModel.swift */; };
@@ -39,6 +37,8 @@
 		048E768A22C2C263006B7D10 /* NGOImagesCollectionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E768922C2C263006B7D10 /* NGOImagesCollectionKeys.swift */; };
 		048E769922C533E7006B7D10 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E769822C533E7006B7D10 /* ImageHelper.swift */; };
 		048E769B22C55966006B7D10 /* NGOReviewCollectionsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E769A22C55966006B7D10 /* NGOReviewCollectionsKey.swift */; };
+		049F162522EBEEC8001E1DEB /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049F162422EBEEC8001E1DEB /* LaunchScreenViewController.swift */; };
+		049F162722EBEEF5001E1DEB /* 4693-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 049F162622EBEEF5001E1DEB /* 4693-loading.json */; };
 		04A04FD322DA8599005E8D1D /* BookMarkedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A04FD222DA8599005E8D1D /* BookMarkedTableViewCell.swift */; };
 		04B6955D22933F20003A0B85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6955C22933F20003A0B85 /* AppDelegate.swift */; };
 		04B6956222933F20003A0B85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B6956022933F20003A0B85 /* Main.storyboard */; };
@@ -95,8 +95,6 @@
 		042872AA22E9096C00F5A3A8 /* EmailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailTableViewCell.swift; sourceTree = "<group>"; };
 		042872AC22E90F9300F5A3A8 /* LogOutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutTableViewCell.swift; sourceTree = "<group>"; };
 		042872AE22EA42D900F5A3A8 /* TableViewHelperMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHelperMethod.swift; sourceTree = "<group>"; };
-		042872B222EAB1FA00F5A3A8 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
-		042872B422EAB20F00F5A3A8 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = ../Views/AllViews/EditProfileViewController.swift; sourceTree = "<group>"; };
 		0435221522ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedMarkedNGOsCollectionKeys.swift; sourceTree = "<group>"; };
 		044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBDesignableViews.swift; sourceTree = "<group>"; };
 		044C6ACC22A07B19006E6C51 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
@@ -115,6 +113,8 @@
 		048E768922C2C263006B7D10 /* NGOImagesCollectionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOImagesCollectionKeys.swift; sourceTree = "<group>"; };
 		048E769822C533E7006B7D10 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		048E769A22C55966006B7D10 /* NGOReviewCollectionsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOReviewCollectionsKey.swift; sourceTree = "<group>"; };
+		049F162422EBEEC8001E1DEB /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
+		049F162622EBEEF5001E1DEB /* 4693-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "4693-loading.json"; sourceTree = "<group>"; };
 		04A04FD222DA8599005E8D1D /* BookMarkedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkedTableViewCell.swift; sourceTree = "<group>"; };
 		04B6955922933F20003A0B85 /* VConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B6955C22933F20003A0B85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -216,7 +216,7 @@
 				04B695A522990730003A0B85 /* NGOsViewController.swift */,
 				0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */,
 				044C6ACE22A21779006E6C51 /* NGODetailsViewController.swift */,
-				042872B422EAB20F00F5A3A8 /* EditProfileViewController.swift */,
+				049F162422EBEEC8001E1DEB /* LaunchScreenViewController.swift */,
 				04B695992298A095003A0B85 /* ChatViewController.swift */,
 				04B6959B2298A0A3003A0B85 /* ProfileViewController.swift */,
 				041B726722B6179A000BF08F /* NGORegistrationTableViewController.swift */,
@@ -252,6 +252,7 @@
 				04B6955C22933F20003A0B85 /* AppDelegate.swift */,
 				042872AE22EA42D900F5A3A8 /* TableViewHelperMethod.swift */,
 				04B6958A22979F19003A0B85 /* BackgroundColor+Extension.swift */,
+				049F162622EBEEF5001E1DEB /* 4693-loading.json */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -320,7 +321,6 @@
 				040D7D8422E6BC3F00271EB4 /* TableViewBackgroundImageView.swift */,
 				0417EC9422C9765500710235 /* VConnectUserProfileSettingsView.swift */,
 				045FACE322D92278003AD4D6 /* ProfileView.swift */,
-				042872B222EAB1FA00F5A3A8 /* EditProfileView.swift */,
 				044C6AD622A23965006E6C51 /* HoursAndAddressView.swift */,
 				044C6ACA22A0673E006E6C51 /* IBDesignableViews.swift */,
 				04D6C59722CE0C4B0043101B /* ReviewsView.swift */,
@@ -432,6 +432,7 @@
 			files = (
 				04B6956722933F21003A0B85 /* LaunchScreen.storyboard in Resources */,
 				04861EF322CC563700717938 /* SpecialistHeaderView.xib in Resources */,
+				049F162722EBEEF5001E1DEB /* 4693-loading.json in Resources */,
 				04B6956422933F21003A0B85 /* Assets.xcassets in Resources */,
 				04B695C3229C4C5A003A0B85 /* ProfileHeaderView.xib in Resources */,
 				04B6956222933F20003A0B85 /* Main.storyboard in Resources */,
@@ -485,6 +486,7 @@
 				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -502,6 +504,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -553,7 +556,6 @@
 				04B695902298844B003A0B85 /* AuthService.swift in Sources */,
 				04B6959C2298A0A3003A0B85 /* ProfileViewController.swift in Sources */,
 				04B6959422988F3D003A0B85 /* DataBaseService.swift in Sources */,
-				042872B522EAB20F00F5A3A8 /* EditProfileViewController.swift in Sources */,
 				04A04FD322DA8599005E8D1D /* BookMarkedTableViewCell.swift in Sources */,
 				04D54DF922A6167400F1625E /* GoogleAddressAPIClient.swift in Sources */,
 				042872AF22EA42D900F5A3A8 /* TableViewHelperMethod.swift in Sources */,
@@ -575,7 +577,6 @@
 				04B695A622990730003A0B85 /* NGOsViewController.swift in Sources */,
 				0435221622ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift in Sources */,
 				04861EF722CC63E100717938 /* SpecialistRegistrationTableViewController.swift in Sources */,
-				042872B322EAB1FA00F5A3A8 /* EditProfileView.swift in Sources */,
 				04B6958722979A09003A0B85 /* SignInViewController.swift in Sources */,
 				04B6959A2298A095003A0B85 /* ChatViewController.swift in Sources */,
 				04861EF522CC5BFF00717938 /* SpecialistProfileHeaderView.swift in Sources */,
@@ -604,6 +605,7 @@
 				04B6955D22933F20003A0B85 /* AppDelegate.swift in Sources */,
 				044C6ACD22A07B19006E6C51 /* ImageModel.swift in Sources */,
 				048E769922C533E7006B7D10 /* ImageHelper.swift in Sources */,
+				049F162522EBEEC8001E1DEB /* LaunchScreenViewController.swift in Sources */,
 				042872AB22E9096C00F5A3A8 /* EmailTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

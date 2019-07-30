@@ -20,5 +20,5 @@ pod 'Cosmos'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
 pod 'Alamofire'
-
+pod 'lottie-ios'
 end

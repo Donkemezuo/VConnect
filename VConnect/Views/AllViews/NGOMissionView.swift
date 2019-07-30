@@ -33,6 +33,7 @@ class NGOMissionView: UIView {
         let ngoDescriptionTxtView = UITextView()
         ngoDescriptionTxtView.font = UIFont(name: "HelveticaNeue-Bold", size: 13)
         ngoDescriptionTxtView.textColor = UIColor.init(hexString: "0072B1")
+        //ngoDescriptionTxtView.textColor = .black
         ngoDescriptionTxtView.backgroundColor = .clear
         return ngoDescriptionTxtView
     }()

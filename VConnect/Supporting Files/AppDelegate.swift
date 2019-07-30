@@ -30,7 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let _ = AppDelegate.authService.getCurrentVConnectUser() {
             
                 let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            let homeVC = storyBoard.instantiateViewController(withIdentifier: "NGOsViewController") as! HomeViewController
+            let homeVC = storyBoard.instantiateViewController(withIdentifier: "LaunchScreenViewController") as! LaunchScreenViewController
+            
+            
             
             window?.rootViewController = UINavigationController(rootViewController: homeVC)
         } else {

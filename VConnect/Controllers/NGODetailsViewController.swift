@@ -49,6 +49,7 @@ class NGODetailsViewController: UIViewController {
         view.addSubview(detailView)
         detailView.ngoPhotosView.nGOPhotosCollectionView.delegate = self
         detailView.ngoPhotosView.nGOPhotosCollectionView.dataSource = self
+        self.navigationController?.isNavigationBarHidden = true 
         detailView.reviewView.reviewsTableView.delegate = self
         detailView.reviewView.reviewsTableView.dataSource = self
         nGOInformations()

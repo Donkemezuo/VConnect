@@ -114,6 +114,7 @@ PODS:
   - GTMSessionFetcher/Core (1.2.1)
   - Kingfisher (5.3.1)
   - leveldb-library (1.20)
+  - lottie-ios (3.0.4)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -135,6 +136,7 @@ DEPENDENCIES:
   - GoogleMaps
   - GooglePlaces
   - Kingfisher
+  - lottie-ios
   - Toucan
 
 SPEC REPOS:
@@ -159,6 +161,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - Kingfisher
     - leveldb-library
+    - lottie-ios
     - nanopb
     - Protobuf
     - Toucan
@@ -184,10 +187,11 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   Kingfisher: d9e7e0b209b59b8f9873aa2f37654e81a7beea51
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  lottie-ios: 55a2de40418f8de2b155efaba4d4d1a025a5c570
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
   Toucan: 8f228fabb21521b9658692df9325fe76e71d74b2
 
-PODFILE CHECKSUM: 907976e767ca7f54b066507a0ed655d37ad56112
+PODFILE CHECKSUM: 88cb9bde1be6a675d0487e4f22cf3f31e8858196
 
 COCOAPODS: 1.6.0
