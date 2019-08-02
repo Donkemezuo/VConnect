@@ -34,10 +34,13 @@ struct NGO {
     let saturdayHours: String
     let sundayHours: String
     let visitedDate: String
+    let missionStatement: String
+    let visionStatement: String
+    let objectives: String
     var fullAddress: String {
         
         let fullAddress = """
-        
+
 \(ngoStreetAddress)
         
 \(ngoCity)
@@ -50,7 +53,7 @@ struct NGO {
         
     }
     
-    init(ngoName: String, ngoDescription: String, ngoWebsite: String, ngoCategory: String, ngoAcrimony: String, ngoPhoneNumber: String, ngoEmail: String, ngoStreetAddress: String, ngoCity: String, ngoState: String, ngoZipCode: String, contactPersonName: String, ngoImagesURL: String, ratingsValue: Double, reviews: String, mondayHours: String, tuesdayHours: String, wedsDayHours: String, thursdayHours: String, fridayHours: String, saturdayHours: String, sundayHours: String, visitedDate: String,ngOID:String ){
+    init(ngoName: String, ngoDescription: String, ngoWebsite: String, ngoCategory: String, ngoAcrimony: String, ngoPhoneNumber: String, ngoEmail: String, ngoStreetAddress: String, ngoCity: String, ngoState: String, ngoZipCode: String, contactPersonName: String, ngoImagesURL: String, ratingsValue: Double, reviews: String, mondayHours: String, tuesdayHours: String, wedsDayHours: String, thursdayHours: String, fridayHours: String, saturdayHours: String, sundayHours: String, visitedDate: String,ngOID:String, missionStatement: String,visionStatement: String, objectives: String){
         self.ngoName = ngoName
         self.ngoDescription = ngoDescription
         self.ngoWebsite = ngoWebsite
@@ -75,6 +78,9 @@ struct NGO {
         self.sundayHours = sundayHours
         self.visitedDate = visitedDate
         self.ngOID = ngOID
+        self.missionStatement = missionStatement
+        self.visionStatement = missionStatement
+        self.objectives = objectives
     }
     
     init(dict: [String: Any]) {
@@ -89,7 +95,7 @@ struct NGO {
         self.ngoStreetAddress = dict[NGOsCollectionKeys.ngoStreetAddress] as? String ?? "NGO does not have a registered street address"
         self.ngoCity = dict[NGOsCollectionKeys.ngoCity] as? String ?? "NGO does not have a registered city"
         self.ngoState = dict[NGOsCollectionKeys.ngoState] as? String ?? "NGO does not have a registered state"
-        self.ngoZipCode = dict[NGOsCollectionKeys.ngoZipCode] as? String ?? "NGO does not have a registered zipCode"
+        self.ngoZipCode = dict[NGOsCollectionKeys.ngoZipCode] as? String ?? "No registered zipCode"
         self.contactPersonName = dict[NGOsCollectionKeys.contactPersonName] as? String ?? "NGO does not have a registered contact person"
         //self.ngoImagesURL = dict[NGOsCollectionKeys.ngoImagesURL] as? String ?? "NGO does not have any images uploaded"
         self.ratingsValue = dict[NGOsCollectionKeys.ratingsValue] as? Double ?? 0.0
@@ -103,6 +109,9 @@ struct NGO {
         self.sundayHours = dict[NGOsCollectionKeys.sundayHours] as? String ?? "NGO does not have open hours on sundays"
         self.visitedDate = dict[NGOsCollectionKeys.visitedDate] as? String ?? ""
         self.ngOID = dict[NGOsCollectionKeys.ngOID] as? String ?? ""
+        self.missionStatement = dict[NGOsCollectionKeys.missionStatement] as? String ?? "NGO currently have no stated mission statement"
+        self.visionStatement = dict[NGOsCollectionKeys.visionStatement] as? String ?? "NGO currently have no stated vision statement"
+        self.objectives = dict[NGOsCollectionKeys.objectives] as? String ?? "NGO currently have no stated objectivesobjectives"
     }
     
    
@@ -131,11 +140,13 @@ struct NGOReviews {
     var date: String
     var reviewerID: String
     var ngoID: String
+    var ratingValue: Double
     init(dict: [String: Any]) {
         self.date = dict[NGOReviewsCollectionKey.date] as? String ?? "No review date"
         self.review = dict[NGOReviewsCollectionKey.review] as? String ?? "No review"
         self.reviewerID = dict[NGOReviewsCollectionKey.reviewerID] as? String ?? "No reviewer ID"
         self.ngoID = dict[NGOsCollectionKeys.ngOID] as? String ?? "No NGO ID"
+        self.ratingValue = dict[NGOReviewsCollectionKey.ratingValue] as? Double ?? 0.0
     }
     
 }

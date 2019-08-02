@@ -7,75 +7,62 @@
 //
 
 import UIKit
+import GoogleMaps
 
 class HoursAndAddressView: UIView {
     
-    public lazy var addressLabel: UILabel = {
-        let addressLabel = UILabel()
-        addressLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
-        addressLabel.text = "Address"
-        addressLabel.textColor = .white
-        return addressLabel
-    }()
-
-    public lazy var contactLabel: UILabel = {
-        let contactLabel = UILabel()
-        contactLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
-        contactLabel.text = "Contact"
-        contactLabel.textColor = .white
-        contactLabel.textAlignment = .left
-        return contactLabel
+    public lazy var contentView: UIView = {
+        let contentView = UIView()
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = 10
+        //contentView.clipsToBounds = true
+        
+        
+        return contentView
     }()
     
-    public lazy var hoursLabel: UILabel = {
-        let hoursLabel = UILabel()
-        hoursLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
-        hoursLabel.text = "Hours"
-        hoursLabel.textColor = .white
-        return hoursLabel
+    public lazy var operationalHoursLabel: UILabel = {
+        let operationalHoursLabel = UILabel()
+       operationalHoursLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
+       operationalHoursLabel.text = "Hours of Operation"
+       operationalHoursLabel.textColor = UIColor.init(hexString: "0072B1")
+        operationalHoursLabel.textAlignment = .center
+        return operationalHoursLabel
     }()
-
-    public lazy var addressTextView: UITextView = {
-        let addressTextView = UITextView()
-        addressTextView.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
-        addressTextView.textColor = .white
-        addressTextView.textAlignment = .left
-        addressTextView.isEditable = false
-        addressTextView.isSelectable = false
-        addressTextView.dataDetectorTypes = UIDataDetectorTypes.address
-        addressTextView.backgroundColor = .clear
-        addressTextView.isScrollEnabled =  false
-        return addressTextView
+    
+    
+    public lazy var googleMapView: GMSMapView = {
+        let googleMapView = GMSMapView()
+        googleMapView.backgroundColor = .lightGray
+        googleMapView.layer.cornerRadius = 5
+        return googleMapView
     }()
-
-
-    public lazy var contactInfoTextView: UITextView = {
-        let contactInfoTextView = UITextView()
-        contactInfoTextView.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
-        contactInfoTextView.textColor = .white
-        contactInfoTextView.isEditable = false
-        contactInfoTextView.isSelectable = false
-        contactInfoTextView.textAlignment = .left
-        contactInfoTextView.backgroundColor = .clear
-        contactInfoTextView.isScrollEnabled =  false
-        return contactInfoTextView
+    
+    public lazy var operationalHoursTxtView: UITextView = {
+        let operationalHoursTxtView = UITextView()
+        operationalHoursTxtView.textColor = UIColor.init(hexString: "0072B1")
+        operationalHoursTxtView.font = UIFont(name: "HelveticaNeue-Bold", size: 13)
+        operationalHoursTxtView.isEditable = false
+        operationalHoursTxtView.isSelectable = false
+        operationalHoursTxtView.backgroundColor = .clear
+        operationalHoursTxtView.textAlignment = .center
+        return operationalHoursTxtView
     }()
-
-
-
-    public lazy var operationalHoursTextView: UITextView = {
-        let operationalHoursTextView = UITextView()
-        operationalHoursTextView.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
-        operationalHoursTextView.textColor = .white
-        //operationalHoursTextView.textAlignment = .left
-        operationalHoursTextView.backgroundColor = .clear
-        operationalHoursTextView.isScrollEnabled =  false
-        operationalHoursTextView.textAlignment = .left
-        operationalHoursTextView.isEditable =  false
-        operationalHoursTextView.isScrollEnabled = false 
-        return operationalHoursTextView
+    
+    public lazy var addressTxtView: UITextView = {
+        let addressTxtView = UITextView()
+        addressTxtView.textColor = UIColor.init(hexString: "0072B1")
+        addressTxtView.font = UIFont(name: "HelveticaNeue-Bold", size: 13)
+        addressTxtView.isEditable = false
+        addressTxtView.isSelectable = false
+        addressTxtView.dataDetectorTypes = [.address]
+        //addressTxtView.isScrollEnabled = false
+        addressTxtView.backgroundColor = .clear 
+        return addressTxtView
     }()
-
+    
+    
+    
     
     override init(frame: CGRect) {
         super.init(frame: UIScreen.main.bounds)
@@ -88,71 +75,66 @@ class HoursAndAddressView: UIView {
     }
     
     private func commonInit(){
-        setupConstrains()
-    }
-    
-    
-    private func setupConstrains(){
-        setAddressLabelContrains()
-        setContactsLabelContrains()
-        setHoursLabelConstrains()
-        setAddressTextViewConstrains()
-        setContactTextViewConstrains()
-        setHoursTextViewConstrains()
         
+        setConstrains()
     }
     
-    private func setAddressLabelContrains(){
-        addSubview(addressLabel)
-        addressLabel.translatesAutoresizingMaskIntoConstraints = false
-        addressLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        addressLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5).isActive = true
-        addressLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -260).isActive = true
+    private func setConstrains(){
+        setContentViewConstrains()
+        setGoogleMapConstrains()
+        setLabelConstrains()
+        setoperationalHoursTxtViewConstrains()
+        setAddressTxtViewConstrains()
     }
     
-    private func setContactsLabelContrains(){
-        addSubview(contactLabel)
-        contactLabel.translatesAutoresizingMaskIntoConstraints = false
-        contactLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        contactLabel.leadingAnchor.constraint(equalTo: addressLabel.trailingAnchor, constant: 30).isActive = true
-        contactLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -80).isActive = true
+    private func setContentViewConstrains(){
+        addSubview(contentView)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        contentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5).isActive = true
+        contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
     }
     
-    private func setHoursLabelConstrains(){
-        addSubview(hoursLabel)
-        hoursLabel.translatesAutoresizingMaskIntoConstraints = false
-        hoursLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        hoursLabel.leadingAnchor.constraint(equalTo: contactLabel.trailingAnchor, constant: 10).isActive = true
-        hoursLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
+    private func setGoogleMapConstrains(){
+        contentView.addSubview(googleMapView)
+        googleMapView.translatesAutoresizingMaskIntoConstraints = false
+        googleMapView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16).isActive = true
+        googleMapView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 18).isActive = true
+        googleMapView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -18).isActive = true
+        googleMapView.heightAnchor.constraint(equalToConstant: 290).isActive = true
     }
     
-    private func setAddressTextViewConstrains(){
-        addSubview(addressTextView)
-        addressTextView.translatesAutoresizingMaskIntoConstraints = false
-        addressTextView.topAnchor.constraint(equalTo: addressLabel.bottomAnchor).isActive = true
-        addressTextView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor).isActive = true
-        addressTextView.widthAnchor.constraint(equalToConstant: 140).isActive = true
-        addressTextView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+    private func setLabelConstrains(){
+        contentView.addSubview(operationalHoursLabel)
+        operationalHoursLabel.translatesAutoresizingMaskIntoConstraints = false
+        operationalHoursLabel.topAnchor.constraint(equalTo: googleMapView.bottomAnchor, constant: 10).isActive = true
+        operationalHoursLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        operationalHoursLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        operationalHoursLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
     }
     
-    private func setContactTextViewConstrains(){
-        addSubview(contactInfoTextView)
-        contactInfoTextView.translatesAutoresizingMaskIntoConstraints = false
-        contactInfoTextView.topAnchor.constraint(equalTo: contactLabel.bottomAnchor).isActive = true
-        contactInfoTextView.leadingAnchor.constraint(equalTo: addressTextView.trailingAnchor, constant: 5).isActive = true
-        contactInfoTextView.widthAnchor.constraint(equalToConstant: 140).isActive = true
-        contactInfoTextView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+    private func setoperationalHoursTxtViewConstrains(){
+        contentView.addSubview(operationalHoursTxtView)
+        operationalHoursTxtView.translatesAutoresizingMaskIntoConstraints = false
+        operationalHoursTxtView.topAnchor.constraint(equalTo: operationalHoursLabel.bottomAnchor, constant: 5).isActive = true
+        operationalHoursTxtView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        operationalHoursTxtView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        operationalHoursTxtView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
     }
     
-    private func setHoursTextViewConstrains(){
-        addSubview(operationalHoursTextView)
-        operationalHoursTextView.translatesAutoresizingMaskIntoConstraints = false
-        operationalHoursTextView.topAnchor.constraint(equalTo: hoursLabel.bottomAnchor).isActive = true
-        operationalHoursTextView.leadingAnchor.constraint(equalTo: contactInfoTextView.trailingAnchor, constant: 5).isActive = true
-        operationalHoursTextView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor).isActive = true
-        operationalHoursTextView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        
+    private func setAddressTxtViewConstrains(){
+        googleMapView.addSubview(addressTxtView)
+        addressTxtView.translatesAutoresizingMaskIntoConstraints = false
+        addressTxtView.topAnchor.constraint(equalTo: googleMapView.topAnchor, constant: 235).isActive = true
+        addressTxtView.leadingAnchor.constraint(equalTo: googleMapView.leadingAnchor, constant: 140).isActive = true
+        addressTxtView.trailingAnchor.constraint(equalTo: googleMapView.trailingAnchor).isActive = true
+        addressTxtView.bottomAnchor.constraint(equalTo: googleMapView.bottomAnchor).isActive = true
     }
+    
+    
+    
+    
     
     
 }

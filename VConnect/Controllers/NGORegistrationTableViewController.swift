@@ -51,67 +51,67 @@ class NGORegistrationTableViewController: UITableViewController {
     
     private var nGOCategory = ""
     
-    
-    private func checkNGODetails(){
-        guard let ngoName = nGONameTextField.text,
-            let email = nGOEmailTextField.text,
-            let acrimony = nGOAcrimonyTextField.text,
-            let phoneNumber = NGOPhoneNumberTextField.text,
-            let webSite = nGOWebsiteTextField.text,
-            let nGODescription = nGODescriptionTextView.text,
-            let streetAddress = nGOStreetAddressTextField.text,
-            let city = nGOCityTextField.text,
-            let state = nGOStateTextField.text,
-            let postalCode = nGOZipCodeTextField.text,
-            let contactFullName = contactPersonEmailTextField.text,
-            let contactPhoneNumber = contactPersonPhoneTextField.text,
-            let contactEmail = contactPersonEmailTextField.text,
-            let mondayHours = mondayHoursTextField.text,
-            let tuesdayHours = tuesDayHoursTextField.text,
-            let wednesdayHours = wednesDayTextField.text,
-            let thursdayHours = thursDayTextField.text,
-            let fridayHours = fridayTextField.text,
-            let satursdayHours = satursDayTextField.text,
-            let sundayHours = sundayHoursTextField.text,
-        !ngoName.isEmpty,
-        !email.isEmpty,
-        !acrimony.isEmpty,
-        !phoneNumber.isEmpty,
-        !webSite.isEmpty,
-        !nGODescription.isEmpty,
-        !streetAddress.isEmpty,
-        !contactFullName.isEmpty,
-        !city.isEmpty,
-        !state.isEmpty,
-        !postalCode.isEmpty,
-        !contactPhoneNumber.isEmpty,
-            !contactEmail.isEmpty,
-        !mondayHours.isEmpty,
-        !tuesdayHours.isEmpty,
-        !wednesdayHours.isEmpty,
-        !thursdayHours.isEmpty,
-        !fridayHours.isEmpty,
-        !satursdayHours.isEmpty,
-        !sundayHours.isEmpty
-        else {
-                showAlert(title: "Missing Fields", message: "Please fill all fields")
-                return
-             
-        }
-        
-        let registratingNGO = NGO.init(ngoName: ngoName, ngoDescription: nGODescription, ngoWebsite: webSite, ngoCategory: "", ngoAcrimony: acrimony, ngoPhoneNumber: phoneNumber, ngoEmail: email, ngoStreetAddress: streetAddress, ngoCity: city, ngoState: state, ngoZipCode: postalCode, contactPersonName: contactFullName, ngoImagesURL: "", ratingsValue: 0.0, reviews: "", mondayHours: mondayHours, tuesdayHours: tuesdayHours, wedsDayHours: wednesdayHours, thursdayHours: thursdayHours, fridayHours: fridayHours, saturdayHours: satursdayHours, sundayHours: sundayHours, visitedDate: "", ngOID: "")
-        DataBaseService.createNGO(with: registratingNGO) { (error) in
-            if error != nil {
-                
-            } else {
-                self.showAlert(title: "Success", message: "Thank you for helping us grow our support community")
-            }
-        }
-        
-        
-        
- 
-    }
+//
+//    private func checkNGODetails(){
+//        guard let ngoName = nGONameTextField.text,
+//            let email = nGOEmailTextField.text,
+//            let acrimony = nGOAcrimonyTextField.text,
+//            let phoneNumber = NGOPhoneNumberTextField.text,
+//            let webSite = nGOWebsiteTextField.text,
+//            let nGODescription = nGODescriptionTextView.text,
+//            let streetAddress = nGOStreetAddressTextField.text,
+//            let city = nGOCityTextField.text,
+//            let state = nGOStateTextField.text,
+//            let postalCode = nGOZipCodeTextField.text,
+//            let contactFullName = contactPersonEmailTextField.text,
+//            let contactPhoneNumber = contactPersonPhoneTextField.text,
+//            let contactEmail = contactPersonEmailTextField.text,
+//            let mondayHours = mondayHoursTextField.text,
+//            let tuesdayHours = tuesDayHoursTextField.text,
+//            let wednesdayHours = wednesDayTextField.text,
+//            let thursdayHours = thursDayTextField.text,
+//            let fridayHours = fridayTextField.text,
+//            let satursdayHours = satursDayTextField.text,
+//            let sundayHours = sundayHoursTextField.text,
+//        !ngoName.isEmpty,
+//        !email.isEmpty,
+//        !acrimony.isEmpty,
+//        !phoneNumber.isEmpty,
+//        !webSite.isEmpty,
+//        !nGODescription.isEmpty,
+//        !streetAddress.isEmpty,
+//        !contactFullName.isEmpty,
+//        !city.isEmpty,
+//        !state.isEmpty,
+//        !postalCode.isEmpty,
+//        !contactPhoneNumber.isEmpty,
+//            !contactEmail.isEmpty,
+//        !mondayHours.isEmpty,
+//        !tuesdayHours.isEmpty,
+//        !wednesdayHours.isEmpty,
+//        !thursdayHours.isEmpty,
+//        !fridayHours.isEmpty,
+//        !satursdayHours.isEmpty,
+//        !sundayHours.isEmpty
+//        else {
+//                showAlert(title: "Missing Fields", message: "Please fill all fields")
+//                return
+//
+//        }
+//
+//        let registratingNGO = NGO.init(ngoName: ngoName, ngoDescription: nGODescription, ngoWebsite: webSite, ngoCategory: "", ngoAcrimony: acrimony, ngoPhoneNumber: phoneNumber, ngoEmail: email, ngoStreetAddress: streetAddress, ngoCity: city, ngoState: state, ngoZipCode: postalCode, contactPersonName: contactFullName, ngoImagesURL: "", ratingsValue: 0.0, reviews: "", mondayHours: mondayHours, tuesdayHours: tuesdayHours, wedsDayHours: wednesdayHours, thursdayHours: thursdayHours, fridayHours: fridayHours, saturdayHours: satursdayHours, sundayHours: sundayHours, visitedDate: "", ngOID: "")
+//        DataBaseService.createNGO(with: registratingNGO) { (error) in
+//            if error != nil {
+//
+//            } else {
+//                self.showAlert(title: "Success", message: "Thank you for helping us grow our support community")
+//            }
+//        }
+//
+//
+//
+//
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,7 +122,7 @@ class NGORegistrationTableViewController: UITableViewController {
     
     
     @IBAction func RegisterButtonPressed(_ sender: UIButton) {
-        checkNGODetails()
+        //checkNGODetails()
     }
     
     @IBAction func cancelRegistration(_ sender: UIButton) {

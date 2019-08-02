@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct VConnectUser: Codable {
+struct VConnectUser  {
     let firstName: String
     let lastName: String
     let emailAddress: String
@@ -16,6 +16,7 @@ struct VConnectUser: Codable {
     let canReceiveNotification: Bool
     let profileImageURL: String?
     let userID: String
+    let bookMarkedNGOs = [BookMark]()
     
     init(firstName: String, lastName: String, emailAddress: String, location: String?, canReceiveNotification: Bool, profileImage: String?, userID: String) {
         self.firstName = firstName
@@ -37,6 +38,23 @@ struct VConnectUser: Codable {
         self.userID = dict[VConnectUserCollectionKeys.userID] as? String ?? "VConnect user has no userID"
     }
     
+}
+
+struct BookMark: Equatable {
+    var ngoID: String
+    var date: String
+    
+    init(ngoID: String, date: String) {
+        self.ngoID = ngoID
+        self.date = date 
+        
+    }
+    
+    
+    init(dict: [String: Any]) {
+        self.date = dict [NGOsCollectionKeys.visitedDate] as? String ?? "No visited date"
+        self.ngoID = dict [NGOsCollectionKeys.ngOID] as? String ?? "No NGO ID"
+    }
 }
 
 

@@ -76,18 +76,36 @@ final class DataBaseService {
         
     }
     
-    
-    
-    static public func createVConnectUserNGOBookMark(vConnectUserID: String, bookMarkedNGOs: NGO, completionHandler: @escaping(AppError?) -> Void) {
-        firestoreDataBase.collection(BookMarkedNGOCollectionKey.bookMarkedNgoCollectionKey).document(vConnectUserID).setData([BookMarkedNGOCollectionKey.contactPersonName: bookMarkedNGOs.contactPersonName, BookMarkedNGOCollectionKey.fridayHours: bookMarkedNGOs.fridayHours, BookMarkedNGOCollectionKey.mondayHours: bookMarkedNGOs.mondayHours, BookMarkedNGOCollectionKey.ngoAcrimony : bookMarkedNGOs.ngoAcrimony ?? " ", BookMarkedNGOCollectionKey.ngoCategory: bookMarkedNGOs.ngoCategory, BookMarkedNGOCollectionKey.ngoCity : bookMarkedNGOs.ngoCity, BookMarkedNGOCollectionKey.ngoDescription: bookMarkedNGOs.ngoDescription, BookMarkedNGOCollectionKey.ngoEmail: bookMarkedNGOs.ngoEmail, BookMarkedNGOCollectionKey.ngoImagesURL: bookMarkedNGOs.ngoImagesURL, BookMarkedNGOCollectionKey.ngoName: bookMarkedNGOs.ngoName, BookMarkedNGOCollectionKey.ngoPhoneNumber: bookMarkedNGOs.ngoPhoneNumber, BookMarkedNGOCollectionKey.ngoState: bookMarkedNGOs.ngoState, BookMarkedNGOCollectionKey.ngoStreetAddress: bookMarkedNGOs.ngoStreetAddress, BookMarkedNGOCollectionKey.ngoWebsite: bookMarkedNGOs.ngoWebsite ?? " ", BookMarkedNGOCollectionKey.ngoZipCode: bookMarkedNGOs.ngoZipCode, BookMarkedNGOCollectionKey.ratingsValue: bookMarkedNGOs.ratingsValue, BookMarkedNGOCollectionKey.reviews: bookMarkedNGOs.reviews, BookMarkedNGOCollectionKey.saturdayHours: bookMarkedNGOs.saturdayHours, BookMarkedNGOCollectionKey.sundayHours: bookMarkedNGOs.sundayHours, BookMarkedNGOCollectionKey.thursdayHours: bookMarkedNGOs.thursdayHours, BookMarkedNGOCollectionKey.tuesdayHours: bookMarkedNGOs.tuesdayHours, BookMarkedNGOCollectionKey.wedsDayHours: bookMarkedNGOs.wedsDayHours, BookMarkedNGOCollectionKey.vConnectUserID: vConnectUserID, BookMarkedNGOCollectionKey.bookMarkedDate: Date.customizedDateFormat()], completion: { (error) in
+    static public func fetchVConnectBookMarkedNGOs(_ vconnectUserID: String, completionHandler: @escaping(Error?, [BookMark]?) -> Void) {
+        var allBookMarks = [BookMark]()
+        DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).document(vconnectUserID).collection(VConnectUserCollectionKeys.bookMarkedNGOs).addSnapshotListener(includeMetadataChanges: true) { (snapShot, error) in
             if let error = error {
-                completionHandler((error as! AppError))
+                completionHandler(error, nil)
+            } else if let snapShot = snapShot {
+                allBookMarks.removeAll()
+                for document in snapShot.documents {
+                    let bookMark = BookMark.init(dict: document.data())
+                    allBookMarks.append(bookMark)
+                }
+                completionHandler(nil, allBookMarks)
+            }
+        }
+        
+    }
+    
+    static public func createBookMark(onVConnectUserID vConnectUserID: String, bookMarkNGO: BookMark, completionHandler: @escaping(Error?) -> Void) {
+        DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).document(vConnectUserID).collection(VConnectUserCollectionKeys.bookMarkedNGOs).addDocument(data: [NGOsCollectionKeys.ngOID: bookMarkNGO.ngoID, NGOsCollectionKeys.visitedDate: Date.customizedDateFormat()]) { (error) in
+            if let error = error {
+                completionHandler(error)
             } else {
                 completionHandler(nil)
             }
-        })
+        }
         
     }
+    
+   
+    
     
     static public func createNGO(with ngo: NGO, completionHandler: @escaping(Error?) -> Void) {
         firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngo.ngOID).setData([NGOsCollectionKeys.contactPersonName: ngo.contactPersonName, NGOsCollectionKeys.fridayHours: ngo.fridayHours, NGOsCollectionKeys.mondayHours: ngo.mondayHours, NGOsCollectionKeys.ngoAcrimony: ngo.ngoAcrimony ?? "", NGOsCollectionKeys.ngoCategory: ngo.ngoCategory, NGOsCollectionKeys.ngoCity: ngo.ngoCity, NGOsCollectionKeys.ngoDescription: ngo.ngoDescription, NGOsCollectionKeys.ngoEmail: ngo.ngoEmail, NGOsCollectionKeys.ngOID: ngo.ngOID, NGOsCollectionKeys.ngoImagesURL: ngo.ngoImagesURL, NGOsCollectionKeys.ngoName: ngo.ngoName, NGOsCollectionKeys.ngoPhoneNumber: ngo.ngoPhoneNumber, NGOsCollectionKeys.ngoState: ngo.ngoState, NGOsCollectionKeys.ngoStreetAddress: ngo.ngoStreetAddress, NGOsCollectionKeys.ngoWebsite: ngo.ngoWebsite ?? "", NGOsCollectionKeys.ngoZipCode: ngo.ngoZipCode, NGOsCollectionKeys.ratingsValue: ngo.ratingsValue, NGOsCollectionKeys.reviews: ngo.reviews, NGOsCollectionKeys.saturdayHours: ngo.saturdayHours, NGOsCollectionKeys.sundayHours: ngo.sundayHours, NGOsCollectionKeys.thursdayHours: ngo.thursdayHours, NGOsCollectionKeys.tuesdayHours: ngo.tuesdayHours, NGOsCollectionKeys.visitedDate: ngo.visitedDate, NGOsCollectionKeys.wedsDayHours: ngo.wedsDayHours]) { (error) in
@@ -104,9 +122,9 @@ final class DataBaseService {
         
     }
     
-    static public func createReview(on nGOID: String,reviewerID: String,with review: String, completionHandler:@escaping(Error?) -> Void) {
+    static public func createReview(on nGOID: String,reviewerID: String,with review: String, withA ratingValue: Double, completionHandler:@escaping(Error?) -> Void) {
         
-        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(nGOID).collection(NGOReviewsCollectionKey.nGOReviews).addDocument(data: [NGOReviewsCollectionKey.reviewerID: reviewerID, NGOReviewsCollectionKey.date: Date.reviewDateFormatter(), NGOReviewsCollectionKey.review: review]) { (error) in
+        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(nGOID).collection(NGOReviewsCollectionKey.nGOReviews).addDocument(data: [NGOReviewsCollectionKey.reviewerID: reviewerID, NGOReviewsCollectionKey.date: Date.reviewDateFormatter(), NGOReviewsCollectionKey.review: review, NGOReviewsCollectionKey.ratingValue: ratingValue]) { (error) in
             if let error = error {
                 completionHandler(error)
             } else {
@@ -116,18 +134,32 @@ final class DataBaseService {
         
     }
     
+   
     
-    static public func fetchAllNGOReviews(with ngoID: String, completionHandler: @escaping(Error?, NGOReviews?) -> Void) {
-        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngoID).collection(NGOReviewsCollectionKey.nGOReviews).getDocuments { (snapShot, error) in
+    
+    static public func fetchAllNGOReviews(with ngoID: String, completionHandler: @escaping(Error?, [NGOReviews]?) -> Void) {
+        
+        var allReviews = [NGOReviews]()
+  DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngoID).collection(NGOReviewsCollectionKey.nGOReviews).addSnapshotListener(includeMetadataChanges: true) { (querySnapshot, error) in
             if let error = error {
                 completionHandler(error, nil)
-            } else if let snapShot = snapShot?.documents.first {
-                let ngoReviews = NGOReviews.init(dict: snapShot.data())
-                print(ngoReviews)
-                completionHandler(nil, ngoReviews)
+            }else if let querySnapShot = querySnapshot {
+                allReviews.removeAll()
+                for document in querySnapShot.documents {
+                    let ngoReview = NGOReviews.init(dict: document.data())
+                    allReviews.append(ngoReview)
+       
+                }
+                
+      completionHandler(nil, allReviews)
             }
         }
     }
+    
+    
+
+    
+  
     
     static public func fetchVConnectUserr(with vConnectID: String, completionHandler: @escaping(Error?, VConnectUser?) -> Void) {
         DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).whereField(VConnectUserCollectionKeys.userID, isEqualTo: vConnectID).addSnapshotListener(includeMetadataChanges: true) { (snapShot, error) in
@@ -139,29 +171,6 @@ final class DataBaseService {
             }
         }
     }
-    
-    static public func fetchBookMarkedNGOs(vConnectUserID: String, completionHandler: @escaping(Error?, [NGO]?) -> Void) {
-        
-        DataBaseService.firestoreDataBase.collection(BookMarkedNGOCollectionKey.bookMarkedNgoCollectionKey).whereField(BookMarkedNGOCollectionKey.vConnectUserID, isEqualTo: vConnectUserID).getDocuments { (snapShot, error) in
-            if let error =  error {
-                completionHandler(error, nil)
-            } else if let snapShot = snapShot {
-                var allBookMarkedNGOs = [NGO]()
-                
-                for nGOs in snapShot.documents {
-                        let bookMarkedNGOs = NGO.init(dict: nGOs.data())
-                    allBookMarkedNGOs.append(bookMarkedNGOs)
-                }
-                
-
-                completionHandler(nil, allBookMarkedNGOs)
-                
-            }
-        }
-        
-        
-    }
-    
     
     static public func saveProfileImage(with imageData: Data, with imageName: String, with completionHandler: @escaping (Error?, URL?) -> Void){
         
@@ -210,5 +219,12 @@ final class DataBaseService {
             })
         }
     }
+   
     
+    static public func deleteBookMark(bookMarkedNGO ngo: NGO, vConnectUserID: String, completionHandler: @escaping (Error?) -> Void) {
+        
+        DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).document(vConnectUserID).collection(VConnectUserCollectionKeys.bookMarkedNGOs).document()
+        
+    }
+
 }

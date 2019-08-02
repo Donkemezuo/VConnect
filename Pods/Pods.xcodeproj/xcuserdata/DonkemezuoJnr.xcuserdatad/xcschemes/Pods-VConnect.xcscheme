@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "89D0434F4C6ABE9AF85E2928986AFA97"
+               BlueprintIdentifier = "BB218438ABB7492A40323DE2776569ED"
                BuildableName = "Pods_VConnect.framework"
                BlueprintName = "Pods-VConnect"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "89D0434F4C6ABE9AF85E2928986AFA97"
+            BlueprintIdentifier = "BB218438ABB7492A40323DE2776569ED"
             BuildableName = "Pods_VConnect.framework"
             BlueprintName = "Pods-VConnect"
             ReferencedContainer = "container:Pods.xcodeproj">

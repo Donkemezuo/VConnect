@@ -22,7 +22,7 @@ class NGOsDetailView: UIView {
     
     public lazy var reviewView: ReviewsView = {
         let reviewView = ReviewsView()
-        reviewView.backgroundColor = .white
+        reviewView.backgroundColor = .clear
         return reviewView
     }()
     
@@ -50,13 +50,14 @@ class NGOsDetailView: UIView {
     public lazy var nGOWebsite: UITextView = {
         let website = UITextView()
         website.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
-        website.textColor = .white
+        website.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         website.textAlignment = .center
         website.backgroundColor = .clear
         website.isEditable = false
-        website.isSelectable = false
-        website.dataDetectorTypes = UIDataDetectorTypes.link
-        website.isScrollEnabled =  false
+        //website.isSelectable = false
+        website.dataDetectorTypes = [.link]
+        //website.isScrollEnabled =  false
+//        website.isUserInteractionEnabled = true
         return website
     }()
 

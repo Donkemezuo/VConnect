@@ -18,6 +18,7 @@ class CircularImageView: UIImageView {
         layer.borderWidth = 0.5
         clipsToBounds = true
         
+        
     }
 }
 

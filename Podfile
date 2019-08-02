@@ -17,5 +17,9 @@ pod 'Firebase/Storage'
 pod 'Kingfisher'
 pod 'Toucan'
 pod 'Cosmos'
-
+pod 'GoogleMaps'
+pod 'GooglePlaces'
+pod 'Alamofire'
+pod 'lottie-ios'
+pod 'RevealingSplashView'
 end
