@@ -9,31 +9,37 @@
 import UIKit
 import Lottie
 import CoreLocation
+import RevealingSplashView
+
+
+let fetchDataNotification = Notification.Name(rawValue: "CompleteDataFetch")
 
 class LaunchScreenViewController: UIViewController {
     
     public var authServices =  AppDelegate.authService
-    public var vConnectUser: VConnectUser?
+    public var vConnectUser: VConnectUser!
     public var allBookmarkedNGOs = [NGO]()
     public var allBookmarkedNGOIDs = [BookMark]()
     public var allNGOsInDataBase = [NGO]()
     public var coordinates = CLLocationCoordinate2D()
     public var locationManager = CLLocationManager()
     public var defaultCoordinates = CLLocationCoordinate2DMake(0.0, 0.0)
-    
     public var geoCoder = CLGeocoder()
-    private var timer: Timer!
+    private var splashView = RevealingSplashView(iconImage: #imageLiteral(resourceName: "LscreenImage.png"), iconInitialSize: CGSize(width: 80, height: 80), backgroundColor:  UIColor.init(hexString: "0072B1")!)
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAnimationView()
+        fetchVConnectUser()
         queryNGODataBase()
         getBookmarkedNGOsID()
-        fetchVConnectUser(withVConnectUserID: authServices.getCurrentVConnectUser()!.uid)
-        
         view.backgroundColor = UIColor.init(hexString: "0072B1")
+        view.addSubview(splashView)
+        splashView.startAnimation()
+        splashView.animationType = .heartBeat
+        splashView.duration = 10
+        splashView.delay = 2
+        splashView.playHeartBeatAnimation()
         navigationController?.isNavigationBarHidden =  true
         checkLocationAuthorizationStatus()
     }
@@ -59,36 +65,28 @@ class LaunchScreenViewController: UIViewController {
                 }
                 
                 self.allNGOsInDataBase = allRegisteredNGOs
-                self.setupTimer()
             }
         }
     }
     
     
-    private func setupTimer(){
-        timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { (timer) in
-            self.segue()
-        })
-    }
-    
     @objc private func segue(){
-
-        let homeVC = HomeViewController(allRegisteredNGOs: allNGOsInDataBase, allBookmarkedNGOs: allBookmarkedNGOs, allBookmarkedDates: allBookmarkedNGOIDs, vConnectUser: vConnectUser!, userCoordinates: getUserLocationCoordinates())
+        let homeVC = HomeViewController(allRegisteredNGOs: allNGOsInDataBase, allBookmarkedNGOs: allBookmarkedNGOs, allBookmarkedDates: allBookmarkedNGOIDs, vConnectUser: vConnectUser, userCoordinates: getUserLocationCoordinates())
         let navHomeVC = UINavigationController(rootViewController: homeVC)
         navHomeVC.isNavigationBarHidden = true
             self.present(navHomeVC, animated: true, completion: {
+            self.splashView.finishHeartBeatAnimation()
+                
                 if let app = UIApplication.shared.delegate as? AppDelegate {
                     
                     app.window?.rootViewController = navHomeVC
-                    self.timer.invalidate()
                 }
             })
-        
     }
+    
     
     private func getBookmarkedNGOsID(){
         guard let userID = authServices.getCurrentVConnectUser()?.uid else {return}
-        
         DataBaseService.fetchVConnectBookMarkedNGOs(userID) { (error, bookmarks) in
             if let error = error {
                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
@@ -103,14 +101,15 @@ class LaunchScreenViewController: UIViewController {
                         }
                     }
                 }
-                
+            
             }
         }
         
     }
     
     
-    private func fetchVConnectUser(withVConnectUserID userID: String) {
+    private func fetchVConnectUser() {
+        guard let userID = authServices.getCurrentVConnectUser()?.uid else {return}
         DataBaseService.fetchVConnectUserr(with: userID) { (error, vconnectUser) in
             if let error = error {
                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching user")
@@ -146,8 +145,6 @@ class LaunchScreenViewController: UIViewController {
             
         case .denied:
     self.locationManager.requestWhenInUseAuthorization()
-        case .authorizedWhenInUse:
-            break
         case .restricted:
         self.locationManager.requestWhenInUseAuthorization()
             
@@ -194,18 +191,14 @@ class LaunchScreenViewController: UIViewController {
     }
 
     private func setupAnimationView(){
-        
-        let lauchScreenAnimationView = AnimationView(name: "4693-loading")
-        view.addSubview(lauchScreenAnimationView)
-        lauchScreenAnimationView.translatesAutoresizingMaskIntoConstraints = false
-        lauchScreenAnimationView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        lauchScreenAnimationView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        lauchScreenAnimationView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        lauchScreenAnimationView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        lauchScreenAnimationView.play()
-        lauchScreenAnimationView.animationSpeed = 0.8
-        lauchScreenAnimationView.loopMode = .playOnce
-       //lex lauchScreenAnimationView
+        splashView.startAnimation {
+            if self.allNGOsInDataBase.count > 0 {
+                self.segue()
+            } else {
+                self.splashView.startAnimation()
+            }
+
+        }
     }
 
 }

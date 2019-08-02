@@ -33,7 +33,7 @@ class ProfileViewController: UIViewController {
     }()
     
     private lazy var profileHeaderView: ProfileHeaderView = {
-       let profileHeaderView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 390))
+       let profileHeaderView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 385))
         return profileHeaderView
     }()
     
@@ -358,12 +358,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         switch profileHeaderView.switchSegmentedControl.selectedSegmentIndex {
             
         case 0:
-            
+        profileView.bookMarkedNGOsTableView.separatorStyle = .singleLine
             let genericCell = UITableViewCell()
             
             if bookMarks.isEmpty {
                 genericCell.backgroundView = EmptyView.emptyMessage(message: "No BookMarks", size: genericCell.bounds.size)
-                genericCell.selectionStyle = .none
                 profileView.bookMarkedNGOsTableView.isScrollEnabled = false 
                 return genericCell
                 
@@ -376,13 +375,13 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 bookMarkCell.backgroundColor = .clear
                 bookMarkCell.ngoName.text = bookMarkedNGO.ngoName
                 bookMarkCell.addressLabel.text = bookMarkedNGO.ngoCity
-                bookMarkCell.selectionStyle = .none
-                bookMarkCell.savedDate.text = "BookMarked since \(date.date)"
+                //bookMarkCell.selectionStyle =
+                bookMarkCell.savedDate.text = "Bookmarked since \(date.date)"
                 return bookMarkCell
             }
         case 1:
             
-            profileView.bookMarkedNGOsTableView.separatorStyle = .none
+    profileView.bookMarkedNGOsTableView.separatorStyle = .none
             switch indexPath.row {
                 
             case 0:

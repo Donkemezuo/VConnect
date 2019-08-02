@@ -39,10 +39,6 @@ class NGODetailsViewController: UIViewController {
     private var numberOfRaters = 1.0
     
     private var viewUI = UIView()
-    
-    
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.init(hexString: "0072B1")
@@ -172,7 +168,7 @@ class NGODetailsViewController: UIViewController {
         detailView.missionView.ngoDescriptionTxtView.text = nGO.ngoDescription
         detailView.missionView.ngoMissionTxtView.text = nGO.missionStatement
         detailView.missionView.ngoVissionTxtView.text = nGO.visionStatement
-        detailView.missionView.contactPersonNameLabel.text = nGO.contactPersonName
+        detailView.missionView.contactPersonNameLabel.text = nGO.contactPersonName + " " + nGO.ngoPhoneNumber
         
         detailView.missionView.websiteTxtView.text = nGO.ngoWebsite ?? ""
         

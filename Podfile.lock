@@ -121,6 +121,7 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.7.0)
+  - RevealingSplashView (0.6.0)
   - Toucan (1.1.0)
 
 DEPENDENCIES:
@@ -137,6 +138,7 @@ DEPENDENCIES:
   - GooglePlaces
   - Kingfisher
   - lottie-ios
+  - RevealingSplashView
   - Toucan
 
 SPEC REPOS:
@@ -164,6 +166,7 @@ SPEC REPOS:
     - lottie-ios
     - nanopb
     - Protobuf
+    - RevealingSplashView
     - Toucan
 
 SPEC CHECKSUMS:
@@ -190,8 +193,9 @@ SPEC CHECKSUMS:
   lottie-ios: 55a2de40418f8de2b155efaba4d4d1a025a5c570
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
+  RevealingSplashView: 40c5a770894459736acdc95655eeba0dd30ce91c
   Toucan: 8f228fabb21521b9658692df9325fe76e71d74b2
 
-PODFILE CHECKSUM: 88cb9bde1be6a675d0487e4f22cf3f31e8858196
+PODFILE CHECKSUM: 8f29c48df779be0a28184e8b194f78a522eedfcb
 
 COCOAPODS: 1.6.0

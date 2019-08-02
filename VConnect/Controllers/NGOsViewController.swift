@@ -26,6 +26,7 @@ class HomeViewController: UIViewController {
             }
         }
     }
+private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     
     private var vConnectUserSearchedNGOsInCategory = [NGO](){
         
@@ -199,7 +200,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 } else if let coordinate = coordinates {
                     DispatchQueue.main.async {
                     nGODetailViewController.ngoLocationCoordinates = coordinate
-self.navigationController?.pushViewController(nGODetailViewController, animated: true)
+ self.navigationController?.pushViewController(nGODetailViewController, animated: true)
                     }
                 }
             })
@@ -215,7 +216,7 @@ self.navigationController?.pushViewController(nGODetailViewController, animated:
 }
 
 
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return nGOCategories.count
     }
@@ -229,8 +230,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         categoryCell.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         categoryCell.layer.cornerRadius = 5
         return categoryCell
-        
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -244,6 +246,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
 
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let numberOfCells:CGFloat = 1.65
+        let numberOfSpaces:CGFloat = numberOfCells + 0.5
+        let screenWidth = UIScreen.main.bounds.width
+        let height:CGFloat = nGOsTableView.categoriesCollectionView.bounds.size.height
+        return CGSize(width: (screenWidth - (cellSpacing * numberOfSpaces)) / numberOfCells, height: height * 0.8)
+        
+    }
+    
+    
     
     
 }
