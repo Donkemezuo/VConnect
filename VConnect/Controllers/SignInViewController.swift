@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import CoreLocation
 @IBDesignable
 
 class SignInViewController: UIViewController {
@@ -24,20 +25,90 @@ class SignInViewController: UIViewController {
   
     @IBOutlet weak var newAccount: UIButton!
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+        activityIndicator.backgroundColor = .white
+        return activityIndicator
+    }()
+    
+    private lazy var loadingView: UIView = {
+        let loadingView = UIView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
+        loadingView.center = view.center
+        loadingView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        loadingView.layer.cornerRadius = 10
+        return loadingView
+    }()
     private var authService = AppDelegate.authService
+    private var vConnectUser: VConnectUser!
+    private var allNGOs = [NGO]()
+    private var allBookmarkedNGOIDs = [BookMark]()
+    private var allBookmarkedNGOs = [NGO]()
+    public var coordinates = CLLocationCoordinate2D()
+    public var locationManager = CLLocationManager()
+    public var defaultCoordinates = CLLocationCoordinate2DMake(0.0, 0.0)
+    public var geoCoder = CLGeocoder()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    view.backgroundColor = UIColor.init(hexString: "0072B1")
+      view.backgroundColor = UIColor.init(hexString: "0072B1")
         authService.authServiceExistingVConnectUserAccountDelegate = self
         setupViewDetails()
         setupLabelTitles()
         navigationController?.isNavigationBarHidden = true
         LoginButton.setTitleColor(UIColor(hexString: "0072B1"), for: .normal)
+        VConnectLoginEmailTextField.delegate = self
+        VConnectLoginPasswordTextField.delegate = self
+        dimissKeyboardView()
+    }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        registerKeyboardNotification()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        unRegisterKeyboardNotification()
     }
     
     
+    private func registerKeyboardNotification(){
+        NotificationCenter.default.addObserver(self, selector: #selector(willShowKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(willHideKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    
+    @objc private func willShowKeyboard(onNotification notification: Notification) {
+        guard let info = notification.userInfo, let keyBoardFrame = info["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {
+            return
+            
+        }
+        
+        self.view.transform = CGAffineTransform(translationX: 0, y: -keyBoardFrame.height + 280)
+    }
+    
+    @objc private func willHideKeyboard(onNotification notification: Notification) {
+        self.view.transform = CGAffineTransform.identity
+    }
+    
+    private func unRegisterKeyboardNotification(){
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+
+    }
+    
+    
+    private func setupActivityIndicator(){
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+        activityIndicator.center = CGPoint(x: loadingView.frame.size.width/2, y: loadingView.frame.size.height/2)
+        loadingView.addSubview(activityIndicator)
+        view.addSubview(loadingView)
+        activityIndicator.startAnimating()
+    }
+
     private func setupViewDetails(){
         VConnectLogoImageView.image = UIImage.init(named: "VCConectLogo")
         VConnectNameLabel.text = "VConnect"
@@ -56,16 +127,86 @@ class SignInViewController: UIViewController {
     }
     
     @IBAction func SignInButtonPressedButton(_ sender: UIButton) {
+        setupActivityIndicator()
         
         guard let vConnectUserEmail = VConnectLoginEmailTextField.text, let vConnectUserPassword = VConnectLoginPasswordTextField.text,
         !vConnectUserEmail.isEmpty,
             !vConnectUserPassword.isEmpty else {
                 showAlert(title: "Error", message: "Email and Password required")
+                self.activityIndicator.stopAnimating()
+                self.loadingView.removeFromSuperview()
                 return
         }
         
         authService.signInExistingVConnectUserAccount(email: vConnectUserEmail, password: vConnectUserPassword)
     }
+    
+    private func dimissKeyboardView(){
+        
+        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(screenTap)
+    }
+    
+    @objc private func dismissKeyboard(){
+        view.endEditing(true)
+    }
+    
+    private func getUserLocationCoordinates() -> CLLocationCoordinate2D {
+        guard let userLocationCoordinates = locationManager.location?.coordinate else {return defaultCoordinates }
+        
+        return userLocationCoordinates
+    }
+
+    
+    private func locationAuthorizationStatus(){
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedWhenInUse:
+            let location = CLLocation(latitude: getUserLocationCoordinates().latitude, longitude: getUserLocationCoordinates().longitude)
+            saveUserLocation(withUserCoordinates: location)
+            locationManager.startUpdatingLocation()
+            
+        case .denied:
+            self.locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            self.locationManager.requestWhenInUseAuthorization()
+            
+        case .notDetermined:
+            showAlert(title: "Error", message: "Please authorize location services to enable VConnect connect you to the right resources") { (elert) in
+                self.locationManager.requestWhenInUseAuthorization()
+            }
+        default:
+            break
+        }
+    }
+
+    private func setupLocationManager(){
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    private func checkLocationAuthorizationStatus(){
+        if CLLocationManager.locationServicesEnabled() {
+            setupLocationManager()
+            locationAuthorizationStatus()
+        } else {
+            showAlert(title: "Needed", message: "Please authorize location services for VConnect to serve you better")
+        }
+    }
+    
+    private func saveUserLocation(withUserCoordinates coordinates: CLLocation) {
+        guard let vConnectUser = authService.getCurrentVConnectUser() else {return}
+        
+        geoCoder.reverseGeocodeLocation(coordinates) { (placemark, error) in
+            if error != nil {
+                
+            } else if let placemark = placemark?.first {
+                DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.location).document(vConnectUser.uid).updateData([VConnectUserCollectionKeys.location: placemark.locality ?? "" ])
+            }
+        }
+        
+        
+    }
+    
 }
 
 extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
@@ -74,22 +215,87 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
     }
     
     func didSignInToExistingVConnectUserAccount(_ authService: AuthService, user: User) {
-        guard let displayName = user.displayName else {return}
-        showAlert(title: "Success", message: "Welcome back \(displayName)") { (alert) in
-             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-               let homeViewController = storyboard.instantiateViewController(withIdentifier: "NGOsViewController") as! HomeViewController
-            homeViewController.modalTransitionStyle = .crossDissolve
-            homeViewController.modalPresentationStyle = .overFullScreen
-            
-            self.present(homeViewController, animated: true, completion: {
-                if let app = UIApplication.shared.delegate as? AppDelegate {
-                    app.window?.rootViewController = homeViewController
+   DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).addSnapshotListener(includeMetadataChanges: true) { (querySnapshot, error) in
+            if let error = error {
+                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching NGOs")
+            }else if let querySnapShot = querySnapshot {
+                var allRegisteredNGOs = [NGO]()
+
+                for document in querySnapShot.documents {
+                    let ngo = NGO.init(dict: document.data())
+
+                    allRegisteredNGOs.append(ngo)
                 }
-            })
-            
-            //self.present(homeViewController, animated: true)
+
+                self.allNGOs = allRegisteredNGOs
+
+                guard let userID = authService.getCurrentVConnectUser()?.uid else {return}
+                DataBaseService.fetchVConnectUserr(with: userID) { (error, vconnectUser) in
+                    if let error = error {
+                        self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching user")
+                    } else if let vConnectUser = vconnectUser {
+                        self.vConnectUser = vConnectUser
+                        self.checkLocationAuthorizationStatus()
+                    DataBaseService.fetchVConnectBookMarkedNGOs(userID) { (error, bookmarks) in
+                            if let error = error {
+                                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
+                            } else if let bookmarks = bookmarks {
+                                self.allBookmarkedNGOIDs = bookmarks
+                                self.allBookmarkedNGOs.removeAll()
+                                for bookmarkedNGO in bookmarks {
+                                    for ngo in self.allNGOs {
+                                        if bookmarkedNGO.ngoID == ngo.ngOID {
+                                            self.allBookmarkedNGOs.append(ngo)
+                                        }
+                                    }
+                                }
+                                self.segueToHomeVC()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+
+    }
+    
+    private func segueToHomeVC(){
+        
+        let homeViewController = HomeViewController(allRegisteredNGOs: allNGOs, allBookmarkedNGOs: allBookmarkedNGOs, allBookmarkedDates: allBookmarkedNGOIDs, vConnectUser: vConnectUser, userCoordinates: getUserLocationCoordinates())
+        
+        self.present(homeViewController, animated: true, completion: {
+            if let app = UIApplication.shared.delegate as? AppDelegate {
+                app.window?.rootViewController = homeViewController
+                self.activityIndicator.stopAnimating()
+                self.loadingView.removeFromSuperview()
+            }
+        })
+    }
+    
+  
+}
+
+extension SignInViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        switch textField.tag {
+        case 0:
+            VConnectLoginEmailTextField.resignFirstResponder()
+            return true
+        case 1:
+            VConnectLoginPasswordTextField.resignFirstResponder()
+            return true
+        default:
+            return false
         }
     }
     
     
+}
+extension SignInViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        checkLocationAuthorizationStatus()
+    }
 }

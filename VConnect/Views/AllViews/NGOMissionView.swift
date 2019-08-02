@@ -14,9 +14,6 @@ class NGOMissionView: UIView {
         let contentView = UIView()
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 15
-        //contentView.clipsToBounds = true 
-        
-        
         return contentView
     }()
 
@@ -34,6 +31,9 @@ class NGOMissionView: UIView {
         ngoDescriptionTxtView.font = UIFont(name: "HelveticaNeue-Bold", size: 13)
         ngoDescriptionTxtView.textColor = UIColor.init(hexString: "0072B1")
         ngoDescriptionTxtView.backgroundColor = .clear
+        ngoDescriptionTxtView.isSelectable = false
+        ngoDescriptionTxtView.isScrollEnabled = true
+        ngoDescriptionTxtView.isEditable = false
         return ngoDescriptionTxtView
     }()
     
@@ -49,12 +49,9 @@ class NGOMissionView: UIView {
     public lazy var websiteTxtView: UITextView  = {
         let websiteTxtView = UITextView()
         websiteTxtView.dataDetectorTypes = [.link]
-        //websiteTxtView.textColor = .white
         websiteTxtView.font = UIFont(name: "HelveticaNeue-Bold", size: 13)
-        //websiteTxtView.textColor = UIColor.init(hexString: "0072B1")
         websiteTxtView.textAlignment = .center
         websiteTxtView.isEditable = false
-       // websiteTxtView.tintColor = UIColor.init(hexString: "0072B1")
         return websiteTxtView
         
         }()
@@ -95,11 +92,9 @@ class NGOMissionView: UIView {
     public lazy var contactPersonNameLabel: UILabel = {
         let contactPersonNameLabel = UILabel()
         contactPersonNameLabel.font = UIFont(name: "HelveticaNeue-BoldItalic", size: 13)
-        //contactPersonNameLabel.text = "Contact Person"
         contactPersonNameLabel.textColor = UIColor.init(hexString: "0072B1")
         return contactPersonNameLabel
     }()
-    //public lazy var ngoObjectives: UITextView = {}
     
     override init(frame: CGRect) {
         super.init(frame: UIScreen.main.bounds)
@@ -183,7 +178,6 @@ class NGOMissionView: UIView {
         ngoMissionTxtView.translatesAutoresizingMaskIntoConstraints = false
         ngoMissionTxtView.topAnchor.constraint(equalTo: missionLabel.bottomAnchor, constant: 10).isActive = true
         ngoMissionTxtView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 22).isActive = true
-        //ngoMissionTxtView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         ngoMissionTxtView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22).isActive = true
         ngoMissionTxtView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
@@ -222,9 +216,10 @@ class NGOMissionView: UIView {
         contactPersonNameLabel.translatesAutoresizingMaskIntoConstraints = false
         contactPersonNameLabel.topAnchor.constraint(equalTo: contactPersonLabel.bottomAnchor, constant: 0).isActive = true
         contactPersonNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 22).isActive = true
-        contactPersonNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22).isActive = true
+        contactPersonNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+    
         contactPersonNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         
     }
-  
+
 }

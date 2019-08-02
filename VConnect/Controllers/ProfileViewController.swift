@@ -13,21 +13,12 @@ import CoreLocation
 import Kingfisher
 
 
-enum EditingState {
-    case editing, save
-}
-
-
 class ProfileViewController: UIViewController {
 
   private var imageTapGesture: UITapGestureRecognizer!
-    private var tapGesture: UITapGestureRecognizer!
-    private var longPress: UILongPressGestureRecognizer!
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
-        
         let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
-       // activityIndicator.center = view.center
         activityIndicator.backgroundColor = .white
         return activityIndicator
     }()
@@ -42,8 +33,7 @@ class ProfileViewController: UIViewController {
     }()
     
     private lazy var profileHeaderView: ProfileHeaderView = {
-       let profileHeaderView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 390))
-        
+       let profileHeaderView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 385))
         return profileHeaderView
     }()
     
@@ -51,6 +41,7 @@ class ProfileViewController: UIViewController {
         let imagePicker = UIImagePickerController()
         return imagePicker
     }()
+    
     private var profileView = ProfileView()
     private var authService = AppDelegate.authService
     private var allNGOs: [NGO]!
@@ -71,40 +62,41 @@ class ProfileViewController: UIViewController {
     }
     
     private var vConnectUser: VConnectUser!
-    //private var selectedImage: UIImage
-    var selectedIndex = -1
-    var isCollapsed = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor =  UIColor.init(hexString: "0072B1")
-        view.isOpaque = false
         profileHeaderView.backgroundColor = UIColor.init(hexString: "0072B1")
-        fetchUser(withVConnectUserID: authService.getCurrentVConnectUser()!.uid)
+        displayVConnectUserInfo(withVConnectUser: vConnectUser)
         profileHeaderView.cancelButton.addTarget(self, action: #selector(dismissButtonClicked), for: .touchUpInside)
+        
         profileView.logOutButton.addTarget(self, action: #selector(signOutButtonPressed), for: .touchUpInside)
+        
         imagePicker.delegate = self
         view.addSubview(profileView)
         profileHeaderView.editButton.isHidden = true
-        setupImagePicker()
-        profileView.bookMarkedNGOsTableView.dataSource = self
-        profileView.bookMarkedNGOsTableView.delegate = self
-        profileView.bookMarkedNGOsTableView.rowHeight = UITableView.automaticDimension
-        profileHeaderView.switchSegmentedControl.addTarget(self, action: #selector(switchedSelected), for:.valueChanged)
-         profileView.bookMarkedNGOsTableView.tableHeaderView = profileHeaderView
-        configureEdit()
-        profileHeaderView.profileImageView.isUserInteractionEnabled = false
-        //displayEditability()
-        //setupActivityIndicator()
-        //view.addSubview(activityIndicator)
         
+        setupImagePicker()
+        
+        profileView.bookMarkedNGOsTableView.dataSource = self
+        
+        profileView.bookMarkedNGOsTableView.delegate = self
+        
+        profileHeaderView.switchSegmentedControl.addTarget(self, action: #selector(switchedSelected), for:.valueChanged)
+        
+         profileView.bookMarkedNGOsTableView.tableHeaderView = profileHeaderView
+        
+        configureEdit()
+        
+        profileHeaderView.profileImageView.isUserInteractionEnabled = false
     }
     
-    init(allNGOs: [NGO], allBookMarkedNGOs: [NGO], allBookMarkedDates: [BookMark]){
+    init(allNGOs: [NGO], allBookMarkedNGOs: [NGO], allBookMarkedDates: [BookMark], vConnectUser: VConnectUser){
         super.init(nibName: nil, bundle: nil)
         self.allNGOs = allNGOs
         self.bookMarks = allBookMarkedNGOs
         self.allBookMarkDates = allBookMarkedDates
+        self.vConnectUser = vConnectUser
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -117,7 +109,6 @@ class ProfileViewController: UIViewController {
     
     private func showLoginView(){
             let loginScreenStoryboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
-            
             if let loginController = loginScreenStoryboard.instantiateViewController(withIdentifier: "SignInView") as? SignInViewController {
                 let navController = UINavigationController.init(rootViewController: loginController)
                 present(navController, animated: true) {
@@ -129,7 +120,6 @@ class ProfileViewController: UIViewController {
     private func displayEditability(){
         
         let nameCell = profileView.bookMarkedNGOsTableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as! EditProfileTableViewCell
-        
         nameCell.firstNameLabel.isUserInteractionEnabled = false
         nameCell.lastNameLabel.isUserInteractionEnabled = false
         nameCell.firstNameLabel.isEnabled = false
@@ -189,70 +179,27 @@ class ProfileViewController: UIViewController {
             profileView.bookMarkedNGOsTableView.backgroundColor = .red
         }
     }
-    
-    private func configureEdit(withCell cell: EditProfileTableViewCell){
-        
-        longPress = UILongPressGestureRecognizer(target: self, action: #selector(changeFirstName))
-        cell.firstNameLabel.isUserInteractionEnabled = true
-        cell.firstNameLabel.addGestureRecognizer(longPress)
-    }
-    
-    @objc private func changeFirstName(){
-        let alertController = UIAlertController(title: "Options", message: "You can change your first name", preferredStyle: .alert)
-        alertController.addTextField { (txtField) in
-            txtField.text = self.vConnectUser.firstName
-            
-        }
-        
-        let saveAction =  UIAlertAction(title: "Save", style: .default) { (alert) in
-            
-        }
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
-            
-        }
-        
-        alertController.addAction(saveAction)
-        alertController.addAction(cancel)
-        
-        present(alertController, animated: true)
-        
-    }
- 
-    private func fetchUser(withVConnectUserID ID: String) {
-        DataBaseService.fetchVConnectUserr(with: ID) { (error, vconnectUser) in
-            if let error = error {
-                self.showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while fetching VConnect User")
-            } else if let vConnectUser = vconnectUser {
-                self.displayVConnectUserInfo(withVConnectUser: vConnectUser)
-               self.vConnectUser = vConnectUser
-            }
-        }
-    }
+
     
     private func displayVConnectUserInfo(withVConnectUser vConnectUser: VConnectUser){
         profileHeaderView.fullNameLabel.text = vConnectUser.firstName + " " + vConnectUser.lastName
         profileHeaderView.emailLabel.text = vConnectUser.emailAddress
         
         if let photoURL = vConnectUser.profileImageURL {
-        profileHeaderView.profileImageView.kf.setImage(with: URL(string: photoURL), placeholder:#imageLiteral(resourceName: "placeholder"))
-            
+            profileHeaderView.profileImageView.kf.setImage(with:URL(string: photoURL) , placeholder: #imageLiteral(resourceName: "placeholder.png"))
         }
-
+        
     }
     
     private func configureEdit(){
-    
- profileHeaderView.editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+    profileHeaderView.editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+
     }
-    
-    
     @objc private func editButtonPressed(){
 
         profileHeaderView.editButton.removeTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
         profileHeaderView.editButton.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
         profileHeaderView.editButton.setTitle("Save", for: .normal)
-        //print("Edit pressed")
         turnOnEditability()
         
     }
@@ -261,20 +208,15 @@ class ProfileViewController: UIViewController {
         profileHeaderView.editButton.removeTarget(self, action: #selector(saveChanges), for: .touchUpInside)
         profileHeaderView.editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
     profileHeaderView.editButton.setTitle("Edit", for: .normal)
-        //print("Save pressed")
         displayEditability()
         
        saveProfileImage(withImage: profileHeaderView.profileImageView.image!)
-        
-        
-        
     }
     
     private func setupImagePicker(){
         imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
         profileHeaderView.profileImageView.isUserInteractionEnabled = true 
         profileHeaderView.profileImageView.addGestureRecognizer(imageTapGesture)
-        
     }
     
     @objc private func switchedSelected(){
@@ -325,14 +267,12 @@ class ProfileViewController: UIViewController {
         }
         
         let canCel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
-            //self.dismiss(animated: true)
         }
         
         alertController.addAction(camera)
         alertController.addAction(photoLibrary)
         alertController.addAction(saveAlbums)
         alertController.addAction(canCel)
-
         present(alertController, animated: true)
     }
     
@@ -345,10 +285,8 @@ class ProfileViewController: UIViewController {
         
         let nameCell = profileView.bookMarkedNGOsTableView.cellForRow(at: IndexPath.init(row: 0, section: 0)) as! EditProfileTableViewCell
         guard let firstName = nameCell.firstNameLabel.text, let lastName = nameCell.lastNameLabel.text, !firstName.isEmpty, !lastName.isEmpty else {
-            //showAlert(title: "Missing Field Required", message: "All missing fields require filling")
             showAlert(title: "Missing Field Required", message: "All missing fields require filling") { (alert) in
-                
-               // self.turnOnEditability()
+
             }
             return
         }
@@ -367,12 +305,10 @@ class ProfileViewController: UIViewController {
                     if let error = error {
                         self.showAlert(title: "Error", message: "Error \(error.localizedDescription) while changing display picture")
                     } else {
-                        
                         self.activityIndicator.stopAnimating()
                         self.loadingView.removeFromSuperview()
                         
                         self.showAlert(title: "Success", message: "Successfully changed profile information")
-                        
                     }
                 })
                 DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.vConnectUsersCollectionKey).document(vConnectUser.uid).updateData([VConnectUserCollectionKeys.profileImageURL:imageUrl.absoluteString, VConnectUserCollectionKeys.firstName: firstName, VConnectUserCollectionKeys.lastName:lastName], completion: { (error) in
@@ -384,10 +320,7 @@ class ProfileViewController: UIViewController {
         }
         
     }
-    
-    
-    
-    
+
     @objc private func canCelButtonPressed(){
         dismiss(animated: true, completion: nil)
     }
@@ -402,6 +335,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         switch profileHeaderView.switchSegmentedControl.selectedSegmentIndex {
         case 0:
             if bookMarks.isEmpty {
+                tableView.separatorStyle = .none
                 return 1
             } else {
                    return bookMarks.count
@@ -424,12 +358,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         switch profileHeaderView.switchSegmentedControl.selectedSegmentIndex {
             
         case 0:
-            
+        profileView.bookMarkedNGOsTableView.separatorStyle = .singleLine
             let genericCell = UITableViewCell()
             
             if bookMarks.isEmpty {
                 genericCell.backgroundView = EmptyView.emptyMessage(message: "No BookMarks", size: genericCell.bounds.size)
-                genericCell.selectionStyle = .none
                 profileView.bookMarkedNGOsTableView.isScrollEnabled = false 
                 return genericCell
                 
@@ -442,13 +375,13 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 bookMarkCell.backgroundColor = .clear
                 bookMarkCell.ngoName.text = bookMarkedNGO.ngoName
                 bookMarkCell.addressLabel.text = bookMarkedNGO.ngoCity
-                bookMarkCell.selectionStyle = .none
-                bookMarkCell.savedDate.text = "BookMarked since \(date.date)"
+                //bookMarkCell.selectionStyle =
+                bookMarkCell.savedDate.text = "Bookmarked since \(date.date)"
                 return bookMarkCell
             }
         case 1:
             
-            profileView.bookMarkedNGOsTableView.separatorStyle = .none
+    profileView.bookMarkedNGOsTableView.separatorStyle = .none
             switch indexPath.row {
                 
             case 0:
@@ -457,7 +390,6 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                  profileSettingsCell.lastNameLabel.text = vConnectUser.lastName
                  profileSettingsCell.backgroundColor = .clear
                  profileSettingsCell.selectionStyle = .none
-                 configureEdit(withCell: profileSettingsCell)
                 return profileSettingsCell
                 
             case 1:
@@ -494,24 +426,13 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 return 120
             }
-            
         case 1:
             return 110
         default:
             return 0
         }
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
-    
-
-    // Text to speach feature
 }
-
-
-
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -527,7 +448,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         let size = CGSize(width: 500, height: 500)
         let resizedImage = Toucan.Resize.resizeImage(originalImage, size: size)
         profileHeaderView.profileImageView.image = resizedImage
-        //saveProfileImage(withImage: resizedImage!)
         dismiss(animated: true, completion: nil)
         
     }

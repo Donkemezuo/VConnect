@@ -14,11 +14,9 @@ class HomeViewController: UIViewController {
     let nGOsTableView = NGOsTableView()
     private var geoCoder = CLGeocoder()
     private var coordinates = CLLocationCoordinate2D()
-    public var locationManager = CLLocationManager()
-    var defaultCoordinates = CLLocationCoordinate2DMake(0.0, 0.0)
+    private var userCoordinates = CLLocationCoordinate2D()
     private var tapGesture: UITapGestureRecognizer!
-    var authServices = AppDelegate.authService
-    var vConnectUser: VConnectUser?
+    var vConnectUser: VConnectUser!
     private var bookMarks = [NGO]()
     private var allUserBookMarkIDs = [BookMark]()
     private var allNGOs = [NGO]() {
@@ -28,6 +26,7 @@ class HomeViewController: UIViewController {
             }
         }
     }
+private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     
     private var vConnectUserSearchedNGOsInCategory = [NGO](){
         
@@ -42,7 +41,6 @@ class HomeViewController: UIViewController {
     private var nGOCategories = ["Domestic Violence", "Child issues", "Sexual Assault", "Human Rights", "Women", "Youth Development", "Education", "Housing", "Leadership"]
 
     private var isSearching: Bool = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(nGOsTableView)
@@ -52,38 +50,24 @@ class HomeViewController: UIViewController {
         nGOsTableView.nGOsTableView.dataSource = self
         nGOsTableView.categoriesCollectionView.dataSource = self
         nGOsTableView.categoriesCollectionView.delegate = self
-        checkLocationAuthorizationStatus()
-        fetchAllNGOData()
-        getNGOIDs()
         presentVConnectUserProfile()
-        fetchUser(withVConnectUserID: authServices.getCurrentVConnectUser()!.uid)
     }
     
-    public func getUserLocationCoordinates() -> CLLocationCoordinate2D{
-        guard let userLocationCoordinates = locationManager.location?.coordinate else {
-            return defaultCoordinates
-        }
+    init(allRegisteredNGOs: [NGO], allBookmarkedNGOs: [NGO], allBookmarkedDates: [BookMark], vConnectUser: VConnectUser, userCoordinates: CLLocationCoordinate2D){
         
-        return userLocationCoordinates
+        super.init(nibName: nil, bundle: nil)
+        self.allNGOs = allRegisteredNGOs
+        self.allUserBookMarkIDs = allBookmarkedDates
+        self.bookMarks = allBookmarkedNGOs
+        self.vConnectUser = vConnectUser
+        self.userCoordinates = userCoordinates
+        self.displayVConnectUserInfo(withVConnectUser: vConnectUser)
     }
     
-    private func fetchAllNGOData(){
-        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).addSnapshotListener(includeMetadataChanges: true) { (querySnapshot, error) in
-            if let error = error {
-                self.showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while fetching NGOs data")
-            }else if let querySnapshot = querySnapshot{
-                var allNGOs = [NGO]()
-                
-                for document in querySnapshot.documents {
-                    let ngo = NGO.init(dict: document.data())
-                    allNGOs.append(ngo)
-                }
-                self.allNGOs = allNGOs
-            }
-            
-        
-        }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
+    
     
     private func createNGOCoordinates(withNGOFullAddress fullAddress: String, completionHandler: @escaping(Error?, CLLocationCoordinate2D?) -> Void) {
         
@@ -99,48 +83,11 @@ class HomeViewController: UIViewController {
                 }
                 
                 completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-                
             }
         }
         
     }
-    
-    private func getNGOIDs(){
-        
-        guard let userID = authServices.getCurrentVConnectUser()?.uid else {return}
-        
-        DataBaseService.fetchVConnectBookMarkedNGOs(userID) { (error, bookMarks) in
-            if let error = error {
-                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
-            } else if let bookMarks = bookMarks {
-                self.allUserBookMarkIDs = bookMarks
-                self.bookMarks.removeAll()
-                for bookmark in bookMarks {
-                    print("this is my test")
-                    for ngo in self.allNGOs {
-                        if bookmark.ngoID == ngo.ngOID {
-                            self.bookMarks.append(ngo)
-                        }
-                    }
-                }
-            }
-        }
-        
-        
-    }
-    
-    
-    private func fetchUser(withVConnectUserID ID: String) {
-        DataBaseService.fetchVConnectUserr(with: ID) { (error, vconnectUser) in
-            if let error = error {
-                self.showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while fetching VConnect User")
-            } else if let vConnectUser = vconnectUser {
-                self.displayVConnectUserInfo(withVConnectUser: vConnectUser)
-                self.vConnectUser = vConnectUser
-                
-            }
-        }
-    }
+
     
     private func displayVConnectUserInfo(withVConnectUser vConnectUser: VConnectUser){
         if let profilePhotoURL = vConnectUser.profileImageURL {
@@ -152,19 +99,17 @@ class HomeViewController: UIViewController {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentProfileVC))
         nGOsTableView.profileImageView.addGestureRecognizer(tapGesture)
         nGOsTableView.profileImageView.isUserInteractionEnabled = true
-        print("Got here")
     }
     
     @objc private func presentProfileVC(){
-        let profileVC = ProfileViewController(allNGOs: allNGOs, allBookMarkedNGOs: bookMarks, allBookMarkedDates: allUserBookMarkIDs)
-        print("Button pressed")
+        let profileVC = ProfileViewController(allNGOs: allNGOs, allBookMarkedNGOs: bookMarks, allBookMarkedDates: allUserBookMarkIDs, vConnectUser: vConnectUser)
      present(profileVC, animated: true)
     }
     
     
     private func generateMilesDifference(with cell: NGOsTableViewCell){
         
-        let userCurrentLocation = CLLocation(latitude: getUserLocationCoordinates().latitude, longitude: getUserLocationCoordinates().longitude)
+        let userCurrentLocation = CLLocation(latitude: userCoordinates.latitude, longitude: userCoordinates.longitude)
         let nGOLocation = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
         
         let distanceFromNGO = userCurrentLocation.distance(from: nGOLocation)
@@ -194,66 +139,8 @@ class HomeViewController: UIViewController {
         }
     }
     
-    private func saveUserLocation(with coordinates: CLLocation){
-        
-        guard let user = authServices.getCurrentVConnectUser() else {return}
-        
-        geoCoder.reverseGeocodeLocation(coordinates) { (placeMark, error) in
-            if error != nil {
-                
-            } else if let placemark = placeMark?.first{
-                DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.location).document(user.uid).updateData([VConnectUserCollectionKeys.location: placemark.locality ?? ""])
-            }
-        }
-    }
-
-    
-    
-    private func locationAuthorizationStatus(){
-        switch CLLocationManager.authorizationStatus() {
-        case .authorizedWhenInUse:
-            let location = CLLocation(latitude: getUserLocationCoordinates().latitude, longitude: getUserLocationCoordinates().longitude)
-               saveUserLocation(with: location)
-            locationManager.startUpdatingLocation()
-
-        case .denied:
-    self.locationManager.requestWhenInUseAuthorization()
-            
-        case .authorizedAlways:
-            break
-        case .restricted:
-            
-    showAlert(title: "Error", message: "Please authorize location services to enable VConnect connect you to the right resources") { (elert) in
-            self.locationManager.requestWhenInUseAuthorization()
-            }
-            
-        case .notDetermined:
-            showAlert(title: "Error", message: "Please authorize location services to enable VConnect connect you to the right resources") { (elert) in
-                self.locationManager.requestWhenInUseAuthorization()
-            }
-        @unknown default:
-            break
-        }
-    }
-    
-    private func setupLocationManager(){
-        locationManager.delegate =  self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-    }
-    
-    
-    private func checkLocationAuthorizationStatus(){
-        if CLLocationManager.locationServicesEnabled() {
-            setupLocationManager()
-            locationAuthorizationStatus()
-        } else {
-            showAlert(title: "Needed", message: "Please authorize location services for VConnect to serve you better")
-        }
-    }
-    
     
     private func generateNGOLocationCoordinates(with NGOFullAddress: String, completionHandler:  @escaping(Error?, CLLocationCoordinate2D?) -> Void){
-        
         GoogleAddressAPIClient.getAddressCoordinates(fullAddress: NGOFullAddress) { (error, fetchResults) in
             if let error = error {
                 completionHandler(error, nil)
@@ -264,7 +151,6 @@ class HomeViewController: UIViewController {
                     return
                 }
            completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-                
             }
         }
     }
@@ -307,14 +193,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         getImages(ngo: nGOToSet) { (ngoImages) in
             nGOToSet.ngoImagesURL = ngoImages
             let nGODetailViewController = NGODetailsViewController(nGO: nGOToSet, allBookMarks: self.allUserBookMarkIDs)
-            nGODetailViewController.userLocationCoordinates = self.getUserLocationCoordinates()
+            nGODetailViewController.userLocationCoordinates = self.userCoordinates
             self.createNGOCoordinates(withNGOFullAddress: nGOToSet.fullAddress, completionHandler: { (error, coordinates) in
                 if let error = error {
                     print("Error: \(error.localizedDescription)")
                 } else if let coordinate = coordinates {
                     DispatchQueue.main.async {
                     nGODetailViewController.ngoLocationCoordinates = coordinate
-                    self.navigationController?.pushViewController(nGODetailViewController, animated: true)
+ self.navigationController?.pushViewController(nGODetailViewController, animated: true)
                     }
                 }
             })
@@ -327,20 +213,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 260
     }
-    
-    
-    
 }
 
-extension HomeViewController: CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        checkLocationAuthorizationStatus()
-    }
-    
-}
 
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return nGOCategories.count
     }
@@ -354,8 +230,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         categoryCell.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         categoryCell.layer.cornerRadius = 5
         return categoryCell
-        
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -369,6 +246,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
 
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let numberOfCells:CGFloat = 1.65
+        let numberOfSpaces:CGFloat = numberOfCells + 0.5
+        let screenWidth = UIScreen.main.bounds.width
+        let height:CGFloat = nGOsTableView.categoriesCollectionView.bounds.size.height
+        return CGSize(width: (screenWidth - (cellSpacing * numberOfSpaces)) / numberOfCells, height: height * 0.8)
+        
+    }
+    
+    
     
     
 }

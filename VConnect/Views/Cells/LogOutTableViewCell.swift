@@ -12,12 +12,15 @@ class LogOutTableViewCell: UITableViewCell {
     
     public lazy var logOutButton: UIButton = {
         let logOutButton = UIButton()
-        logOutButton.layer.cornerRadius = 20
+        logOutButton.layer.cornerRadius = 5
         logOutButton.setTitle("Log Out", for: .normal)
-        //logOutButton.setTitleColor(.red, for: .normal)
         logOutButton.setTitleColor(.white, for: .normal)
         logOutButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
         logOutButton.backgroundColor = UIColor.orange.withAlphaComponent(0.9)
+        logOutButton.layer.shadowColor = UIColor.black.cgColor
+        logOutButton.layer.shadowRadius = 10
+        logOutButton.layer.shadowOpacity = 0.4
+        
         return logOutButton
     }()
     
@@ -43,9 +46,9 @@ class LogOutTableViewCell: UITableViewCell {
         addSubview(logOutButton)
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
         logOutButton.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
-        logOutButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 100).isActive = true
-        logOutButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -100).isActive = true
-        logOutButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30).isActive = true
+        logOutButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        logOutButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.95).isActive = true
+        logOutButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
     }
 

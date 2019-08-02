@@ -13,8 +13,6 @@ class NGOsTableView: UIView {
     public lazy var containView: UIView = {
         let containView = UIView()
      containView.backgroundColor = UIColor.init(hexString: "0072B1")
-        // containView.backgroundColor = UIColor.init(hexString: "3D2F54")
-        //containView.backgroundColor = UIColor.init(hexString: "033860")
         return containView
         
     }()
@@ -31,8 +29,6 @@ class NGOsTableView: UIView {
         
         settingButton.setImage(#imageLiteral(resourceName: "icons8-contacts_filled.png").withRenderingMode(.alwaysTemplate),for: .normal)
         settingButton.tintColor = UIColor.white
-        //settingButton.setTitleColor(.white, for: .normal)
-        
         return settingButton
         
     }()
@@ -58,7 +54,6 @@ class NGOsTableView: UIView {
         
         let categoriesCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: cellLayout)
         categoriesCollectionView.backgroundColor = UIColor.init(hexString: "0072B1")
-        //0799ba
         return categoriesCollectionView
     }()
     
@@ -66,12 +61,11 @@ class NGOsTableView: UIView {
     
     public lazy var nGOsTableView: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = .clear 
-        //tableView.backgroundColor = UIColor.init(hexString: "033860")
+        tableView.backgroundColor = .clear
         return tableView
     }()
     
-   // public var tapGesture: UITapGestureRecognizer!
+
     
     override func layoutSubviews() {
         super.layoutSubviews()

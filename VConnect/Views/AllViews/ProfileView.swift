@@ -86,18 +86,7 @@ class ProfileView: UIView {
         
     }
     
-//
-//
-//    private func setLogOutContrains(){
-//        addSubview(logOutButton)
-//        logOutButton.translatesAutoresizingMaskIntoConstraints = false
-//        logOutButton.topAnchor.constraint(equalTo: bookMarkedNGOsTableView.bottomAnchor, constant: 2).isActive = true
-//        logOutButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 150).isActive = true
-//        logOutButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -150).isActive = true
-//        logOutButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8).isActive = true
-//    }
-    
-    
+
 
 
 }

@@ -95,6 +95,7 @@ class NGOsTableViewCell: UITableViewCell {
         containerView.layer.shadowOpacity = 0.9
         containerView.layer.borderColor = UIColor.init(hexString: "033860")?.cgColor
         containerView.layer.borderWidth = 1
+        //containerView.layer.borderColor = UIColor.white.cgColor
         
     }
     
@@ -171,18 +172,5 @@ class NGOsTableViewCell: UITableViewCell {
         nGOMiles.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5).isActive = true
 
     }
-//
-//    private func setRatingsLabel(){
-//        containerView.addSubview(rating)
-//        rating.translatesAutoresizingMaskIntoConstraints = false
-//        rating.topAnchor.constraint(equalTo: nGOCity.bottomAnchor, constant: 10).isActive = true
-//        rating.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20).isActive = true
-//        rating.widthAnchor.constraint(equalToConstant: 190).isActive = true
-//        rating.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20).isActive = true
-//    }
-//
-   
-
-
 
 }
