@@ -171,7 +171,7 @@ class SignInViewController: UIViewController {
             self.locationManager.requestWhenInUseAuthorization()
             
         case .notDetermined:
-            showAlert(title: "Error", message: "Please authorize location services to enable VConnect connect you to the right resources") { (elert) in
+            showAlert(title: "Needed", message: "Please authorize location services to enable VConnect connect you to the right resources") { (elert) in
                 self.locationManager.requestWhenInUseAuthorization()
             }
         default:

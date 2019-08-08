@@ -99,10 +99,10 @@ class HoursAndAddressView: UIView {
     private func setGoogleMapConstrains(){
         contentView.addSubview(googleMapView)
         googleMapView.translatesAutoresizingMaskIntoConstraints = false
-        googleMapView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16).isActive = true
-        googleMapView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 18).isActive = true
+        googleMapView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.2).isActive = true
+        googleMapView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1.2).isActive = true
         googleMapView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -18).isActive = true
-        googleMapView.heightAnchor.constraint(equalToConstant: 290).isActive = true
+        googleMapView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5).isActive = true
     }
     
     private func setLabelConstrains(){
@@ -111,7 +111,7 @@ class HoursAndAddressView: UIView {
         operationalHoursLabel.topAnchor.constraint(equalTo: googleMapView.bottomAnchor, constant: 10).isActive = true
         operationalHoursLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         operationalHoursLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
-        operationalHoursLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
+        operationalHoursLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.03).isActive = true
     }
     
     private func setoperationalHoursTxtViewConstrains(){
@@ -126,8 +126,8 @@ class HoursAndAddressView: UIView {
     private func setAddressTxtViewConstrains(){
         googleMapView.addSubview(addressTxtView)
         addressTxtView.translatesAutoresizingMaskIntoConstraints = false
-        addressTxtView.topAnchor.constraint(equalTo: googleMapView.topAnchor, constant: 235).isActive = true
-        addressTxtView.leadingAnchor.constraint(equalTo: googleMapView.leadingAnchor, constant: 140).isActive = true
+        addressTxtView.topAnchor.constraint(equalToSystemSpacingBelow: googleMapView.topAnchor, multiplier: 30).isActive = true
+        addressTxtView.leadingAnchor.constraint(equalToSystemSpacingAfter: googleMapView.leadingAnchor, multiplier: 15).isActive = true
         addressTxtView.trailingAnchor.constraint(equalTo: googleMapView.trailingAnchor).isActive = true
         addressTxtView.bottomAnchor.constraint(equalTo: googleMapView.bottomAnchor).isActive = true
     }

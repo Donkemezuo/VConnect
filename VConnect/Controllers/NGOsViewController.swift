@@ -39,12 +39,12 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     
     
     private var nGOCategories = ["Domestic Violence", "Child issues", "Sexual Assault", "Human Rights", "Women", "Youth Development", "Education", "Housing", "Leadership"]
-
     private var isSearching: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(nGOsTableView)
-        view.backgroundColor = UIColor.init(hexString: "f0f0f0")
+       // view.backgroundColor = UIColor.init(hexString: "dcd9cd")
+        view.backgroundColor = UIColor(hexString: "#ffffff")
         self.navigationController?.isNavigationBarHidden = true
         nGOsTableView.nGOsTableView.delegate =  self
         nGOsTableView.nGOsTableView.dataSource = self

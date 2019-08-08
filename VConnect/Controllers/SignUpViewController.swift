@@ -234,7 +234,7 @@ class SignUpViewController: UIViewController {
 
 extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate {
     func didReceiveErrorCreatingVConnectUserAccount(_ authService: AuthService, error: Error) {
-        showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while creating VConnect account")
+        showAlert(title: "Needed", message: "Error: \(error.localizedDescription) encountered while creating VConnect account")
     }
     
     func didCreateNewVConnectUserAccount(_ authService: AuthService, vconnectUser: VConnectUser) {
