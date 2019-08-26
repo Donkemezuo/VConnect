@@ -444,14 +444,13 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch profileHeaderView.switchSegmentedControl.selectedSegmentIndex {
         case 0:
-            
             if bookMarks.isEmpty {
                 return tableView.bounds.height * 0.5
             } else {
-                return tableView.bounds.height * 0.1
+                return tableView.bounds.height * 0.12
             }
         case 1:
-            return tableView.bounds.height * 0.12
+            return tableView.bounds.height * 0.13
         default:
             return 0
         }

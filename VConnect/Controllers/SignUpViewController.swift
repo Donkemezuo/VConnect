@@ -130,7 +130,9 @@ class SignUpViewController: UIViewController {
             
         }
         
-        self.view.transform = CGAffineTransform(translationX: 0, y: -keyBoardFrame.height + 200)
+        let height = self.view.bounds.height * 0.1
+        
+        self.view.transform = CGAffineTransform(translationX: 0, y: -keyBoardFrame.height + height)
     }
     
     private func unRegisterKeyboardNotification(){
@@ -234,7 +236,6 @@ class SignUpViewController: UIViewController {
 
 extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate {
     func didReceiveErrorCreatingVConnectUserAccount(_ authService: AuthService, error: Error) {
-       // showAlert(title: "Needed", message: "Error: \(error.localizedDescription) encountered while creating VConnect account")
         showAlert(title: "Error", message: "\(error.localizedDescription) encountered while creating VConnect account") { (alert) in
             self.activityIndicator.stopAnimating()
             self.loadingView.removeFromSuperview()
@@ -268,6 +269,7 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
                             if let error = error {
                                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
                             } else if let bookmarks = bookmarks {
+                                print("Fetching User")
                                 self.allBookmarkedNGOIDs = bookmarks
                                 self.allBookmarkedNGOs.removeAll()
                                 for bookmarkedNGO in bookmarks {
@@ -277,7 +279,7 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
                                         }
                                     }
                                 }
-                                self.segueToHomeVC()
+                                self.checkLocationAuthorizationStatus()
                             }
                         }
                     }
@@ -290,6 +292,20 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
 
 extension SignUpViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        checkLocationAuthorizationStatus()
+        
+        switch status  {
+        case .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+        default:
+            break
+            
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        if locations.first != nil {
+            self.segueToHomeVC()
+        }
     }
 }

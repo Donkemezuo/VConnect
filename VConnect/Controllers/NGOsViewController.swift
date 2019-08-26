@@ -37,20 +37,25 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
         }
     }
     
+    private var nGOCategories = ["Domestic Violence", "Children", "Sexual Assault", "Human Rights", "Women", "Youth Development", "Education", "Leadership Training", "Children and Women", "Widows Affairs", "Girl Child"]
     
-    private var nGOCategories = ["Domestic Violence", "Children", "Sexual Assault", "Human Rights", "Women", "Youth Development", "Education", "Leadership Training", "Children and Women", "Widows Affairs"]
+   // private var isCategorySelected: Bool = false
+    
     private var isSearching: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(nGOsTableView)
-       // view.backgroundColor = UIColor.init(hexString: "dcd9cd")
         view.backgroundColor = UIColor(hexString: "#ffffff")
         self.navigationController?.isNavigationBarHidden = true
         nGOsTableView.nGOsTableView.delegate =  self
         nGOsTableView.nGOsTableView.dataSource = self
         nGOsTableView.categoriesCollectionView.dataSource = self
         nGOsTableView.categoriesCollectionView.delegate = self
+        nGOsTableView.searchBar.delegate = self
+        nGOsTableView.searchBar.showsCancelButton = true
         presentVConnectUserProfile()
+        vConnectUserSearchedNGOsInCategory = allNGOs
     }
     
     init(allRegisteredNGOs: [NGO], allBookmarkedNGOs: [NGO], allBookmarkedDates: [BookMark], vConnectUser: VConnectUser, userCoordinates: CLLocationCoordinate2D){
@@ -67,7 +72,6 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
     
     private func createNGOCoordinates(withNGOFullAddress fullAddress: String, completionHandler: @escaping(Error?, CLLocationCoordinate2D?) -> Void) {
         
@@ -170,14 +174,14 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return isSearching ? vConnectUserSearchedNGOsInCategory.count : allNGOs.count
+        return vConnectUserSearchedNGOsInCategory.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let nGOsCell = tableView.dequeueReusableCell(withIdentifier: "NGOsTableViewCell", for: indexPath) as? NGOsTableViewCell else {return UITableViewCell()}
         
-    let nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOs[indexPath.row]
+    let nGOToSet = vConnectUserSearchedNGOsInCategory[indexPath.row]
     nGOsCell.nGOName.text = nGOToSet.ngoName
     nGOsCell.nGOCity.text = nGOToSet.ngoCity
     nGOsCell.selectionStyle = .none
@@ -189,7 +193,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var nGOToSet = isSearching ? vConnectUserSearchedNGOsInCategory[indexPath.row] : allNGOs[indexPath.row]
+        var nGOToSet =  vConnectUserSearchedNGOsInCategory[indexPath.row]
         getImages(ngo: nGOToSet) { (ngoImages) in
             nGOToSet.ngoImagesURL = ngoImages
             let nGODetailViewController = NGODetailsViewController(nGO: nGOToSet, allBookMarks: self.allUserBookMarkIDs)
@@ -209,9 +213,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 260
+        
+        //return 260
+        
+        return tableView.frame.height * 0.26
     }
 }
 
@@ -237,12 +243,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let nGOsInCategory = nGOCategories[indexPath.row]
-        isSearching = true
-        vConnectUserSearchedNGOsInCategory = allNGOs.filter {$0.ngoCategory == nGOsInCategory}
+//        isSearching = true
+        vConnectUserSearchedNGOsInCategory = vConnectUserSearchedNGOsInCategory.filter {$0.ngoCategory == nGOsInCategory}
         
         if vConnectUserSearchedNGOsInCategory.count == 0 {
             showAlert(title: "Sorry", message: "There are currently no registered NGOs in the \(nGOsInCategory) Category. Please check back later as we continue to grow our support community. Thank you")
-            isSearching = false
+            vConnectUserSearchedNGOsInCategory = allNGOs
+
+           // isSearching = false
         }
 
     }
@@ -258,5 +266,28 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     
     
+    
+}
+
+extension HomeViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        //isSearching = true
+        guard let searchedCity = searchBar.text else { return}
+     vConnectUserSearchedNGOsInCategory = vConnectUserSearchedNGOsInCategory.filter{$0.ngoCity.lowercased().contains(searchedCity.lowercased())}
+    nGOsTableView.nGOsTableView.reloadData()
+
+        if searchedCity == "" {
+        vConnectUserSearchedNGOsInCategory = allNGOs
+        nGOsTableView.nGOsTableView.reloadData()
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        vConnectUserSearchedNGOsInCategory = allNGOs
+        nGOsTableView.nGOsTableView.reloadData()
+        searchBar.text = " "
+    }
     
 }

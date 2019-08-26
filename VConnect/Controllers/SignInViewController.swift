@@ -85,7 +85,7 @@ class SignInViewController: UIViewController {
             
         }
         
-        self.view.transform = CGAffineTransform(translationX: 0, y: -keyBoardFrame.height + 280)
+        self.view.transform = CGAffineTransform(translationX: 0, y: -keyBoardFrame.height + 10)
     }
     
     @objc private func willHideKeyboard(onNotification notification: Notification) {
@@ -163,7 +163,6 @@ class SignInViewController: UIViewController {
             let location = CLLocation(latitude: getUserLocationCoordinates().latitude, longitude: getUserLocationCoordinates().longitude)
             saveUserLocation(withUserCoordinates: location)
             locationManager.startUpdatingLocation()
-            
         case .denied:
             self.locationManager.requestWhenInUseAuthorization()
         case .restricted:
@@ -187,8 +186,6 @@ class SignInViewController: UIViewController {
         if CLLocationManager.locationServicesEnabled() {
             setupLocationManager()
             locationAuthorizationStatus()
-        } else {
-            showAlert(title: "Needed", message: "Please authorize location services for VConnect to serve you better")
         }
     }
     
@@ -235,7 +232,7 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
                         self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching user")
                     } else if let vConnectUser = vconnectUser {
                         self.vConnectUser = vConnectUser
-                        self.checkLocationAuthorizationStatus()
+                      
                     DataBaseService.fetchVConnectBookMarkedNGOs(userID) { (error, bookmarks) in
                             if let error = error {
                                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
@@ -249,7 +246,7 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
                                         }
                                     }
                                 }
-                                self.segueToHomeVC()
+                                 self.checkLocationAuthorizationStatus()
                             }
                         }
                     }
@@ -262,8 +259,9 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
     
     private func segueToHomeVC(){
         
-        let homeViewController = HomeViewController(allRegisteredNGOs: allNGOs, allBookmarkedNGOs: allBookmarkedNGOs, allBookmarkedDates: allBookmarkedNGOIDs, vConnectUser: vConnectUser, userCoordinates: getUserLocationCoordinates())
+        //checkLocationAuthorizationStatus()
         
+        let homeViewController = HomeViewController(allRegisteredNGOs: allNGOs, allBookmarkedNGOs: allBookmarkedNGOs, allBookmarkedDates: allBookmarkedNGOIDs, vConnectUser: vConnectUser, userCoordinates: getUserLocationCoordinates())
         self.present(homeViewController, animated: true, completion: {
             if let app = UIApplication.shared.delegate as? AppDelegate {
                 app.window?.rootViewController = homeViewController
@@ -296,6 +294,22 @@ extension SignInViewController: UITextFieldDelegate {
 }
 extension SignInViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        checkLocationAuthorizationStatus()
+        //checkLocationAuthorizationStatus()
+        
+        switch status  {
+        case .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+        default:
+            break
+            
+        }
     }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if locations.first != nil {
+           self.segueToHomeVC()
+        }
+    }
+    
 }

@@ -393,9 +393,6 @@ Sunday                        \(nGO.sundayHours)
         self.writeReviewOnNGO(withA: customView.rating)
             
         }
-        
-      
-        
         alertController.addAction(thankYou)
         present(alertController, animated: true)
         
@@ -413,8 +410,10 @@ Sunday                        \(nGO.sundayHours)
     
     private func segueToMap(){
         if (UIApplication.shared.canOpenURL(NSURL(string:"comgooglemaps://")! as URL)) {
-            UIApplication.shared.openURL(NSURL(string:
-                "comgooglemaps://?saddr=&daddr=\(ngoLocationCoordinates.latitude),\(ngoLocationCoordinates.longitude)&directionsmode=driving")! as URL)
+            UIApplication.shared.open(NSURL(string: "comgooglemaps://?saddr=&daddr=\(ngoLocationCoordinates.latitude),\(ngoLocationCoordinates.longitude)&directionsmode=driving")! as URL)
+//
+//            UIApplication.shared.openURL(NSURL(string:
+//                "comgooglemaps://?saddr=&daddr=\(ngoLocationCoordinates.latitude),\(ngoLocationCoordinates.longitude)&directionsmode=driving")! as URL)
             
         } else {
             NSLog("Can't use comgooglemaps://");
