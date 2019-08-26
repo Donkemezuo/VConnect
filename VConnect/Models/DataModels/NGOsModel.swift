@@ -121,17 +121,22 @@ struct NGO {
 struct NGOImages {
     var pictureUrl: String
     var pictureID: String
+    var imageCaption: String
+    var location: String
     
-    init(pictureUrl: String, pictureID: String){
+    init(pictureUrl: String, pictureID: String, imageCaption: String, location: String){
         self.pictureID = pictureID
         self.pictureUrl = pictureUrl
+        self.imageCaption = imageCaption
+        self.location = location
         
     }
     
     init(dict: [String: Any]){
         self.pictureUrl = dict[NGOImagesCollectionKeys.pictureUrl] as? String ?? "Image does not have a url"
         self.pictureID = dict[NGOImagesCollectionKeys.pictureID] as? String ?? "Image does not have an ID"
-        
+        self.imageCaption = dict[NGOImagesCollectionKeys.imageCaption] as? String ?? " "
+        self.location = dict[NGOImagesCollectionKeys.location] as? String ?? ""
     }
 }
 

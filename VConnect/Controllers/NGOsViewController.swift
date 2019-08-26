@@ -38,7 +38,7 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     }
     
     
-    private var nGOCategories = ["Domestic Violence", "Child issues", "Sexual Assault", "Human Rights", "Women", "Youth Development", "Education", "Housing", "Leadership"]
+    private var nGOCategories = ["Domestic Violence", "Children", "Sexual Assault", "Human Rights", "Women", "Youth Development", "Education", "Leadership Training", "Children and Women", "Widows Affairs"]
     private var isSearching: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()

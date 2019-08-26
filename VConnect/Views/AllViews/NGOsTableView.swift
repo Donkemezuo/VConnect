@@ -13,6 +13,7 @@ class NGOsTableView: UIView {
     public lazy var containView: UIView = {
         let containView = UIView()
      containView.backgroundColor = UIColor.init(hexString: "0072B1")
+        //containView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         return containView
         
     }()
@@ -54,6 +55,7 @@ class NGOsTableView: UIView {
         
         let categoriesCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: cellLayout)
         categoriesCollectionView.backgroundColor = UIColor.init(hexString: "0072B1")
+        //categoriesCollectionView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         return categoriesCollectionView
     }()
     
@@ -65,8 +67,6 @@ class NGOsTableView: UIView {
         return tableView
     }()
     
-
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         profileImageView.contentMode = .scaleAspectFill
@@ -75,7 +75,6 @@ class NGOsTableView: UIView {
         profileImageView.layer.borderColor = UIColor.white.cgColor
         profileImageView.layer.borderWidth = 3
         profileImageView.clipsToBounds = true
-
     }
     
     override init(frame: CGRect) {
@@ -93,18 +92,15 @@ class NGOsTableView: UIView {
     }
     
     private func commonInit(){
-    
         setConstrains()
     }
     
     private func setConstrains(){
         setContainerViewConstrains()
         setProfileImageViewConstrains()
-        //setSettingsButtonConstrains()
         setTxtLabelConstrains()
         setCollectionViewConstrains()
         setTableViewConstrains()
-        
     }
     
     private func setContainerViewConstrains(){
@@ -123,15 +119,12 @@ class NGOsTableView: UIView {
         profileImageView.trailingAnchor.constraint(equalTo: containView.trailingAnchor, constant: -30).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 45).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 45).isActive = true
-       // tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentVC))
-       // profileImageView.addGestureRecognizer(tapGesture)
     }
     
     
     private func setSettingsButtonConstrains(){
         containView.addSubview(settingButton)
         settingButton.translatesAutoresizingMaskIntoConstraints = false
-        //settingButton.topAnchor.constraint(equalTo: containView.topAnchor, constant: 30).isActive = true
         settingButton.leadingAnchor.constraint(equalTo: containView.leadingAnchor, constant: 10).isActive = true
         settingButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         settingButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -141,10 +134,8 @@ class NGOsTableView: UIView {
     private func setTxtLabelConstrains(){
         containView.addSubview(textLabel)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-       // textLabel.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
         textLabel.leadingAnchor.constraint(equalTo: containView.leadingAnchor, constant: 0).isActive = true
         textLabel.trailingAnchor.constraint(equalTo: containView.trailingAnchor).isActive = true
-       // textLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
          textLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         textLabel.bottomAnchor.constraint(equalTo: containView.bottomAnchor, constant: -10).isActive = true
     }

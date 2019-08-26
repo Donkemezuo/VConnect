@@ -65,6 +65,7 @@ class ReviewsTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         commonInit()
+        self.selectionStyle = .none 
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -92,27 +93,26 @@ class ReviewsTableViewCell: UITableViewCell {
         reviewerProfileImage.translatesAutoresizingMaskIntoConstraints = false
         reviewerProfileImage.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
         reviewerProfileImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-        reviewerProfileImage.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        reviewerProfileImage.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        reviewerProfileImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.1).isActive = true
+        reviewerProfileImage.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.1).isActive = true
     }
     
     public func setReviewerNameConstrains(){
         addSubview(reviewerName)
         reviewerName.translatesAutoresizingMaskIntoConstraints = false
-        reviewerName.centerYAnchor.constraint(equalTo: reviewerProfileImage.centerYAnchor).isActive = true
-        reviewerName.leadingAnchor.constraint(equalTo: reviewerProfileImage.trailingAnchor, constant: 10).isActive = true
-        reviewerName.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        reviewerName.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        reviewerName.topAnchor.constraint(equalToSystemSpacingBelow: reviewerProfileImage.topAnchor, multiplier: 1).isActive = true
+        reviewerName.leadingAnchor.constraint(equalToSystemSpacingAfter: reviewerProfileImage.trailingAnchor, multiplier: 2).isActive = true
+        reviewerName.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.6).isActive = true
+        reviewerName.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.1).isActive = true
     }
     
     public func setDateLabelConstrains(){
         addSubview(reviewDate)
         reviewDate.translatesAutoresizingMaskIntoConstraints = false
         reviewDate.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        reviewDate.leadingAnchor.constraint(equalTo:leadingAnchor, constant: 295).isActive = true
-        reviewDate.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
-        //reviewDate.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        reviewDate.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        reviewDate.leadingAnchor.constraint(equalToSystemSpacingAfter: reviewerName.trailingAnchor, multiplier: 0.5).isActive = true
+        reviewDate.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -2).isActive = true
+        reviewDate.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.06).isActive = true
     }
     
     private func setRatingsViewConstrains(){
@@ -120,15 +120,14 @@ class ReviewsTableViewCell: UITableViewCell {
         cosmosView.translatesAutoresizingMaskIntoConstraints = false
         cosmosView.topAnchor.constraint(equalTo: reviewerProfileImage.bottomAnchor, constant: 10).isActive = true
         cosmosView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12).isActive = true
-        cosmosView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        cosmosView.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        
+        cosmosView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: 0.6).isActive = true
+        cosmosView.heightAnchor.constraint(lessThanOrEqualTo: heightAnchor, multiplier: 0.1).isActive = true
     }
     
     public func setReviewTextViewConstrains(){
         addSubview(reviewTextView)
         reviewTextView.translatesAutoresizingMaskIntoConstraints = false
-        reviewTextView.topAnchor.constraint(equalTo: cosmosView.bottomAnchor, constant: 0).isActive = true
+        reviewTextView.topAnchor.constraint(equalTo: cosmosView.bottomAnchor).isActive = true
         reviewTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
         reviewTextView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         reviewTextView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true

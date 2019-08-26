@@ -153,7 +153,6 @@ class SignInViewController: UIViewController {
     
     private func getUserLocationCoordinates() -> CLLocationCoordinate2D {
         guard let userLocationCoordinates = locationManager.location?.coordinate else {return defaultCoordinates }
-        
         return userLocationCoordinates
     }
 
@@ -200,18 +199,20 @@ class SignInViewController: UIViewController {
             if error != nil {
                 
             } else if let placemark = placemark?.first {
-                DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.location).document(vConnectUser.uid).updateData([VConnectUserCollectionKeys.location: placemark.locality ?? "" ])
+                DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.location).document(vConnectUser.uid).updateData([VConnectUserCollectionKeys.location: placemark.locality ?? ""])
             }
         }
-        
-        
     }
     
 }
 
 extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
     func didReceiveErrorSigningToVConnectExistingAccount(_ authService: AuthService, error: Error) {
-        showAlert(title: "Error: \(error.localizedDescription) while loggin in", message: error.localizedDescription)
+        showAlert(title: "Error", message: error.localizedDescription) { (alert) in
+            self.activityIndicator.stopAnimating()
+            self.loadingView.removeFromSuperview()
+            
+        }
     }
     
     func didSignInToExistingVConnectUserAccount(_ authService: AuthService, user: User) {
@@ -223,7 +224,6 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
 
                 for document in querySnapShot.documents {
                     let ngo = NGO.init(dict: document.data())
-
                     allRegisteredNGOs.append(ngo)
                 }
 

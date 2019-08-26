@@ -12,11 +12,7 @@ class NGOPhotosCollectionViewCell: UICollectionViewCell {
     
     public lazy var ngoPhotoView: UIImageView = {
         let ngoPhoto = UIImageView()
-//        ngoPhoto.layer.borderWidth = 3
-//        ngoPhoto.layer.cornerRadius = 15
-//        ngoPhoto.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         ngoPhoto.contentMode = .scaleToFill
-
         return ngoPhoto
     }()
     

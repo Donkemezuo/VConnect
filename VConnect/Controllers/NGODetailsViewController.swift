@@ -61,6 +61,8 @@ class NGODetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        detailView.reviewView.reviewsTableView.estimatedRowHeight = 5
+        detailView.reviewView.reviewsTableView.rowHeight = UITableView.automaticDimension
     }
     
     private func configureEmptyState() {
@@ -246,7 +248,7 @@ Sunday                        \(nGO.sundayHours)
     }
     
     
-    @objc private func showAlertController(){
+    @objc private func showAlertController(sender: AnyObject){
         
         let alertController = UIAlertController(title: "Options", message: "You can book mark an NGO to view later", preferredStyle: .actionSheet)
         
@@ -260,12 +262,17 @@ Sunday                        \(nGO.sundayHours)
             self.bookMarkNGO(onVConnectUserID: userID)
         }
         
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in
             
         }
-        
         alertController.addAction(bookMark)
         alertController.addAction(cancel)
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.barButtonItem = sender as? UIBarButtonItem
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
         present(alertController, animated: true)
     }
     
@@ -432,7 +439,6 @@ extension NGODetailsViewController: UICollectionViewDelegateFlowLayout, UICollec
         return photoCell
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
           let numberOfCells: CGFloat = 2
           let numberOfSpaces: CGFloat = numberOfCells + 1
@@ -483,11 +489,6 @@ extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
         
     
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
-    }
-
 }
 
 extension NGODetailsViewController: GMSMapViewDelegate {
