@@ -39,10 +39,6 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     
     private var nGOCategories = ["Domestic Violence", "Children", "Sexual Assault", "Human Rights", "Women", "Youth Development", "Education", "Leadership Training", "Children and Women", "Widows Affairs", "Girl Child"]
     
-   // private var isCategorySelected: Bool = false
-    
-    private var isSearching: Bool = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(nGOsTableView)
@@ -215,9 +211,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        //return 260
-        
-        return tableView.frame.height * 0.26
+        return 260
     }
 }
 

@@ -204,7 +204,10 @@ class SignUpViewController: UIViewController {
         !lastName.isEmpty,
         !email.isEmpty,
             !password.isEmpty else {
-                showAlert(title: "Missing fields require filling", message: "Please fill in all missing fields")
+                
+                showAlert(title: "Error", message: "Email and Password required")
+                self.activityIndicator.stopAnimating()
+                self.loadingView.removeFromSuperview()
                 return
         }
         
