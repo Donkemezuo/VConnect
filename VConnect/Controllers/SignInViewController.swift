@@ -157,6 +157,7 @@ class SignInViewController: UIViewController {
         case .notDetermined:
             showAlert(title: "Needed", message: "Please authorize location services to enable VConnect connect you to the right resources") { (elert) in
                 self.locationManager.requestWhenInUseAuthorization()
+                print("This is happening")
             }
         default:
             break
@@ -172,6 +173,8 @@ class SignInViewController: UIViewController {
         if CLLocationManager.locationServicesEnabled() {
             setupLocationManager()
             locationAuthorizationStatus()
+        } else {
+            locationManager.requestWhenInUseAuthorization()
         }
     }
     
@@ -244,13 +247,11 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
     }
     
     private func segueToHomeVC(){
-        
-        //checkLocationAuthorizationStatus()
-        
         let homeViewController = HomeViewController(allRegisteredNGOs: allNGOs, allBookmarkedNGOs: allBookmarkedNGOs, allBookmarkedDates: allBookmarkedNGOIDs, vConnectUser: vConnectUser, userCoordinates: getUserLocationCoordinates())
-        self.present(homeViewController, animated: true, completion: {
+        let homeVC = UINavigationController(rootViewController: homeViewController)
+        self.present(homeVC, animated: true, completion: {
             if let app = UIApplication.shared.delegate as? AppDelegate {
-                app.window?.rootViewController = homeViewController
+                app.window?.rootViewController = homeVC
                 self.activityIndicator.stopAnimating()
                 self.loadingView.removeFromSuperview()
             }
@@ -280,8 +281,6 @@ extension SignInViewController: UITextFieldDelegate {
 }
 extension SignInViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        //checkLocationAuthorizationStatus()
-        
         switch status  {
         case .authorizedWhenInUse:
             manager.startUpdatingLocation()
@@ -296,6 +295,7 @@ extension SignInViewController: CLLocationManagerDelegate {
         if locations.first != nil {
            self.segueToHomeVC()
         }
+
     }
     
 }

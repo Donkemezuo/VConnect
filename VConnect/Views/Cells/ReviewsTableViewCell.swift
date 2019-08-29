@@ -14,6 +14,7 @@ class ReviewsTableViewCell: UITableViewCell {
     public lazy var reviewerProfileImage: UIImageView = {
         let reviewerProfileImage = UIImageView()
         reviewerProfileImage.backgroundColor = UIColor.lightGray
+        reviewerProfileImage.isUserInteractionEnabled = true 
        return reviewerProfileImage
     }()
     
@@ -26,7 +27,7 @@ class ReviewsTableViewCell: UITableViewCell {
     
     public lazy var reviewTextView: UITextView = {
         let reviewTextView = UITextView()
-        reviewTextView.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
+        reviewTextView.font = UIFont(name: "HelveticaNeue-Bold", size: 13)
         reviewTextView.backgroundColor = .clear 
         reviewTextView.textColor = UIColor.init(hexString: "0072B1")
         reviewTextView.isEditable = false

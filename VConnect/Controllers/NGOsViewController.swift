@@ -192,15 +192,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         var nGOToSet =  vConnectUserSearchedNGOsInCategory[indexPath.row]
         getImages(ngo: nGOToSet) { (ngoImages) in
             nGOToSet.ngoImagesURL = ngoImages
-            let nGODetailViewController = NGODetailsViewController(nGO: nGOToSet, allBookMarks: self.allUserBookMarkIDs)
-            nGODetailViewController.userLocationCoordinates = self.userCoordinates
             self.createNGOCoordinates(withNGOFullAddress: nGOToSet.fullAddress, completionHandler: { (error, coordinates) in
                 if let error = error {
                     print("Error: \(error.localizedDescription)")
                 } else if let coordinate = coordinates {
                     DispatchQueue.main.async {
-                    nGODetailViewController.ngoLocationCoordinates = coordinate
- self.navigationController?.pushViewController(nGODetailViewController, animated: true)
+                        let ngoDetailVC = NGODetailsViewController(nGO: nGOToSet, allBookMarks: self.allUserBookMarkIDs, userLocationCoordinate: self.userCoordinates, ngoCoordinates: coordinate)
+                        self.navigationController?.pushViewController(ngoDetailVC, animated: true)
                     }
                 }
             })
