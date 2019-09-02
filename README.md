@@ -20,7 +20,7 @@ A user-friendly mobile app to connect users to support systems around them in Ni
  - Users can bookmark an organization to visit later
  - Users can also search organizations by city and by category of specialization. 
 
-# Appstore Link 
+# Appstore Download Link 
 https://apps.apple.com/us/app/vvconnect/id1477645486 
  
 # API's used
