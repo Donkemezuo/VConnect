@@ -1,7 +1,7 @@
-# VConnect
-A simply designed user-friendly mobile app where victims and vulnerable people in Nigeria can find and connect with support systems around them. With VConnect, victims and vulnerable people in Nigeria can easily find and connect with support systems around them in Nigeria like non-governmental organizations(NGOs), government agencies and non-for profit organizations who are setup to assist victims. VConnect is currently on the appstore as VVConnect. 
+# VVConnect
+A simply designed user-friendly mobile app where victims and vulnerable people in Nigeria can find and connect with support systems around them. With VVConnect, victims and vulnerable people in Nigeria can easily find and connect with support systems around them in Nigeria like non-governmental organizations(NGOs), government agencies and non-for profit organizations who are setup to assist victims. VVConnect is currently on the appstore.  
 
-# With VConnect;
+# With VVConnect;
  - Users can see a list of support systems in Nigeria and how far they are away from each individual support system
  - Users can click on a support system to see more details like the;
  
