@@ -11,5 +11,7 @@ import Foundation
 struct NGOImagesCollectionKeys {
     static let pictureID = "pictureID"
     static let pictureUrl = "pictureURL"
+    static let imageCaption = "imageCaption"
+    static let location = "location"
 }
 

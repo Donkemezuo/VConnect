@@ -19,7 +19,8 @@ class NGOsTableViewCell: UITableViewCell {
     
     private lazy var designView: UIView = {
         let designView = UIView()
-         designView.backgroundColor = UIColor.init(hexString: "0072B1")
+        designView.backgroundColor = UIColor.init(hexString: "0072B1")
+        //designView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         return designView
     }()
     
@@ -117,8 +118,7 @@ class NGOsTableViewCell: UITableViewCell {
         designView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 0).isActive = true
          designView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0).isActive = true
          designView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0).isActive = true
-         designView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -50).isActive = true
-        
+        designView.heightAnchor.constraint(equalTo: containerView.heightAnchor, multiplier: 0.78).isActive = true        
     }
     
     

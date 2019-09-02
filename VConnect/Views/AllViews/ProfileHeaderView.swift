@@ -41,8 +41,9 @@ class ProfileHeaderView: UIView {
     }
     
     private func setItemsLayout(){
-        cancelButton.setImage(#imageLiteral(resourceName: "icons8-delete_sign_filled.png").withRenderingMode(.alwaysTemplate), for: .normal)
+        cancelButton.setImage(#imageLiteral(resourceName: "icons8-delete_sign_filled").withRenderingMode(.alwaysTemplate), for: .normal)
         cancelButton.tintColor = .white
+        cancelButton.isHidden = false
         fullNameLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
          fullNameLabel.textColor = .white
         emailLabel.font =  UIFont(name: "HelveticaNeue-Bold", size: 20)

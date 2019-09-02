@@ -39,23 +39,31 @@ class SignUpViewController: UIViewController {
     private var allNGOs = [NGO]()
     
     private var vConnectUser: VConnectUser!
+    @IBOutlet weak var contentView: UIView!
     
      private var allBookmarkedNGOIDs = [BookMark]()
     
+    @IBOutlet weak var createAccountScrollView: UIScrollView!
     private var allBookmarkedNGOs = [NGO]()
     public var coordinates = CLLocationCoordinate2D()
     public var locationManager = CLLocationManager()
     public var defaultCoordinates = CLLocationCoordinate2DMake(0.0, 0.0)
     public var geoCoder = CLGeocoder()
     
+    @IBOutlet weak var showAccountButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
            view.backgroundColor = UIColor.init(hexString: "0072B1")
+        contentView.backgroundColor = .clear
+        navigationController?.isNavigationBarHidden = true
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
      authServices.authServiceCreateNewVConnectUserAccountDelegate =  self
         createAccountButton.setTitleColor(UIColor(hexString: "0072B1"), for: .normal)
+        createAccountScrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.width * 2)
         setupViewDetails()
         setupLabelTitles()
-         dimissKeyboardView()
+        dimissKeyboardView()
     }
     
     private func setupActivityIndicator(){
@@ -78,23 +86,10 @@ class SignUpViewController: UIViewController {
         view.endEditing(true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        registerKeyboardNotification()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        unRegisterKeyboardNotification()
-    }
-    
-    
     @IBAction func showSignInView(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
        
     }
-    
-    
     
     private func setupViewDetails(){
         VConnectLogoImageView.image = UIImage.init(named: "VCConectLogo")
@@ -116,34 +111,20 @@ class SignUpViewController: UIViewController {
         createAccountButton.titleLabel?.font =  UIFont(name: "HelveticaNeue-Bold", size: 18)
         createAccountButton.backgroundColor = .white
         createAccountButton.layer.cornerRadius = 20
+        showAccountButton.titleLabel?.textColor = .white
+        showAccountButton.titleLabel?.font = UIFont(name: "HelveticaNeue-BoldItalic", size: 14)
     }
     
-    private func registerKeyboardNotification(){
-        NotificationCenter.default.addObserver(self, selector: #selector(willShowKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(willHideKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+    @objc func keyboardWillHide(notification: Notification) {
+        let contentInsets = UIEdgeInsets.zero
+        createAccountScrollView.contentInset = contentInsets
+        createAccountScrollView.scrollIndicatorInsets = contentInsets
     }
     
-    @objc private func willShowKeyboard(onNotification notification: Notification) {
-        guard let info = notification.userInfo, let keyBoardFrame = info["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {
-            return
-            
-        }
-        
-        self.view.transform = CGAffineTransform(translationX: 0, y: -keyBoardFrame.height + 200)
+    @objc func keyboardWillShow(notification: Notification) {
+        guard let keyboardFrame: CGRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        createAccountScrollView.contentInset.bottom = keyboardFrame.height
     }
-    
-    private func unRegisterKeyboardNotification(){
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-    }
-    
-    @objc private func willHideKeyboard(onNotification notification: Notification) {
-        self.view.transform = CGAffineTransform.identity
-    }
-    
-    
     private func getUserLocationCoordinates() -> CLLocationCoordinate2D {
         guard let userLocationCoordinates = locationManager.location?.coordinate else {return defaultCoordinates }
         
@@ -223,7 +204,10 @@ class SignUpViewController: UIViewController {
         !lastName.isEmpty,
         !email.isEmpty,
             !password.isEmpty else {
-                showAlert(title: "Missing fields require filling", message: "Please fill in all missing fields")
+                
+                showAlert(title: "Error", message: "Email and Password required")
+                self.activityIndicator.stopAnimating()
+                self.loadingView.removeFromSuperview()
                 return
         }
         
@@ -234,7 +218,10 @@ class SignUpViewController: UIViewController {
 
 extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate {
     func didReceiveErrorCreatingVConnectUserAccount(_ authService: AuthService, error: Error) {
-        showAlert(title: "Error", message: "Error: \(error.localizedDescription) encountered while creating VConnect account")
+        showAlert(title: "Error", message: "\(error.localizedDescription) encountered while creating VConnect account") { (alert) in
+            self.activityIndicator.stopAnimating()
+            self.loadingView.removeFromSuperview()
+        }
     }
     
     func didCreateNewVConnectUserAccount(_ authService: AuthService, vconnectUser: VConnectUser) {
@@ -264,6 +251,7 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
                             if let error = error {
                                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
                             } else if let bookmarks = bookmarks {
+                                print("Fetching User")
                                 self.allBookmarkedNGOIDs = bookmarks
                                 self.allBookmarkedNGOs.removeAll()
                                 for bookmarkedNGO in bookmarks {
@@ -273,7 +261,7 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
                                         }
                                     }
                                 }
-                                self.segueToHomeVC()
+                                self.checkLocationAuthorizationStatus()
                             }
                         }
                     }
@@ -286,6 +274,20 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
 
 extension SignUpViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        checkLocationAuthorizationStatus()
+        
+        switch status  {
+        case .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+        default:
+            break
+            
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        if locations.first != nil {
+            self.segueToHomeVC()
+        }
     }
 }
