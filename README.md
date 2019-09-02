@@ -24,9 +24,15 @@ A user-friendly mobile app to connect users to support systems around them in Ni
 https://apps.apple.com/us/app/vvconnect/id1477645486 
  
 # API's used
-Explored Firebase as a backend
+- Explored Firebase as a backend
+- Google Place's API
 
 # FrameWorks Used
 - Mapkit
 - CoreLocation
 - FireBase
+- Kingfisher
+- Toucan 
+- Cosmos
+- GoogleMaps
+- Alamofire
