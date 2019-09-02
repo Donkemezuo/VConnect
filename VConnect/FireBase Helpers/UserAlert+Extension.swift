@@ -31,7 +31,16 @@ extension UIViewController {
         let deleteAction = UIAlertAction(title: "Log out", style: .destructive, handler: handler)
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
-        self.present(alertController, animated: true)
+        if let popOverPresentationController = alertController.popoverPresentationController {
+            popOverPresentationController.sourceView = self.view
+            popOverPresentationController.sourceRect = CGRect(x: 1.0, y: 1.0, width: self.view.bounds.width, height: self.view.bounds.height)
+               // CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
+            
+        }
+        
+          self.present(alertController, animated: true)
+        
+     
     }
     
     public func confirmFirstNameChange(handler: ((UIAlertAction) -> Void)?) {

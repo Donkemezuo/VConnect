@@ -60,7 +60,9 @@ class NGOMissionView: UIView {
         let ngoMissionTxtView = UITextView()
         ngoMissionTxtView.font = UIFont(name: "HelveticaNeue-Bold", size: 13)
         ngoMissionTxtView.textColor = UIColor.init(hexString: "0072B1")
-        ngoMissionTxtView.backgroundColor = .clear
+        ngoMissionTxtView.isSelectable = false
+        ngoMissionTxtView.isScrollEnabled = true
+        ngoMissionTxtView.isEditable = false
         return ngoMissionTxtView
     }()
     
@@ -77,7 +79,9 @@ class NGOMissionView: UIView {
         let ngoVissionTxtView = UITextView()
         ngoVissionTxtView.font = UIFont(name: "HelveticaNeue-Bold", size: 13)
         ngoVissionTxtView.textColor = UIColor.init(hexString: "0072B1")
-        ngoVissionTxtView.backgroundColor = .clear
+        ngoVissionTxtView.isSelectable = false
+        ngoVissionTxtView.isScrollEnabled = true
+        ngoVissionTxtView.isEditable = false
         return ngoVissionTxtView
     }()
     
@@ -137,19 +141,18 @@ class NGOMissionView: UIView {
     private func setDescriptionLabelConstrains(){
         contentView.addSubview(descriptionLabel)
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
+        descriptionLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.3).isActive = true
         descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
-        descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
-        descriptionLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        descriptionLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.03).isActive = true
     }
     
     private func ngoDescriptionTxtViewConstrains(){
         contentView.addSubview(ngoDescriptionTxtView)
         ngoDescriptionTxtView.translatesAutoresizingMaskIntoConstraints = false
-        ngoDescriptionTxtView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 5).isActive = true
-        ngoDescriptionTxtView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 22).isActive = true
-        ngoDescriptionTxtView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22).isActive = true
-        ngoDescriptionTxtView.heightAnchor.constraint(equalToConstant: 245).isActive = true
+        ngoDescriptionTxtView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 2).isActive = true
+        ngoDescriptionTxtView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        ngoDescriptionTxtView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        ngoDescriptionTxtView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.38).isActive = true
     }
     
     private func ngoWebsiteTxtView(){
@@ -158,17 +161,16 @@ class NGOMissionView: UIView {
         websiteTxtView.topAnchor.constraint(equalTo: ngoDescriptionTxtView.bottomAnchor).isActive = true
         websiteTxtView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         websiteTxtView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
-        websiteTxtView.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        websiteTxtView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.05).isActive = true
     }
     
     private func missionLabelConstrains(){
         contentView.addSubview(missionLabel)
         missionLabel.translatesAutoresizingMaskIntoConstraints = false
-        missionLabel.topAnchor.constraint(equalTo: websiteTxtView.bottomAnchor, constant: 10).isActive = true
-       
+        missionLabel.topAnchor.constraint(equalTo: websiteTxtView.bottomAnchor, constant: 5).isActive = true
         missionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
         missionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
-        missionLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        missionLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.03).isActive = true
     }
     
     
@@ -176,45 +178,45 @@ class NGOMissionView: UIView {
     private func ngoMissionTxtViewConstrains(){
         contentView.addSubview(ngoMissionTxtView)
         ngoMissionTxtView.translatesAutoresizingMaskIntoConstraints = false
-        ngoMissionTxtView.topAnchor.constraint(equalTo: missionLabel.bottomAnchor, constant: 10).isActive = true
+        ngoMissionTxtView.topAnchor.constraint(equalTo: missionLabel.bottomAnchor, constant: 5).isActive = true
         ngoMissionTxtView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 22).isActive = true
         ngoMissionTxtView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22).isActive = true
-        ngoMissionTxtView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        ngoMissionTxtView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15).isActive = true
         
     }
     private func setVisionLabelConstrains(){
         contentView.addSubview(visionLabel)
         visionLabel.translatesAutoresizingMaskIntoConstraints = false
-        visionLabel.topAnchor.constraint(equalTo: ngoMissionTxtView.bottomAnchor, constant: 10).isActive = true
+        visionLabel.topAnchor.constraint(equalTo: ngoMissionTxtView.bottomAnchor, constant: 8).isActive = true
         visionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
         visionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
-        visionLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        visionLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.03).isActive = true
         
     }
     
     private func ngoVisionStatementTxtViewConstrains(){
         contentView.addSubview(ngoVissionTxtView)
         ngoVissionTxtView.translatesAutoresizingMaskIntoConstraints = false
-        ngoVissionTxtView.topAnchor.constraint(equalTo: visionLabel.bottomAnchor, constant: 10).isActive = true
+        ngoVissionTxtView.topAnchor.constraint(equalTo: visionLabel.bottomAnchor, constant: 5).isActive = true
         ngoVissionTxtView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 22).isActive = true
         ngoVissionTxtView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -22).isActive = true
-        ngoVissionTxtView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        ngoVissionTxtView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15).isActive = true
         
     }
     
     private func setContactPersonLabel(){
         contentView.addSubview(contactPersonLabel)
         contactPersonLabel.translatesAutoresizingMaskIntoConstraints = false
-        contactPersonLabel.topAnchor.constraint(equalTo: ngoVissionTxtView.bottomAnchor, constant: 10).isActive = true
+        contactPersonLabel.topAnchor.constraint(equalTo: ngoVissionTxtView.bottomAnchor, constant: 8).isActive = true
         contactPersonLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
         contactPersonLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
-        contactPersonLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        contactPersonLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.03).isActive = true
     }
     
     private func setContactPersonNameLabel(){
         contentView.addSubview(contactPersonNameLabel)
         contactPersonNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        contactPersonNameLabel.topAnchor.constraint(equalTo: contactPersonLabel.bottomAnchor, constant: 0).isActive = true
+        contactPersonNameLabel.topAnchor.constraint(equalTo: contactPersonLabel.bottomAnchor).isActive = true
         contactPersonNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 22).isActive = true
         contactPersonNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
     

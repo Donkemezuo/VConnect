@@ -10,12 +10,16 @@ import UIKit
 import Cosmos
 import SafariServices
 import GoogleMaps
+import MessageUI
 
 class NGODetailsViewController: UIViewController {
     private var leftSwipeGesture: UISwipeGestureRecognizer!
     private var rightSwipeGesture: UISwipeGestureRecognizer!
     var userLocationCoordinates: CLLocationCoordinate2D!
     var ngoLocationCoordinates: CLLocationCoordinate2D!
+    var vconnectUser: VConnectUser!
+    
+    private var tapGesture: UITapGestureRecognizer!
     private var detailView = DetailView()
     private var backgroundView = TableViewBackgroundImageView()
     private var nGO: NGO!
@@ -32,9 +36,8 @@ class NGODetailsViewController: UIViewController {
     }
     
     private var allUserBookMarks = [BookMark]()
-    
-    private var tapGesture: UITapGestureRecognizer!
     private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
+    private var reportUserTapGesture: UITapGestureRecognizer!
     
     private var numberOfRaters = 1.0
     
@@ -57,10 +60,14 @@ class NGODetailsViewController: UIViewController {
         bookMarkButton()
         setupSafariServices()
         segmentedControlTapped()
+        //UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue], for: .normal)
+        //mailComposer.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        detailView.reviewView.reviewsTableView.estimatedRowHeight = 5
+        detailView.reviewView.reviewsTableView.rowHeight = UITableView.automaticDimension
     }
     
     private func configureEmptyState() {
@@ -142,11 +149,13 @@ class NGODetailsViewController: UIViewController {
         
     }
     
-    init(nGO: NGO, allBookMarks: [BookMark]) {
+    init(nGO: NGO, allBookMarks: [BookMark], userLocationCoordinate: CLLocationCoordinate2D, ngoCoordinates: CLLocationCoordinate2D) {
         super.init(nibName: nil, bundle: nil)
         self.nGO = nGO
         self.allUserBookMarks = allBookMarks
         self.configurePhotosEmptyState()
+        self.ngoLocationCoordinates = ngoCoordinates
+        self.userLocationCoordinates = userLocationCoordinate
 
     }
     
@@ -220,6 +229,51 @@ Sunday                        \(nGO.sundayHours)
         
     }
     
+    private func reportButtonPressed(){
+        
+        if MFMailComposeViewController.canSendMail(){
+            let emailComposer = MFMailComposeViewController()
+            emailComposer.mailComposeDelegate = self
+            emailComposer.setSubject("Reporting \(vconnectUser.lastName + " " + vconnectUser.firstName)")
+            emailComposer.setToRecipients(["trdonkemezuojnr@yahoo.com", "trdonkemezuojnr@gmail.com"])
+            self.present(emailComposer, animated: true)
+        } else {
+            showAlert(title: "Error", message: "Email is not configured in setting. Go to settings on your device and authorize emailing")
+        }
+    }
+
+    
+    private func reportVConnectUser(fromReviewCell reviewCell: ReviewsTableViewCell){
+        reportUserTapGesture = UITapGestureRecognizer(target: self, action: #selector(reviewerImageTap))
+        reviewCell.reviewerProfileImage.addGestureRecognizer(reportUserTapGesture)
+        
+    }
+    
+    @objc private func reviewerImageTap(sender: AnyObject){
+    
+     let alertController = UIAlertController(title: "Options", message: "You can report reviewer", preferredStyle: .actionSheet)
+    
+        let cancel = UIAlertAction(title: "Cancel", style: .default) {(alert) in
+            print("Cancel")
+            }
+    let reportUser = UIAlertAction(title: "Report VConnectUser", style: .destructive) { (alert) in
+        print("This takes you to an email")
+        self.reportButtonPressed()
+        
+    }
+    
+    alertController.addAction(cancel)
+    alertController.addAction(reportUser)
+    if let popoverController = alertController.popoverPresentationController {
+            popoverController.barButtonItem = sender as? UIBarButtonItem
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+    present(alertController, animated: true)
+        
+    }
+    
     private func bookMarkButton() {
         
         detailView.moreOptionsButton.addTarget(self, action: #selector(showAlertController), for: .touchUpInside)
@@ -246,7 +300,7 @@ Sunday                        \(nGO.sundayHours)
     }
     
     
-    @objc private func showAlertController(){
+    @objc private func showAlertController(sender: AnyObject){
         
         let alertController = UIAlertController(title: "Options", message: "You can book mark an NGO to view later", preferredStyle: .actionSheet)
         
@@ -260,12 +314,18 @@ Sunday                        \(nGO.sundayHours)
             self.bookMarkNGO(onVConnectUserID: userID)
         }
         
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (alert) in
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in
             
         }
         
         alertController.addAction(bookMark)
         alertController.addAction(cancel)
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.barButtonItem = sender as? UIBarButtonItem
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
         present(alertController, animated: true)
     }
     
@@ -289,6 +349,7 @@ Sunday                        \(nGO.sundayHours)
                 reviewCell.reviewerName.text = reviewer.firstName + " " + reviewer.lastName
                 if let photoURL = reviewer.profileImageURL {
                 reviewCell.reviewerProfileImage.kf.setImage(with:URL(string: photoURL) , placeholder: #imageLiteral(resourceName: "icons8-contacts_filled.png"))
+                self.vconnectUser = reviewer
                 }
                
             }
@@ -301,9 +362,6 @@ Sunday                        \(nGO.sundayHours)
         pin.title = nGO.ngoStreetAddress
         pin.snippet = nGO.ngoCity
         pin.map = detailView.ngoAddressView.googleMapView
-        
-        
-        
     }
 
     
@@ -386,9 +444,6 @@ Sunday                        \(nGO.sundayHours)
         self.writeReviewOnNGO(withA: customView.rating)
             
         }
-        
-      
-        
         alertController.addAction(thankYou)
         present(alertController, animated: true)
         
@@ -406,8 +461,7 @@ Sunday                        \(nGO.sundayHours)
     
     private func segueToMap(){
         if (UIApplication.shared.canOpenURL(NSURL(string:"comgooglemaps://")! as URL)) {
-            UIApplication.shared.openURL(NSURL(string:
-                "comgooglemaps://?saddr=&daddr=\(ngoLocationCoordinates.latitude),\(ngoLocationCoordinates.longitude)&directionsmode=driving")! as URL)
+            UIApplication.shared.open(NSURL(string: "comgooglemaps://?saddr=&daddr=\(ngoLocationCoordinates.latitude),\(ngoLocationCoordinates.longitude)&directionsmode=driving")! as URL)
             
         } else {
             NSLog("Can't use comgooglemaps://");
@@ -431,7 +485,6 @@ extension NGODetailsViewController: UICollectionViewDelegateFlowLayout, UICollec
         fetchNGOImages(photoURL: image.pictureUrl, photoCell: photoCell)
         return photoCell
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
           let numberOfCells: CGFloat = 2
@@ -468,6 +521,7 @@ extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
             guard let reviewsCell = tableView.dequeueReusableCell(withIdentifier: "ReviewsTableViewCell", for: indexPath) as? ReviewsTableViewCell else {return UITableViewCell()}
             let review = allNGOReviews[indexPath.row]
             fetchReviewer(with: review.reviewerID, reviewCell: reviewsCell)
+            reportVConnectUser(fromReviewCell: reviewsCell)
             reviewsCell.reviewTextView.text = review.review
             reviewsCell.cosmosView.rating = review.ratingValue
             reviewsCell.reviewDate.text = review.date
@@ -476,18 +530,13 @@ extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
             return reviewsCell
             
         } else {
-        
+           return UITableViewCell()
         }
-        
-        return UITableViewCell()
-        
-    
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
     }
-
 }
 
 extension NGODetailsViewController: GMSMapViewDelegate {
@@ -495,3 +544,21 @@ extension NGODetailsViewController: GMSMapViewDelegate {
         segueToMap()
     }
 }
+
+extension NGODetailsViewController: MFMailComposeViewControllerDelegate {
+
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        if result == .sent {
+            controller.showAlert(title: "Thank you", message: "Thank you for reporting \(vconnectUser.firstName + " " + vconnectUser.lastName). As a support community, we value and respect the safety of our users and will continue to work towards creating a platform where people and organizations feel safe") { (alert) in
+                            controller.dismiss(animated: true, completion: nil)
+        }
+        } else {
+            controller.dismiss(animated: true, completion: nil)
+        }
+        
+    }
+    
+}
+
+
+

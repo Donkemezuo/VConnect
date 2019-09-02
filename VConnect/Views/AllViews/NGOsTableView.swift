@@ -10,6 +10,9 @@ import UIKit
 
 class NGOsTableView: UIView {
     
+    private var isToggled = false
+    
+    
     public lazy var containView: UIView = {
         let containView = UIView()
      containView.backgroundColor = UIColor.init(hexString: "0072B1")
@@ -24,18 +27,32 @@ class NGOsTableView: UIView {
     }()
     
     public lazy var settingButton: UIButton = {
-        
         let settingButton = UIButton()
-        
         settingButton.setImage(#imageLiteral(resourceName: "icons8-contacts_filled.png").withRenderingMode(.alwaysTemplate),for: .normal)
         settingButton.tintColor = UIColor.white
         return settingButton
         
     }()
     
+    private lazy var searchBarButton: UIButton = {
+        let searchBar = UIButton()
+        searchBar.setImage(#imageLiteral(resourceName: "icons8-search.png").withRenderingMode(.alwaysTemplate), for: .normal)
+        searchBar.tintColor = .white
+        return searchBar
+    }()
+    
+    public lazy var searchBar: UISearchBar = {
+      let searchBar = UISearchBar()
+        searchBar.placeholder = "Search NGOs by City"
+        searchBar.barTintColor = UIColor.init(hexString: "0072B1")
+        searchBar.tintColor = .red
+        let attributes = [NSAttributedString.Key.foregroundColor : UIColor.red]
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes(attributes, for: UIControl.State.normal)
+        return searchBar
+    }()
+    
     public lazy var textLabel: UILabel = {
         let textLabel = UILabel()
-        
         textLabel.text = "VConnect"
         textLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 17)
         textLabel.textAlignment = .center
@@ -43,8 +60,6 @@ class NGOsTableView: UIView {
         
         return textLabel
     }()
-    
-    
     public lazy var categoriesCollectionView: UICollectionView = {
         
         let cellLayout = UICollectionViewFlowLayout()
@@ -56,16 +71,11 @@ class NGOsTableView: UIView {
         categoriesCollectionView.backgroundColor = UIColor.init(hexString: "0072B1")
         return categoriesCollectionView
     }()
-    
-    
-    
     public lazy var nGOsTableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
         return tableView
     }()
-    
-
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -75,7 +85,6 @@ class NGOsTableView: UIView {
         profileImageView.layer.borderColor = UIColor.white.cgColor
         profileImageView.layer.borderWidth = 3
         profileImageView.clipsToBounds = true
-
     }
     
     override init(frame: CGRect) {
@@ -85,6 +94,7 @@ class NGOsTableView: UIView {
         nGOsTableView.separatorStyle = .none
         
         categoriesCollectionView.register(CategoriesCollectionViewCell.self, forCellWithReuseIdentifier: "CategoriesCollectionViewCell")
+        searchBarButton.addTarget(self, action: #selector(searchBarButtonToggled), for: .touchUpInside)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -93,18 +103,17 @@ class NGOsTableView: UIView {
     }
     
     private func commonInit(){
-    
         setConstrains()
     }
     
     private func setConstrains(){
         setContainerViewConstrains()
         setProfileImageViewConstrains()
-        //setSettingsButtonConstrains()
         setTxtLabelConstrains()
+        setSearchBarButtonConstrains()
+        setSearchBarConstrains()
         setCollectionViewConstrains()
         setTableViewConstrains()
-        
     }
     
     private func setContainerViewConstrains(){
@@ -123,36 +132,44 @@ class NGOsTableView: UIView {
         profileImageView.trailingAnchor.constraint(equalTo: containView.trailingAnchor, constant: -30).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 45).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 45).isActive = true
-       // tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentVC))
-       // profileImageView.addGestureRecognizer(tapGesture)
     }
     
     
-    private func setSettingsButtonConstrains(){
-        containView.addSubview(settingButton)
-        settingButton.translatesAutoresizingMaskIntoConstraints = false
-        //settingButton.topAnchor.constraint(equalTo: containView.topAnchor, constant: 30).isActive = true
-        settingButton.leadingAnchor.constraint(equalTo: containView.leadingAnchor, constant: 10).isActive = true
-        settingButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        settingButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        settingButton.bottomAnchor.constraint(equalTo: containView.bottomAnchor, constant: -10).isActive = true
+    private func setSearchBarButtonConstrains(){
+        containView.addSubview(searchBarButton)
+        searchBarButton.translatesAutoresizingMaskIntoConstraints = false
+        searchBarButton.topAnchor.constraint(equalTo: textLabel.topAnchor).isActive = true
+        searchBarButton.leadingAnchor.constraint(equalTo: containView.leadingAnchor, constant: 20).isActive = true
+        searchBarButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        searchBarButton.heightAnchor.constraint(equalTo: textLabel.heightAnchor).isActive = true
     }
     
     private func setTxtLabelConstrains(){
         containView.addSubview(textLabel)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-       // textLabel.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
-        textLabel.leadingAnchor.constraint(equalTo: containView.leadingAnchor, constant: 0).isActive = true
+        textLabel.leadingAnchor.constraint(equalTo: containView.leadingAnchor, constant: 20).isActive = true
         textLabel.trailingAnchor.constraint(equalTo: containView.trailingAnchor).isActive = true
-       // textLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
          textLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         textLabel.bottomAnchor.constraint(equalTo: containView.bottomAnchor, constant: -10).isActive = true
+    }
+    
+    
+    var heightConstraint: NSLayoutConstraint?
+    
+    private func setSearchBarConstrains(){
+        addSubview(searchBar)
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.topAnchor.constraint(equalTo: containView.bottomAnchor).isActive = true
+        searchBar.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        searchBar.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        heightConstraint = searchBar.heightAnchor.constraint(equalToConstant: 0)
+        heightConstraint?.isActive = true
     }
     
     private func setCollectionViewConstrains(){
         addSubview(categoriesCollectionView)
         categoriesCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        categoriesCollectionView.topAnchor.constraint(equalTo: containView.bottomAnchor, constant: 0).isActive = true
+        categoriesCollectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor).isActive = true
         categoriesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         categoriesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         categoriesCollectionView.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -167,6 +184,28 @@ class NGOsTableView: UIView {
         nGOsTableView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
     
+    @objc private func searchBarButtonToggled(){
+       
+        changeSearchBarHeight(bool: !isToggled)
+        
+    }
+    
+    private func changeSearchBarHeight(bool: Bool){
+      isToggled = bool
+        
+        switch isToggled {
+        case true:
+            heightConstraint?.isActive = false
+            heightConstraint = searchBar.heightAnchor.constraint(equalToConstant: 60)
+            heightConstraint?.isActive = true
+            searchBarButton.setImage(#imageLiteral(resourceName: "icons8-delete_sign_filled").withRenderingMode(.alwaysTemplate), for: .normal)
+        case false:
+            heightConstraint?.isActive = false
+            heightConstraint = searchBar.heightAnchor.constraint(equalToConstant: 0)
+            heightConstraint?.isActive = true
+             searchBarButton.setImage(#imageLiteral(resourceName: "icons8-search.png").withRenderingMode(.alwaysTemplate), for: .normal)
+        }
+    }
 
 
 }

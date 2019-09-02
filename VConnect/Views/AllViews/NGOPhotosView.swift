@@ -15,7 +15,6 @@ class NGOPhotosView: UIView {
         let cellLayout = UICollectionViewFlowLayout()
         cellLayout.scrollDirection = .vertical
         cellLayout.itemSize = CGSize.init(width: 180, height: 140)
-        
         let nGOPhotosCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: cellLayout)
         nGOPhotosCollectionView.backgroundColor = .clear
         nGOPhotosCollectionView.isScrollEnabled = true 
@@ -36,7 +35,6 @@ class NGOPhotosView: UIView {
     
     private func commonInit(){
         setNGOPhotosCollectionViewConstrains()
-        
     }
 
     private func setNGOPhotosCollectionViewConstrains(){
@@ -47,8 +45,4 @@ class NGOPhotosView: UIView {
         nGOPhotosCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         nGOPhotosCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
-    
-    
-    
-
 }

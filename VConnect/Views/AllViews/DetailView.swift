@@ -53,6 +53,7 @@ class DetailView: UIView {
         moreOptionsButton.setTitle("...", for: .normal)
         moreOptionsButton.setTitleColor(.white, for: .normal)
         moreOptionsButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 30)
+        //moreOptionsButton.backgroundColor = .green
         return moreOptionsButton
     }()
     
@@ -62,6 +63,7 @@ class DetailView: UIView {
         canCelView.setImage(#imageLiteral(resourceName: "icons8-delete_sign_filled.png").withRenderingMode(.alwaysTemplate), for: .normal)
         
         canCelView.tintColor = UIColor.white
+        //canCelView.backgroundColor = .red
         return canCelView
         
     }()
@@ -73,6 +75,7 @@ class DetailView: UIView {
         textLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 17)
         textLabel.textAlignment = .center
         textLabel.textColor = .white
+        //textLabel.backgroundColor = .gray
         
         return textLabel
     }()
@@ -84,6 +87,11 @@ class DetailView: UIView {
         segmentedControl.insertSegment(withTitle: "Reviews", at: 2, animated: true)
         segmentedControl.insertSegment(withTitle: "Photo Gallery", at: 3, animated: true)
         segmentedControl.tintColor = .white
+        segmentedControl.setTitleTextAttributes([
+            NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 12) ?? 0,
+            NSAttributedString.Key.foregroundColor: UIColor.white
+            ], for: .normal)
+        
         //segmentedControl.addTarget(self, action: #selector(setSegmentedControlToggled), for: .valueChanged)
         segmentedControl.selectedSegmentIndex = 0
 
@@ -108,9 +116,9 @@ class DetailView: UIView {
     
     private func setConstrains(){
         setContainerViewConstrains()
-        setSettingsButtonConstrains()
         setTxtLabelConstrains()
         setMoreOptionsButton()
+        setSettingsButtonConstrains()
         setSegmentedControlConstrains()
         setContentViewConstrains()
     }
@@ -121,39 +129,34 @@ class DetailView: UIView {
         containView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         containView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor).isActive = true
         containView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor).isActive = true
-        containView.heightAnchor.constraint(equalToConstant: 140).isActive = true
+        containView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.175).isActive = true
     }
     
     
     private func setSettingsButtonConstrains(){
         containView.addSubview(canCelView)
         canCelView.translatesAutoresizingMaskIntoConstraints = false
-        //settingButton.topAnchor.constraint(equalTo: containView.topAnchor, constant: 30).isActive = true
-        canCelView.leadingAnchor.constraint(equalTo: containView.leadingAnchor, constant: 10).isActive = true
-        canCelView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        canCelView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        canCelView.bottomAnchor.constraint(equalTo: containView.bottomAnchor, constant: -10).isActive = true
+        canCelView.leadingAnchor.constraint(equalTo: containView.leadingAnchor, constant: 15).isActive = true
+        canCelView.centerYAnchor.constraint(equalTo: textLabel.centerYAnchor).isActive = true
+        canCelView.heightAnchor.constraint(equalTo: textLabel.heightAnchor).isActive = true
     }
 
     
     private func setTxtLabelConstrains(){
         containView.addSubview(textLabel)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        // textLabel.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
-        textLabel.leadingAnchor.constraint(equalTo: canCelView.trailingAnchor, constant: 50).isActive = true
-        //textLabel.trailingAnchor.constraint(equalTo: containView.trailingAnchor).isActive = true
-        textLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        textLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        textLabel.widthAnchor.constraint(equalTo: containView.widthAnchor, multiplier: 0.3).isActive = true
+        textLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         textLabel.bottomAnchor.constraint(equalTo: containView.bottomAnchor, constant: -10).isActive = true
     }
     
     private func setMoreOptionsButton(){
         containView.addSubview(moreOptionsButton)
         moreOptionsButton.translatesAutoresizingMaskIntoConstraints = false
-        moreOptionsButton.leadingAnchor.constraint(equalTo: textLabel.trailingAnchor, constant: 10).isActive = true
-        moreOptionsButton.trailingAnchor.constraint(equalTo: containView.trailingAnchor).isActive = true
-        moreOptionsButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        moreOptionsButton.bottomAnchor.constraint(equalTo: containView.bottomAnchor, constant: -17).isActive = true
+        moreOptionsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15).isActive = true
+        moreOptionsButton.centerYAnchor.constraint(equalTo: textLabel.centerYAnchor, constant: -6).isActive = true
+        moreOptionsButton.heightAnchor.constraint(equalTo: textLabel.heightAnchor).isActive = true
+
     }
     
     private func setSegmentedControlConstrains(){
@@ -162,7 +165,7 @@ class DetailView: UIView {
         segmentedControl.topAnchor.constraint(equalTo: containView.bottomAnchor).isActive = true
         segmentedControl.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         segmentedControl.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        segmentedControl.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        segmentedControl.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.04).isActive = true
     }
     
     private func setContentViewConstrains(){
@@ -223,25 +226,6 @@ class DetailView: UIView {
         ngoPhotosView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
         ngoPhotosView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
     }
-    
-//    @objc public func setSegmentedControlToggled(){
-//        switch segmentedControl.selectedSegmentIndex {
-//        case 0:
-//       setMissionViewConstrains()
-//        case 1:
-//       setAddressViewConstrains()
-//
-//        case 2:
-//       setReviewsViewConstrains()
-//        case 3:
-//        setPhotoViewConstrains()
-//        default:
-//            return
-//
-//        }
-//    }
 
-    
-     
     
 }

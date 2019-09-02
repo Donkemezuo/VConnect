@@ -31,12 +31,15 @@
 		045FACE022D7E210003AD4D6 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045FACDF22D7E210003AD4D6 /* DetailView.swift */; };
 		045FACE222D7F07D003AD4D6 /* NGOMissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045FACE122D7F07D003AD4D6 /* NGOMissionView.swift */; };
 		045FACE422D92278003AD4D6 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045FACE322D92278003AD4D6 /* ProfileView.swift */; };
+		04785951230499BE00F5E044 /* NGOPhotoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04785950230499BE00F5E044 /* NGOPhotoDetailView.swift */; };
+		047859532304A05600F5E044 /* NgoPhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047859522304A05600F5E044 /* NgoPhotoDetailViewController.swift */; };
 		04861EF322CC563700717938 /* SpecialistHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04861EF222CC563700717938 /* SpecialistHeaderView.xib */; };
 		04861EF522CC5BFF00717938 /* SpecialistProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04861EF422CC5BFF00717938 /* SpecialistProfileHeaderView.swift */; };
 		04861EF722CC63E100717938 /* SpecialistRegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04861EF622CC63E100717938 /* SpecialistRegistrationTableViewController.swift */; };
 		048E768A22C2C263006B7D10 /* NGOImagesCollectionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E768922C2C263006B7D10 /* NGOImagesCollectionKeys.swift */; };
 		048E769922C533E7006B7D10 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E769822C533E7006B7D10 /* ImageHelper.swift */; };
 		048E769B22C55966006B7D10 /* NGOReviewCollectionsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E769A22C55966006B7D10 /* NGOReviewCollectionsKey.swift */; };
+		049212FB23145B9700AF7E47 /* SearchBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049212FA23145B9700AF7E47 /* SearchBarExtension.swift */; };
 		049F162522EBEEC8001E1DEB /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049F162422EBEEC8001E1DEB /* LaunchScreenViewController.swift */; };
 		049F162722EBEEF5001E1DEB /* 4693-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 049F162622EBEEF5001E1DEB /* 4693-loading.json */; };
 		04A04FD322DA8599005E8D1D /* BookMarkedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A04FD222DA8599005E8D1D /* BookMarkedTableViewCell.swift */; };
@@ -107,12 +110,15 @@
 		045FACDF22D7E210003AD4D6 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		045FACE122D7F07D003AD4D6 /* NGOMissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOMissionView.swift; sourceTree = "<group>"; };
 		045FACE322D92278003AD4D6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		04785950230499BE00F5E044 /* NGOPhotoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOPhotoDetailView.swift; sourceTree = "<group>"; };
+		047859522304A05600F5E044 /* NgoPhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NgoPhotoDetailViewController.swift; sourceTree = "<group>"; };
 		04861EF222CC563700717938 /* SpecialistHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SpecialistHeaderView.xib; sourceTree = "<group>"; };
 		04861EF422CC5BFF00717938 /* SpecialistProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialistProfileHeaderView.swift; sourceTree = "<group>"; };
 		04861EF622CC63E100717938 /* SpecialistRegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialistRegistrationTableViewController.swift; sourceTree = "<group>"; };
 		048E768922C2C263006B7D10 /* NGOImagesCollectionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOImagesCollectionKeys.swift; sourceTree = "<group>"; };
 		048E769822C533E7006B7D10 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		048E769A22C55966006B7D10 /* NGOReviewCollectionsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGOReviewCollectionsKey.swift; sourceTree = "<group>"; };
+		049212FA23145B9700AF7E47 /* SearchBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarExtension.swift; sourceTree = "<group>"; };
 		049F162422EBEEC8001E1DEB /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		049F162622EBEEF5001E1DEB /* 4693-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "4693-loading.json"; sourceTree = "<group>"; };
 		04A04FD222DA8599005E8D1D /* BookMarkedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkedTableViewCell.swift; sourceTree = "<group>"; };
@@ -214,6 +220,7 @@
 			children = (
 				04861EF622CC63E100717938 /* SpecialistRegistrationTableViewController.swift */,
 				04B695A522990730003A0B85 /* NGOsViewController.swift */,
+				047859522304A05600F5E044 /* NgoPhotoDetailViewController.swift */,
 				0417EC9622C9844100710235 /* VConnectUserProfileSettingsViewController.swift */,
 				044C6ACE22A21779006E6C51 /* NGODetailsViewController.swift */,
 				049F162422EBEEC8001E1DEB /* LaunchScreenViewController.swift */,
@@ -252,6 +259,7 @@
 				04B6955C22933F20003A0B85 /* AppDelegate.swift */,
 				042872AE22EA42D900F5A3A8 /* TableViewHelperMethod.swift */,
 				04B6958A22979F19003A0B85 /* BackgroundColor+Extension.swift */,
+				049212FA23145B9700AF7E47 /* SearchBarExtension.swift */,
 				049F162622EBEEF5001E1DEB /* 4693-loading.json */,
 			);
 			path = "Supporting Files";
@@ -315,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				044C6AD222A22B38006E6C51 /* NGOPhotosView.swift */,
+				04785950230499BE00F5E044 /* NGOPhotoDetailView.swift */,
 				045FACDB22D7A260003AD4D6 /* GoogleMapView.swift */,
 				045FACDF22D7E210003AD4D6 /* DetailView.swift */,
 				045FACE122D7F07D003AD4D6 /* NGOMissionView.swift */,
@@ -572,6 +581,7 @@
 				04E7C73622AF59AD00310DCC /* ProfileTableViewCell.swift in Sources */,
 				044C6ACB22A0673E006E6C51 /* IBDesignableViews.swift in Sources */,
 				04D54DF522A6111C00F1625E /* GoogleAddressModel.swift in Sources */,
+				04785951230499BE00F5E044 /* NGOPhotoDetailView.swift in Sources */,
 				04B6958922979A1B003A0B85 /* SignUpViewController.swift in Sources */,
 				04B6959622989FD6003A0B85 /* VConnectTabBarViewController.swift in Sources */,
 				04B69575229340AC003A0B85 /* VConnectUserModel.swift in Sources */,
@@ -579,6 +589,7 @@
 				04B695A622990730003A0B85 /* NGOsViewController.swift in Sources */,
 				0435221622ACA21F006CB339 /* BookedMarkedNGOsCollectionKeys.swift in Sources */,
 				04861EF722CC63E100717938 /* SpecialistRegistrationTableViewController.swift in Sources */,
+				047859532304A05600F5E044 /* NgoPhotoDetailViewController.swift in Sources */,
 				04B6958722979A09003A0B85 /* SignInViewController.swift in Sources */,
 				04B6959A2298A095003A0B85 /* ChatViewController.swift in Sources */,
 				04861EF522CC5BFF00717938 /* SpecialistProfileHeaderView.swift in Sources */,
@@ -608,6 +619,7 @@
 				044C6ACD22A07B19006E6C51 /* ImageModel.swift in Sources */,
 				048E769922C533E7006B7D10 /* ImageHelper.swift in Sources */,
 				049F162522EBEEC8001E1DEB /* LaunchScreenViewController.swift in Sources */,
+				049212FB23145B9700AF7E47 /* SearchBarExtension.swift in Sources */,
 				042872AB22E9096C00F5A3A8 /* EmailTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -758,6 +770,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 697KD42Z5Z;
 				INFOPLIST_FILE = VConnect/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -777,6 +790,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 697KD42Z5Z;
 				INFOPLIST_FILE = VConnect/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

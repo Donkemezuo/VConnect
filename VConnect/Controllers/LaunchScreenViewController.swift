@@ -139,7 +139,6 @@ class LaunchScreenViewController: UIViewController {
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:
             let location = CLLocation(latitude: getUserLocationCoordinates().latitude, longitude: getUserLocationCoordinates().longitude)
-            print("The coordinates are \(getUserLocationCoordinates())")
             saveUserLocation(withUserCoordinates: location)
             locationManager.startUpdatingLocation()
             
@@ -149,7 +148,7 @@ class LaunchScreenViewController: UIViewController {
         self.locationManager.requestWhenInUseAuthorization()
             
         case .notDetermined:
-            showAlert(title: "Error", message: "Please authorize location services to enable VConnect connect you to the right resources") { (elert) in
+            showAlert(title: "Needed", message: "Please authorize location services to enable VConnect connect you to the right resources") { (elert) in
                 self.locationManager.requestWhenInUseAuthorization()
             }
         default:
