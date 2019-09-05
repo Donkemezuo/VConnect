@@ -34,13 +34,26 @@ extension UIViewController {
         if let popOverPresentationController = alertController.popoverPresentationController {
             popOverPresentationController.sourceView = self.view
             popOverPresentationController.sourceRect = CGRect(x: 1.0, y: 1.0, width: self.view.bounds.width, height: self.view.bounds.height)
-               // CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
-            
         }
-        
           self.present(alertController, animated: true)
-        
-     
+    }
+    
+    public func segueToSignInVC(title: String, message: String, handler: ((UIAlertAction) -> Void)? ) {
+             let alertController = UIAlertController(title: "Error", message: "Please sign In or create a VConnect account. Only registered users can bookmark", preferredStyle: .actionSheet)
+        let signInorSignOut = UIAlertAction(title: "Sign In", style: .default) { (alert) in
+            let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
+            let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
+            let signInNav = UINavigationController(rootViewController: signInView)
+            self.present(signInNav, animated: true, completion: nil)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive)
+        alertController.addAction(signInorSignOut)
+        alertController.addAction(cancel)
+        if let popOverPresentationController = alertController.popoverPresentationController {
+            popOverPresentationController.sourceView = self.view
+            popOverPresentationController.sourceRect = CGRect(x: 1.0, y: 1.0, width: self.view.bounds.width, height: self.view.bounds.height)
+        }
+         self.present(alertController, animated: true)
     }
     
     public func confirmFirstNameChange(handler: ((UIAlertAction) -> Void)?) {

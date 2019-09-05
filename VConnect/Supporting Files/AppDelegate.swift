@@ -17,30 +17,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     static var authService = AuthService()    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
         FirebaseApp.configure()
         
-
-        
         GMSServices.provideAPIKey("AIzaSyAL2-w2E0rgYVs_lZm3GRxCmsmeZsu7ehA")
-        
         window = UIWindow(frame: UIScreen.main.bounds)
-     
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let homeVC = storyBoard.instantiateViewController(withIdentifier: "LaunchScreenViewController") as! LaunchScreenViewController
+        window?.rootViewController = UINavigationController(rootViewController: homeVC)
         
-        if let _ = AppDelegate.authService.getCurrentVConnectUser() {
-            
-                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            let homeVC = storyBoard.instantiateViewController(withIdentifier: "LaunchScreenViewController") as! LaunchScreenViewController
-            
-            
-            
-            window?.rootViewController = UINavigationController(rootViewController: homeVC)
-        } else {
-        let storyBoard = UIStoryboard(name: "AuthenticationView", bundle: nil)
-        let signInViewController = storyBoard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
-        window?.rootViewController = UINavigationController(rootViewController: signInViewController)
-            
-        }
+//        if let _ = AppDelegate.authService.getCurrentVConnectUser() {
+//
+//                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//            let homeVC = storyBoard.instantiateViewController(withIdentifier: "LaunchScreenViewController") as! LaunchScreenViewController
+//            window?.rootViewController = UINavigationController(rootViewController: homeVC)
+//        } else {
+//        let storyBoard = UIStoryboard(name: "AuthenticationView", bundle: nil)
+//        let signInViewController = storyBoard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
+//        window?.rootViewController = UINavigationController(rootViewController: signInViewController)
+//
+//        }
         return true
     }
 

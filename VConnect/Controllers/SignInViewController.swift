@@ -202,25 +202,13 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
     }
     
     func didSignInToExistingVConnectUserAccount(_ authService: AuthService, user: User) {
-   DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).addSnapshotListener(includeMetadataChanges: true) { (querySnapshot, error) in
-            if let error = error {
-                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching NGOs")
-            }else if let querySnapShot = querySnapshot {
-                var allRegisteredNGOs = [NGO]()
-
-                for document in querySnapShot.documents {
-                    let ngo = NGO.init(dict: document.data())
-                    allRegisteredNGOs.append(ngo)
-                }
-
-                self.allNGOs = allRegisteredNGOs
-
-                guard let userID = authService.getCurrentVConnectUser()?.uid else {return}
+    guard let userID = authService.getCurrentVConnectUser()?.uid else {return}
                 DataBaseService.fetchVConnectUserr(with: userID) { (error, vconnectUser) in
                     if let error = error {
                         self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching user")
                     } else if let vConnectUser = vconnectUser {
                         self.vConnectUser = vConnectUser
+                        dump(self.vConnectUser)
                       
                     DataBaseService.fetchVConnectBookMarkedNGOs(userID) { (error, bookmarks) in
                             if let error = error {
@@ -241,13 +229,13 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
                     }
                 }
             }
-        }
-        
-
-    }
     
     private func segueToHomeVC(){
-        let homeViewController = HomeViewController(allRegisteredNGOs: allNGOs, allBookmarkedNGOs: allBookmarkedNGOs, allBookmarkedDates: allBookmarkedNGOIDs, vConnectUser: vConnectUser, userCoordinates: getUserLocationCoordinates())
+    let homeViewController = HomeViewController()
+        homeViewController.allUserBookMarkIDs = allBookmarkedNGOIDs
+        homeViewController.bookMarks = allBookmarkedNGOs
+        homeViewController.vConnectUser = vConnectUser
+        homeViewController.userCoordinates = getUserLocationCoordinates()
         let homeVC = UINavigationController(rootViewController: homeViewController)
         self.present(homeVC, animated: true, completion: {
             if let app = UIApplication.shared.delegate as? AppDelegate {

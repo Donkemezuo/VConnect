@@ -17,14 +17,14 @@ class NGODetailsViewController: UIViewController {
     private var rightSwipeGesture: UISwipeGestureRecognizer!
     var userLocationCoordinates: CLLocationCoordinate2D!
     var ngoLocationCoordinates: CLLocationCoordinate2D!
-    var vconnectUser: VConnectUser!
+    var vconnectUser: VConnectUser?
     
     private var tapGesture: UITapGestureRecognizer!
     private var detailView = DetailView()
     private var backgroundView = TableViewBackgroundImageView()
     private var nGO: NGO!
     private var barButtonItem = UIBarButtonItem()
-    private var authService = AppDelegate.authService
+   // private var authService = AppDelegate.authService
     private var allNGOReviews = [NGOReviews]() {
         
         didSet {
@@ -60,8 +60,6 @@ class NGODetailsViewController: UIViewController {
         bookMarkButton()
         setupSafariServices()
         segmentedControlTapped()
-        //UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue], for: .normal)
-        //mailComposer.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -149,10 +147,9 @@ class NGODetailsViewController: UIViewController {
         
     }
     
-    init(nGO: NGO, allBookMarks: [BookMark], userLocationCoordinate: CLLocationCoordinate2D, ngoCoordinates: CLLocationCoordinate2D) {
+    init(nGO: NGO, userLocationCoordinate: CLLocationCoordinate2D, ngoCoordinates: CLLocationCoordinate2D) {
         super.init(nibName: nil, bundle: nil)
         self.nGO = nGO
-        self.allUserBookMarks = allBookMarks
         self.configurePhotosEmptyState()
         self.ngoLocationCoordinates = ngoCoordinates
         self.userLocationCoordinates = userLocationCoordinate
@@ -234,7 +231,7 @@ Sunday                        \(nGO.sundayHours)
         if MFMailComposeViewController.canSendMail(){
             let emailComposer = MFMailComposeViewController()
             emailComposer.mailComposeDelegate = self
-            emailComposer.setSubject("Reporting \(vconnectUser.lastName + " " + vconnectUser.firstName)")
+            emailComposer.setSubject("Reporting \(vconnectUser!.lastName + " " + vconnectUser!.firstName)")
             emailComposer.setToRecipients(["trdonkemezuojnr@yahoo.com", "trdonkemezuojnr@gmail.com"])
             self.present(emailComposer, animated: true)
         } else {
@@ -277,7 +274,6 @@ Sunday                        \(nGO.sundayHours)
     private func bookMarkButton() {
         
         detailView.moreOptionsButton.addTarget(self, action: #selector(showAlertController), for: .touchUpInside)
-        
     }
     
     
@@ -303,17 +299,14 @@ Sunday                        \(nGO.sundayHours)
     @objc private func showAlertController(sender: AnyObject){
         
         let alertController = UIAlertController(title: "Options", message: "You can book mark an NGO to view later", preferredStyle: .actionSheet)
-        
         let bookMark = UIAlertAction(title: "Bookmark", style: .default) { (alert) in
-          
-            guard let userID = self.authService.getCurrentVConnectUser()?.uid else {
-                self.showAlert(title: "Error", message: "Only logged in user can book mark an NGO. Please log in or create an account")
+            guard let userID = self.vconnectUser else {
+                self.segueToSignInVC(title: "Error", message: "Only registered users can bookmark", handler: { (alert) in
+                })
                 return
             }
-            
-            self.bookMarkNGO(onVConnectUserID: userID)
+            self.bookMarkNGO(onVConnectUserID: userID.userID)
         }
-        
         let cancel = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in
             
         }
@@ -394,19 +387,17 @@ Sunday                        \(nGO.sundayHours)
     
     
     private func writeReviewOnNGO(withA ratingsValue: Double){
-        
-        guard let reviewer = authService.getCurrentVConnectUser() else {
-            showAlert(title: "Error", message: "Only logged in users can leave a review")
-            return
+        guard let reviewerID = vconnectUser else {
+            self.segueToSignInVC(title: "Needed", message: "Only signed in users can leave a review") { (alert) in
+            }
+    return
             
         }
-        
         guard let review = detailView.reviewView.reviewTextField.text, !review.isEmpty else {
             self.showAlert(title: "Error", message: "Cannot post empty review")
             return
         }
-
-        DataBaseService.createReview(on: nGO.ngOID, reviewerID: reviewer.uid, with: review, withA: ratingsValue) { (error) in
+        DataBaseService.createReview(on: nGO.ngOID, reviewerID: reviewerID.userID, with: review, withA: ratingsValue) { (error) in
             if let error = error {
                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while posting review on NGO")
             } else {
@@ -418,7 +409,6 @@ Sunday                        \(nGO.sundayHours)
             }
         }
     }
-    
     
     private func presentRatingView(){
         
@@ -549,7 +539,7 @@ extension NGODetailsViewController: MFMailComposeViewControllerDelegate {
 
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         if result == .sent {
-            controller.showAlert(title: "Thank you", message: "Thank you for reporting \(vconnectUser.firstName + " " + vconnectUser.lastName). As a support community, we value and respect the safety of our users and will continue to work towards creating a platform where people and organizations feel safe") { (alert) in
+            controller.showAlert(title: "Thank you", message: "Thank you for reporting \(vconnectUser!.firstName + " " + vconnectUser!.lastName). As a support community, we value and respect the safety of our users and will continue to work towards creating a platform where people and organizations feel safe") { (alert) in
                             controller.dismiss(animated: true, completion: nil)
         }
         } else {

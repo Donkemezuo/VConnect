@@ -14,12 +14,12 @@ class HomeViewController: UIViewController {
     let nGOsTableView = NGOsTableView()
     private var geoCoder = CLGeocoder()
     private var coordinates = CLLocationCoordinate2D()
-    private var userCoordinates = CLLocationCoordinate2D()
+    var userCoordinates = CLLocationCoordinate2D()
     private var tapGesture: UITapGestureRecognizer!
-    var vConnectUser: VConnectUser!
-    private var bookMarks = [NGO]()
-    private var allUserBookMarkIDs = [BookMark]()
-    private var allNGOs = [NGO]() {
+    var vConnectUser: VConnectUser?
+    var bookMarks = [NGO]()
+    var allUserBookMarkIDs = [BookMark]()
+    var allNGOs = [NGO]() {
         didSet {
             DispatchQueue.main.async {
                 self.nGOsTableView.nGOsTableView.reloadData()
@@ -52,21 +52,8 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
         nGOsTableView.searchBar.showsCancelButton = true
         presentVConnectUserProfile()
         vConnectUserSearchedNGOsInCategory = allNGOs
-    }
-    
-    init(allRegisteredNGOs: [NGO], allBookmarkedNGOs: [NGO], allBookmarkedDates: [BookMark], vConnectUser: VConnectUser, userCoordinates: CLLocationCoordinate2D){
-        
-        super.init(nibName: nil, bundle: nil)
-        self.allNGOs = allRegisteredNGOs
-        self.allUserBookMarkIDs = allBookmarkedDates
-        self.bookMarks = allBookmarkedNGOs
-        self.vConnectUser = vConnectUser
-        self.userCoordinates = userCoordinates
-        self.displayVConnectUserInfo(withVConnectUser: vConnectUser)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        nGOsTableView.profileImageView.isHidden = true
+        dump(vConnectUser)
     }
     
     private func createNGOCoordinates(withNGOFullAddress fullAddress: String, completionHandler: @escaping(Error?, CLLocationCoordinate2D?) -> Void) {
@@ -81,7 +68,6 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
                 guard let latitude = coordinatesFromFetchedResults?.location.lat, let longitude = coordinatesFromFetchedResults?.location.lng else {
                     return
                 }
-                
                 completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
             }
         }
@@ -102,6 +88,14 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     }
     
     @objc private func presentProfileVC(){
+        
+        guard let vConnectUser = vConnectUser else {
+            nGOsTableView.profileImageView.isHidden = true
+            nGOsTableView.profileImageView.backgroundColor = .red
+            return
+        }
+        nGOsTableView.profileImageView.isHidden = false
+        
         let profileVC = ProfileViewController(allNGOs: allNGOs, allBookMarkedNGOs: bookMarks, allBookMarkedDates: allUserBookMarkIDs, vConnectUser: vConnectUser)
      present(profileVC, animated: true)
     }
@@ -197,7 +191,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     print("Error: \(error.localizedDescription)")
                 } else if let coordinate = coordinates {
                     DispatchQueue.main.async {
-                        let ngoDetailVC = NGODetailsViewController(nGO: nGOToSet, allBookMarks: self.allUserBookMarkIDs, userLocationCoordinate: self.userCoordinates, ngoCoordinates: coordinate)
+    let ngoDetailVC = NGODetailsViewController(nGO: nGOToSet, userLocationCoordinate: self.userCoordinates, ngoCoordinates: coordinate)
                         self.navigationController?.pushViewController(ngoDetailVC, animated: true)
                     }
                 }

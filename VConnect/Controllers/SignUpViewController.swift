@@ -169,7 +169,7 @@ class SignUpViewController: UIViewController {
             if error != nil {
                 
             } else if let placemark = placemark?.first {
-                DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.location).document(vConnectUser.uid).updateData([VConnectUserCollectionKeys.location: placemark.locality ?? "" ])
+            DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.location).document(vConnectUser.uid).updateData([VConnectUserCollectionKeys.location: placemark.locality ?? "" ])
             }
         }
         
@@ -182,10 +182,12 @@ class SignUpViewController: UIViewController {
     }
     
     private func segueToHomeVC(){
-        
                 showAlert(title: "Success", message: "Welcome to VConnect. Our amazing community of support") { (alert) in
-                    let homeViewController = HomeViewController(allRegisteredNGOs: self.allNGOs, allBookmarkedNGOs: self.allBookmarkedNGOs, allBookmarkedDates: self.allBookmarkedNGOIDs, vConnectUser: self.vConnectUser, userCoordinates: self.getUserLocationCoordinates())
-                    
+                    let homeViewController = HomeViewController()
+                    homeViewController.allUserBookMarkIDs = self.allBookmarkedNGOIDs
+                    homeViewController.bookMarks = self.allBookmarkedNGOs
+                    homeViewController.vConnectUser = self.vConnectUser
+                    homeViewController.userCoordinates = self.getUserLocationCoordinates()
                     homeViewController.modalTransitionStyle = .crossDissolve
                     homeViewController.modalPresentationStyle = .overFullScreen
                     self.present(homeViewController, animated: true, completion: {
@@ -195,7 +197,6 @@ class SignUpViewController: UIViewController {
                 }
     }
 
-    
     @IBAction func CreateAccountButtonPressed(_ sender: UIButton) {
         setupActivityIndicator()
         
@@ -225,7 +226,6 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
     }
     
     func didCreateNewVConnectUserAccount(_ authService: AuthService, vconnectUser: VConnectUser) {
-        
         DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).addSnapshotListener(includeMetadataChanges: true) { (querySnapshot, error) in
             if let error = error {
                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching NGOs")
@@ -246,6 +246,7 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
                         self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching user")
                     } else if let vConnectUser = vconnectUser {
                         self.vConnectUser = vConnectUser
+                        dump(self.vConnectUser)
                         self.checkLocationAuthorizationStatus()
                         DataBaseService.fetchVConnectBookMarkedNGOs(userID) { (error, bookmarks) in
                             if let error = error {
