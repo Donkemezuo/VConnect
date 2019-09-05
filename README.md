@@ -1,25 +1,38 @@
-# VConnect
- A user - friendly mobile App to connect users to support systems around them in Nigeria.  It’s a mobile platform where users can share their stories and find support systems like NGOs, government agencies and other non-profit systems setup to assist the needy and vulnerable. NGOs on the other hand can also use this platform to recruit volunteers and also publicly raise funds to fund initiatives. 
+# VVConnect
+A simply designed user-friendly mobile app where victims and vulnerable people in Nigeria can find and connect with support systems around them. With VVConnect, victims and vulnerable people in Nigeria can easily find and connect with support systems around them in Nigeria like non-governmental organizations(NGOs), government agencies and non-for profit organizations who are setup to assist victims. VVConnect is currently on the appstore.  
+
+# With VVConnect;
+ - Users can see a list of support systems in Nigeria and how far they are away from each individual support system
+ - Users can click on a support system to see more details like the;
  
- # Note:
- Started this project as part of a course work within a limited time frame. Currently developing version 2.0 
+    - Description
+    - Mission Statement 
+    - Vision Statement
+    - Contact Person Information
+    - Organization website 
+    - Organization address on a mapView
+    - Organization operational hours 
+    - Reviews left by other users who have visited the organization
+    - Photos of the Organization
+    
+ - Users can click on the pin on the map to see route to the organization
+ - Users can leave a ratings and review on an organization
+ - Users can bookmark an organization to visit later
+ - Users can also search organizations by city and by category of specialization. 
 
-
-# With VConnect, Users can
- - Come in as an administrator(NGO worker) or as a regular user
- - Administrators can create account and register their NGOs
- - Regular users can click on the explore and see all resources available to them
- - See categories of various NGOs
- - Select a prefered category and see NGOs offering services in that selected category
- - Select an NGO in prefered category and see details about the NGO i.e mission statement, contact informations, location etc
- - Search for NGOs in Category using a prefered state or zipCode
- - Search using current location or preferred location using CoreLocation and MKMapkit
-
+# Appstore Download Link 
+https://apps.apple.com/us/app/vvconnect/id1477645486 
  
 # API's used
-- Firebase as backend
+- Explored Firebase as a backend
+- Google Place's API
 
 # FrameWorks Used
 - Mapkit
 - CoreLocation
 - FireBase
+- Kingfisher
+- Toucan 
+- Cosmos
+- GoogleMaps
+- Alamofire
