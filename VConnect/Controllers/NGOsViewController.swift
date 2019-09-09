@@ -16,6 +16,7 @@ class HomeViewController: UIViewController {
     private var coordinates = CLLocationCoordinate2D()
     var userCoordinates = CLLocationCoordinate2D()
     private var tapGesture: UITapGestureRecognizer!
+    private var authService = AppDelegate.authService
     var vConnectUser: VConnectUser?
     var bookMarks = [NGO]()
     var allUserBookMarkIDs = [BookMark]()
@@ -44,16 +45,17 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
         view.addSubview(nGOsTableView)
         view.backgroundColor = UIColor(hexString: "#ffffff")
         self.navigationController?.isNavigationBarHidden = true
+        presentVConnectUserProfile()
         nGOsTableView.nGOsTableView.delegate =  self
         nGOsTableView.nGOsTableView.dataSource = self
         nGOsTableView.categoriesCollectionView.dataSource = self
         nGOsTableView.categoriesCollectionView.delegate = self
         nGOsTableView.searchBar.delegate = self
         nGOsTableView.searchBar.showsCancelButton = true
-        presentVConnectUserProfile()
+        //fetchVConnectUser()
+        getBookmarkedNGOsID()
         vConnectUserSearchedNGOsInCategory = allNGOs
-        nGOsTableView.profileImageView.isHidden = true
-        dump(vConnectUser)
+        //nGOsTableView.profileImageView.isHidden = true
     }
     
     private func createNGOCoordinates(withNGOFullAddress fullAddress: String, completionHandler: @escaping(Error?, CLLocationCoordinate2D?) -> Void) {
@@ -73,8 +75,39 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
         }
         
     }
-
     
+    
+    private func fetchVConnectUser(userID: String) {
+            //guard let userID = authService.getCurrentVConnectUser()?.uid else {return}
+            DataBaseService.fetchVConnectUserr(with: userID) { (error, vconnectUser) in
+                if let error = error {
+                    self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching user")
+                } else if let vConnectUser = vconnectUser {
+                    self.vConnectUser = vConnectUser
+                    self.displayVConnectUserInfo(withVConnectUser: self.vConnectUser!)
+                }
+            }
+        }
+    
+        private func getBookmarkedNGOsID(){
+            guard let vconnectUser = authService.getCurrentVConnectUser() else { return}
+            DataBaseService.fetchVConnectBookMarkedNGOs(vconnectUser.uid) { (error, bookmarks) in
+                if let error = error {
+                    self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
+                } else if let bookmarks = bookmarks {
+                    self.allUserBookMarkIDs = bookmarks
+                    self.allUserBookMarkIDs.removeAll()
+                    for bookmarkedNGO in bookmarks {
+                        for ngo in self.allNGOs {
+                            if bookmarkedNGO.ngoID == ngo.ngOID {
+                                self.bookMarks.append(ngo)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     private func displayVConnectUserInfo(withVConnectUser vConnectUser: VConnectUser){
         if let profilePhotoURL = vConnectUser.profileImageURL {
             nGOsTableView.profileImageView.kf.setImage(with: URL(string: profilePhotoURL), placeholder:#imageLiteral(resourceName: "placeholder.png"))
@@ -89,15 +122,16 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     
     @objc private func presentProfileVC(){
         
-        guard let vConnectUser = vConnectUser else {
+        guard let userID = authService.getCurrentVConnectUser() else {
             nGOsTableView.profileImageView.isHidden = true
             nGOsTableView.profileImageView.backgroundColor = .red
             return
         }
         nGOsTableView.profileImageView.isHidden = false
+        fetchVConnectUser(userID: userID.uid)
         
-        let profileVC = ProfileViewController(allNGOs: allNGOs, allBookMarkedNGOs: bookMarks, allBookMarkedDates: allUserBookMarkIDs, vConnectUser: vConnectUser)
-     present(profileVC, animated: true)
+        //let profileVC = ProfileViewController(allNGOs: allNGOs, allBookMarkedNGOs: bookMarks, allBookMarkedDates: allUserBookMarkIDs, vConnectUser: vConnectUser)
+     //present(profileVC, animated: true)
     }
     
     

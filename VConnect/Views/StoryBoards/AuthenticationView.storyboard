@@ -66,6 +66,7 @@
                                                     <constraint firstAttribute="height" constant="40" id="m9Y-lr-jeF"/>
                                                 </constraints>
                                                 <connections>
+                                                    <action selector="segueToSignUpView:" destination="Krq-Jr-gz5" eventType="touchUpInside" id="kkD-1U-sp5"/>
                                                     <segue destination="Ekh-iX-lga" kind="show" id="FqP-SX-LtI"/>
                                                 </connections>
                                             </button>
@@ -135,7 +136,7 @@
         <!--Sign Up View Controller-->
         <scene sceneID="y3M-xZ-fS3">
             <objects>
-                <viewController id="Ekh-iX-lga" customClass="SignUpViewController" customModule="VConnect" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpViewController" id="Ekh-iX-lga" customClass="SignUpViewController" customModule="VConnect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CjN-Ai-w1y">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -289,7 +290,6 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HHq-R2-b9g" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Q8P-96-Dci">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

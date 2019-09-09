@@ -297,15 +297,21 @@ Sunday                        \(nGO.sundayHours)
     
     
     @objc private func showAlertController(sender: AnyObject){
-        
         let alertController = UIAlertController(title: "Options", message: "You can book mark an NGO to view later", preferredStyle: .actionSheet)
         let bookMark = UIAlertAction(title: "Bookmark", style: .default) { (alert) in
-            guard let userID = self.vconnectUser else {
+            guard let userID = AppDelegate.authService.getCurrentVConnectUser() else {
                 self.segueToSignInVC(title: "Error", message: "Only registered users can bookmark", handler: { (alert) in
+                    let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
+                    let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
+                        signInView.nGOID = self.nGO.ngOID
+                       //signInView.bookMarkIDs = self.allUserBookMarks
+                    let signInNav = UINavigationController(rootViewController: signInView)
+                    self.present(signInNav, animated: true, completion: nil)
                 })
                 return
             }
-            self.bookMarkNGO(onVConnectUserID: userID.userID)
+            self.bookMarkNGO(onVConnectUserID: userID.uid)
+            
         }
         let cancel = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in
             

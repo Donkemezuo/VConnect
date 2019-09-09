@@ -26,6 +26,9 @@ class SignInViewController: UIViewController {
   
     @IBOutlet weak var newAccount: UIButton!
     
+    var nGOID = ""
+   // var bookMarkIDs = [BookMark]()
+    
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicator.backgroundColor = .white
@@ -65,6 +68,7 @@ class SignInViewController: UIViewController {
         VConnectLoginEmailTextField.delegate = self
         VConnectLoginPasswordTextField.delegate = self
         dimissKeyboardView()
+        getBookmarkedNGOsID()
     }
     
     @objc func keyboardWillHide(notification: Notification) {
@@ -72,6 +76,15 @@ class SignInViewController: UIViewController {
         loginScrollView.contentInset = contentInsets
         loginScrollView.scrollIndicatorInsets = contentInsets
     }
+    
+    @IBAction func segueToSignUpView(_ sender: UIButton) {
+        
+        let storyBoard = UIStoryboard(name: "AuthenticationView", bundle: nil)
+        let signUpView = storyBoard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
+        signUpView.ngoID = nGOID
+        navigationController?.pushViewController(signUpView, animated: true)
+    }
+    
     
     @objc func keyboardWillShow(notification: Notification) {
         guard let keyboardFrame: CGRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
@@ -125,6 +138,49 @@ class SignInViewController: UIViewController {
         }
         
         authService.signInExistingVConnectUserAccount(email: vConnectUserEmail, password: vConnectUserPassword)
+    }
+    
+    
+    private func getBookmarkedNGOsID(){
+        guard let vconnectUser = authService.getCurrentVConnectUser() else { return}
+        DataBaseService.fetchVConnectBookMarkedNGOs(vconnectUser.uid) { (error, bookmarks) in
+            if let error = error {
+                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
+            } else if let bookmarks = bookmarks {
+                self.allBookmarkedNGOIDs = bookmarks
+                self.allBookmarkedNGOIDs.removeAll()
+                for bookmarkedNGO in bookmarks {
+                    for ngo in self.allNGOs {
+                        if bookmarkedNGO.ngoID == ngo.ngOID {
+                            self.allBookmarkedNGOs.append(ngo)
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    
+    private func bookMarkNGO(onVConnectUserID userID: String){
+        
+        let bookMark = BookMark(ngoID: nGOID, date: Date.customizedDateFormat())
+        
+        if !allBookmarkedNGOIDs.contains(bookMark){
+            
+            DataBaseService.createBookMark(onVConnectUserID: userID, bookMarkNGO: bookMark) { (error) in
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                } else {
+                    
+                    self.showAlert(title: "BookMarked", message: "Successfully BookMarked NGO. This NGO will appear on your profile", handler: { (alert) in
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                }
+            }
+        } else {
+            self.showAlert(title: "Error", message: "You have already book marked this NGO before. It's on your profile")
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     private func dimissKeyboardView(){
@@ -208,9 +264,7 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
                         self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching user")
                     } else if let vConnectUser = vconnectUser {
                         self.vConnectUser = vConnectUser
-                        dump(self.vConnectUser)
-                      
-                    DataBaseService.fetchVConnectBookMarkedNGOs(userID) { (error, bookmarks) in
+            DataBaseService.fetchVConnectBookMarkedNGOs(userID) { (error, bookmarks) in
                             if let error = error {
                                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
                             } else if let bookmarks = bookmarks {
@@ -223,6 +277,7 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
                                         }
                                     }
                                 }
+                                self.bookMarkNGO(onVConnectUserID: self.vConnectUser.userID)
                                  self.checkLocationAuthorizationStatus()
                             }
                         }
@@ -281,7 +336,8 @@ extension SignInViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if locations.first != nil {
-           self.segueToHomeVC()
+           //self.segueToHomeVC()
+            print("Yes")
         }
 
     }

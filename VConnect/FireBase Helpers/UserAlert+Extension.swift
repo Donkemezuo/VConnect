@@ -40,14 +40,11 @@ extension UIViewController {
     
     public func segueToSignInVC(title: String, message: String, handler: ((UIAlertAction) -> Void)? ) {
              let alertController = UIAlertController(title: "Error", message: "Please sign In or create a VConnect account. Only registered users can bookmark", preferredStyle: .actionSheet)
-        let signInorSignOut = UIAlertAction(title: "Sign In", style: .default) { (alert) in
-            let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
-            let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
-            let signInNav = UINavigationController(rootViewController: signInView)
-            self.present(signInNav, animated: true, completion: nil)
-        }
+            
+            let signIn = UIAlertAction(title: "Sign In", style: .default, handler: handler)
+
         let cancel = UIAlertAction(title: "Cancel", style: .destructive)
-        alertController.addAction(signInorSignOut)
+        alertController.addAction(signIn)
         alertController.addAction(cancel)
         if let popOverPresentationController = alertController.popoverPresentationController {
             popOverPresentationController.sourceView = self.view

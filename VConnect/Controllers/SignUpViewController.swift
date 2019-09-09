@@ -41,7 +41,8 @@ class SignUpViewController: UIViewController {
     private var vConnectUser: VConnectUser!
     @IBOutlet weak var contentView: UIView!
     
-     private var allBookmarkedNGOIDs = [BookMark]()
+ private var allBookmarkedNGOIDs = [BookMark]()
+    var ngoID = ""
     
     @IBOutlet weak var createAccountScrollView: UIScrollView!
     private var allBookmarkedNGOs = [NGO]()
@@ -88,7 +89,6 @@ class SignUpViewController: UIViewController {
     
     @IBAction func showSignInView(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
-       
     }
     
     private func setupViewDetails(){
@@ -131,6 +131,25 @@ class SignUpViewController: UIViewController {
         return userLocationCoordinates
     }
     
+    private func bookMarkNGO(onVConnectUserID userID: String){
+        let bookMark = BookMark(ngoID: ngoID, date: Date.customizedDateFormat())
+        if !allBookmarkedNGOIDs.contains(bookMark){
+            
+            DataBaseService.createBookMark(onVConnectUserID: userID, bookMarkNGO: bookMark) { (error) in
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                } else {
+                    
+                    self.showAlert(title: "BookMarked", message: "Successfully BookMarked NGO. This NGO will appear on your profile", handler: { (alert) in
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                }
+            }
+        } else {
+            self.showAlert(title: "Error", message: "You have already book marked this NGO before. It's on your profile")
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
     
     private func locationAuthorizationStatus(){
         switch CLLocationManager.authorizationStatus() {
@@ -262,7 +281,10 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
                                         }
                                     }
                                 }
-                                self.checkLocationAuthorizationStatus()
+                                
+                self.bookMarkNGO(onVConnectUserID: self.vConnectUser.userID)
+                               
+                self.checkLocationAuthorizationStatus()
                             }
                         }
                     }
