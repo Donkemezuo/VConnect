@@ -53,6 +53,23 @@ extension UIViewController {
          self.present(alertController, animated: true)
     }
     
+
+    public func segueToSignInView(options: String, message:String, handler:((UIAlertAction) -> Void)?) {
+      let alertController = UIAlertController(title: title, message: message, preferredStyle:.actionSheet)
+      let signInView = UIAlertAction(title: "Sign In or Create account", style: .default, handler: handler)
+     let cancel = UIAlertAction(title: "Cancel", style: .destructive)
+    alertController.addAction(signInView)
+    alertController.addAction(cancel)
+        
+        if let popOverPresentationController = alertController.popoverPresentationController {
+            popOverPresentationController.sourceView = self.view
+            popOverPresentationController.sourceRect = CGRect(x: 1.0, y: 1.0, width: self.view.bounds.width, height: self.view.bounds.height)
+        }
+     self.present(alertController, animated: true)
+    }
+    
+    
+    
     public func confirmFirstNameChange(handler: ((UIAlertAction) -> Void)?) {
         let alertController = UIAlertController(title: "Change first name?", message: "You can change your first name", preferredStyle: .actionSheet)
         let changeFirstName = UIAlertAction(title: "Change first name", style: .cancel)

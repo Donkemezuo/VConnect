@@ -34,6 +34,8 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var newAccount: UIButton!
     
     var nGOID = ""
+    var reviewMessage = ""
+    var ratingsValue = 0.0
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
@@ -221,11 +223,9 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
     }
     
     func didSignInToExistingVConnectUserAccount(_ authService: AuthService, user: User) {
-        
         bookMarkDelegate?.successfullySignedIn()
         dismiss(animated: true)
-
-            }
+    }
     
     private func segueToHomeVC(){
     let homeViewController = HomeViewController()
@@ -290,6 +290,8 @@ extension SignInViewController: VConnectUserCreatedAccountDelegate {
     func successfullyCreatedVConnectAccount() {
         guard Auth.auth().currentUser != nil else {return}
         self.bookMarkDelegate?.successfullySignedIn()
+       // guard let userID = authService.getCurrentVConnectUser()?.uid else {return}
+        
     }
     
     

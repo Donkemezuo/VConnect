@@ -14,7 +14,6 @@ import FirebaseFirestore
 
 class HomeViewController: UIViewController {
     let nGOsTableView = NGOsTableView()
-    private var geoCoder = CLGeocoder()
     private var coordinates = CLLocationCoordinate2D()
     var userCoordinates = CLLocationCoordinate2D()
     private var tapGesture: UITapGestureRecognizer!
@@ -29,6 +28,7 @@ class HomeViewController: UIViewController {
             }
         }
     }
+    
 private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     
     private var vConnectUserSearchedNGOsInCategory = [NGO](){
@@ -54,45 +54,23 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
         nGOsTableView.categoriesCollectionView.delegate = self
         nGOsTableView.searchBar.delegate = self
         nGOsTableView.searchBar.showsCancelButton = true
-        fetchVConnectUser()
         getBookmarkedNGOsID()
         vConnectUserSearchedNGOsInCategory = allNGOs
     }
     
-    
-    private func createNGOCoordinates(withNGOFullAddress fullAddress: String, completionHandler: @escaping(Error?, CLLocationCoordinate2D?) -> Void) {
-        
-        GoogleAddressAPIClient.getAddressCoordinates(fullAddress: fullAddress) { (error, fetchResults) in
-            if let error = error {
-                completionHandler(error, nil)
-            } else if let fetchedResults = fetchResults {
-                
-                let coordinatesFromFetchedResults = fetchedResults.results.first?.geometry
-                
-                guard let latitude = coordinatesFromFetchedResults?.location.lat, let longitude = coordinatesFromFetchedResults?.location.lng else {
-                    return
-                }
-                completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-            }
-        }
-        
-    }
-    
-    
-    private func fetchVConnectUser() {
-        guard let userID = Auth.auth().currentUser else {return}
-            DataBaseService.fetchVConnectUserr(with: userID.uid) { (error, vconnectUser) in
+    private func fetchVConnectUser(withUserID userID: String) {
+            DataBaseService.fetchVConnectUserr(with:userID) { (error, vconnectUser) in
                 if let error = error {
                     self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching user")
                 } else if let vConnectUser = vconnectUser {
                     self.vConnectUser = vConnectUser
-                    self.displayVConnectUserInfo(withVConnectUser: self.vConnectUser!)
-                }
+                    self.nGOsTableView.displayVConnectUserInfo(withVConnectUser: vConnectUser)
+                 }
             }
-        }
+        } // This method is fetching a logged in VConnect user from firebase
     
         private func getBookmarkedNGOsID(){
-            guard let vconnectUser = authService.getCurrentVConnectUser() else { return}
+            guard let vconnectUser = Auth.auth().currentUser else { return}
             DataBaseService.fetchVConnectBookMarkedNGOs(vconnectUser.uid) { (error, bookmarks) in
                 if let error = error {
                     self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
@@ -108,36 +86,24 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
                     }
                 }
             }
-        }
-    
-
-    private func displayVConnectUserInfo(withVConnectUser vConnectUser: VConnectUser){
-        if let profilePhotoURL = vConnectUser.profileImageURL {
-            nGOsTableView.profileImageView.kf.setImage(with: URL(string: profilePhotoURL), placeholder:#imageLiteral(resourceName: "placeholder.png"))
-        }
-    }
+        } // This method is fetching all the bookmarked nGOs of a logged in VConnect user from firebase
     
     private func presentVConnectUserProfile(){
-        guard (Auth.auth().currentUser != nil) else { ///
+        guard let userID = Auth.auth().currentUser else { ///
             nGOsTableView.profileImageView.isHidden = true
-            nGOsTableView.profileImageView.backgroundColor = .red
             return
         }
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentProfileVC))
         nGOsTableView.profileImageView.addGestureRecognizer(tapGesture)
         nGOsTableView.profileImageView.isUserInteractionEnabled = true
-        
-        if let vConnectUser = vConnectUser {
-        displayVConnectUserInfo(withVConnectUser: vConnectUser)
-        }
-       
-    }
+        fetchVConnectUser(withUserID: userID.uid)
+    } // This method is presenting the vconnect user on the profile view
     
     @objc private func presentProfileVC(){
         guard let vConnectUser = vConnectUser else {return}
        let profileVC = ProfileViewController(allNGOs: allNGOs, allBookMarkedNGOs: bookMarks, allBookMarkedDates: allUserBookMarkIDs, vConnectUser: vConnectUser)
      present(profileVC, animated: true)
-    }
+    } // This method gets called when the profile icon is pressed on the view
     private func generateMilesDifference(with cell: NGOsTableViewCell){
         
         let userCurrentLocation = CLLocation(latitude: userCoordinates.latitude, longitude: userCoordinates.longitude)
@@ -147,56 +113,7 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
         let distanceInMiles = distanceFromNGO/1609.344
         cell.nGOMiles.text = String(format: "%.0f", distanceInMiles) + " " + "Miles"
         
-    }
-    
-    
-    func getImages(ngo: NGO, completionHandler: @escaping ([NGOImages]) -> Void) {
-        
-        var nGOImages = [NGOImages]()
-        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngo.ngOID).collection(Constants.nGOImagesPath).getDocuments { (snapshot, error) in
-            if let error = error {
-                print("Error: \(error.localizedDescription) encountered while fetching documents")
-            } else if let snapShot = snapshot {
-                
-                for document in snapShot.documents {
-                    let ngoImage = NGOImages.init(dict: document.data())
-                    nGOImages.append(ngoImage)
-                    
-                }
-                
-                completionHandler(nGOImages)
-                
-            }
-        }
-    }
-    
-    
-    private func generateNGOLocationCoordinates(with NGOFullAddress: String, completionHandler:  @escaping(Error?, CLLocationCoordinate2D?) -> Void){
-        GoogleAddressAPIClient.getAddressCoordinates(fullAddress: NGOFullAddress) { (error, fetchResults) in
-            if let error = error {
-                completionHandler(error, nil)
-  
-            } else if let fetchedResults = fetchResults {
-                let coordinatesFromFetchedResult = fetchedResults.results.first?.geometry
-                guard let latitude = coordinatesFromFetchedResult?.location.lat, let longitude = coordinatesFromFetchedResult?.location.lng else {
-                    return
-                }
-           completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-            }
-        }
-    }
-    
-    
-    private func setRatingValue(with ratingValue: Double, on nGOCell: NGOsTableViewCell) {
-        nGOCell.cosmosView.settings.starMargin = 3.5
-        nGOCell.cosmosView.settings.totalStars =  5
-        nGOCell.cosmosView.settings.updateOnTouch = false
-       nGOCell.cosmosView.rating = ratingValue
-      nGOCell.cosmosView.settings.fillMode = .half
-        nGOCell.cosmosView.settings.starSize = 25
-    }
-    
-    
+    } // This method takes the vConnect user location and that of an NGO and find the miles difference
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
@@ -209,27 +126,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let nGOsCell = tableView.dequeueReusableCell(withIdentifier: "NGOsTableViewCell", for: indexPath) as? NGOsTableViewCell else {return UITableViewCell()}
         
     let nGOToSet = vConnectUserSearchedNGOsInCategory[indexPath.row]
-    nGOsCell.nGOName.text = nGOToSet.ngoName
-    nGOsCell.nGOCity.text = nGOToSet.ngoCity
-    nGOsCell.selectionStyle = .none
-    nGOsCell.backgroundColor = .clear
-    nGOsCell.containerView.backgroundColor = UIColor.white
+        nGOsCell.setCellInfo(withNGO: nGOToSet)
         generateMilesDifference(with: nGOsCell)
-    setRatingValue(with: nGOToSet.ratingsValue, on: nGOsCell)
+    nGOsCell.setRatingValue(with: nGOToSet.ratingsValue)
     return nGOsCell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var nGOToSet =  vConnectUserSearchedNGOsInCategory[indexPath.row]
-        getImages(ngo: nGOToSet) { (ngoImages) in
-            nGOToSet.ngoImagesURL = ngoImages
-            self.createNGOCoordinates(withNGOFullAddress: nGOToSet.fullAddress, completionHandler: { (error, coordinates) in
+        nGOsTableView.getImages(ngo: nGOToSet) { (ngoImages) in
+              nGOToSet.ngoImagesURL = ngoImages
+            self.nGOsTableView.createNGOCoordinates(withNGOFullAddress: nGOToSet.fullAddress, completionHandler: { (error, coordinates) in
                 if let error = error {
                     print("Error: \(error.localizedDescription)")
                 } else if let coordinate = coordinates {
                     DispatchQueue.main.async {
-    let ngoDetailVC = NGODetailsViewController(nGO: nGOToSet, userLocationCoordinate: self.userCoordinates, ngoCoordinates: coordinate, bookMarkIDs: self.allUserBookMarkIDs)
-            ngoDetailVC.detailVCDelegate = self
+                        let ngoDetailVC = NGODetailsViewController(nGO: nGOToSet, userLocationCoordinate: self.userCoordinates, ngoCoordinates: coordinate, bookMarkIDs: self.allUserBookMarkIDs)
+                        ngoDetailVC.detailVCDelegate = self
                         self.navigationController?.pushViewController(ngoDetailVC, animated: true)
                     }
                 }
@@ -252,14 +165,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let categoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoriesCollectionViewCell", for: indexPath) as? CategoriesCollectionViewCell else {return UICollectionViewCell()}
         let category = nGOCategories[indexPath.row]
         categoryCell.categoryNameLabel.text = category
-        categoryCell.backgroundColor = .clear
-        categoryCell.layer.borderWidth = 1
-        categoryCell.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        categoryCell.layer.cornerRadius = 5
         return categoryCell
     }
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         

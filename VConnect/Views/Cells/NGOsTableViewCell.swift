@@ -14,6 +14,7 @@ class NGOsTableViewCell: UITableViewCell {
     
     public lazy var containerView: UIView = {
         let containerView = UIView()
+        containerView.backgroundColor = UIColor.white
         return containerView
     }()
     
@@ -68,6 +69,8 @@ class NGOsTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.selectionStyle = .none
+        self.backgroundColor = .clear
         commonInit()
     }
     
@@ -172,5 +175,22 @@ class NGOsTableViewCell: UITableViewCell {
         nGOMiles.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5).isActive = true
 
     }
+    
+    
+    public func setRatingValue(with ratingValue: Double) {
+        cosmosView.settings.starMargin = 3.5
+        cosmosView.settings.totalStars =  5
+        cosmosView.settings.updateOnTouch = false
+        cosmosView.rating = ratingValue
+       cosmosView.settings.fillMode = .half
+       cosmosView.settings.starSize = 25
+    }
 
+    public func setCellInfo(withNGO ngo: NGO) {
+        nGOName.text = ngo.ngoName
+        nGOCity.text = ngo.ngoCity
+      
+        
+    }
+    
 }

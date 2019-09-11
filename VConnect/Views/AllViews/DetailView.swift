@@ -226,6 +226,49 @@ class DetailView: UIView {
         ngoPhotosView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
         ngoPhotosView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
     }
-
+    
+    public func configureEmptyState(withReviews reviews: [NGOReviews]) {
+        if reviews.count == 0 {
+            reviewView.reviewsTableView.backgroundView = EmptyView.emptyMessage(message: "No Reviews",
+                                                                                           size: reviewView.reviewsTableView.bounds.size)
+          reviewView.reviewsTableView.separatorStyle = .none
+        } else {
+         reviewView.reviewsTableView.backgroundView = nil
+        }
+    }
+    
+    public func setNGOInformations(withNGO ngo: NGO) {
+        missionView.ngoDescriptionTxtView.text = ngo.ngoDescription
+        missionView.ngoMissionTxtView.text = ngo.missionStatement
+        missionView.ngoVissionTxtView.text = ngo.visionStatement
+        missionView.contactPersonNameLabel.text = ngo.contactPersonName + " " + ngo.ngoPhoneNumber
+        missionView.websiteTxtView.text = ngo.ngoWebsite ?? ""
+       
+        ngoAddressView.addressTxtView.text = """
+        
+        \(ngo.ngoStreetAddress) \(ngo.ngoCity), \(ngo.ngoState)
+        
+        """
+        
+        ngoAddressView.operationalHoursTxtView.text = """
+        
+        Monday                                 \(ngo.mondayHours)
+        
+        Tuesday                                 \(ngo.tuesdayHours)
+        
+        Wednesday                             \(ngo.wedsDayHours)
+        
+        Thursday                                \(ngo.thursdayHours)
+        
+        Friday                                   \(ngo.fridayHours)
+        
+        Saturday                     \(ngo.saturdayHours)
+        
+        Sunday                        \(ngo.sundayHours)
+        
+        """
+        
+    }
+    
     
 }
