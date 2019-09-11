@@ -9,6 +9,8 @@
 import UIKit
 import CoreLocation
 import MapKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class HomeViewController: UIViewController {
     let nGOsTableView = NGOsTableView()
@@ -52,11 +54,11 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
         nGOsTableView.categoriesCollectionView.delegate = self
         nGOsTableView.searchBar.delegate = self
         nGOsTableView.searchBar.showsCancelButton = true
-        //fetchVConnectUser()
+        fetchVConnectUser()
         getBookmarkedNGOsID()
         vConnectUserSearchedNGOsInCategory = allNGOs
-        //nGOsTableView.profileImageView.isHidden = true
     }
+    
     
     private func createNGOCoordinates(withNGOFullAddress fullAddress: String, completionHandler: @escaping(Error?, CLLocationCoordinate2D?) -> Void) {
         
@@ -77,9 +79,9 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     }
     
     
-    private func fetchVConnectUser(userID: String) {
-            //guard let userID = authService.getCurrentVConnectUser()?.uid else {return}
-            DataBaseService.fetchVConnectUserr(with: userID) { (error, vconnectUser) in
+    private func fetchVConnectUser() {
+        guard let userID = Auth.auth().currentUser else {return}
+            DataBaseService.fetchVConnectUserr(with: userID.uid) { (error, vconnectUser) in
                 if let error = error {
                     self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching user")
                 } else if let vConnectUser = vconnectUser {
@@ -107,6 +109,7 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
                 }
             }
         }
+    
 
     private func displayVConnectUserInfo(withVConnectUser vConnectUser: VConnectUser){
         if let profilePhotoURL = vConnectUser.profileImageURL {
@@ -115,26 +118,26 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     }
     
     private func presentVConnectUserProfile(){
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentProfileVC))
-        nGOsTableView.profileImageView.addGestureRecognizer(tapGesture)
-        nGOsTableView.profileImageView.isUserInteractionEnabled = true
-    }
-    
-    @objc private func presentProfileVC(){
-        
-        guard let userID = authService.getCurrentVConnectUser() else {
+        guard (Auth.auth().currentUser != nil) else { ///
             nGOsTableView.profileImageView.isHidden = true
             nGOsTableView.profileImageView.backgroundColor = .red
             return
         }
-        nGOsTableView.profileImageView.isHidden = false
-        fetchVConnectUser(userID: userID.uid)
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentProfileVC))
+        nGOsTableView.profileImageView.addGestureRecognizer(tapGesture)
+        nGOsTableView.profileImageView.isUserInteractionEnabled = true
         
-        //let profileVC = ProfileViewController(allNGOs: allNGOs, allBookMarkedNGOs: bookMarks, allBookMarkedDates: allUserBookMarkIDs, vConnectUser: vConnectUser)
-     //present(profileVC, animated: true)
+        if let vConnectUser = vConnectUser {
+        displayVConnectUserInfo(withVConnectUser: vConnectUser)
+        }
+       
     }
     
-    
+    @objc private func presentProfileVC(){
+        guard let vConnectUser = vConnectUser else {return}
+       let profileVC = ProfileViewController(allNGOs: allNGOs, allBookMarkedNGOs: bookMarks, allBookMarkedDates: allUserBookMarkIDs, vConnectUser: vConnectUser)
+     present(profileVC, animated: true)
+    }
     private func generateMilesDifference(with cell: NGOsTableViewCell){
         
         let userCurrentLocation = CLLocation(latitude: userCoordinates.latitude, longitude: userCoordinates.longitude)
@@ -225,18 +228,16 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     print("Error: \(error.localizedDescription)")
                 } else if let coordinate = coordinates {
                     DispatchQueue.main.async {
-    let ngoDetailVC = NGODetailsViewController(nGO: nGOToSet, userLocationCoordinate: self.userCoordinates, ngoCoordinates: coordinate)
+    let ngoDetailVC = NGODetailsViewController(nGO: nGOToSet, userLocationCoordinate: self.userCoordinates, ngoCoordinates: coordinate, bookMarkIDs: self.allUserBookMarkIDs)
+            ngoDetailVC.detailVCDelegate = self
                         self.navigationController?.pushViewController(ngoDetailVC, animated: true)
                     }
                 }
             })
-            
         }
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         return 260
     }
 }
@@ -263,16 +264,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let nGOsInCategory = nGOCategories[indexPath.row]
-//        isSearching = true
         vConnectUserSearchedNGOsInCategory = vConnectUserSearchedNGOsInCategory.filter {$0.ngoCategory == nGOsInCategory}
-        
         if vConnectUserSearchedNGOsInCategory.count == 0 {
             showAlert(title: "Sorry", message: "There are currently no registered NGOs in the \(nGOsInCategory) Category. Please check back later as we continue to grow our support community. Thank you")
             vConnectUserSearchedNGOsInCategory = allNGOs
-
-           // isSearching = false
         }
-
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -283,16 +279,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return CGSize(width: (screenWidth - (cellSpacing * numberOfSpaces)) / numberOfCells, height: height * 0.8)
         
     }
-    
-    
-    
-    
 }
 
 extension HomeViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        //isSearching = true
         guard let searchedCity = searchBar.text else { return}
      vConnectUserSearchedNGOsInCategory = vConnectUserSearchedNGOsInCategory.filter{$0.ngoCity.lowercased().contains(searchedCity.lowercased())}
     nGOsTableView.nGOsTableView.reloadData()
@@ -309,5 +300,13 @@ extension HomeViewController: UISearchBarDelegate {
         nGOsTableView.nGOsTableView.reloadData()
         searchBar.text = " "
     }
+    
+}
+
+extension HomeViewController: DetailVCDelegate {
+    func didBookMarkedNGO(withBookMarkedIDs: [BookMark]) {
+        self.allUserBookMarkIDs = withBookMarkedIDs
+    }
+    
     
 }

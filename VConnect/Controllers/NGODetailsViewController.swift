@@ -11,6 +11,12 @@ import Cosmos
 import SafariServices
 import GoogleMaps
 import MessageUI
+import FirebaseAuth
+import FirebaseFirestore
+
+protocol DetailVCDelegate: AnyObject {
+    func didBookMarkedNGO(withBookMarkedIDs: [BookMark])
+}
 
 class NGODetailsViewController: UIViewController {
     private var leftSwipeGesture: UISwipeGestureRecognizer!
@@ -34,6 +40,8 @@ class NGODetailsViewController: UIViewController {
             }
         }
     }
+    
+    weak var detailVCDelegate: DetailVCDelegate?
     
     private var allUserBookMarks = [BookMark]()
     private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
@@ -147,12 +155,14 @@ class NGODetailsViewController: UIViewController {
         
     }
     
-    init(nGO: NGO, userLocationCoordinate: CLLocationCoordinate2D, ngoCoordinates: CLLocationCoordinate2D) {
+    init(nGO: NGO, userLocationCoordinate: CLLocationCoordinate2D, ngoCoordinates: CLLocationCoordinate2D, bookMarkIDs: [BookMark]) {
         super.init(nibName: nil, bundle: nil)
         self.nGO = nGO
         self.configurePhotosEmptyState()
         self.ngoLocationCoordinates = ngoCoordinates
         self.userLocationCoordinates = userLocationCoordinate
+        self.allUserBookMarks = bookMarkIDs
+        
 
     }
     
@@ -287,7 +297,10 @@ Sunday                        \(nGO.sundayHours)
                 if let error = error {
                     print("Error: \(error.localizedDescription)")
                 } else {
-                self.showAlert(title: "BookMarked", message: "Successfully BookMarked NGO. This NGO will appear on your profile")
+                self.allUserBookMarks.append(bookMark)
+                self.showAlert(title: "BookMarked", message: "Successfully BookMarked NGO. This NGO will appear on your profile", handler: { (okay) in
+          self.detailVCDelegate?.didBookMarkedNGO(withBookMarkedIDs: self.allUserBookMarks)
+                    })
                 }
             }
         } else {
@@ -299,19 +312,29 @@ Sunday                        \(nGO.sundayHours)
     @objc private func showAlertController(sender: AnyObject){
         let alertController = UIAlertController(title: "Options", message: "You can book mark an NGO to view later", preferredStyle: .actionSheet)
         let bookMark = UIAlertAction(title: "Bookmark", style: .default) { (alert) in
-            guard let userID = AppDelegate.authService.getCurrentVConnectUser() else {
+            if Auth.auth().currentUser == nil {
                 self.segueToSignInVC(title: "Error", message: "Only registered users can bookmark", handler: { (alert) in
                     let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
                     let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
-                        signInView.nGOID = self.nGO.ngOID
-                       //signInView.bookMarkIDs = self.allUserBookMarks
+                    signInView.nGOID = self.nGO.ngOID
+                    signInView.bookMarkDelegate = self
                     let signInNav = UINavigationController(rootViewController: signInView)
                     self.present(signInNav, animated: true, completion: nil)
                 })
-                return
+            } else {
+                self.bookMarkNGO(onVConnectUserID: Auth.auth().currentUser!.uid)
             }
-            self.bookMarkNGO(onVConnectUserID: userID.uid)
-            
+//            guard (Auth.auth().currentUser?.uid) != nil else {
+//                self.segueToSignInVC(title: "Error", message: "Only registered users can bookmark", handler: { (alert) in
+//                    let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
+//                    let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
+//                        signInView.nGOID = self.nGO.ngOID
+//                    signInView.bookMarkDelegate = self
+//                    let signInNav = UINavigationController(rootViewController: signInView)
+//                    self.present(signInNav, animated: true, completion: nil)
+//                })
+//                return
+//            }
         }
         let cancel = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in
             
@@ -445,10 +468,8 @@ Sunday                        \(nGO.sundayHours)
         
     }
     
-    
     private func setUpPostReviewsButton(){
         detailView.reviewView.sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
-        
     }
     
     @objc private func sendButtonPressed(){
@@ -458,7 +479,6 @@ Sunday                        \(nGO.sundayHours)
     private func segueToMap(){
         if (UIApplication.shared.canOpenURL(NSURL(string:"comgooglemaps://")! as URL)) {
             UIApplication.shared.open(NSURL(string: "comgooglemaps://?saddr=&daddr=\(ngoLocationCoordinates.latitude),\(ngoLocationCoordinates.longitude)&directionsmode=driving")! as URL)
-            
         } else {
             NSLog("Can't use comgooglemaps://");
         }
@@ -511,7 +531,6 @@ extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if allNGOReviews.count > 0 {
             
             guard let reviewsCell = tableView.dequeueReusableCell(withIdentifier: "ReviewsTableViewCell", for: indexPath) as? ReviewsTableViewCell else {return UITableViewCell()}
@@ -555,6 +574,24 @@ extension NGODetailsViewController: MFMailComposeViewControllerDelegate {
     }
     
 }
+
+
+extension NGODetailsViewController: VConnectusersignInDelegate {
+    func successfullySignedIn() {
+        guard let userID = Auth.auth().currentUser else {return}
+        DataBaseService.fetchVConnectBookMarkedNGOs(userID.uid) { (error, bookmarks) in
+                    if let error = error {
+                        self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
+                    } else if let bookmarks = bookmarks {
+                        self.allUserBookMarks = bookmarks
+                       //self.bookMarkNGO(onVConnectUserID: userID.uid)
+                    }
+                }
+            }
+    }
+
+
+    
 
 
 
