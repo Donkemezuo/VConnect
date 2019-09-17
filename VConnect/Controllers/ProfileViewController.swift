@@ -44,7 +44,7 @@ class ProfileViewController: UIViewController {
     
     private var profileView = ProfileView()
     private var authService = AppDelegate.authService
-    private var allNGOs: [NGO]!
+   // private var allNGOs: [NGO]
     private var bookMarks = [NGO]() {
         didSet {
             DispatchQueue.main.async {
@@ -92,10 +92,8 @@ class ProfileViewController: UIViewController {
         profileHeaderView.profileImageView.isUserInteractionEnabled = false
     }
     
-    init(allNGOs: [NGO], allBookMarkedNGOs: [NGO], allBookMarkedDates: [BookMark], vConnectUser: VConnectUser){
+    init(allBookMarkedNGOs: [NGO], allBookMarkedDates: [BookMark], vConnectUser: VConnectUser){
         super.init(nibName: nil, bundle: nil)
-        
-        self.allNGOs = allNGOs
         self.bookMarks = allBookMarkedNGOs
         self.allBookMarkDates = allBookMarkedDates
         self.vConnectUser = vConnectUser

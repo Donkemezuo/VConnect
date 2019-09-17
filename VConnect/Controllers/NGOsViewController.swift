@@ -19,7 +19,7 @@ class HomeViewController: UIViewController {
     private var tapGesture: UITapGestureRecognizer!
     private var authService = AppDelegate.authService
     var vConnectUser: VConnectUser?
-    var bookMarks = [NGO]()
+    var allUserBookmarks = [NGO]()
     var allUserBookMarkIDs = [BookMark]()
     var allNGOs = [NGO]() {
         didSet {
@@ -54,8 +54,13 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
         nGOsTableView.categoriesCollectionView.delegate = self
         nGOsTableView.searchBar.delegate = self
         nGOsTableView.searchBar.showsCancelButton = true
-        getBookmarkedNGOsID()
         vConnectUserSearchedNGOsInCategory = allNGOs
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        presentVConnectUserProfile()
+        getBookmarkedNGOsID()
     }
     
     private func fetchVConnectUser(withUserID userID: String) {
@@ -76,17 +81,12 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
                     self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
                 } else if let bookmarks = bookmarks {
                     self.allUserBookMarkIDs = bookmarks
-                    self.allUserBookMarkIDs.removeAll()
-                    for bookmarkedNGO in bookmarks {
-                        for ngo in self.allNGOs {
-                            if bookmarkedNGO.ngoID == ngo.ngOID {
-                                self.bookMarks.append(ngo)
-                            }
-                        }
-                    }
+  
+
                 }
             }
         } // This method is fetching all the bookmarked nGOs of a logged in VConnect user from firebase
+    
     
     private func presentVConnectUserProfile(){
         guard let userID = Auth.auth().currentUser else { ///
@@ -96,13 +96,27 @@ private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentProfileVC))
         nGOsTableView.profileImageView.addGestureRecognizer(tapGesture)
         nGOsTableView.profileImageView.isUserInteractionEnabled = true
+        nGOsTableView.profileImageView.isHidden = false
         fetchVConnectUser(withUserID: userID.uid)
     } // This method is presenting the vconnect user on the profile view
     
     @objc private func presentProfileVC(){
         guard let vConnectUser = vConnectUser else {return}
-       let profileVC = ProfileViewController(allNGOs: allNGOs, allBookMarkedNGOs: bookMarks, allBookMarkedDates: allUserBookMarkIDs, vConnectUser: vConnectUser)
-     present(profileVC, animated: true)
+        
+        allUserBookmarks.removeAll()
+        
+        
+        allUserBookMarkIDs.forEach { (bookmarkID) in
+            self.allNGOs.forEach({ (ngo) in
+                
+                if bookmarkID.ngoID == ngo.ngOID {
+                    self.allUserBookmarks.append(ngo)
+                }
+                
+            })
+        }
+        let profileVC = ProfileViewController(allBookMarkedNGOs: allUserBookmarks, allBookMarkedDates: allUserBookMarkIDs, vConnectUser: vConnectUser)
+        present(profileVC, animated: true)
     } // This method gets called when the profile icon is pressed on the view
     private func generateMilesDifference(with cell: NGOsTableViewCell){
         

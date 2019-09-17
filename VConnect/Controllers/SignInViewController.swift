@@ -11,14 +11,22 @@ import FirebaseAuth
 import CoreLocation
 
 
+enum signInState {
+    case bookmark, review
+}
+
 protocol VConnectusersignInDelegate: AnyObject {
     func successfullySignedIn()
+    func createReview()
 }
 
 class SignInViewController: UIViewController {
     
     
+    
     weak var bookMarkDelegate: VConnectusersignInDelegate?
+    
+    var userSignInState: signInState?
     
     @IBOutlet weak var loginScrollView: UIScrollView!
     @IBOutlet weak var VConnectLogoImageView: UIImageView!
@@ -34,8 +42,8 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var newAccount: UIButton!
     
     var nGOID = ""
-    var reviewMessage = ""
-    var ratingsValue = 0.0
+   // var reviewMessage = ""
+   // var ratingsValue = 0.0
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
@@ -85,6 +93,7 @@ class SignInViewController: UIViewController {
     }
     
     @IBAction func segueToSignUpView(_ sender: UIButton) {
+        
         
         let storyBoard = UIStoryboard(name: "AuthenticationView", bundle: nil)
         let signUpView = storyBoard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
@@ -224,13 +233,14 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
     
     func didSignInToExistingVConnectUserAccount(_ authService: AuthService, user: User) {
         bookMarkDelegate?.successfullySignedIn()
+        bookMarkDelegate?.createReview()
         dismiss(animated: true)
     }
     
     private func segueToHomeVC(){
     let homeViewController = HomeViewController()
         homeViewController.allUserBookMarkIDs = allBookmarkedNGOIDs
-        homeViewController.bookMarks = allBookmarkedNGOs
+        homeViewController.allUserBookmarks = allBookmarkedNGOs
         homeViewController.vConnectUser = vConnectUser
         homeViewController.userCoordinates = getUserLocationCoordinates()
         let homeVC = UINavigationController(rootViewController: homeViewController)
@@ -287,10 +297,17 @@ extension SignInViewController: CLLocationManagerDelegate {
 }
 
 extension SignInViewController: VConnectUserCreatedAccountDelegate {
+    
     func successfullyCreatedVConnectAccount() {
+        guard let signInState = userSignInState else {return}
         guard Auth.auth().currentUser != nil else {return}
-        self.bookMarkDelegate?.successfullySignedIn()
-       // guard let userID = authService.getCurrentVConnectUser()?.uid else {return}
+        
+        switch signInState {
+        case .bookmark:
+   self.bookMarkDelegate?.successfullySignedIn()
+        case .review:
+    self.bookMarkDelegate?.createReview()
+        }
         
     }
     

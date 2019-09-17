@@ -28,6 +28,7 @@ class NGODetailsViewController: UIViewController {
     private var detailView = DetailView()
     private var backgroundView = TableViewBackgroundImageView()
     private var nGO: NGO!
+    var ngoRatingsValue = 0.0
     private var barButtonItem = UIBarButtonItem()
     private var allNGOReviews = [NGOReviews]() {
         
@@ -40,6 +41,7 @@ class NGODetailsViewController: UIViewController {
     }
     
     weak var detailVCDelegate: DetailVCDelegate?
+    let customView = CosmosView()
     
     private var allUserBookMarks = [BookMark]()
     private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
@@ -223,6 +225,7 @@ class NGODetailsViewController: UIViewController {
     
     private func bookMarkNGO(onVConnectUserID userID: String){
         let bookMark = BookMark(ngoID: self.nGO.ngOID, date: Date.customizedDateFormat())
+        
         if !allUserBookMarks.contains(bookMark){
             DataBaseService.createBookMark(onVConnectUserID: userID, bookMarkNGO: bookMark) { (error) in
                 if let error = error {
@@ -230,6 +233,7 @@ class NGODetailsViewController: UIViewController {
                 } else {
                 self.showAlert(title: "BookMarked", message: "Successfully BookMarked NGO. This NGO will appear on your profile", handler: { (okay) in
           self.detailVCDelegate?.didBookMarkedNGO(withBookMarkedIDs: self.allUserBookMarks)
+                    self.allUserBookMarks.append(bookMark)
                     })
                 }
             }
@@ -246,13 +250,15 @@ class NGODetailsViewController: UIViewController {
                 self.segueToSignInVC(title: "Error", message: "Only registered users can bookmark", handler: { (alert) in
                     let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
                     let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
+                    signInView.userSignInState = .bookmark
                     signInView.nGOID = self.nGO.ngOID
                     signInView.bookMarkDelegate = self
                     let signInNav = UINavigationController(rootViewController: signInView)
                     self.present(signInNav, animated: true, completion: nil)
                 })
             } else {
-                self.bookMarkNGO(onVConnectUserID: Auth.auth().currentUser!.uid)
+                guard let userID = Auth.auth().currentUser else {return}
+                self.bookMarkNGO(onVConnectUserID: userID.uid)
             }
         }
         let cancel = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in
@@ -321,39 +327,6 @@ class NGODetailsViewController: UIViewController {
         }
     }
     
-//    @objc private func showAlertController(sender: AnyObject){
-//        let alertController = UIAlertController(title: "Options", message: "You can book mark an NGO to view later", preferredStyle: .actionSheet)
-//        let bookMark = UIAlertAction(title: "Bookmark", style: .default) { (alert) in
-//            if Auth.auth().currentUser == nil {
-//                self.segueToSignInVC(title: "Error", message: "Only registered users can bookmark", handler: { (alert) in
-//                    let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
-//                    let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
-//                    signInView.nGOID = self.nGO.ngOID
-//                    signInView.bookMarkDelegate = self
-//                    let signInNav = UINavigationController(rootViewController: signInView)
-//                    self.present(signInNav, animated: true, completion: nil)
-//                })
-//            } else {
-//                self.bookMarkNGO(onVConnectUserID: Auth.auth().currentUser!.uid)
-//            }
-//        }
-//        let cancel = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in
-//        }
-//
-//        alertController.addAction(bookMark)
-//        alertController.addAction(cancel)
-//        if let popoverController = alertController.popoverPresentationController {
-//            popoverController.barButtonItem = sender as? UIBarButtonItem
-//            popoverController.sourceView = self.view
-//            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-//            popoverController.permittedArrowDirections = []
-//        }
-//        present(alertController, animated: true)
-//    }
-    
-    
-
-    
     private func writeReviewOnNGO(withA ratingsValue: Double){
    
         guard let review = detailView.reviewView.reviewTextField.text, !review.isEmpty else {
@@ -361,36 +334,34 @@ class NGODetailsViewController: UIViewController {
             return
         }
         
-        guard let reviewer = vconnectUser else {
+        guard let reviewer = Auth.auth().currentUser else {
             self.segueToSignInView(options: "Error", message: "Only signed in users can leave a review") { (alert) in
                 let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
                 let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
+                signInView.userSignInState = .review
                 signInView.nGOID = self.nGO.ngOID
-                signInView.reviewMessage = review
-                signInView.ratingsValue = ratingsValue
+                //signInView.reviewMessage = review
+               // signInView.ratingsValue = ratingsValue
+                signInView.bookMarkDelegate = self
                 let signInNav = UINavigationController(rootViewController: signInView)
                 self.present(signInNav, animated: true, completion: nil)
             }
             return
         }
         
-        DataBaseService.createReview(on: nGO.ngOID, reviewerID: reviewer.userID, with: review, withA: ratingsValue) { (error) in
+        DataBaseService.createReview(on: nGO.ngOID, reviewerID: reviewer.uid, with: review, withA: ratingsValue) { (error) in
             if let error = error {
                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while posting review on NGO")
             } else {
-                self.showAlert(title: "Successfully posted review", message: "Thank you for leaving a review on this organization", handler: { (alert) in
-                    
-                self.dismiss(animated: true, completion: nil)
+                
+    self.showAlert(title: "Successfully posted review", message: "Thank you for leaving a review on this organization")
                 self.detailView.reviewView.reviewTextField.text = ""
-                })
             }
         }
     }
     
     private func presentRatingView(){
-        
         let alertController = UIAlertController(title: "Rate Experience", message: "Please rate your experience", preferredStyle: .alert)
-        let customView = CosmosView()
         customView.settings.starMargin = 3.5
         customView.settings.totalStars = 5
         customView.settings.starSize = 30
@@ -404,11 +375,11 @@ class NGODetailsViewController: UIViewController {
         customView.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -80).isActive = true
         let thankYou = UIAlertAction(title: "Rate", style: .default) { (alert) in
             self.numberOfRaters += 1
-            let ngoRatingsValue = (self.nGO.ratingsValue + customView.rating) / self.numberOfRaters
+            self.ngoRatingsValue = (self.nGO.ratingsValue + self.customView.rating) / self.numberOfRaters
             
-            DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(self.nGO.ngOID).updateData([NGOsCollectionKeys.ratingsValue: ngoRatingsValue])
+    DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(self.nGO.ngOID).updateData([NGOsCollectionKeys.ratingsValue: self.ngoRatingsValue])
 
-        self.writeReviewOnNGO(withA: customView.rating)
+            self.writeReviewOnNGO(withA: self.customView.rating)
             
         }
         alertController.addAction(thankYou)
@@ -524,6 +495,19 @@ extension NGODetailsViewController: MFMailComposeViewControllerDelegate {
 
 
 extension NGODetailsViewController: VConnectusersignInDelegate {
+    func createReview() {
+        guard let userID = Auth.auth().currentUser else {return}
+        guard let reviewMessage = detailView.reviewView.reviewTextField.text, !reviewMessage.isEmpty else {return}
+        DataBaseService.createReview(on: nGO.ngOID, reviewerID: userID.uid, with: reviewMessage, withA: customView.rating ) { (error) in
+            if let error = error {
+                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while posting review on NGO")
+            } else {
+            self.showAlert(title: "Successfully posted review", message: "Thank you for leaving a review on this organization")
+            self.detailView.reviewView.reviewTextField.text = ""
+            }
+        }
+    }
+
     func successfullySignedIn() {
         guard let userID = Auth.auth().currentUser else {return}
         DataBaseService.fetchVConnectBookMarkedNGOs(userID.uid) { (error, bookmarks) in

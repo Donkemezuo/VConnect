@@ -141,26 +141,6 @@ class SignUpViewController: UIViewController {
         return userLocationCoordinates
     }
     
-//    private func bookMarkNGO(onVConnectUserID userID: String){
-//        let bookMark = BookMark(ngoID: ngoID, date: Date.customizedDateFormat())
-//        if !allBookmarkedNGOIDs.contains(bookMark){
-//
-//            DataBaseService.createBookMark(onVConnectUserID: userID, bookMarkNGO: bookMark) { (error) in
-//                if let error = error {
-//                    print("Error: \(error.localizedDescription)")
-//                } else {
-//
-//                    self.showAlert(title: "BookMarked", message: "Successfully BookMarked NGO. This NGO will appear on your profile", handler: { (alert) in
-//                        self.dismiss(animated: true, completion: nil)
-//                    })
-//                }
-//            }
-//        } else {
-//            self.showAlert(title: "Error", message: "You have already book marked this NGO before. It's on your profile")
-//            self.dismiss(animated: true, completion: nil)
-//        }
-//    }
-    
     private func locationAuthorizationStatus(){
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:
@@ -210,22 +190,6 @@ class SignUpViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
-    private func segueToHomeVC(){
-                showAlert(title: "Success", message: "Welcome to VConnect. Our amazing community of support") { (alert) in
-                    let homeViewController = HomeViewController()
-                    homeViewController.allUserBookMarkIDs = self.allBookmarkedNGOIDs
-                    homeViewController.bookMarks = self.allBookmarkedNGOs
-                    homeViewController.vConnectUser = self.vConnectUser
-                    homeViewController.userCoordinates = self.getUserLocationCoordinates()
-                    homeViewController.modalTransitionStyle = .crossDissolve
-                    homeViewController.modalPresentationStyle = .overFullScreen
-                    self.present(homeViewController, animated: true, completion: {
-                        self.activityIndicator.stopAnimating()
-                        self.loadingView.removeFromSuperview()
-                    })
-                }
-    }
-
     @IBAction func CreateAccountButtonPressed(_ sender: UIButton) {
         setupActivityIndicator()
         
@@ -257,56 +221,6 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
     func didCreateNewVConnectUserAccount(_ authService: AuthService, vconnectUser: VConnectUser) {
   signupBookMarkDelegate?.successfullyCreatedVConnectAccount()
         dismiss(animated: true)
-        
-        
-//        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).addSnapshotListener(includeMetadataChanges: true) { (querySnapshot, error) in
-//            if let error = error {
-//                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching NGOs")
-//            }else if let querySnapShot = querySnapshot {
-//                var allRegisteredNGOs = [NGO]()
-//
-//                for document in querySnapShot.documents {
-//                    let ngo = NGO.init(dict: document.data())
-//
-//                    allRegisteredNGOs.append(ngo)
-//                }
-//
-//                self.allNGOs = allRegisteredNGOs
-//
-//                guard let userID = authService.getCurrentVConnectUser()?.uid else {return}
-//                DataBaseService.fetchVConnectUserr(with: userID) { (error, vconnectUser) in
-//                    if let error = error {
-//                        self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching user")
-//                    } else if let vConnectUser = vconnectUser {
-//                        self.vConnectUser = vConnectUser
-//                        dump(self.vConnectUser)
-//                        self.checkLocationAuthorizationStatus()
-//                        DataBaseService.fetchVConnectBookMarkedNGOs(userID) { (error, bookmarks) in
-//                            if let error = error {
-//                                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
-//                            } else if let bookmarks = bookmarks {
-//                                print("Fetching User")
-//                                self.allBookmarkedNGOIDs = bookmarks
-//                                self.allBookmarkedNGOs.removeAll()
-//                                for bookmarkedNGO in bookmarks {
-//                                    for ngo in self.allNGOs {
-//                                        if bookmarkedNGO.ngoID == ngo.ngOID {
-//                                            self.allBookmarkedNGOs.append(ngo)
-//                                        }
-//                                    }
-//                                }
-//
-//                self.bookMarkNGO(onVConnectUserID: self.vConnectUser.userID)
-//
-//                self.checkLocationAuthorizationStatus()
-//                            }
-//                        }
-//                    }
-//                    }
-//    }
-
-//}
-//}
 }
     
 }
@@ -326,7 +240,6 @@ extension SignUpViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         if locations.first != nil {
-           // self.segueToHomeVC()
         }
     }
 }
