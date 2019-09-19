@@ -31,7 +31,6 @@ class NGODetailsViewController: UIViewController {
     var ngoRatingsValue = 0.0
     private var barButtonItem = UIBarButtonItem()
     private var allNGOReviews = [NGOReviews]() {
-        
         didSet {
             DispatchQueue.main.async {
                 self.detailView.reviewView.reviewsTableView.reloadData()
@@ -48,7 +47,6 @@ class NGODetailsViewController: UIViewController {
     private var reportUserTapGesture: UITapGestureRecognizer!
     
     private var numberOfRaters = 1.0
-    
     private var viewUI = UIView()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -218,14 +216,12 @@ class NGODetailsViewController: UIViewController {
     }
     
     private func bookMarkButton() {
-        
         detailView.moreOptionsButton.addTarget(self, action: #selector(showAlertController), for: .touchUpInside)
     }
     
     
     private func bookMarkNGO(onVConnectUserID userID: String){
         let bookMark = BookMark(ngoID: self.nGO.ngOID, date: Date.customizedDateFormat())
-        
         if !allUserBookMarks.contains(bookMark){
             DataBaseService.createBookMark(onVConnectUserID: userID, bookMarkNGO: bookMark) { (error) in
                 if let error = error {
@@ -247,15 +243,7 @@ class NGODetailsViewController: UIViewController {
         let alertController = UIAlertController(title: "Options", message: "You can book mark an NGO to view later", preferredStyle: .actionSheet)
         let bookMark = UIAlertAction(title: "Bookmark", style: .default) { (alert) in
             if Auth.auth().currentUser == nil {
-                self.segueToSignInVC(title: "Error", message: "Only registered users can bookmark", handler: { (alert) in
-                    let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
-                    let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
-                    signInView.userSignInState = .bookmark
-                    signInView.nGOID = self.nGO.ngOID
-                    signInView.bookMarkDelegate = self
-                    let signInNav = UINavigationController(rootViewController: signInView)
-                    self.present(signInNav, animated: true, completion: nil)
-                })
+                self.showLoginViewFromBookmark(sender: sender)
             } else {
                 guard let userID = Auth.auth().currentUser else {return}
                 self.bookMarkNGO(onVConnectUserID: userID.uid)
@@ -275,16 +263,62 @@ class NGODetailsViewController: UIViewController {
         present(alertController, animated: true)
     }
     
+    private func showLoginViewFromBookmark(sender: AnyObject){
+        let alertController = UIAlertController(title: "Error", message: "Only registered users can bookmark", preferredStyle: .actionSheet)
+        let bookmark = UIAlertAction(title: "SignIn or SignUp", style: .default) { (bookmark) in
+            let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
+            let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
+            signInView.userSignInState = .bookmark
+            signInView.nGOID = self.nGO.ngOID
+            signInView.bookMarkDelegate = self
+            let signInNav = UINavigationController(rootViewController: signInView)
+            self.present(signInNav, animated: true, completion: nil)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in
+        }
+        alertController.addAction(bookmark)
+        alertController.addAction(cancel)
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.barButtonItem = sender as? UIBarButtonItem
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        present(alertController, animated: true)
+    }
+    
+    private func showLoginViewFromReview(sender: AnyObject){
+    let alertController = UIAlertController(title: "Error", message: "Only signed in users can leave a review", preferredStyle: .actionSheet)
+        let signIn = UIAlertAction(title: "SignIn or SignUp", style: .default) { (bookmark) in
+            let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
+            let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
+            signInView.userSignInState = .review
+            signInView.nGOID = self.nGO.ngOID
+            signInView.bookMarkDelegate = self
+            let signInNav = UINavigationController(rootViewController: signInView)
+            self.present(signInNav, animated: true, completion: nil)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in
+        }
+        alertController.addAction(signIn)
+        alertController.addAction(cancel)
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.barButtonItem = sender as? UIBarButtonItem
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        present(alertController, animated: true)
+    }
+    
     private func fetchNGOImages(photoURL: String, photoCell: NGOPhotosCollectionViewCell){
         ImageHelper.fetchImage(urlString: photoURL) { (error, image) in
             if error != nil {
                 self.showAlert(title: "Error", message: "Error: Can't load NGO images")
             } else if let image = image {
                 photoCell.ngoPhotoView.image = image
-                
             }
         }
-        
     }
     
     private func fetchReviewer(with reviewerID: String, reviewCell: ReviewsTableViewCell){
@@ -335,20 +369,9 @@ class NGODetailsViewController: UIViewController {
         }
         
         guard let reviewer = Auth.auth().currentUser else {
-            self.segueToSignInView(options: "Error", message: "Only signed in users can leave a review") { (alert) in
-                let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
-                let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
-                signInView.userSignInState = .review
-                signInView.nGOID = self.nGO.ngOID
-                //signInView.reviewMessage = review
-               // signInView.ratingsValue = ratingsValue
-                signInView.bookMarkDelegate = self
-                let signInNav = UINavigationController(rootViewController: signInView)
-                self.present(signInNav, animated: true, completion: nil)
-            }
+            self.showLoginViewFromReview(sender: self)
             return
         }
-        
         DataBaseService.createReview(on: nGO.ngOID, reviewerID: reviewer.uid, with: review, withA: ratingsValue) { (error) in
             if let error = error {
                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while posting review on NGO")

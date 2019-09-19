@@ -11,7 +11,7 @@ import FirebaseAuth
 import CoreLocation
 
 
-enum signInState {
+enum SignInState {
     case bookmark, review
 }
 
@@ -26,7 +26,7 @@ class SignInViewController: UIViewController {
     
     weak var bookMarkDelegate: VConnectusersignInDelegate?
     
-    var userSignInState: signInState?
+    var userSignInState: SignInState?
     
     @IBOutlet weak var loginScrollView: UIScrollView!
     @IBOutlet weak var VConnectLogoImageView: UIImageView!
@@ -42,8 +42,6 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var newAccount: UIButton!
     
     var nGOID = ""
-   // var reviewMessage = ""
-   // var ratingsValue = 0.0
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
@@ -93,12 +91,11 @@ class SignInViewController: UIViewController {
     }
     
     @IBAction func segueToSignUpView(_ sender: UIButton) {
-        
-        
         let storyBoard = UIStoryboard(name: "AuthenticationView", bundle: nil)
         let signUpView = storyBoard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
         signUpView.ngoID = nGOID
         signUpView.signupBookMarkDelegate = self
+        signUpView.signupState = userSignInState
     navigationController?.pushViewController(signUpView, animated: true)
     }
     
@@ -144,7 +141,6 @@ class SignInViewController: UIViewController {
     
     @IBAction func SignInButtonPressedButton(_ sender: UIButton) {
         setupActivityIndicator()
-        
         guard let vConnectUserEmail = VConnectLoginEmailTextField.text, let vConnectUserPassword = VConnectLoginPasswordTextField.text,
         !vConnectUserEmail.isEmpty,
             !vConnectUserPassword.isEmpty else {
@@ -298,10 +294,9 @@ extension SignInViewController: CLLocationManagerDelegate {
 
 extension SignInViewController: VConnectUserCreatedAccountDelegate {
     
-    func successfullyCreatedVConnectAccount() {
+    func successfullyCreatedVConnectAccountFromBookMark() {
         guard let signInState = userSignInState else {return}
         guard Auth.auth().currentUser != nil else {return}
-        
         switch signInState {
         case .bookmark:
    self.bookMarkDelegate?.successfullySignedIn()

@@ -12,7 +12,7 @@ import FirebaseFirestore
 import FirebaseAuth
 
 protocol VConnectUserCreatedAccountDelegate: AnyObject {
-    func successfullyCreatedVConnectAccount()
+    func successfullyCreatedVConnectAccountFromBookMark()
 }
 
 
@@ -53,6 +53,7 @@ class SignUpViewController: UIViewController {
     
  private var allBookmarkedNGOIDs = [BookMark]()
     var ngoID = ""
+    var signupState: SignInState?
     
     @IBOutlet weak var createAccountScrollView: UIScrollView!
     private var allBookmarkedNGOs = [NGO]()
@@ -78,7 +79,6 @@ class SignUpViewController: UIViewController {
     }
     
     private func setupActivityIndicator(){
-        
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicator.center = CGPoint(x: loadingView.frame.size.width/2, y: loadingView.frame.size.height/2)
@@ -192,13 +192,11 @@ class SignUpViewController: UIViewController {
     
     @IBAction func CreateAccountButtonPressed(_ sender: UIButton) {
         setupActivityIndicator()
-        
         guard let firstName = firstNameTextField.text, let lastName = lastNameTextField.text, let email = emailTextField.text, let password = passwordTextField.text,
         !firstName.isEmpty,
         !lastName.isEmpty,
         !email.isEmpty,
             !password.isEmpty else {
-                
                 showAlert(title: "Error", message: "Email and Password required")
                 self.activityIndicator.stopAnimating()
                 self.loadingView.removeFromSuperview()
@@ -219,7 +217,7 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
     }
     
     func didCreateNewVConnectUserAccount(_ authService: AuthService, vconnectUser: VConnectUser) {
-  signupBookMarkDelegate?.successfullyCreatedVConnectAccount()
+  signupBookMarkDelegate?.successfullyCreatedVConnectAccountFromBookMark()
         dismiss(animated: true)
 }
     
@@ -227,7 +225,6 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
 
 extension SignUpViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        
         switch status  {
         case .authorizedWhenInUse:
             manager.startUpdatingLocation()
