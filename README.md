@@ -41,13 +41,16 @@ https://apps.apple.com/us/app/vvconnect/id1477645486
 ![LaunchScreen](https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/LaunchScreen%20.png). ![Homepage](https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/Homepage.png)
 
 
+<p align="center">
+<img src="https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/AboutView.png" width="300" height="649"/>
+</p>
 
+<p align="center">
+<img src="https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/MapView.png" width="300" height="649"/>
+</p>
 
-
-![About](https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/AboutView.png)
-
-![MapView](https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/MapView.png)
-
-![ReviewsPage](https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/ReviewView.png)
+<p align="center">
+<img src="https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/ReviewView.png" width="300" height="649"/>
+</p>
 
 
