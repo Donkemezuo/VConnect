@@ -38,7 +38,14 @@ https://apps.apple.com/us/app/vvconnect/id1477645486
 - Alamofire
 
 # Preview
-![LaunchScreen](https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/LaunchScreen%20.png). ![Homepage](https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/Homepage.png)
+
+<p align="center">
+<img src="https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/LaunchScreen%20.png" width="300" height="649"/>
+</p>
+
+<p align="center">
+<img src="https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/Homepage.png" width="300" height="649"/>
+</p>
 
 
 <p align="center">
