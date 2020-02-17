@@ -8,6 +8,13 @@
 
 import UIKit
 import CoreLocation
+import FirebaseFirestore
+import FirebaseAuth
+
+protocol VConnectUserCreatedAccountDelegate: AnyObject {
+    func successfullyCreatedVConnectAccountFromBookMark()
+}
+
 
 class SignUpViewController: UIViewController {
     @IBOutlet weak var VConnectLogoImageView: UIImageView!
@@ -17,6 +24,9 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var createAccountButton: UIButton!
+    
+    weak var signupBookMarkDelegate: VConnectUserCreatedAccountDelegate?
+    
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
@@ -41,7 +51,9 @@ class SignUpViewController: UIViewController {
     private var vConnectUser: VConnectUser!
     @IBOutlet weak var contentView: UIView!
     
-     private var allBookmarkedNGOIDs = [BookMark]()
+ private var allBookmarkedNGOIDs = [BookMark]()
+    var ngoID = ""
+    var signupState: SignInState?
     
     @IBOutlet weak var createAccountScrollView: UIScrollView!
     private var allBookmarkedNGOs = [NGO]()
@@ -67,7 +79,6 @@ class SignUpViewController: UIViewController {
     }
     
     private func setupActivityIndicator(){
-        
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicator.center = CGPoint(x: loadingView.frame.size.width/2, y: loadingView.frame.size.height/2)
@@ -88,7 +99,6 @@ class SignUpViewController: UIViewController {
     
     @IBAction func showSignInView(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
-       
     }
     
     private func setupViewDetails(){
@@ -131,7 +141,6 @@ class SignUpViewController: UIViewController {
         return userLocationCoordinates
     }
     
-    
     private func locationAuthorizationStatus(){
         switch CLLocationManager.authorizationStatus() {
         case .authorizedWhenInUse:
@@ -169,7 +178,7 @@ class SignUpViewController: UIViewController {
             if error != nil {
                 
             } else if let placemark = placemark?.first {
-                DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.location).document(vConnectUser.uid).updateData([VConnectUserCollectionKeys.location: placemark.locality ?? "" ])
+            DataBaseService.firestoreDataBase.collection(VConnectUserCollectionKeys.location).document(vConnectUser.uid).updateData([VConnectUserCollectionKeys.location: placemark.locality ?? "" ])
             }
         }
         
@@ -181,30 +190,13 @@ class SignUpViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
-    private func segueToHomeVC(){
-        
-                showAlert(title: "Success", message: "Welcome to VConnect. Our amazing community of support") { (alert) in
-                    let homeViewController = HomeViewController(allRegisteredNGOs: self.allNGOs, allBookmarkedNGOs: self.allBookmarkedNGOs, allBookmarkedDates: self.allBookmarkedNGOIDs, vConnectUser: self.vConnectUser, userCoordinates: self.getUserLocationCoordinates())
-                    
-                    homeViewController.modalTransitionStyle = .crossDissolve
-                    homeViewController.modalPresentationStyle = .overFullScreen
-                    self.present(homeViewController, animated: true, completion: {
-                        self.activityIndicator.stopAnimating()
-                        self.loadingView.removeFromSuperview()
-                    })
-                }
-    }
-
-    
     @IBAction func CreateAccountButtonPressed(_ sender: UIButton) {
         setupActivityIndicator()
-        
         guard let firstName = firstNameTextField.text, let lastName = lastNameTextField.text, let email = emailTextField.text, let password = passwordTextField.text,
         !firstName.isEmpty,
         !lastName.isEmpty,
         !email.isEmpty,
             !password.isEmpty else {
-                
                 showAlert(title: "Error", message: "Email and Password required")
                 self.activityIndicator.stopAnimating()
                 self.loadingView.removeFromSuperview()
@@ -225,56 +217,14 @@ extension SignUpViewController: AuthServiceCreateNewVConnectUserAccountDelegate 
     }
     
     func didCreateNewVConnectUserAccount(_ authService: AuthService, vconnectUser: VConnectUser) {
-        
-        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).addSnapshotListener(includeMetadataChanges: true) { (querySnapshot, error) in
-            if let error = error {
-                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching NGOs")
-            }else if let querySnapShot = querySnapshot {
-                var allRegisteredNGOs = [NGO]()
-                
-                for document in querySnapShot.documents {
-                    let ngo = NGO.init(dict: document.data())
-                    
-                    allRegisteredNGOs.append(ngo)
-                }
-                
-                self.allNGOs = allRegisteredNGOs
-                
-                guard let userID = authService.getCurrentVConnectUser()?.uid else {return}
-                DataBaseService.fetchVConnectUserr(with: userID) { (error, vconnectUser) in
-                    if let error = error {
-                        self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching user")
-                    } else if let vConnectUser = vconnectUser {
-                        self.vConnectUser = vConnectUser
-                        self.checkLocationAuthorizationStatus()
-                        DataBaseService.fetchVConnectBookMarkedNGOs(userID) { (error, bookmarks) in
-                            if let error = error {
-                                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
-                            } else if let bookmarks = bookmarks {
-                                print("Fetching User")
-                                self.allBookmarkedNGOIDs = bookmarks
-                                self.allBookmarkedNGOs.removeAll()
-                                for bookmarkedNGO in bookmarks {
-                                    for ngo in self.allNGOs {
-                                        if bookmarkedNGO.ngoID == ngo.ngOID {
-                                            self.allBookmarkedNGOs.append(ngo)
-                                        }
-                                    }
-                                }
-                                self.checkLocationAuthorizationStatus()
-                            }
-                        }
-                    }
-                    }
-    }
-
+  signupBookMarkDelegate?.successfullyCreatedVConnectAccountFromBookMark()
+        dismiss(animated: true)
 }
-}
+    
 }
 
 extension SignUpViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        
         switch status  {
         case .authorizedWhenInUse:
             manager.startUpdatingLocation()
@@ -287,7 +237,6 @@ extension SignUpViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         if locations.first != nil {
-            self.segueToHomeVC()
         }
     }
 }

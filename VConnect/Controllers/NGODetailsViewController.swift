@@ -11,36 +11,42 @@ import Cosmos
 import SafariServices
 import GoogleMaps
 import MessageUI
+import FirebaseAuth
+import FirebaseFirestore
+
+protocol DetailVCDelegate: AnyObject {
+    func didBookMarkedNGO(withBookMarkedIDs: [BookMark])
+}
 
 class NGODetailsViewController: UIViewController {
     private var leftSwipeGesture: UISwipeGestureRecognizer!
     private var rightSwipeGesture: UISwipeGestureRecognizer!
     var userLocationCoordinates: CLLocationCoordinate2D!
     var ngoLocationCoordinates: CLLocationCoordinate2D!
-    var vconnectUser: VConnectUser!
-    
+    var vconnectUser: VConnectUser?
     private var tapGesture: UITapGestureRecognizer!
     private var detailView = DetailView()
     private var backgroundView = TableViewBackgroundImageView()
     private var nGO: NGO!
+    var ngoRatingsValue = 0.0
     private var barButtonItem = UIBarButtonItem()
-    private var authService = AppDelegate.authService
     private var allNGOReviews = [NGOReviews]() {
-        
         didSet {
             DispatchQueue.main.async {
                 self.detailView.reviewView.reviewsTableView.reloadData()
-                self.configureEmptyState()
+                self.detailView.configureEmptyState(withReviews: self.allNGOReviews)
             }
         }
     }
+    
+    weak var detailVCDelegate: DetailVCDelegate?
+    let customView = CosmosView()
     
     private var allUserBookMarks = [BookMark]()
     private var cellSpacing = UIScreen.main.bounds.size.width * 0.001
     private var reportUserTapGesture: UITapGestureRecognizer!
     
     private var numberOfRaters = 1.0
-    
     private var viewUI = UIView()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +57,7 @@ class NGODetailsViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true 
         detailView.reviewView.reviewsTableView.delegate = self
         detailView.reviewView.reviewsTableView.dataSource = self
-        nGOInformations()
+        detailView.setNGOInformations(withNGO: self.nGO)
         fetchReviews(with: nGO.ngOID)
         setUpPostReviewsButton()
         swipeView()
@@ -60,24 +66,12 @@ class NGODetailsViewController: UIViewController {
         bookMarkButton()
         setupSafariServices()
         segmentedControlTapped()
-        //UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue], for: .normal)
-        //mailComposer.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         detailView.reviewView.reviewsTableView.estimatedRowHeight = 5
         detailView.reviewView.reviewsTableView.rowHeight = UITableView.automaticDimension
-    }
-    
-    private func configureEmptyState() {
-        if allNGOReviews.count == 0 {
-            detailView.reviewView.reviewsTableView.backgroundView = EmptyView.emptyMessage(message: "No Reviews",
-                                                                                           size: detailView.reviewView.reviewsTableView.bounds.size)
-            detailView.reviewView.reviewsTableView.separatorStyle = .none
-        } else {
-            detailView.reviewView.reviewsTableView.backgroundView = nil
-        }
     }
     
     private func segmentedControlTapped(){
@@ -98,15 +92,6 @@ class NGODetailsViewController: UIViewController {
             detailView.setPhotoViewConstrains()
         default:
             return
-        }
-    }
-    
-    private func configurePhotosEmptyState(){
-        
-        if nGO.ngoImagesURL.count > 0 {
-            detailView.ngoPhotosView.nGOPhotosCollectionView.backgroundView  = nil
-        } else {
-            detailView.ngoPhotosView.nGOPhotosCollectionView.backgroundView = EmptyView.emptyMessage(message: "No Photos", size: detailView.ngoPhotosView.nGOPhotosCollectionView.bounds.size)
         }
     }
     
@@ -146,16 +131,16 @@ class NGODetailsViewController: UIViewController {
             detailView.segmentedControl.selectedSegmentIndex -= 1
             segmentedControlTapped()
         }
-        
     }
     
-    init(nGO: NGO, allBookMarks: [BookMark], userLocationCoordinate: CLLocationCoordinate2D, ngoCoordinates: CLLocationCoordinate2D) {
+    init(nGO: NGO, userLocationCoordinate: CLLocationCoordinate2D, ngoCoordinates: CLLocationCoordinate2D, bookMarkIDs: [BookMark]) {
         super.init(nibName: nil, bundle: nil)
         self.nGO = nGO
-        self.allUserBookMarks = allBookMarks
-        self.configurePhotosEmptyState()
+        self.detailView.configureEmptyState(withReviews: self.allNGOReviews)
         self.ngoLocationCoordinates = ngoCoordinates
         self.userLocationCoordinates = userLocationCoordinate
+        self.allUserBookMarks = bookMarkIDs
+        
 
     }
     
@@ -172,69 +157,27 @@ class NGODetailsViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    
-    private func nGOInformations(){
-        detailView.missionView.ngoDescriptionTxtView.text = nGO.ngoDescription
-        detailView.missionView.ngoMissionTxtView.text = nGO.missionStatement
-        detailView.missionView.ngoVissionTxtView.text = nGO.visionStatement
-        detailView.missionView.contactPersonNameLabel.text = nGO.contactPersonName + " " + nGO.ngoPhoneNumber
-        
-        detailView.missionView.websiteTxtView.text = nGO.ngoWebsite ?? ""
-        
-        detailView.ngoAddressView.addressTxtView.text = """
-        \(nGO.ngoStreetAddress) \(nGO.ngoCity), \(nGO.ngoState)
-        """
-        
-        detailView.ngoAddressView.operationalHoursTxtView.text = """
-        
-    Monday                                 \(nGO.mondayHours)
-        
-    Tuesday                                 \(nGO.tuesdayHours)
-        
-     Wednesday                             \(nGO.wedsDayHours)
-      
-    Thursday                                \(nGO.thursdayHours)
-   
- Friday                                   \(nGO.fridayHours)
-  
-Saturday                     \(nGO.saturdayHours)
-      
-Sunday                        \(nGO.sundayHours)
-     
-"""
-        
-        
-       
-    }
-    
     private func setupSafariServices(){
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(showSafariView))
         detailView.missionView.websiteTxtView.addGestureRecognizer(tapGesture)
-        
     }
     
     @objc private func showSafariView(){
         guard let website = nGO.ngoWebsite else {return }
-      
-        
         guard let websiteURL = URL(string: website) else {
             showAlert(title: "Error", message: "website URL not valid")
             return
         }
-        
         let safariVC = SFSafariViewController(url: websiteURL)
         present(safariVC, animated: true)
-        
-        
     }
     
     private func reportButtonPressed(){
-        
         if MFMailComposeViewController.canSendMail(){
             let emailComposer = MFMailComposeViewController()
             emailComposer.mailComposeDelegate = self
-            emailComposer.setSubject("Reporting \(vconnectUser.lastName + " " + vconnectUser.firstName)")
+            emailComposer.setSubject("Reporting \(vconnectUser!.lastName + " " + vconnectUser!.firstName)")
             emailComposer.setToRecipients(["trdonkemezuojnr@yahoo.com", "trdonkemezuojnr@gmail.com"])
             self.present(emailComposer, animated: true)
         } else {
@@ -246,7 +189,6 @@ Sunday                        \(nGO.sundayHours)
     private func reportVConnectUser(fromReviewCell reviewCell: ReviewsTableViewCell){
         reportUserTapGesture = UITapGestureRecognizer(target: self, action: #selector(reviewerImageTap))
         reviewCell.reviewerProfileImage.addGestureRecognizer(reportUserTapGesture)
-        
     }
     
     @objc private func reviewerImageTap(sender: AnyObject){
@@ -271,27 +213,24 @@ Sunday                        \(nGO.sundayHours)
             popoverController.permittedArrowDirections = []
         }
     present(alertController, animated: true)
-        
     }
     
     private func bookMarkButton() {
-        
         detailView.moreOptionsButton.addTarget(self, action: #selector(showAlertController), for: .touchUpInside)
-        
     }
     
     
     private func bookMarkNGO(onVConnectUserID userID: String){
-        
         let bookMark = BookMark(ngoID: self.nGO.ngOID, date: Date.customizedDateFormat())
-        
         if !allUserBookMarks.contains(bookMark){
-            
             DataBaseService.createBookMark(onVConnectUserID: userID, bookMarkNGO: bookMark) { (error) in
                 if let error = error {
                     print("Error: \(error.localizedDescription)")
                 } else {
-                self.showAlert(title: "BookMarked", message: "Successfully BookMarked NGO. This NGO will appear on your profile")
+                self.showAlert(title: "BookMarked", message: "Successfully BookMarked NGO. This NGO will appear on your profile", handler: { (okay) in
+          self.detailVCDelegate?.didBookMarkedNGO(withBookMarkedIDs: self.allUserBookMarks)
+                    self.allUserBookMarks.append(bookMark)
+                    })
                 }
             }
         } else {
@@ -301,24 +240,67 @@ Sunday                        \(nGO.sundayHours)
     
     
     @objc private func showAlertController(sender: AnyObject){
-        
         let alertController = UIAlertController(title: "Options", message: "You can book mark an NGO to view later", preferredStyle: .actionSheet)
-        
         let bookMark = UIAlertAction(title: "Bookmark", style: .default) { (alert) in
-          
-            guard let userID = self.authService.getCurrentVConnectUser()?.uid else {
-                self.showAlert(title: "Error", message: "Only logged in user can book mark an NGO. Please log in or create an account")
-                return
+            if Auth.auth().currentUser == nil {
+                self.showLoginViewFromBookmark(sender: sender)
+            } else {
+                guard let userID = Auth.auth().currentUser else {return}
+                self.bookMarkNGO(onVConnectUserID: userID.uid)
             }
-            
-            self.bookMarkNGO(onVConnectUserID: userID)
         }
-        
         let cancel = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in
-            
         }
         
         alertController.addAction(bookMark)
+        alertController.addAction(cancel)
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.barButtonItem = sender as? UIBarButtonItem
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        present(alertController, animated: true)
+    }
+    
+    private func showLoginViewFromBookmark(sender: AnyObject){
+        let alertController = UIAlertController(title: "Error", message: "Only registered users can bookmark", preferredStyle: .actionSheet)
+        let bookmark = UIAlertAction(title: "SignIn or SignUp", style: .default) { (bookmark) in
+            let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
+            let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
+            signInView.userSignInState = .bookmark
+            signInView.nGOID = self.nGO.ngOID
+            signInView.bookMarkDelegate = self
+            let signInNav = UINavigationController(rootViewController: signInView)
+            self.present(signInNav, animated: true, completion: nil)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in
+        }
+        alertController.addAction(bookmark)
+        alertController.addAction(cancel)
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.barButtonItem = sender as? UIBarButtonItem
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        present(alertController, animated: true)
+    }
+    
+    private func showLoginViewFromReview(sender: AnyObject){
+    let alertController = UIAlertController(title: "Error", message: "Only signed in users can leave a review", preferredStyle: .actionSheet)
+        let signIn = UIAlertAction(title: "SignIn or SignUp", style: .default) { (bookmark) in
+            let storyboard = UIStoryboard(name: "AuthenticationView", bundle: nil)
+            let signInView = storyboard.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
+            signInView.userSignInState = .review
+            signInView.nGOID = self.nGO.ngOID
+            signInView.bookMarkDelegate = self
+            let signInNav = UINavigationController(rootViewController: signInView)
+            self.present(signInNav, animated: true, completion: nil)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in
+        }
+        alertController.addAction(signIn)
         alertController.addAction(cancel)
         if let popoverController = alertController.popoverPresentationController {
             popoverController.barButtonItem = sender as? UIBarButtonItem
@@ -335,10 +317,8 @@ Sunday                        \(nGO.sundayHours)
                 self.showAlert(title: "Error", message: "Error: Can't load NGO images")
             } else if let image = image {
                 photoCell.ngoPhotoView.image = image
-                
             }
         }
-        
     }
     
     private func fetchReviewer(with reviewerID: String, reviewCell: ReviewsTableViewCell){
@@ -366,64 +346,45 @@ Sunday                        \(nGO.sundayHours)
 
     
     private func setupGoodMapView( withLatitude lat: CLLocationDegrees, withLogitude long: CLLocationDegrees){
-  
         let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: long, zoom: 16)
         detailView.ngoAddressView.googleMapView.camera = camera
         self.showPin(pinPosition: detailView.ngoAddressView.googleMapView.camera.target)
     }
     
     private func fetchReviews(with ngoID: String){
-        
         DataBaseService.fetchAllNGOReviews(with: ngoID) { (error, ngoReviews) in
             if let error = error {
                 self.showAlert(title: "Error", message: "Error: \(error.localizedDescription)")
             } else if let ngoReviews = ngoReviews {
                 self.allNGOReviews = ngoReviews
-                
             }
         }
     }
     
-    private func circleImageView(cell: ReviewsTableViewCell){
-        cell.reviewerProfileImage.layer.cornerRadius = cell.reviewerProfileImage.bounds.width / 2.0
-        cell.reviewerProfileImage.contentMode = .scaleAspectFill
-        cell.reviewerProfileImage.layer.masksToBounds = true
-        cell.reviewerProfileImage.clipsToBounds = true
-        
-    }
-    
-    
     private func writeReviewOnNGO(withA ratingsValue: Double){
-        
-        guard let reviewer = authService.getCurrentVConnectUser() else {
-            showAlert(title: "Error", message: "Only logged in users can leave a review")
-            return
-            
-        }
-        
+   
         guard let review = detailView.reviewView.reviewTextField.text, !review.isEmpty else {
             self.showAlert(title: "Error", message: "Cannot post empty review")
             return
         }
-
+        
+        guard let reviewer = Auth.auth().currentUser else {
+            self.showLoginViewFromReview(sender: self)
+            return
+        }
         DataBaseService.createReview(on: nGO.ngOID, reviewerID: reviewer.uid, with: review, withA: ratingsValue) { (error) in
             if let error = error {
                 self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while posting review on NGO")
             } else {
-                self.showAlert(title: "Successfully posted review", message: "Thank you for leaving a review on this organization", handler: { (alert) in
-                    
-                self.dismiss(animated: true, completion: nil)
+                
+    self.showAlert(title: "Successfully posted review", message: "Thank you for leaving a review on this organization")
                 self.detailView.reviewView.reviewTextField.text = ""
-                })
             }
         }
     }
     
-    
     private func presentRatingView(){
-        
         let alertController = UIAlertController(title: "Rate Experience", message: "Please rate your experience", preferredStyle: .alert)
-        let customView = CosmosView()
         customView.settings.starMargin = 3.5
         customView.settings.totalStars = 5
         customView.settings.starSize = 30
@@ -437,11 +398,11 @@ Sunday                        \(nGO.sundayHours)
         customView.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -80).isActive = true
         let thankYou = UIAlertAction(title: "Rate", style: .default) { (alert) in
             self.numberOfRaters += 1
-            let ngoRatingsValue = (self.nGO.ratingsValue + customView.rating) / self.numberOfRaters
+            self.ngoRatingsValue = (self.nGO.ratingsValue + self.customView.rating) / self.numberOfRaters
             
-            DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(self.nGO.ngOID).updateData([NGOsCollectionKeys.ratingsValue: ngoRatingsValue])
+    DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(self.nGO.ngOID).updateData([NGOsCollectionKeys.ratingsValue: self.ngoRatingsValue])
 
-        self.writeReviewOnNGO(withA: customView.rating)
+            self.writeReviewOnNGO(withA: self.customView.rating)
             
         }
         alertController.addAction(thankYou)
@@ -449,10 +410,8 @@ Sunday                        \(nGO.sundayHours)
         
     }
     
-    
     private func setUpPostReviewsButton(){
         detailView.reviewView.sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
-        
     }
     
     @objc private func sendButtonPressed(){
@@ -462,7 +421,6 @@ Sunday                        \(nGO.sundayHours)
     private func segueToMap(){
         if (UIApplication.shared.canOpenURL(NSURL(string:"comgooglemaps://")! as URL)) {
             UIApplication.shared.open(NSURL(string: "comgooglemaps://?saddr=&daddr=\(ngoLocationCoordinates.latitude),\(ngoLocationCoordinates.longitude)&directionsmode=driving")! as URL)
-            
         } else {
             NSLog("Can't use comgooglemaps://");
         }
@@ -515,7 +473,6 @@ extension NGODetailsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if allNGOReviews.count > 0 {
             
             guard let reviewsCell = tableView.dequeueReusableCell(withIdentifier: "ReviewsTableViewCell", for: indexPath) as? ReviewsTableViewCell else {return UITableViewCell()}
@@ -549,16 +506,45 @@ extension NGODetailsViewController: MFMailComposeViewControllerDelegate {
 
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         if result == .sent {
-            controller.showAlert(title: "Thank you", message: "Thank you for reporting \(vconnectUser.firstName + " " + vconnectUser.lastName). As a support community, we value and respect the safety of our users and will continue to work towards creating a platform where people and organizations feel safe") { (alert) in
+            controller.showAlert(title: "Thank you", message: "Thank you for reporting \(vconnectUser!.firstName + " " + vconnectUser!.lastName). As a support community, we value and respect the safety of our users and will continue to work towards creating a platform where people and organizations feel safe") { (alert) in
                             controller.dismiss(animated: true, completion: nil)
         }
         } else {
             controller.dismiss(animated: true, completion: nil)
         }
-        
     }
     
 }
+
+
+extension NGODetailsViewController: VConnectusersignInDelegate {
+    func createReview() {
+        guard let userID = Auth.auth().currentUser else {return}
+        guard let reviewMessage = detailView.reviewView.reviewTextField.text, !reviewMessage.isEmpty else {return}
+        DataBaseService.createReview(on: nGO.ngOID, reviewerID: userID.uid, with: reviewMessage, withA: customView.rating ) { (error) in
+            if let error = error {
+                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while posting review on NGO")
+            } else {
+            self.showAlert(title: "Successfully posted review", message: "Thank you for leaving a review on this organization")
+            self.detailView.reviewView.reviewTextField.text = ""
+            }
+        }
+    }
+
+    func successfullySignedIn() {
+        guard let userID = Auth.auth().currentUser else {return}
+        DataBaseService.fetchVConnectBookMarkedNGOs(userID.uid) { (error, bookmarks) in
+                    if let error = error {
+                        self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
+                    } else if let bookmarks = bookmarks {
+                        self.allUserBookMarks = bookmarks
+                    }
+                }
+            }
+    }
+
+
+    
 
 
 

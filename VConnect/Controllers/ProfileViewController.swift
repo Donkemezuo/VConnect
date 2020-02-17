@@ -44,7 +44,7 @@ class ProfileViewController: UIViewController {
     
     private var profileView = ProfileView()
     private var authService = AppDelegate.authService
-    private var allNGOs: [NGO]!
+   // private var allNGOs: [NGO]
     private var bookMarks = [NGO]() {
         didSet {
             DispatchQueue.main.async {
@@ -68,6 +68,7 @@ class ProfileViewController: UIViewController {
         view.backgroundColor =  UIColor.init(hexString: "0072B1")
         profileHeaderView.backgroundColor = UIColor.init(hexString: "0072B1")
         displayVConnectUserInfo(withVConnectUser: vConnectUser)
+        fetchUserBookMarks()
         profileHeaderView.cancelButton.addTarget(self, action: #selector(dismissButtonClicked), for: .touchUpInside)
         
         profileView.logOutButton.addTarget(self, action: #selector(signOutButtonPressed), for: .touchUpInside)
@@ -91,9 +92,8 @@ class ProfileViewController: UIViewController {
         profileHeaderView.profileImageView.isUserInteractionEnabled = false
     }
     
-    init(allNGOs: [NGO], allBookMarkedNGOs: [NGO], allBookMarkedDates: [BookMark], vConnectUser: VConnectUser){
+    init(allBookMarkedNGOs: [NGO], allBookMarkedDates: [BookMark], vConnectUser: VConnectUser){
         super.init(nibName: nil, bundle: nil)
-        self.allNGOs = allNGOs
         self.bookMarks = allBookMarkedNGOs
         self.allBookMarkDates = allBookMarkedDates
         self.vConnectUser = vConnectUser
@@ -151,6 +151,17 @@ class ProfileViewController: UIViewController {
         nameCell.lastNameLabel.isEnabled = true
         nameCell.lastNameLabel.backgroundColor = .gray
         
+    }
+    
+    private func fetchUserBookMarks(){
+        guard let userID = Auth.auth().currentUser else {return}
+        DataBaseService.fetchVConnectBookMarkedNGOs(userID.uid) { (error, bookmarks) in
+            if error != nil {
+                print("Error")
+            } else if let bookmarks = bookmarks {
+                self.allBookMarkDates = bookmarks
+            }
+        }
     }
     
 
@@ -392,14 +403,15 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 
             } else {
                 let bookMarkedNGO = bookMarks[indexPath.row]
-                let date = allBookMarkDates[indexPath.row]
+                //dump(bookMarkedNGO)
+                let date = allBookMarkDates[0]
+                //dump(allBookMarkDates.count)
                 guard let bookMarkCell = tableView.dequeueReusableCell(withIdentifier: "BookMarkCell", for: indexPath) as? BookMarkedTableViewCell  else {
                     return UITableViewCell()
                 }
                 bookMarkCell.backgroundColor = .clear
                 bookMarkCell.ngoName.text = bookMarkedNGO.ngoName
                 bookMarkCell.addressLabel.text = bookMarkedNGO.ngoCity
-                //bookMarkCell.selectionStyle =
                 bookMarkCell.savedDate.text = "Bookmarked since \(date.date)"
                 return bookMarkCell
             }

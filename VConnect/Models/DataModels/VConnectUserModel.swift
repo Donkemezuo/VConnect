@@ -47,10 +47,7 @@ struct BookMark: Equatable {
     init(ngoID: String, date: String) {
         self.ngoID = ngoID
         self.date = date 
-        
     }
-    
-    
     init(dict: [String: Any]) {
         self.date = dict [NGOsCollectionKeys.visitedDate] as? String ?? "No visited date"
         self.ngoID = dict [NGOsCollectionKeys.ngOID] as? String ?? "No NGO ID"

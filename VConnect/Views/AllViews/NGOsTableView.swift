@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class NGOsTableView: UIView {
     
@@ -204,6 +205,48 @@ class NGOsTableView: UIView {
             heightConstraint = searchBar.heightAnchor.constraint(equalToConstant: 0)
             heightConstraint?.isActive = true
              searchBarButton.setImage(#imageLiteral(resourceName: "icons8-search.png").withRenderingMode(.alwaysTemplate), for: .normal)
+        }
+    }
+    
+    public func createNGOCoordinates(withNGOFullAddress fullAddress: String, completionHandler: @escaping(Error?, CLLocationCoordinate2D?) -> Void) {
+        
+        GoogleAddressAPIClient.getAddressCoordinates(fullAddress: fullAddress) { (error, fetchResults) in
+            if let error = error {
+                completionHandler(error, nil)
+            } else if let fetchedResults = fetchResults {
+                
+                let coordinatesFromFetchedResults = fetchedResults.results.first?.geometry
+                
+                guard let latitude = coordinatesFromFetchedResults?.location.lat, let longitude = coordinatesFromFetchedResults?.location.lng else {
+                    return
+                }
+                completionHandler(nil, CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+            }
+        }
+        
+    }
+    
+    public func getImages(ngo: NGO, completionHandler: @escaping ([NGOImages]) -> Void) {
+        
+        var nGOImages = [NGOImages]()
+        DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).document(ngo.ngOID).collection(Constants.nGOImagesPath).getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription) encountered while fetching documents")
+            } else if let snapShot = snapshot {
+                
+                for document in snapShot.documents {
+                    let ngoImage = NGOImages.init(dict: document.data())
+                    nGOImages.append(ngoImage)
+                }
+                completionHandler(nGOImages)
+                
+            }
+        }
+    }
+    
+    public func displayVConnectUserInfo(withVConnectUser vConnectUser: VConnectUser){
+        if let profilePhotoURL = vConnectUser.profileImageURL {
+        profileImageView.kf.setImage(with: URL(string: profilePhotoURL), placeholder:#imageLiteral(resourceName: "placeholder.png"))
         }
     }
 

@@ -37,4 +37,26 @@ class NGOPhotosCollectionViewCell: UICollectionViewCell {
     ngoPhotoView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     
     }
+    
+//    public func setNGOImage(withNGOImage imageURL: String) {
+//
+//        ImageHelper.fetchImage(urlString: imageURL) { (error, ngoImage) in
+//            if error != nil {
+//                self.show
+//            }
+//        }
+//
+//    }
+    
+//    private func fetchNGOImages(photoURL: String, photoCell: NGOPhotosCollectionViewCell){
+//        ImageHelper.fetchImage(urlString: photoURL) { (error, image) in
+//            if error != nil {
+//                self.showAlert(title: "Error", message: "Error: Can't load NGO images")
+//            } else if let image = image {
+//                photoCell.ngoPhotoView.image = image
+//
+//            }
+//        }
+//
+//    }
 }

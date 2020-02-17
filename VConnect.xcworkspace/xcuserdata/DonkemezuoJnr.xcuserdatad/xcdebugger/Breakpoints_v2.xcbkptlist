@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VConnect/FireBase Helpers/UserAlert+Extension.swift"
-            timestampString = "588729960.601211"
+            filePath = "VConnect/FireBase Helpers/AuthService.swift"
+            timestampString = "589833251.796261"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "confirmDeletionActionSheet(handler:)"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "createNewVConnectUser(firstName:lastName:email:password:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,45 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VConnect/FireBase Helpers/UserAlert+Extension.swift"
-            timestampString = "588729960.601285"
+            filePath = "VConnect/FireBase Helpers/AuthService.swift"
+            timestampString = "589833251.7966909"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "confirmDeletionActionSheet(handler:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VConnect/FireBase Helpers/UserAlert+Extension.swift"
-            timestampString = "588729960.601324"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "confirmDeletionActionSheet(handler:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VConnect/FireBase Helpers/UserAlert+Extension.swift"
-            timestampString = "588729960.601359"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "confirmDeletionActionSheet(handler:)"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "createNewVConnectUser(firstName:lastName:email:password:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -9,9 +9,24 @@
 import UIKit
 import FirebaseAuth
 import CoreLocation
-@IBDesignable
+
+
+enum SignInState {
+    case bookmark, review
+}
+
+protocol VConnectusersignInDelegate: AnyObject {
+    func successfullySignedIn()
+    func createReview()
+}
 
 class SignInViewController: UIViewController {
+    
+    
+    
+    weak var bookMarkDelegate: VConnectusersignInDelegate?
+    
+    var userSignInState: SignInState?
     
     @IBOutlet weak var loginScrollView: UIScrollView!
     @IBOutlet weak var VConnectLogoImageView: UIImageView!
@@ -25,6 +40,8 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var LoginButton: UIButton!
   
     @IBOutlet weak var newAccount: UIButton!
+    
+    var nGOID = ""
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
@@ -73,6 +90,16 @@ class SignInViewController: UIViewController {
         loginScrollView.scrollIndicatorInsets = contentInsets
     }
     
+    @IBAction func segueToSignUpView(_ sender: UIButton) {
+        let storyBoard = UIStoryboard(name: "AuthenticationView", bundle: nil)
+        let signUpView = storyBoard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
+        signUpView.ngoID = nGOID
+        signUpView.signupBookMarkDelegate = self
+        signUpView.signupState = userSignInState
+    navigationController?.pushViewController(signUpView, animated: true)
+    }
+    
+    
     @objc func keyboardWillShow(notification: Notification) {
         guard let keyboardFrame: CGRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         loginScrollView.contentInset.bottom = keyboardFrame.height * 0.65
@@ -114,7 +141,6 @@ class SignInViewController: UIViewController {
     
     @IBAction func SignInButtonPressedButton(_ sender: UIButton) {
         setupActivityIndicator()
-        
         guard let vConnectUserEmail = VConnectLoginEmailTextField.text, let vConnectUserPassword = VConnectLoginPasswordTextField.text,
         !vConnectUserEmail.isEmpty,
             !vConnectUserPassword.isEmpty else {
@@ -202,52 +228,17 @@ extension SignInViewController: AuthServiceExistingVConnectAccountDelegate {
     }
     
     func didSignInToExistingVConnectUserAccount(_ authService: AuthService, user: User) {
-   DataBaseService.firestoreDataBase.collection(NGOsCollectionKeys.ngoCollectionKey).addSnapshotListener(includeMetadataChanges: true) { (querySnapshot, error) in
-            if let error = error {
-                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching NGOs")
-            }else if let querySnapShot = querySnapshot {
-                var allRegisteredNGOs = [NGO]()
-
-                for document in querySnapShot.documents {
-                    let ngo = NGO.init(dict: document.data())
-                    allRegisteredNGOs.append(ngo)
-                }
-
-                self.allNGOs = allRegisteredNGOs
-
-                guard let userID = authService.getCurrentVConnectUser()?.uid else {return}
-                DataBaseService.fetchVConnectUserr(with: userID) { (error, vconnectUser) in
-                    if let error = error {
-                        self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching user")
-                    } else if let vConnectUser = vconnectUser {
-                        self.vConnectUser = vConnectUser
-                      
-                    DataBaseService.fetchVConnectBookMarkedNGOs(userID) { (error, bookmarks) in
-                            if let error = error {
-                                self.showAlert(title: "Error", message: "Error \(error.localizedDescription) encountered while fetching book marks")
-                            } else if let bookmarks = bookmarks {
-                                self.allBookmarkedNGOIDs = bookmarks
-                                self.allBookmarkedNGOs.removeAll()
-                                for bookmarkedNGO in bookmarks {
-                                    for ngo in self.allNGOs {
-                                        if bookmarkedNGO.ngoID == ngo.ngOID {
-                                            self.allBookmarkedNGOs.append(ngo)
-                                        }
-                                    }
-                                }
-                                 self.checkLocationAuthorizationStatus()
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-
+        bookMarkDelegate?.successfullySignedIn()
+        bookMarkDelegate?.createReview()
+        dismiss(animated: true)
     }
     
     private func segueToHomeVC(){
-        let homeViewController = HomeViewController(allRegisteredNGOs: allNGOs, allBookmarkedNGOs: allBookmarkedNGOs, allBookmarkedDates: allBookmarkedNGOIDs, vConnectUser: vConnectUser, userCoordinates: getUserLocationCoordinates())
+    let homeViewController = HomeViewController()
+        homeViewController.allUserBookMarkIDs = allBookmarkedNGOIDs
+        homeViewController.allUserBookmarks = allBookmarkedNGOs
+        homeViewController.vConnectUser = vConnectUser
+        homeViewController.userCoordinates = getUserLocationCoordinates()
         let homeVC = UINavigationController(rootViewController: homeViewController)
         self.present(homeVC, animated: true, completion: {
             if let app = UIApplication.shared.delegate as? AppDelegate {
@@ -293,9 +284,27 @@ extension SignInViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if locations.first != nil {
-           self.segueToHomeVC()
+          // self.segueToHomeVC()
+            print("Yes")
         }
 
     }
+    
+}
+
+extension SignInViewController: VConnectUserCreatedAccountDelegate {
+    
+    func successfullyCreatedVConnectAccountFromBookMark() {
+        guard let signInState = userSignInState else {return}
+        guard Auth.auth().currentUser != nil else {return}
+        switch signInState {
+        case .bookmark:
+   self.bookMarkDelegate?.successfullySignedIn()
+        case .review:
+    self.bookMarkDelegate?.createReview()
+        }
+        
+    }
+    
     
 }
