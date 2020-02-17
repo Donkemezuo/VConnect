@@ -1,31 +1,18 @@
 # VVConnect
-A simply designed user-friendly mobile app where victims and vulnerable people in Nigeria can find and connect with support systems around them. With VVConnect, victims and vulnerable people in Nigeria can easily find and connect with support systems around them in Nigeria like non-governmental organizations(NGOs), government agencies and non-for profit organizations who are setup to assist victims. VVConnect is currently on the appstore.  
+This is the version 2.0 of VVConnect and it's currently on the build after getting and gathering feedbacks from real users and practitioners.
 
-# With VVConnect;
- - Users can see a list of support systems in Nigeria and how far they are away from each individual support system
- - Users can click on a support system to see more details like the;
- 
-    - Description
-    - Mission Statement 
-    - Vision Statement
-    - Contact Person Information
-    - Organization website 
-    - Organization address on a mapView
-    - Organization operational hours 
-    - Reviews left by other users who have visited the organization
-    - Photos of the Organization
-    
- - Users can click on the pin on the map to see route to the organization
- - Users can leave a ratings and review on an organization
- - Users can bookmark an organization to visit later
- - Users can also search organizations by city and by category of specialization. 
+# Version 2.0 will support; 
+- A better and simplier user interface (UI)
+- A better and simplier navigation and user experience (UX)
+- Google translation from English to local Nigerian languages 
+- Text to speech
+- Recommendation of an NGO 
+- Share NGO information via email or facebook 
 
-# Appstore Download Link 
-https://apps.apple.com/us/app/vvconnect/id1477645486 
- 
 # API's used
 - Explored Firebase as a backend
 - Google Place's API
+- Google translations API 
 
 # FrameWorks Used
 - Mapkit
@@ -37,27 +24,5 @@ https://apps.apple.com/us/app/vvconnect/id1477645486
 - GoogleMaps
 - Alamofire
 
-# Preview
-
-<p align="center">
-<img src="https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/LaunchScreen%20.png" width="300" height="649"/>
-</p>
-
-<p align="center">
-<img src="https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/Homepage.png" width="300" height="649"/>
-</p>
-
-
-<p align="center">
-<img src="https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/AboutView.png" width="300" height="649"/>
-</p>
-
-<p align="center">
-<img src="https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/MapView.png" width="300" height="649"/>
-</p>
-
-<p align="center">
-<img src="https://github.com/Donkemezuo/VVConnect/blob/Prod/ScreenshotImages/ReviewView.png" width="300" height="649"/>
-</p>
 
 
